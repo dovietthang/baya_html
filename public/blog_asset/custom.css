@@ -1,0 +1,188 @@
+.td-pb-padding-side-mobile{
+    width: 100% !important;
+}
+.td_module_mob_1 .td-module-thumb{
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    width: 120px;
+    height: 85px;
+}
+.td_module_mob_1 .item-details {
+    margin-left: 135px;
+    min-height: 85px;
+}
+.td-pb-padding-side-mobile nav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.td-pb-padding-side-mobile nav ul{
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+.td-pb-padding-side-mobile nav ul li{
+    padding: 0;
+    margin: 0;
+}
+.td-a-rec-id-footer_mob{
+    margin-top: 20px;
+    text-align: center;
+}
+.td-a-rec-id-footer_mob img{
+    margin: auto;
+}
+
+
+.td-module-thumb,
+.td_module_wrap {
+  position: relative;
+}
+.td-module-thumb .entry-thumb {
+  display: block;
+}
+
+.td_module_mob_1 .td-module-thumb {
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    width: 120px;
+    height: 85px;
+    /* responsive portrait iPhone 5 */
+  }
+  @media (max-width: 320px) {
+    .td_module_mob_1 .td-module-thumb {
+      width: 100px;
+      height: 70px;
+    }
+  }
+
+.td_module_mob_2 {
+  position: relative;
+  overflow: hidden;
+  margin: 0 -15px 2px -15px;
+}
+.td_module_mob_2 .td-admin-edit {
+  left: auto;
+  right: 0;
+}
+.td_module_mob_2 .td-video-play-ico {
+  top: 12px;
+  left: auto;
+  right: 12px;
+  transform: none;
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  -o-transform: none;
+}
+.td_module_mob_2 .td-meta-info-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.td_module_mob_2 .td-meta-align {
+  margin: 0 15px 17px;
+  pointer-events: none;
+}
+.td_module_mob_2 .td-post-author-name a,
+.td_module_mob_2 .td-post-author-name span,
+.td_module_mob_2 .td-post-date {
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+.td_module_mob_2 .entry-title {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: bold;
+  margin: 8px 0 9px;
+}
+.td_module_mob_2 .entry-title a {
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+.td_module_mob_2 .td-module-meta-info {
+  z-index: 1;
+  line-height: 1;
+}
+.td_module_mob_2 .td-post-author-name {
+  display: inline-block;
+  pointer-events: auto;
+  font-weight: bold;
+  font-size: 12px;
+}
+.td_module_mob_2 .td-post-author-name span {
+  margin: 0 3px;
+}
+.td_module_mob_2 .entry-review-stars {
+  color: #fff;
+}
+.td_module_mob_2 .td-module-thumb {
+  height: 155px;
+}
+.td_module_mob_2 .td-module-thumb a:last-child {
+  height: 155px;
+  display: block;
+}
+.td_module_mob_2 .td-module-thumb a:last-child:before {
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 100%;
+  width: 130%;
+  position: absolute;
+  z-index: 1;
+  background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(0, 0, 0, 0.7)));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#b3000000', GradientType=0);
+  /* IE6-9 */
+}
+
+.td-module-thumb .entry-thumb {
+    display: block;
+}
+
+.entry-thumb {
+    width: 100%;
+}
+.td-module-thumb{
+    margin-bottom: 0 !important;
+}
+.page-nav {
+    margin: 30px 0 30px 0;
+    font-family: 'Open Sans', 'Open Sans Regular', sans-serif;
+    font-size: 12px;
+    display: inline-block;
+    width: 100%;
+}
+@media (max-width: 767px) {
+    .td-grid-style-1 .td-module-thumb a:last-child:before {
+      height: 100% !important;
+    }
+  }
+  @media (max-width: 767px){
+  .category .td-category-grid .td_block_wrap {
+      padding-bottom: 0 !important;
+  }
+}
+
+.td-module-thumb img.entry-thumb{
+    width: auto;
+    height: 70px;
+}

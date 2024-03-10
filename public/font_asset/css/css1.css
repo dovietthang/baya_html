@@ -1,0 +1,114 @@
+.account-order-check .form-order-check input {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+input[type=text], input[type=password], input[type=url], input[type=tel], input[type=search], input[type=number], input[type*=date], input[type=email] {
+    background: #fff;
+    background-clip: padding-box;
+    border: 1px solid #c2c2c2;
+    border-radius: 1px;
+    font-family: 'futura','sans-serif';
+    font-size: 14px;
+    height: 32px;
+    line-height: 1.42857143;
+    padding: 0 9px;
+    vertical-align: baseline;
+    width: 100%;
+    box-sizing: border-box;
+}
+    .account-order-check .form-order-check {
+    position: relative;
+}
+    .account-order-check .form-order-check .action.search {
+    display: inline-block;
+    background-image: none;
+    background: 0 0;
+    -moz-box-sizing: content-box;
+    border: 0;
+    box-shadow: none;
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    text-shadow: none;
+    font-weight: 400;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 1;
+}
+.account-order-check .form-order-check .action.search:before {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 32px;
+    line-height: 32px;
+    color: #757575;
+    content: '\e615';
+    font-family: 'luma-icons';
+    margin: 0;
+    vertical-align: top;
+    display: inline-block;
+    font-weight: 400;
+    overflow: hidden;
+    speak: none;
+    text-align: center;
+}
+.account-order-check .result .steps .icon .iconof-check {
+    background-image: url(../images/check.png);
+    background-position: center;
+    width: 77px;
+    height: 65px;
+}
+.account-order-check .result .steps .icon .iconof-packing {
+    background-image: url(../images/packing.png);
+    background-position: center;
+    width: 65px;
+    height: 65px;
+}
+.account-order-check .result .steps .icon .iconof-transfer {
+    background-image: url(../images/transfer.png);
+    background-position: center;
+    width: 91px;
+    height: 65px;
+}
+.account-order-check .result .steps .icon .iconof-receive {
+    background-image: url(../images/receive.png);
+    background-position: center;
+    width: 65px;
+    height: 65px;
+}
+
+.account-order-check .result .steps [class^=iconof-] {
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+.account-order-check .result .steps .item {
+    background-color: #eee;
+    padding: 30px 0 10px;
+    border-radius: 15px;
+    position: relative;
+    margin-bottom: 20px;
+    text-align: center;
+    margin: 0 auto;
+}
+.account-order-check .result .steps .item.not-complete:before {
+    background-color: rgba(238,238,238,.6);
+    border-radius: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: '';
+}
+.account-order-check .result .steps h6 {
+    font-size: 14px;
+}
+h6 {
+    font-weight: 700;
+    line-height: 1.1;
+    font-size: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}

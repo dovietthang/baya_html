@@ -1,0 +1,3 @@
+<div>
+{!! $template->description !!}
+</div>

@@ -1,0 +1,28 @@
+/*.color-option, .color-option .filloption{*/
+/*    border-radius: unset !important;*/
+/*}*/
+.color-option.size .filloption, .color-option.ondisable .filloption{
+    width: auto !important;
+    min-width: 23px;
+    min-height: 23px;
+    padding-right: 2px;
+    padding-left: 2px;
+    display:table;
+    text-align: center;
+}
+.filloption span{
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    display:table-cell;
+    vertical-align: middle;
+    line-height: 100%
+}
+.color-option .bg-violet{
+    background-color: blueviolet;
+}
+.ecommerce-application .product-color-options .selected .color-option.size{
+border-color: blueviolet !important;
+}
+
+
