@@ -31,6 +31,17 @@
                                         />
                                     </div>
                                 </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-2">
+                                        <label class="form-label" for="blog-edit-category">{{__('Category')}}</label>
+                                        <select class="form-select select2" id="blog-edit-category" name="category">
+                                            <option value="0" >{{__('Khác')}}</option>
+                                            <option value="1" >{{__('Về chúng tôi')}}</option>
+                                            <option value="2" >{{__('Hỗ trợ khách hàng')}}</option>
+                                            <option value="3" >{{__('Chính sách')}}</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <div class="mb-2">
                                         <label class="form-label">{{__('Content')}}</label>

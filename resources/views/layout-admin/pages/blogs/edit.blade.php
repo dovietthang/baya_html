@@ -34,6 +34,7 @@
                                         />
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-6 col-12">
                                     <div class="mb-2">
                                         <label class="form-label" for="cate_id">{{__('Category')}}</label>

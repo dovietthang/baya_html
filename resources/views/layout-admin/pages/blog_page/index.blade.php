@@ -86,6 +86,10 @@
                                         style="width: 271px;" aria-label="Name: activate to sort column ascending">{{
                                         __('Slug') }}
                                     </th>
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                        style="width: 271px;" aria-label="Name: activate to sort column ascending">{{
+                                        __('Category') }}
+                                    </th>
                                     <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 68px;"
                                         aria-label="Actions">{{ __('Actions') }}
                                     </th>
@@ -104,6 +108,17 @@
                                     </td>
                                     <td>
                                         {{ Str::limit($post->slug, 25, '...') }}
+                                    </td>
+                                    <td>
+                                    @if ($post->category == 1 )
+                                        <p>Về chúng tôi</p>
+                                    @elseif ($post->category == 2)
+                                        <p>Hỗ trợ khách hàng</p>
+                                    @elseif ($post->category == 3)
+                                        <p>Chính sách</p>
+                                    @else
+                                        <p>Khác</p>
+                                    @endif
                                     </td>
                                     <td>
                                         <div class="text-center d-flex align-items-center">

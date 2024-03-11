@@ -61,6 +61,7 @@ class PostController extends Controller
             $post->slug = $rq->slug;
             $post->content = $rq->contents;
             $post->photo = $rq->file_thumb;
+            $post->category = 0;
             $post->status  = $rq->status;
             $post->added_by = Auth::user()->id;
             $post->save();
@@ -109,6 +110,7 @@ class PostController extends Controller
             $post->slug = $rq->slug;
             $post->content = $rq->contents;
             $post->status  = $rq->status;
+            $post->category = 0;
             $post->photo = $rq->file_thumb;
             $post->save();
             $post->cates()->sync($rq->cate_id);
@@ -201,6 +203,7 @@ class PostController extends Controller
         $post = Post::find($rq->id);
             $post->title = $rq->title;
             $post->content = $rq->contents;
+            $post->category = $rq->category;
             $post->save();
             return response()->json([
                 'type' => 'update',

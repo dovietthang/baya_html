@@ -141,6 +141,7 @@ class HomeController extends Controller
         $menuId = Category::where('parent_id', null)->where('type', 'Menu')->where('status', 1)->orderby('order_by', 'asc')->pluck('id')->toArray();
         $cates = Category::wherein('parent_id', $menuId)->where('type', 'Product')->where('status', 1)->orderby('order_by', 'asc')->get();
         $posts = Post::where('type', NULL)->where('status', 1)->orderByDesc('created_at')->limit(15)->get();
+        // var_dump($cates);
         return view("layout-home.pages.index", compact('banners', 'idx_bots', 'idx_pos1', 'idx_pos2', 'idx_pos3', 'coupons', 'products', 'idx_pos4', 'idx_pos5', 'idx_pos6', 'idx_pos7', 'cates', 'posts'));
     }
     function account()
