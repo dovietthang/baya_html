@@ -23,7 +23,9 @@
                                 and <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">Terms of Service</a> apply.
                             </div>
 
-                            <input id='df925c44cc784bc6b8e582846c08e6a2' name='g-recaptcha-response' type='hidden'><noscript src='../www.google.com/recaptcha/api4d7a.js?render=6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-'></noscript><noscript>grecaptcha.ready(function() {grecaptcha.execute('6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-', {action: 'submit'}).then(function(token) {document.getElementById('df925c44cc784bc6b8e582846c08e6a2').value = token;});});</noscript>
+                            <input id='df925c44cc784bc6b8e582846c08e6a2' name='g-recaptcha-response' type='hidden'>
+                            <noscript src='../www.google.com/recaptcha/api4d7a.js?render=6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-'></noscript>
+                            <noscript>grecaptcha.ready(function() {grecaptcha.execute('6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-', {action: 'submit'}).then(function(token) {document.getElementById('df925c44cc784bc6b8e582846c08e6a2').value = token;});});</noscript>
                         </form>
                     </div>
                 </div>
@@ -34,8 +36,8 @@
                     </div>
                     <div class="newsletter-content">
                         <ul class="footerNav-social">
-                            <li><a href="https://www.facebook.com/bayavietnam" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="https://www.youtube.com/channel/UCT21HABKIUjBF132nEezDaA" target="_blank" rel="noopener" title="Youtube" aria-label="Youtube"><i class="fa fa-youtube-play"></i></a></li>
+                            <li><a href="{{$config->facebook}}" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="{{$config->youtube}}" target="_blank" rel="noopener" title="Youtube" aria-label="Youtube"><i class="fa fa-youtube-play"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -61,13 +63,13 @@
                                     </ul>
                                 </div>
                                 <ul class="footerNav-social d-md-none">
-                                    <li><a href="https://www.facebook.com/bayavietnam" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="https://www.youtube.com/channel/UCT21HABKIUjBF132nEezDaA" target="_blank" rel="noopener" title="Youtube" aria-label="Youtube"><i class="fa fa-youtube-play"></i></a></li>
+                                    <li><a href="{{$config->facebook}}" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="{{$config->youtube}}" target="_blank" rel="noopener" title="Youtube" aria-label="Youtube"><i class="fa fa-youtube-play"></i></a></li>
                                 </ul>
 
                                 <div class="logo-footer">
-                                    <a href="http://online.gov.vn/Home/WebDetails/97262" target="_blank" rel="noreferrer">
-                                        <img class="lazyload" data-src="../theme.hstatic.net/200000796751/1001150659/14/footer_logobct_img5b01.png?v=944" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Bộ Công Thương">
+                                    <a href="{{route('home')}}" target="_blank" rel="noreferrer">
+                                        <img itemprop="logo" src="{{$config->site_logo}}" alt="{{$config->site_title_filling}}" class="img-responsive logoimg lazyload" />
                                     </a>
                                 </div>
 
@@ -109,7 +111,7 @@
                         <h4 class="title-footer">Chính sách</h4>
                         <div class="content-footer block-collapse">
                             <ul class="footerNav-link">
-                                 @foreach ($posts_3 as $item)
+                                @foreach ($posts_3 as $item)
                                 <li class="item">
                                     <a href="#" title="{{ $item->title }}">{{ $item->title }}</a>
                                 </li>
@@ -122,7 +124,7 @@
             </div>
             <div class="footer-copyright text-center">
                 <div class="container">
-                    <p>Copyright © 2024 
+                    <p>Copyright © 2024
                         <a target="_blank" href="{{route('home')}}" rel="{{$config->copyright}}">{{$config->site_copyright}}</a>
                     </p>
                 </div>

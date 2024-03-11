@@ -3,87 +3,12 @@
 <title>{{ $config->site_name}}</title>
 @endsection
 @section('content')
-<!--Clarity-->
-<script type="text/javascript">
-    (function(c, l, a, r, i, t, y) {
-        c[a] = c[a] || function() {
-            (c[a].q = c[a].q || []).push(arguments)
-        };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = "https://www.clarity.ms/tag/" + i;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", "k8ossms4ac");
-</script>
-<!--End Clarity-->
 <main class="wrapperMain_content">
-    <div class="home-slider" id="home-slider">
-        <div class="container container-pd0">
-            <div class="slider-owl owl-carousel ">
-                <div class="slider-item">
-                    <div class="slide--image">
-                        <a href="pages/big-sale.html" title="8/3 Qu&#224; tặng độc đ&#225;o">
-                            <picture>
-                                <source media="(max-width: 767px)" srcset="//theme.hstatic.net/200000796751/1001150659/14/slide_1_mb.jpg?v=944" />
-                                <source media="(min-width: 768px)" srcset="//theme.hstatic.net/200000796751/1001150659/14/slide_1_img.jpg?v=944" />
-                                <img src="../theme.hstatic.net/200000796751/1001150659/14/slide_1_img5b01.jpg?v=944" alt="8/3 Qu&#224; tặng độc đ&#225;o" />
-                            </picture>
-                        </a>
-                    </div>
-                </div>
-                <div class="slider-item">
-                    <div class="slide--image">
-                        <a href="collections/biggest-sale-83.html" title="Biggest Sale - Phụ kiện nh&#224; bếp">
-                            <picture>
-                                <source class="owl-lazy" media="(max-width: 767px)" data-srcset="//theme.hstatic.net/200000796751/1001150659/14/slide_2_mb.jpg?v=944" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" />
-                                <source class="owl-lazy" media="(min-width: 768px)" data-srcset="//theme.hstatic.net/200000796751/1001150659/14/slide_2_img.jpg?v=944" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" />
-                                <img class="owl-lazy" data-src="//theme.hstatic.net/200000796751/1001150659/14/slide_2_img.jpg?v=944" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Biggest Sale - Phụ kiện nh&#224; bếp" />
-                            </picture>
-                        </a>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
-
-                <div class="slider-item">
-                    <div class="slide--image">
-                        <a href="pages/big-sale.html" title="Quốc Tế Hạnh Ph&#250;c">
-                            <picture>
-                                <source class="owl-lazy" media="(max-width: 767px)" data-srcset="//theme.hstatic.net/200000796751/1001150659/14/slide_3_mb.jpg?v=944" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" />
-                                <source class="owl-lazy" media="(min-width: 768px)" data-srcset="//theme.hstatic.net/200000796751/1001150659/14/slide_3_img.jpg?v=944" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" />
-                                <img class="owl-lazy" data-src="//theme.hstatic.net/200000796751/1001150659/14/slide_3_img.jpg?v=944" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Quốc Tế Hạnh Ph&#250;c" />
-                            </picture>
-                        </a>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
-
-            </div>
-        </div>
-    </div>
+    @include('layout-home.includes.sidebar')
 
     <section class="home-category">
         <div class="container">
             <div class="list-item">
-
-
-
 
                 <div class="category-item col-lg-3 col-md-6 col-6">
                     <div class="category-block">
@@ -161,18 +86,18 @@
             <div class="listCoupon">
 
 
-
-                <div class="col-12 col-md-6 col-xl-3 coupon-item">
+                @foreach ($coupon_list as $key => $item)
+                <div class="col-12 col-md-6 col-xl-3 coupon-item my-2">
                     <div class="coupon-item__inner">
                         <div class="coupon-item__left">
                             <div class="cp-img boxlazy-img">
                                 <span class="boxlazy-img__insert">
-                                    <img class="lazyload" data-src="//theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img.png?v=944" src="../theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img5b01.png?v=944" alt="Giảm 200.000đ">
+                                    <img class="lazyload" data-src="//theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img.png?v=944" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img5b01.png?v=944')}}" alt="{{ $item->name}}">
                                 </span>
                             </div>
                         </div>
                         <div class="coupon-item__right">
-                            <button type="button" class="cp-icon" data-toggle="popover" data-container="body" data-placement="bottom" data-popover-content="#cp-tooltip-1" data-class="coupon-popover" title="Giảm 200.000đ ">
+                            <button type="button" class="cp-icon" data-toggle="popover" data-container="body" data-placement="bottom" data-popover-content="#cp-tooltip-{{$item->id}}" data-class="coupon-popover" title="{{ $item->name}} ">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
                                     <defs>
                                         <path id="4gg7gqe5ua" d="M8.333 0C3.738 0 0 3.738 0 8.333c0 4.595 3.738 8.334 8.333 8.334 4.595 0 8.334-3.739 8.334-8.334S12.928 0 8.333 0zm0 1.026c4.03 0 7.308 3.278 7.308 7.307 0 4.03-3.278 7.308-7.308 7.308-4.03 0-7.307-3.278-7.307-7.308 0-4.03 3.278-7.307 7.307-7.307zm.096 6.241c-.283 0-.512.23-.512.513v4.359c0 .283.23.513.512.513.284 0 .513-.23.513-.513V7.78c0-.283-.23-.513-.513-.513zm.037-3.114c-.474 0-.858.384-.858.858 0 .473.384.857.858.857s.858-.384.858-.857c0-.474-.384-.858-.858-.858z" />
@@ -194,120 +119,22 @@
                             </button>
 
                             <div class="cp-top">
-                                <h3>Giảm 200.000đ</h3>
-                                <p>Đơn hàng từ 3 triệu</p>
+                                <h3>{{ $item->name}}</h3>
+                                <p>{{ $item->description}}</p>
                             </div>
                             <div class="cp-bottom">
                                 <div class="cp-bottom-detail">
-                                    <p>Mã: <strong>VOUCHER200K</strong></p>
-                                    <p>HSD: 31/03/2024</p>
+                                    <p>Mã: <strong>{{ $item->code}}</strong></p>
+                                    <p>HSD: {{ $item->date_end}}</p>
                                 </div>
                                 <div class="cp-bottom-btn">
-                                    <button class="cp-btn button" data-coupon="VOUCHER200K">Sao chép mã</button>
+                                    <button class="cp-btn button" data-coupon="{{ $item->code}}">Sao chép mã</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                <div class="col-12 col-md-6 col-xl-3 coupon-item">
-                    <div class="coupon-item__inner">
-                        <div class="coupon-item__left">
-                            <div class="cp-img boxlazy-img">
-                                <span class="boxlazy-img__insert">
-                                    <img class="lazyload" data-src="//theme.hstatic.net/200000796751/1001150659/14/home_coupon_2_img.png?v=944" src="../theme.hstatic.net/200000796751/1001150659/14/home_coupon_2_img5b01.png?v=944" alt="Giảm 100.000đ">
-                                </span>
-                            </div>
-                        </div>
-                        <div class="coupon-item__right">
-                            <button type="button" class="cp-icon" data-toggle="popover" data-container="body" data-placement="bottom" data-popover-content="#cp-tooltip-2" data-class="coupon-popover" title="Giảm 100.000đ ">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
-                                    <defs>
-                                        <path id="4gg7gqe5ua" d="M8.333 0C3.738 0 0 3.738 0 8.333c0 4.595 3.738 8.334 8.333 8.334 4.595 0 8.334-3.739 8.334-8.334S12.928 0 8.333 0zm0 1.026c4.03 0 7.308 3.278 7.308 7.307 0 4.03-3.278 7.308-7.308 7.308-4.03 0-7.307-3.278-7.307-7.308 0-4.03 3.278-7.307 7.307-7.307zm.096 6.241c-.283 0-.512.23-.512.513v4.359c0 .283.23.513.512.513.284 0 .513-.23.513-.513V7.78c0-.283-.23-.513-.513-.513zm.037-3.114c-.474 0-.858.384-.858.858 0 .473.384.857.858.857s.858-.384.858-.857c0-.474-.384-.858-.858-.858z" />
-                                    </defs>
-                                    <g>
-                                        <g>
-                                            <g>
-                                                <g>
-                                                    <g>
-                                                        <g transform="translate(-2808 -4528) translate(2708 80) translate(52 4304) translate(48 144) translate(1.667 1.667)">
-                                                            <use xlink:href="#4gg7gqe5ua" />
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>
-                            </button>
-
-                            <div class="cp-top">
-                                <h3>Giảm 100.000đ</h3>
-                                <p>Đơn hàng từ 2 triệu đồng</p>
-                            </div>
-                            <div class="cp-bottom">
-                                <div class="cp-bottom-detail">
-                                    <p>Mã: <strong>VOUCHER100K</strong></p>
-                                    <p>HSD: 31/03/2024</p>
-                                </div>
-                                <div class="cp-bottom-btn">
-                                    <button class="cp-btn button" data-coupon="VOUCHER100K">Sao chép mã</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-12 col-md-6 col-xl-3 coupon-item">
-                    <div class="coupon-item__inner">
-                        <div class="coupon-item__left">
-                            <div class="cp-img boxlazy-img">
-                                <span class="boxlazy-img__insert">
-                                    <img class="lazyload" data-src="//theme.hstatic.net/200000796751/1001150659/14/home_coupon_3_img.png?v=944" src="../theme.hstatic.net/200000796751/1001150659/14/home_coupon_3_img5b01.png?v=944" alt="Giảm 50.000đ">
-                                </span>
-                            </div>
-                        </div>
-                        <div class="coupon-item__right">
-                            <button type="button" class="cp-icon" data-toggle="popover" data-container="body" data-placement="bottom" data-popover-content="#cp-tooltip-3" data-class="coupon-popover" title="Giảm 50.000đ ">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
-                                    <defs>
-                                        <path id="4gg7gqe5ua" d="M8.333 0C3.738 0 0 3.738 0 8.333c0 4.595 3.738 8.334 8.333 8.334 4.595 0 8.334-3.739 8.334-8.334S12.928 0 8.333 0zm0 1.026c4.03 0 7.308 3.278 7.308 7.307 0 4.03-3.278 7.308-7.308 7.308-4.03 0-7.307-3.278-7.307-7.308 0-4.03 3.278-7.307 7.307-7.307zm.096 6.241c-.283 0-.512.23-.512.513v4.359c0 .283.23.513.512.513.284 0 .513-.23.513-.513V7.78c0-.283-.23-.513-.513-.513zm.037-3.114c-.474 0-.858.384-.858.858 0 .473.384.857.858.857s.858-.384.858-.857c0-.474-.384-.858-.858-.858z" />
-                                    </defs>
-                                    <g>
-                                        <g>
-                                            <g>
-                                                <g>
-                                                    <g>
-                                                        <g transform="translate(-2808 -4528) translate(2708 80) translate(52 4304) translate(48 144) translate(1.667 1.667)">
-                                                            <use xlink:href="#4gg7gqe5ua" />
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>
-                            </button>
-
-                            <div class="cp-top">
-                                <h3>Giảm 50.000đ</h3>
-                                <p>Đơn hàng từ 1 triệu đồng</p>
-                            </div>
-                            <div class="cp-bottom">
-                                <div class="cp-bottom-detail">
-                                    <p>Mã: <strong>VOUCHER50K</strong></p>
-                                    <p>HSD: 31/03/2024</p>
-                                </div>
-                                <div class="cp-bottom-btn">
-                                    <button class="cp-btn button" data-coupon="VOUCHER50K">Sao chép mã</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                @endforeach
 
             </div>
         </div>
@@ -324,30 +151,6 @@
                 </div>
 
                 <div class="listProduct-row owl-carousel owlCarousel-style owlCarousel-dfex">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <div class="product-loop" data-id="1114921937">
                         <div class="product-inner" data-proid="1051099052" id="section_1_loop_1">
                             <div class="proloop-image">
@@ -8245,22 +8048,32 @@
     </section>
 
     <div class="d-none">
-        <div class="cpi-tooltip__info" id="cp-tooltip-1">
+        @foreach ($coupon_list as $key => $item)
+        <div class="cpi-tooltip__info" id="cp-tooltip-{{$item->id}}">
             <div class="popover-content__coupon">
                 <div class="dfex-txt dfex-bkg">
                     <div class="dfex-txt--1">Mã</div>
-                    <div class="dfex-txt--2"><b> VOUCHER200K</b> <span class="cpi-trigger" data-coupon-index="coupon-item__1" data-coupon="VOUCHER200K"></span></div>
+                    <div class="dfex-txt--2"><b> {{$item->code}}</b> <span class="cpi-trigger" data-coupon-index="coupon-item__{{$item->id}}" data-coupon="VOUCHER200K"></span></div>
                 </div>
                 <div class="dfex-txt dfex-bkg">
                     <div class="dfex-txt--1">Hạn sử dụng</div>
-                    <div class="dfex-txt--2">31/03/2024</div>
+                    <div class="dfex-txt--2">{{$item->date_end}}</div>
                 </div>
                 <div class="dfex-txt dfex-bkg">
                     <div class="dfex-txt--3">
                         <ul>
-                            <li>Dành cho đơn hàng từ 3 triệu</li>
+                            @if($item->price_value && $item->price_value != '')
+                                <li>Dành cho đơn hàng từ {{$item->price_value}} vnđ</li>
+                            @endif
+                            @if($item->amount_code && $item->amount_code != '')
+                                <li>Số lượng khuyễn mãi là: {{$item->amount_code}} mã</li>
+                            @endif
+                            @if($item->total_order_min ||  $item->price_order_max)
+                                <li>Gía áp dụng từ {{$item->total_order_min}} {{$item->price_order_max ? 'đến' + $item->price_order_max : '' }}</li>
+                            @endif
                             <li>Mỗi khách hàng được sử dụng tối đa 1 lần.</li>
                             <li>Sao chép mã và nhập mã khuyến mãi ở trang thanh toán</li>
+
                         </ul>
                     </div>
                 </div>
@@ -8271,58 +8084,7 @@
                 </div>
             </div>
         </div>
-        <div class="cpi-tooltip__info" id="cp-tooltip-2">
-            <div class="popover-content__coupon">
-                <div class="dfex-txt dfex-bkg">
-                    <div class="dfex-txt--1">Mã</div>
-                    <div class="dfex-txt--2"><b> VOUCHER100K</b> <span class="cpi-trigger" data-coupon-index="coupon-item__2" data-coupon="VOUCHER100K"></span></div>
-                </div>
-                <div class="dfex-txt dfex-bkg">
-                    <div class="dfex-txt--1">Hạn sử dụng</div>
-                    <div class="dfex-txt--2">31/03/2024</div>
-                </div>
-                <div class="dfex-txt dfex-bkg">
-                    <div class="dfex-txt--3">
-                        <ul>
-                            <li>Đơn hàng từ 2 triệu đồng</li>
-                            <li>Mỗi khách hàng được sử dụng tối đa 1 lần.</li>
-                            <li>Sao chép mã và nhập mã khuyến mãi ở trang thanh toán</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="dfex-txt dfex-bkg dfex-none">
-                    <div class="dfex-txt--cta">
-                        <button class="btn-popover btn-popover-code" data-coupon="VOUCHER100K">Sao chép mã </button> <button class="btn-popover btn-popover-close">Đóng</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="cpi-tooltip__info" id="cp-tooltip-3">
-            <div class="popover-content__coupon">
-                <div class="dfex-txt dfex-bkg">
-                    <div class="dfex-txt--1">Mã</div>
-                    <div class="dfex-txt--2"><b> VOUCHER50K</b> <span class="cpi-trigger" data-coupon-index="coupon-item__3" data-coupon="VOUCHER50K"></span></div>
-                </div>
-                <div class="dfex-txt dfex-bkg">
-                    <div class="dfex-txt--1">Hạn sử dụng</div>
-                    <div class="dfex-txt--2">31/03/2024</div>
-                </div>
-                <div class="dfex-txt dfex-bkg">
-                    <div class="dfex-txt--3">
-                        <ul>
-                            <li>Đơn hàng từ 1 triệu đồng</li>
-                            <li>Mỗi khách hàng được sử dụng tối đa 1 lần.</li>
-                            <li>Sao chép mã và nhập mã khuyến mãi ở trang thanh toán</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="dfex-txt dfex-bkg dfex-none">
-                    <div class="dfex-txt--cta">
-                        <button class="btn-popover btn-popover-code" data-coupon="VOUCHER50K">Sao chép mã </button> <button class="btn-popover btn-popover-close">Đóng</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
     <div class="modal-coupon--backdrop"></div>
 </main>

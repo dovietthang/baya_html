@@ -1,0 +1,5 @@
+.env
+.env.example
+/composer.json
+/composer.lock
+/public/front_end_asset/product.hstatic.net/

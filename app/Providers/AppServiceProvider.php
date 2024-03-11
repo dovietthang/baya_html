@@ -11,6 +11,8 @@ use App\Models\Setting2;
 use App\Models\Size;
 use App\Models\Spin;
 use App\Models\SpinItem;
+use App\Models\Banner;
+use App\Models\Coupon;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -64,6 +66,12 @@ class AppServiceProvider extends ServiceProvider
             $posts_3 = Post::where('status', 1)->where('category', 3)->orderBy('created_at', 'desc')->get();
             $view->with('posts_1', $posts_1)->with('posts_2', $posts_2)->with('posts_3', $posts_3);
         });
+
+        view()->composer('layout-home.includes.sidebar', function ($view) {
+            $banners = Banner::where('status', 1)->orderBy('created_at', 'desc')->get();
+            $view->with('banners', $banners);
+        });
+
         view()->composer('layout-home.includes.support-bar', function ($view) {
             $pages = Post::where('type', 'page')->where('title', '!=', 'page404')->get();
             $view->with('pages', $pages);
@@ -72,7 +80,8 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             $config = Setting::select('*')->first();
             $popup = Setting2::where('id', 1)->where('status', 1)->first();
-            $view->with('config', $config)->with('popup', $popup);
+            $coupon_list = Coupon::where('status', 1)->orderBy('created_at', 'desc')->get();
+            $view->with('config', $config)->with('popup', $popup)->with('coupon_list', $coupon_list);
         });
         view()->composer('layout-home.layout-base', function ($view) {
             $spin = Spin::where('id', 1)->where('status', 1)->first();
