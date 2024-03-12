@@ -89,7 +89,7 @@ class PostController extends Controller
                 ['link' => route('index-post'), 'name' => __('Post')],
                 ['link' => 'javascript:void()', 'name' => __('Edit')]
             ];
-            $cates = Category::where('type', 'Post')->where('status', 1)->get();
+            $cates = Category::where('type', 'MenuPost')->where('status', 1)->get();
             $post = Post::find($id);
             return view('layout-admin.pages.blogs.edit', compact('post', 'cates', 'breadcrumb'));
         }

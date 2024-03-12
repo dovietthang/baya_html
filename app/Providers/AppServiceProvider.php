@@ -73,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer('layout-home.includes.support-bar', function ($view) {
-            $pages = Post::where('type', 'page')->where('title', '!=', 'page404')->get();
+            $pages = Post::where('type', 'page')->where('category', 3)->where('title', '!=', 'page404')->get();
             $view->with('pages', $pages);
         });
 

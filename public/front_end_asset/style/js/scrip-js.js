@@ -1,4 +1,5 @@
 if (void 0 === Haravan) var Haravan = {};
+
 function floatToString(t, e) {
   var a = t.toFixed(e).toString();
   return (
@@ -109,6 +110,7 @@ function floatToString(t, e) {
     var a = "",
       r = /\{\{\s*(\w+)\s*\}\}/,
       n = e || this.money_format;
+
     function o(t) {
       return t.replace(
         /(\d)(?=(\d\d\d)+(?!\d))/g,
@@ -151,7 +153,9 @@ function floatToString(t, e) {
     );
   }),
   (Haravan.OptionSelectors.prototype.initDropdown = function () {
-    var t = { initialLoad: !0 };
+    var t = {
+      initialLoad: !0,
+    };
     if (!this.selectVariantFromDropdown(t)) {
       var e = this;
       setTimeout(function () {
@@ -275,7 +279,7 @@ function floatToString(t, e) {
   (Haravan.OptionSelectorsFromDOM.prototype.createProductFromSelector =
     function (t, e, a, r) {
       if (!Haravan.isDefined(a)) a = !0;
-      if (!Haravan.isDefined(r)) r = "index.html";
+      if (!Haravan.isDefined(r)) r = "../index.html";
       var n = document.getElementById(t);
       if (!n) return !1;
       var o = n.childNodes,
@@ -300,7 +304,9 @@ function floatToString(t, e) {
           s.push(u);
         }
       });
-      var l = { variants: s };
+      var l = {
+        variants: s,
+      };
       if (0 == e.length) {
         l.options = [];
         for (var c = 0; c < i; c++) l.options[c] = "option " + (c + 1);
@@ -373,7 +379,9 @@ function floatToString(t, e) {
   }),
   (Haravan.OptionSelectors.HistoryState.prototype.register = function (t) {
     window.addEventListener("popstate", function (e) {
-      t.selectVariantFromParamsOrDropdown({ popStateCall: !0 });
+      t.selectVariantFromParamsOrDropdown({
+        popStateCall: !0,
+      });
     });
   }),
   (Haravan.OptionSelectors.HistoryState.prototype.onVariantChange = function (

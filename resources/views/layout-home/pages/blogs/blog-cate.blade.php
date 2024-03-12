@@ -1,323 +1,521 @@
-@extends('layout-home.pages.blogs.layout-blog')
+@extends('layout-home.layout-base')
 @section('title')
-<title>{{@$cate->title}}</title>
+<title>{{ $cate->site_name}}</title>
 @endsection
 @section('content')
 @php
 $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
 @endphp
-<div
-    class="archive category category-xu-huong category-9 td-standard-pack global-block-template-1 td_category_template_1 td_category_top_posts_style_1 td-animation-stack-type0 td-full-layout">
-    <div id="td-outer-wrap" class="td-theme-wrap">
-        <div class="td-category-header td-container-wrap">
-            <div class="td-container">
-                <div class="td-pb-row">
-                    <div class="td-pb-span12">
-                        <div class="td-crumb-container">
-                            <div class="entry-crumbs"><span><a title="" class="entry-crumb"
-                                        href="{{route('blog')}}">Trang chủ</a></span> <i
-                                    class="td-icon-right td-bread-sep td-bred-no-url-last"></i> <span
-                                    class="td-bred-no-url-last">{{@$cate->parent->title}}</span></div>
-                        </div>
+<div class="layout-blogs">
 
-                        <h1 class="entry-title td-page-title">{{@$cate->parent->title}}</h1>
+    <div class="breadcrumb-shop">
+        <div class="container">
+            <div class="breadcrumb-list">
+                <ol class="breadcrumb breadcrumb-arrows" itemscope itemtype="http://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a href="{{route('home')}}" target="_self" itemprop="item"><span itemprop="name">{{__('Home')}}</span></a>
+                        <meta itemprop="position" content="1" />
+                    </li>
 
-                    </div>
-                </div>
-                <div class="td-category-pulldown-filter td-wrapper-pulldown-filter">
-                    <div class="td-pulldown-filter-display-option">
-                        <div class="td-subcat-more">Mới nhất <i class="td-icon-menu-down"></i></div>
-                        <ul class="td-pulldown-filter-list">
-                            <li class="td-pulldown-filter-item"><a class="td-pulldown-category-filter-link" id="tdi_3"
-                                    data-td_block_id="tdi_2" href="{{route('blog.cate', [$cate->slug])}}">Mới nhất</a>
-                            </li>
-                            <li class="td-pulldown-filter-item"><a class="td-pulldown-category-filter-link" id="tdi_4"
-                                    data-td_block_id="tdi_2" href="?filter_by=old">Cũ nhất</a>
-                            </li>
-                            <li class="td-pulldown-filter-item"><a class="td-pulldown-category-filter-link" id="tdi_5"
-                                    data-td_block_id="tdi_2" href="?filter_by=views">Phổ biến</a>
-                            </li>
-                            <li class="td-pulldown-filter-item"><a class="td-pulldown-category-filter-link" id="tdi_6"
-                                    data-td_block_id="tdi_2" href="?filter_by=random">Ngẫu nhiên</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                    <li class="active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <span itemprop="item"><strong itemprop="name">{{@$cate->title}}</strong></span>
+                        <meta itemprop="position" content="2" />
+                    </li>
+                </ol>
             </div>
         </div>
-        @if(!$isMob)
-        <div class="td-category-grid td-container-wrap">
-            <div class="td-container">
-                <div class="td-pb-row">
-                    <div class="td-pb-span12">
-                        <div class="td_block_wrap td_block_big_grid_1 tdi_9 td-grid-style-1 td-hover-1 td-big-grids td-pb-border-top td_block_template_1"
-                            data-td-block-uid="tdi_9">
-                            <div id=tdi_9 class="td_block_inner">
-                                <div class="td-big-grid-wrapper">
-                                    @if(@$fistPost)
-                                    <div
-                                        class="td_module_mx5 td-animation-stack td-big-grid-post-0 td-big-grid-post td-big-thumb">
-                                        <div class="td-module-thumb"><a
-                                                href="{{route('blog.detail', [$fistPost->slug, 'k='.$cate->slug])}}"
-                                                rel="bookmark" class="td-image-wrap " title="{{$fistPost->title}}"><img
-                                                    class="entry-thumb" src="{{$fistPost->photo}}" alt=""
-                                                    title="{{$fistPost->title}}" data-type="image_tag" width="512"
-                                                    height="345" /></a>
-                                        </div>
-                                        <div class="td-meta-info-container">
-                                            <div class="td-meta-align">
-                                                <div class="td-big-grid-meta">
-                                                    <h3 class="entry-title td-module-title"><a
-                                                            href="{{route('blog.detail', [$fistPost->slug, 'k='.$cate->slug])}}"
-                                                            rel="bookmark"
-                                                            title="{{$fistPost->title}}">{{$fistPost->title}}</a>
-                                                    </h3>
-                                                </div>
-                                                <div class="td-module-meta-info">
-                                                    <span class="td-post-author-name"><a
-                                                            href="javascript:void(0)">{{isset($fistPost->user) ?
-                                                            $fistPost->user->name : ''}}</a>
-                                                        <span>-</span> </span> <span class="td-post-date"><time
-                                                            class="entry-date updated td-module-date">{{date('d-m-Y',
-                                                            $fistPost->created_at->timestamp)}}</time></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if($getPost && count($getPost) > 0)
-                                    <div class="td-big-grid-scroll">
-                                        @foreach ($getPost as $key => $item)
-                                        <div
-                                            class="td_module_mx6 td-animation-stack td-big-grid-post-{{$key+1}} td-big-grid-post td-small-thumb">
-                                            <div class="td-module-thumb"><a
-                                                    href="{{route('blog.detail', [$item->slug, 'k='.$cate->slug])}}"
-                                                    rel="bookmark" class="td-image-wrap " title="{{$item->title}}"><img
-                                                        class="entry-thumb" src="{{$item->photo}}" alt=""
-                                                        title="{{$item->title}}" data-type="image_tag" width="265"
-                                                        height="198" /></a></div>
-                                            <div class="td-meta-info-container">
-                                                <div class="td-meta-align">
-                                                    <div class="td-big-grid-meta">
-                                                        <h3 class="entry-title td-module-title"><a
-                                                                href="{{route('blog.detail', [$item->slug, 'k='.$cate->slug])}}"
-                                                                rel="bookmark"
-                                                                title="{{$item->title}}">{{$item->title}}</a></h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                    @endif
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div> <!-- ./block -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="td-main-content-wrap td-container-wrap">
-            <div class="td-container">
-                <!-- content -->
-                <div class="td-pb-row">
-                    <div class="td-pb-span8 td-main-content">
-                        @if($posts && count($posts) > 0)
-                        <div class="td-ss-main-content">
-                            @foreach ($posts->chunk(2) as $chunk)
-                            <div class="td-block-row">
-                                @foreach ($chunk as $post)
-                                <div class="td-block-span6">
-                                    <!-- module -->
-                                    <div class="td_module_1 td_module_wrap td-animation-stack">
-                                        <div class="td-module-image">
-                                            <div class="td-module-thumb"><a
-                                                    href="{{route('blog.detail', [$post->slug, 'k='.$cate->slug])}}"
-                                                    rel="bookmark" class="td-image-wrap " title="{{$post->title}}"><img
-                                                        class="entry-thumb" src="{{$post->photo}}" alt=""
-                                                        title="{{$post->title}}" data-type="image_tag" width="324"
-                                                        height="160" /></a></div>
-                                        </div>
-                                        <h3 class="entry-title td-module-title"><a
-                                                href="{{route('blog.detail', [$post->slug, 'k='.$cate->slug])}}"
-                                                rel="bookmark" title="{{$post->title}}">{{$post->title}}</a></h3>
-                                        <div class="td-module-meta-info">
-                                            <span class="td-post-author-name"><a
-                                                    href="javascript:void(0)">{{isset($post->user) ?
-                                                    $post->user->name : ''}}</a> <span>-</span>
-                                            </span> <span class="td-post-date"><time
-                                                    class="entry-date updated td-module-date">{{date('d-m-Y',
-                                                    $post->created_at->timestamp)}}</time></span> <span
-                                                class="td-module-comments"><a
-                                                    href="{{route('blog.detail', [$post->slug, 'k='.$cate->slug])}}">0</a></span>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                            @endforeach
-
-                            <div class="page-nav td-pb-padding-side">
-                                {{ $posts->withQueryString()->onEachSide(5)->links() }}
-                            </div>
-                        </div>
-                        @else
-                        <div class="td-pb-span8 td-main-content">
-                            <div class="td-ss-main-content">
-                                <div class="no-results td-pb-padding-side">
-                                    <h2>Không có bài viết</h2>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-                    @include('layout-home.pages.blogs.includes.rightbar')
-                </div>
-            </div>
-        </div>
-        @else
-        <div class="td-category-grid">
-            <div class="td-container">
-                <div class="td-pb-row">
-                    <div class="td-pb-span12">
-                        <div
-                            class="td_block_wrap td_block_big_grid_mob_1 tdi_1 td-grid-style-1 td-hover-1 td-pb-border-top td_block_template_1">
-                            <div id="tdi_1" class="td_block_inner">
-                                <div class="td-big-grid-wrapper">
-                                    @if(@$fistPost)
-                                    <div class="td_module_mob_2 td_module_wrap td-animation-stack ">
-                                        <div class="td-module-thumb"><a
-                                                href="{{route('blog.detail', [$fistPost->slug, 'k='.$cate->slug])}}"
-                                                rel="bookmark" class="td-image-wrap " title="{{$fistPost->title}}"><img
-                                                    width="480" height="486" class="entry-thumb"
-                                                    src="{{$fistPost->photo}}" alt="" title="{{$fistPost->title}}"></a>
-                                        </div>
-                                        <div class="td-meta-info-container">
-                                            <div class="td-meta-align">
-                                                <div class="td-big-grid-meta">
-                                                    <h3 class="entry-title td-module-title"><a
-                                                            href="{{route('blog.detail', [$fistPost->slug, 'k='.$cate->slug])}}"
-                                                            rel="bookmark"
-                                                            title="{{$fistPost->title}}">{{Str::limit($fistPost->title,40)}}</a></h3>
-                                                </div>
-                                                <div class="td-module-meta-info">
-                                                    <span class="td-post-author-name"><a
-                                                            href="javascript:void(0)">{{isset($fistPost->user) ?
-                                                            $fistPost->user->name : ''}}</a>
-                                                        <span>-</span> </span> <span class="td-post-date"><time
-                                                            class="entry-date updated td-module-date">{{date('d-m-Y',
-                                                            $fistPost->created_at->timestamp)}}</time></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    @endif
-                                    @if($getPost && count($getPost) > 0)
-                                    @foreach ($getPost as $key => $item)
-                                    <div class="td_module_mob_2 td_module_wrap td-animation-stack ">
-                                        <div class="td-module-thumb"><a
-                                                href="{{route('blog.detail', [$item->slug, 'k='.$cate->slug])}}"
-                                                rel="bookmark" class="td-image-wrap " title="{{$item->title}}"><img
-                                                    width="512" height="486" class="entry-thumb" src="{{$item->photo}}"
-                                                    alt="" title="{{$item->title}}"></a>
-                                        </div>
-                                        <div class="td-meta-info-container">
-                                            <div class="td-meta-align">
-                                                <div class="td-big-grid-meta">
-                                                    <h3 class="entry-title td-module-title"><a
-                                                            href="{{route('blog.detail', [$item->slug, 'k='.$cate->slug])}}"
-                                                            rel="bookmark" title="{{$item->title}}">{{$item->title}}</a>
-                                                    </h3>
-                                                </div>
-                                                <div class="td-module-meta-info">
-                                                    <span class="td-post-author-name"><a
-                                                            href="javascript:void(0)">{{isset($fistPost->user) ?
-                                                            $fistPost->user->name : ''}}</a>
-                                                        <span>-</span> </span> <span class="td-post-date"><time
-                                                            class="entry-date updated td-module-date">{{date('d-m-Y',
-                                                            $fistPost->created_at->timestamp)}}</time></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                    @endif
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div> <!-- ./block -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="margin-top: 20px" class="td-main-content-wrap">
-            <div class="td-container">
-                @if($posts && count($posts) > 0)
-                @foreach ($posts as $post)
-                <div class="td_module_mob_1 td_module_wrap td-animation-stack ">
-                    <div class="td-module-thumb">
-                        <a href="{{route('blog.detail', [$post->slug])}}" rel="bookmark" class="td-image-wrap "
-                            title="{{$post->title}}"><img
-                                width="265" height="198" class="entry-thumb"
-                                src="{{$post->photo}}"
-                                sizes="(max-width: 265px) 100vw, 265px" alt=""
-                                title="{{$post->title}}"></a>
-                    </div>
-                    <div class="item-details">
-                        <h3 class="entry-title td-module-title">
-                            <a href="{{route('blog.detail', [$post->slug])}}" rel="bookmark"
-                                title="{{$post->title}}">{{Str::limit($post->title, 35)}}</a>
-                        </h3>
-                        <div class="td-module-meta-info">
-                            <a href="{{route('blog.cate', [$cate->slug])}}" class="td-post-category">{{$cate->title}}</a> <span
-                                class="td-post-author-name"><a href="javascript:void(0)">{{isset($post->user) ? $post->user->name : ''}}</a> <span>-</span> </span> <span class="td-post-date"><time
-                                    class="entry-date updated td-module-date">{{date('d-m-Y', $post->created_at->timestamp)}}</time></span>
-                        </div>
-                    </div>
-
-                </div>
-                @endforeach
-                @else
-                <div class="">
-                    <h2>Không có bài viết</h2>
-                </div>
-                @endif
-                <div class="page-nav td-pb-padding-side-mobile">
-                    {{ $posts->withQueryString()->onEachSide(5)->links() }}
-                </div>
-            </div>
-        </div>
-        @endif
     </div>
-</div>
-@endsection
-@section('js')
-<script>
-    $(document).ready(function(){
-            const params = new URLSearchParams(document.location.search);
-            const name = params.get("filter_by");
-            let txt = 'Mới nhất'
-            if(name){
-                if(name == "old"){
-                    txt = 'Cũ nhất'
-                }
-                else if(name == "views"){
-                    txt = 'Phổ biến'
-                }
-                else if(name == "random"){
-                    txt = 'Ngẫu nhiên'
-                }
-            }
-            $('.td-subcat-more').text(txt)
+    <div class="wrapper-contentBlogs">
+        <div class="container">
+            <div class="row dFlex-row">
+                <div class="col-lg-9 col-md-12 col-12 boxBlog-left">
+                    <div class="listBlogs-content">
+                        <div class="heading-page">
+                            <h1>Nguồn cảm hứng</h1>
+                        </div>
+                        <div class="list-article-content blog-posts row">
 
-            $('.td-pulldown-filter-item').click(function(){
-                $('.td-subcat-more').text($(this).text())
-            })
-        })
-</script>
+                            <!-- Begin: Nội dung blog -->
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html" class="blog-post-thumbnail" title="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_bq_giu_can_bep_gon_gan_0f15bf82cfa945c884efdc1b49de28ec_1024x1024.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html" title="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng">Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Khu vực bếp là không gian quan trọng cho việc cả gia đình tận hưởng bữa ăn sau một ngày dài và là nơi để các chị em nội trợ chế biến ra những món...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Tâm - Content ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="08 Tháng 03, 2024">08 Tháng 03, 2024</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html" class="blog-post-thumbnail" title="Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_tt_goc_hoc_tap__lam_vi_d891632de9504a479aa647e560226b51_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html" title="Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học">Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Những góc học tập, làm việc được bài trí một cách khoa học và thông minh, giúp cho công việc học tập của bạn thuận tiện hơn. Tuy nhiên, chúng ta thường sử dụng quá...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Tâm - Content ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="01 Tháng 03, 2024">01 Tháng 03, 2024</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/su-khac-biet-giua-phong-cach-thiet-ke-noi-that-vintage-va-retro.html" class="blog-post-thumbnail" title="Sự Khác Biệt Giữa Phong Cách Thiết Kế Nội Thất Vintage và Retro" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_vintage_va_retro_cd57fb8114b74988bc115873094b4ba2_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Sự Khác Biệt Giữa Phong Cách Thiết Kế Nội Thất Vintage và Retro">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/su-khac-biet-giua-phong-cach-thiet-ke-noi-that-vintage-va-retro.html" title="Sự Khác Biệt Giữa Phong Cách Thiết Kế Nội Thất Vintage và Retro">Sự Khác Biệt Giữa Phong Cách Thiết Kế Nội Thất Vintage và Retro</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Khi nói đến thiết kế nội thất, hai từ "vintage" và "retro" thường được sử dụng thay thế cho nhau. Tuy nhiên, mặc dù có nhiều điểm chung, hai phong cách này thực sự mang...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="15 Tháng 02, 2024">15 Tháng 02, 2024</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/10-y-tuong-trang-tri-san-vuon-hien-dai-va-doc-dao.html" class="blog-post-thumbnail" title="10 Ý Tưởng Trang Trí Sân Vườn Hiện Đại và Độc Đáo" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_tt_san_vuon_62a6ee9496dc4c30a235b906ef50f4b8_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="10 Ý Tưởng Trang Trí Sân Vườn Hiện Đại và Độc Đáo">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/10-y-tuong-trang-tri-san-vuon-hien-dai-va-doc-dao.html" title="10 Ý Tưởng Trang Trí Sân Vườn Hiện Đại và Độc Đáo">10 Ý Tưởng Trang Trí Sân Vườn Hiện Đại và Độc Đáo</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Bạn muốn biến sân vườn nhà mình thành một không gian nghệ thuật, nơi hòa mình cùng thiên nhiên và thư giãn sau những giờ làm việc căng thẳng? Hãy khám phá 10 ý tưởng...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="05 Tháng 02, 2024">05 Tháng 02, 2024</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/10-cach-trang-tri-ban-an-dep-mat-ngay-tet.html" class="blog-post-thumbnail" title="10 Cách Trang Trí Bàn Ăn Đẹp Mắt Ngày Tết" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_tt_ban_an_ngay_tet_d069cd66d96a4ab09dc5f02f91539b19_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="10 Cách Trang Trí Bàn Ăn Đẹp Mắt Ngày Tết">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/10-cach-trang-tri-ban-an-dep-mat-ngay-tet.html" title="10 Cách Trang Trí Bàn Ăn Đẹp Mắt Ngày Tết">10 Cách Trang Trí Bàn Ăn Đẹp Mắt Ngày Tết</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Tết không chỉ là dịp để sum họp gia đình, mà còn là cơ hội để thể hiện gu thẩm mỹ và sự sáng tạo trong trang trí nhà cửa, đặc biệt là bàn ăn....</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="29 Tháng 01, 2024">29 Tháng 01, 2024</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/bi-quyet-trang-tri-noi-that-cho-khong-gian-tet-am-cung.html" class="blog-post-thumbnail" title="Bí Quyết Trang Trí Nội Thất Cho Không Gian Tết Ấm Cúng" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_tt_noi_that_cho_kg_tet_am_cung_7a6ea0bed99949b6ba1e22c67f3eef42_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Bí Quyết Trang Trí Nội Thất Cho Không Gian Tết Ấm Cúng">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/bi-quyet-trang-tri-noi-that-cho-khong-gian-tet-am-cung.html" title="Bí Quyết Trang Trí Nội Thất Cho Không Gian Tết Ấm Cúng">Bí Quyết Trang Trí Nội Thất Cho Không Gian Tết Ấm Cúng</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Tết Nguyên Đán không chỉ là dịp để sum họp gia đình mà còn là cơ hội để làm mới không gian sống của chúng ta. Việc trang trí nội thất sao cho vừa mang...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="25 Tháng 01, 2024">25 Tháng 01, 2024</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/tam-quan-trong-cua-thiet-ke-noi-that-trong-cuoc-song.html" class="blog-post-thumbnail" title="Tầm Quan Trọng Của Thiết Kế Nội Thất Trong Cuộc Sống" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_tk_noi_that_trong_cs_b294eef399af4303add750e08c987994_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Tầm Quan Trọng Của Thiết Kế Nội Thất Trong Cuộc Sống">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/tam-quan-trong-cua-thiet-ke-noi-that-trong-cuoc-song.html" title="Tầm Quan Trọng Của Thiết Kế Nội Thất Trong Cuộc Sống">Tầm Quan Trọng Của Thiết Kế Nội Thất Trong Cuộc Sống</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Thiết kế nội thất là một phần không thể thiếu và cực kỳ quan trọng trong mọi dự án xây dựng, bất kể đó là nhà cửa, văn phòng hay cửa hàng. Nó không chỉ...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="16 Tháng 01, 2024">16 Tháng 01, 2024</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/phong-cach-noi-that-chau-a-nam-2024.html" class="blog-post-thumbnail" title="Phong Cách Nội Thất Châu Á Năm 2024" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_nt_chau_a_2024_b27d711223e24eb283c12f2192ed20b6_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Phong Cách Nội Thất Châu Á Năm 2024">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/phong-cach-noi-that-chau-a-nam-2024.html" title="Phong Cách Nội Thất Châu Á Năm 2024">Phong Cách Nội Thất Châu Á Năm 2024</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Năm mới đã đến và đây là thời điểm tuyệt vời để làm mới không gian sống của bạn. Nếu bạn đang tìm kiếm sự thay đổi trong trang trí nội thất, thì phong cách...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="11 Tháng 01, 2024">11 Tháng 01, 2024</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/goi-y-10-cach-thiet-ke-noi-that-chuan-cho-can-ho-nho.html" class="blog-post-thumbnail" title="Gợi Ý 10 Cách Thiết Kế Nội Thất Chuẩn Cho Căn Hộ Nhỏ" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_tk_cho_can_ho_nho_4653ff22fdf44262ad865a00800126d5_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Gợi Ý 10 Cách Thiết Kế Nội Thất Chuẩn Cho Căn Hộ Nhỏ">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/goi-y-10-cach-thiet-ke-noi-that-chuan-cho-can-ho-nho.html" title="Gợi Ý 10 Cách Thiết Kế Nội Thất Chuẩn Cho Căn Hộ Nhỏ">Gợi Ý 10 Cách Thiết Kế Nội Thất Chuẩn Cho Căn Hộ Nhỏ</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Căn hộ có diện tích nhỏ luôn đòi hỏi sự sáng tạo và khéo léo trong thiết kế nội thất để tạo ra không gian thoải mái và tiện nghi cho&nbsp;cả gia đình. Bài viết...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="03 Tháng 01, 2024">03 Tháng 01, 2024</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/nhung-xu-huong-thiet-ke-noi-that-dang-chu-y-nam-2023.html" class="blog-post-thumbnail" title="Những Xu Hướng Thiết Kế Nội Thất Đáng Chú Ý Năm 2023" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_xu_huong_noi_that_2023_d22699dd03d248c6872a5d191591a8e5_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Những Xu Hướng Thiết Kế Nội Thất Đáng Chú Ý Năm 2023">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/nhung-xu-huong-thiet-ke-noi-that-dang-chu-y-nam-2023.html" title="Những Xu Hướng Thiết Kế Nội Thất Đáng Chú Ý Năm 2023">Những Xu Hướng Thiết Kế Nội Thất Đáng Chú Ý Năm 2023</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Thiết kế nội thất không chỉ đơn giản&nbsp;là việc&nbsp;bài trí những món đồ trong ngôi nhà của bạn mà còn là cách tạo ra không gian sống đẹp và thoải mái. Mỗi năm, xu hướng...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="25 Tháng 12, 2023">25 Tháng 12, 2023</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/mang-giang-sinh-vao-khong-gian-phong-khach.html" class="blog-post-thumbnail" title="Mang Giáng Sinh Vào Không Gian Phòng Khách" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/xmas_21.12_3e15487d19c8482f83f6ade74cc182fc_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Mang Giáng Sinh Vào Không Gian Phòng Khách">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/mang-giang-sinh-vao-khong-gian-phong-khach.html" title="Mang Giáng Sinh Vào Không Gian Phòng Khách">Mang Giáng Sinh Vào Không Gian Phòng Khách</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Giáng Sinh luôn là khoảnh khắc đặc biệt mà mọi người mong đợi và chờ đón vào cuối năm. Đó là thời gian tận hưởng niềm vui, hạnh phúc và sự ấm áp bên&nbsp;gia đình.&nbsp;Trong...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="22 Tháng 12, 2023">22 Tháng 12, 2023</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+
+                            <article class="article-loop col-md-6 col-6">
+                                <div class="article-inner">
+                                    <div class="article-image">
+                                        <a href="nguon-cam-hung/bua-tiec-giang-sinh-hoan-hao-voi-victoria-collection.html" class="blog-post-thumbnail" title="Bộ Sưu Tập Tủ Kệ Đầu Giường " BÁN CHẠY NHẤT" Tại Baya" rel="nofollow">
+                                            <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/fix_a69e9d6c913c4badade5978d819b9480_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Bộ Sưu Tập Tủ Kệ Đầu Giường " BÁN CHẠY NHẤT" Tại Baya">
+                                        </a>
+                                    </div>
+                                    <div class="article-detail">
+                                        <div class="article-title">
+                                            <h3 class="post-title">
+                                                <a href="nguon-cam-hung/bua-tiec-giang-sinh-hoan-hao-voi-victoria-collection.html" title="Bộ Sưu Tập Tủ Kệ Đầu Giường " BÁN CHẠY NHẤT" Tại Baya">Bộ Sưu Tập Tủ Kệ Đầu Giường "BÁN CHẠY NHẤT" Tại Baya</a>
+                                            </h3>
+                                        </div>
+
+                                        <p class="entry-content">Tủ đầu giường là phụ kiện không thể thiếu cho mọi không gian phòng ngủ, đóng một vai trò quan trọng trong thiết kế nội thất căn nhà. Trong bài viết này, hãy cùng Baya...</p>
+
+                                        <div class="article-post-meta">
+                                            <span class="author">bởi: Thứ - ScaleUP</span>
+                                            <span class="date">
+                                                <time pubdate datetime="11 Tháng 12, 2023">11 Tháng 12, 2023</time>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+                        </div>
+                        <div class="pagination-shop pagi  text-center">
+                            <div id="pagination">
+                                <ul class="pagination">
+                                    <li>
+                                        <span class="current">
+                                            1
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <a href="nguon-cam-hung4658.html?page=2">2</a>
+                                    </li>
+                                    <li>
+                                        <a href="nguon-cam-hung4658.html?page=2">
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-12 col-12 boxBlog-right">
+                    <aside class="sidebar-blogs blogs-aside--sticky">
+                        <!-- Bai viet moi nhat -->
+                        <div class="group-sidebox">
+                            <div class="sidebox-title ">
+                                <h3 class="htitle">Bài viêt mới nhất</h3>
+                            </div>
+                            <div class="sidebox-content sidebox-content-togged">
+                                <div class="list-blogs-latest">
+
+
+
+                                    <div class="item-article clearfix ">
+                                        <div class="post-image">
+                                            <a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html">
+                                                <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_bq_giu_can_bep_gon_gan_0f15bf82cfa945c884efdc1b49de28ec_compact.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng" /></a>
+                                        </div>
+                                        <div class="post-content">
+                                            <h3><a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html">Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng</a></h3>
+                                            <p class="post-meta">
+                                                <span class="cate">Nguồn cảm hứng</span>
+                                                <span class="author d-none"><a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html">Tâm - Content ScaleUP</a></span>
+                                                <span class="date">- 08.03.2024</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="item-article clearfix ">
+                                        <div class="post-image">
+                                            <a href="nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html">
+                                                <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_tt_goc_hoc_tap__lam_vi_d891632de9504a479aa647e560226b51_compact.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học" /></a>
+                                        </div>
+                                        <div class="post-content">
+                                            <h3><a href="nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html">Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học</a></h3>
+                                            <p class="post-meta">
+                                                <span class="cate">Nguồn cảm hứng</span>
+                                                <span class="author d-none"><a href="nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html">Tâm - Content ScaleUP</a></span>
+                                                <span class="date">- 01.03.2024</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="item-article clearfix ">
+                                        <div class="post-image">
+                                            <a href="news/10-phong-cach-thiet-ke-phong-tam-dep-va-hien-dai.html">
+                                                <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/10_phong_cach_thiet_ke_ddepjj_va_hien_dai_f6f7df446bc44fb8afa05035b42fa4ed_compact.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="10 Phong Cách Thiết Kế Phòng Tắm Đẹp và Hiện Đại" /></a>
+                                        </div>
+                                        <div class="post-content">
+                                            <h3><a href="news/10-phong-cach-thiet-ke-phong-tam-dep-va-hien-dai.html">10 Phong Cách Thiết Kế Phòng Tắm Đẹp và Hiện Đại</a></h3>
+                                            <p class="post-meta">
+                                                <span class="cate">Tin tức</span>
+                                                <span class="author d-none"><a href="news/10-phong-cach-thiet-ke-phong-tam-dep-va-hien-dai.html">Thứ - ScaleUP</a></span>
+                                                <span class="date">- 23.02.2024</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="item-article clearfix ">
+                                        <div class="post-image">
+                                            <a href="news/kham-pha-phong-cach-noi-that-bac-au-scandinavia.html">
+                                                <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/kham_pha_phong_cach_bac_au-scandinavia_3d8237249a07410695844b8733c3a519_compact.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Khám Phá Phong Cách Nội Thất Bắc Âu - Scandinavia" /></a>
+                                        </div>
+                                        <div class="post-content">
+                                            <h3><a href="news/kham-pha-phong-cach-noi-that-bac-au-scandinavia.html">Khám Phá Phong Cách Nội Thất Bắc Âu - Scandinavia</a></h3>
+                                            <p class="post-meta">
+                                                <span class="cate">Tin tức</span>
+                                                <span class="author d-none"><a href="news/kham-pha-phong-cach-noi-that-bac-au-scandinavia.html">Thứ - ScaleUP</a></span>
+                                                <span class="date">- 19.02.2024</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Menu bai viet -->
+
+                        <div class="group-sidebox">
+                            <div class="sidebox-title ">
+                                <h3 class="htitle">Danh mục bài viết</h3>
+                            </div>
+                            <div class="sidebox-content sidebox-content-togged">
+                                <ul class="menuList-links">
+
+
+                                    <li class=""><a href="news.html" title="Tin tức"><span>Tin tức</span></a></li>
+
+
+
+                                    <li class=" active "><a href="nguon-cam-hung.html" title="Nguồn cảm hứng"><span>Nguồn cảm hứng</span></a></li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 @endsection

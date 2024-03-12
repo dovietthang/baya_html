@@ -1,4 +1,3 @@
-
 <footer class="mainFooter   mainFooter-toolbar  ">
     <div class="footer-newsletter">
         <div class="container-fluid">
@@ -84,10 +83,15 @@
                             <ul class="footerNav-link">
                                 @foreach ($posts_1 as $item)
                                 <li class="item">
-                                    <a href="#" title="{{ $item->title }}">{{ $item->title }}</a>
+                                    <a href="{{route('detail.page', [$item->slug])}}" title="{{ $item->title }}">{{ $item->title }}</a>
                                 </li>
                                 @endforeach
-
+                                <li class="item">
+                                    <a href="{{route('blog.cate', ['tin-tuc'])}}" title="Blog">Blog</a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" title="Hệ thống cửa hàng">Hệ thống cửa hàng</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -99,7 +103,7 @@
                             <ul class="footerNav-link">
                                 @foreach ($posts_2 as $item)
                                 <li class="item">
-                                    <a href="#" title="{{ $item->title }}">{{ $item->title }}</a>
+                                    <a href="{{route('detail.page', [$item->slug])}}" title="{{ $item->title }}">{{ $item->title }}</a>
                                 </li>
                                 @endforeach
                             </ul>
@@ -113,7 +117,7 @@
                             <ul class="footerNav-link">
                                 @foreach ($posts_3 as $item)
                                 <li class="item">
-                                    <a href="#" title="{{ $item->title }}">{{ $item->title }}</a>
+                                    <a href="{{route('detail.page', [$item->slug])}}" title="{{ $item->title }}">{{ $item->title }}</a>
                                 </li>
                                 @endforeach
                             </ul>

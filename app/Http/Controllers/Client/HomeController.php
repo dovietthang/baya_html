@@ -43,6 +43,7 @@ class HomeController extends Controller
         // }
         $posts = Post::where('type', NULL)->where('status', 1)->paginate(10);
         $postRight = Index::where('title', 'right_blog_slide')->first();
+        var_dump($postRight);
         return view('layout-home.pages.blogs.blog', compact('posts', 'postRight'));
     }
 

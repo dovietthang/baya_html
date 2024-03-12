@@ -379,21 +379,33 @@
         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.81304 5.75263C6.52015 5.45974 6.04528 5.45974 5.75238 5.75263C5.45949 6.04552 5.45949 6.5204 5.75238 6.81329L10.8789 11.9398L5.75241 17.0663C5.45952 17.3592 5.45952 17.8341 5.75241 18.127C6.0453 18.4199 6.52018 18.4199 6.81307 18.127L11.9396 13.0005L17.0661 18.127C17.359 18.4199 17.8339 18.4199 18.1268 18.127C18.4196 17.8341 18.4196 17.3592 18.1268 17.0663L13.0002 11.9398L18.1268 6.81329C18.4197 6.5204 18.4197 6.04552 18.1268 5.75263C17.8339 5.45974 17.359 5.45974 17.0661 5.75263L11.9396 10.8792L6.81304 5.75263Z" fill="#ffffff"></path>
       </svg>
     </div>
-    <div class="mainHeader--height">
-      <!-- header -->
-      @include('layout-home.includes.header')
-    </div>
 
-    <!-- @if($config->title_ship)
-        <div data-content-type="html" data-appearance="default" data-element="main" data-decoded="true">
-            <div class="header-notice" style="line-height: 14px">
-                <div class="slide">
-                    <div class="item mce-content-body">{!! $config->title_ship !!} </div>
-                </div>
-            </div>
-        </div>
-        @endif -->
-    @yield('content')
+    <!-- header -->
+    <div class="mainHeader--height">
+      @include('layout-home.includes.header')
+
+    </div>
+    <!--Clarity-->
+    <script type="text/javascript">
+      (function(c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function() {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "k8ossms4ac");
+    </script>
+    <!--End Clarity-->
+
+    <!-- content -->
+    <main class="wrapperMain_content">
+      @yield('content')
+    </main>
 
 
     <!-- footer -->

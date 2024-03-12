@@ -3125,13 +3125,13 @@ img.lazyload:not([src]) {
     text-transform: uppercase; }
   .mainHeader.mainHeader_temp03:not(.hSticky-nav).header-wrap-iconav .header-action .header-action-item.header-action_menu .box-icon .hamburger-menu .bar, .mainHeader.mainHeader_temp03:not(.hSticky-nav).header-wrap-iconav .header-action .header-action-item.header-action_menu .box-icon .hamburger-menu .bar:after, .mainHeader.mainHeader_temp03:not(.hSticky-nav).header-wrap-iconav .header-action .header-action-item.header-action_menu .box-icon .hamburger-menu .bar:before {
     background: #ffffff; }
-  .mainHeader.mainHeader_temp03:not(.hSticky-nav) .header-menu-desktop.header-pd:before {
+  /* .mainHeader.mainHeader_temp03:not(.hSticky-nav) .header-menu-desktop.header-pd:before {
     content: "";
     position: absolute;
     height: 40px;
     width: 100%;
     bottom: -38px;
-    background: #f2f2f2; }
+    background: #f2f2f2; } */
   .mainHeader.mainHeader_temp03.hSticky-nav .header-wrap-iconav, .mainHeader.mainHeader_temp03.hSticky-nav .header-wrap-logo, .mainHeader.mainHeader_temp03.hSticky-nav .header-wrap-search {
     display: none; }
   .mainHeader.mainHeader_temp03.hSticky-nav .header-wrap-action .header-action .header-action-item.locationContainer .header-action_text .header-action__link .box-text {

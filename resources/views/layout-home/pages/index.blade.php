@@ -8063,13 +8063,13 @@
                     <div class="dfex-txt--3">
                         <ul>
                             @if($item->price_value && $item->price_value != '')
-                                <li>Dành cho đơn hàng từ {{$item->price_value}} vnđ</li>
+                            <li>Dành cho đơn hàng từ {{$item->price_value}} vnđ</li>
                             @endif
                             @if($item->amount_code && $item->amount_code != '')
-                                <li>Số lượng khuyễn mãi là: {{$item->amount_code}} mã</li>
+                            <li>Số lượng khuyễn mãi là: {{$item->amount_code}} mã</li>
                             @endif
-                            @if($item->total_order_min ||  $item->price_order_max)
-                                <li>Gía áp dụng từ {{$item->total_order_min}} {{$item->price_order_max ? 'đến' + $item->price_order_max : '' }}</li>
+                            @if($item->total_order_min || $item->price_order_max)
+                            <li>Gía áp dụng từ {{$item->total_order_min}} {{$item->price_order_max ? 'đến' + $item->price_order_max : '' }}</li>
                             @endif
                             <li>Mỗi khách hàng được sử dụng tối đa 1 lần.</li>
                             <li>Sao chép mã và nhập mã khuyến mãi ở trang thanh toán</li>

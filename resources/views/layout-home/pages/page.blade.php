@@ -3,48 +3,44 @@
 <title>{{ $page->title }}</title>
 @endsection
 @section('content')
-<div class="cms-page-view page-layout-1column">
-    <div class="breadcrumbs">
-        <ul class="items">
-            <li class="item home"> <a href="{{route('home')}}" title="Tới trang chủ">Trang Chủ</a> </li>
-            <li class="item cms_page"> <strong>{{$page->title}}</strong> </li>
-        </ul>
+
+<div class="breadcrumb-shop">
+    <div class="container">
+        <div class="breadcrumb-list">
+            <ol class="breadcrumb breadcrumb-arrows" itemscope itemtype="http://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a href="{{route('home')}}" target="_self" itemprop="item"><span itemprop="name">{{__('Home')}}</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+
+                <li class="active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <span itemprop="item"><strong itemprop="name">{{ $page->title }}</strong></span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </div>
     </div>
-    <main id="maincontent" class="page-main">
-        <div data-bind="scope: 'messages'">
-            <div role="alert" class="messages">
-                @if(session('success'))
-                <div class="message-success success message" data-ui-id="message-success">
-                    <div>{{session('success')}}</div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9 col-md-8 col-12">
+            <div class="wrapper-pageDetail">
+                <div class="heading-pageDetail">
+                    <h1>Giới thiệu</h1>
                 </div>
-                @endif
-                @if(session('errors'))
-                <div class="message-error error message" data-ui-id="message-error">
-                    <div>{{session('errors')}}</div>
-                </div>
-                @endif
-            </div>
-        </div> <a id="contentarea" tabindex="-1"></a>
-        <div class="page messages">
-            <div data-placeholder="messages"></div>
-        </div>
-        <div class="columns">
-            <div class="column main"><input name="form_key" type="hidden" value="xRadCShyc2hpncQF">
-                <div id="authenticationPopup"
-                    style="display: none;">
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        @include('layout-home.includes.support-bar', $page)
-                    </div>
-                    <div class="col-md-9">
-                        <div class="mce-content-body">
-                            {!! $page->content !!}
-                        </div>
-                    </div>
+                <div class="content-pageDetail typeList-style">
+                    {!! $page->content !!}
                 </div>
             </div>
         </div>
-    </main>
+        <div class="col-lg-3 col-md-4 col-12">
+            <aside class="sidebar-page">
+                <!-- Menu sidebar  -->
+                @include('layout-home.includes.support-bar', $page)
+                <!-- Banner sidebar  -->
+            </aside>
+        </div>
+    </div>
 </div>
 @endsection

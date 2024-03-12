@@ -35,10 +35,11 @@
                                     <div class="mb-2">
                                         <label class="form-label" for="blog-edit-category">{{__('Category')}}</label>
                                         <select class="form-select select2" id="blog-edit-category" name="category">
-                                            <option value="0" >{{__('Khác')}}</option>
-                                            <option value="1" >{{__('Về chúng tôi')}}</option>
-                                            <option value="2" >{{__('Hỗ trợ khách hàng')}}</option>
-                                            <option value="3" >{{__('Chính sách')}}</option>
+                                            <option @if($post->category == 0) selected @endif value="0" >{{__('Khác')}}</option>
+                                            <option @if($post->category == 1) selected @endif value="1" >{{__('Về chúng tôi')}}</option>
+                                            <option @if($post->category == 2) selected @endif value="2" >{{__('Hỗ trợ khách hàng')}}</option>
+                                            <option @if($post->category == 3) selected @endif value="3" >{{__('Chính sách')}}</option>
+                                            
                                         </select>
                                     </div>
                                 </div>
