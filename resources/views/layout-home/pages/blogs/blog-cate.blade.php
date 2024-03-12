@@ -6,6 +6,10 @@
 @php
 $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
 @endphp
+{{@$newPost}}
+
+
+
 <div class="layout-blogs">
 
     <div class="breadcrumb-shop">
@@ -408,111 +412,8 @@ $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-12 col-12 boxBlog-right">
-                    <aside class="sidebar-blogs blogs-aside--sticky">
-                        <!-- Bai viet moi nhat -->
-                        <div class="group-sidebox">
-                            <div class="sidebox-title ">
-                                <h3 class="htitle">Bài viêt mới nhất</h3>
-                            </div>
-                            <div class="sidebox-content sidebox-content-togged">
-                                <div class="list-blogs-latest">
+                @include('layout-home.pages.blogs.blog-sidebar', ['newPost' => $newPost])
 
-
-
-                                    <div class="item-article clearfix ">
-                                        <div class="post-image">
-                                            <a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html">
-                                                <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_bq_giu_can_bep_gon_gan_0f15bf82cfa945c884efdc1b49de28ec_compact.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng" /></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <h3><a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html">Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng</a></h3>
-                                            <p class="post-meta">
-                                                <span class="cate">Nguồn cảm hứng</span>
-                                                <span class="author d-none"><a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html">Tâm - Content ScaleUP</a></span>
-                                                <span class="date">- 08.03.2024</span>
-                                            </p>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="item-article clearfix ">
-                                        <div class="post-image">
-                                            <a href="nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html">
-                                                <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/blog_baya_tt_goc_hoc_tap__lam_vi_d891632de9504a479aa647e560226b51_compact.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học" /></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <h3><a href="nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html">Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học</a></h3>
-                                            <p class="post-meta">
-                                                <span class="cate">Nguồn cảm hứng</span>
-                                                <span class="author d-none"><a href="nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html">Tâm - Content ScaleUP</a></span>
-                                                <span class="date">- 01.03.2024</span>
-                                            </p>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="item-article clearfix ">
-                                        <div class="post-image">
-                                            <a href="news/10-phong-cach-thiet-ke-phong-tam-dep-va-hien-dai.html">
-                                                <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/10_phong_cach_thiet_ke_ddepjj_va_hien_dai_f6f7df446bc44fb8afa05035b42fa4ed_compact.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="10 Phong Cách Thiết Kế Phòng Tắm Đẹp và Hiện Đại" /></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <h3><a href="news/10-phong-cach-thiet-ke-phong-tam-dep-va-hien-dai.html">10 Phong Cách Thiết Kế Phòng Tắm Đẹp và Hiện Đại</a></h3>
-                                            <p class="post-meta">
-                                                <span class="cate">Tin tức</span>
-                                                <span class="author d-none"><a href="news/10-phong-cach-thiet-ke-phong-tam-dep-va-hien-dai.html">Thứ - ScaleUP</a></span>
-                                                <span class="date">- 23.02.2024</span>
-                                            </p>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="item-article clearfix ">
-                                        <div class="post-image">
-                                            <a href="news/kham-pha-phong-cach-noi-that-bac-au-scandinavia.html">
-                                                <img class="lazyload" data-src="//file.hstatic.net/200000796751/article/kham_pha_phong_cach_bac_au-scandinavia_3d8237249a07410695844b8733c3a519_compact.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Khám Phá Phong Cách Nội Thất Bắc Âu - Scandinavia" /></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <h3><a href="news/kham-pha-phong-cach-noi-that-bac-au-scandinavia.html">Khám Phá Phong Cách Nội Thất Bắc Âu - Scandinavia</a></h3>
-                                            <p class="post-meta">
-                                                <span class="cate">Tin tức</span>
-                                                <span class="author d-none"><a href="news/kham-pha-phong-cach-noi-that-bac-au-scandinavia.html">Thứ - ScaleUP</a></span>
-                                                <span class="date">- 19.02.2024</span>
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Menu bai viet -->
-
-                        <div class="group-sidebox">
-                            <div class="sidebox-title ">
-                                <h3 class="htitle">Danh mục bài viết</h3>
-                            </div>
-                            <div class="sidebox-content sidebox-content-togged">
-                                <ul class="menuList-links">
-
-
-                                    <li class=""><a href="news.html" title="Tin tức"><span>Tin tức</span></a></li>
-
-
-
-                                    <li class=" active "><a href="nguon-cam-hung.html" title="Nguồn cảm hứng"><span>Nguồn cảm hứng</span></a></li>
-
-
-                                </ul>
-                            </div>
-                        </div>
-
-                    </aside>
-                </div>
             </div>
         </div>
     </div>

@@ -43,7 +43,6 @@ class HomeController extends Controller
         // }
         $posts = Post::where('type', NULL)->where('status', 1)->paginate(10);
         $postRight = Index::where('title', 'right_blog_slide')->first();
-        var_dump($postRight);
         return view('layout-home.pages.blogs.blog', compact('posts', 'postRight'));
     }
 
@@ -89,7 +88,12 @@ class HomeController extends Controller
         else{
             $posts = $posts->orderByDesc('created_at')->paginate(10);
         }
-        return view('layout-home.pages.blogs.blog-cate', compact('cate', 'fistPost', 'getPost', 'posts'));
+
+        $newPost = Post::whereHas('cates', function ($query) use ($cate) {
+            $query->where('category_id',  @$cate->id);
+        })->where('status', 1)->where('type', NULL)->orderBy('created_at')->limit(4)->get();
+
+        return view('layout-home.pages.blogs.blog-cate', compact('cate', 'fistPost', 'getPost', 'posts', 'newPost'));
     }
     function blogDetail(Request $rq, $slug)
     {
