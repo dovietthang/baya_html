@@ -1,19 +1,19 @@
-<ul class="items pages-items">
+<ul class="pagination">
     @foreach ($elements as $element)
     @if (!$paginator->onFirstPage())
-    <li class="item pages-item-previous"><a href="{{ $paginator->previousPageUrl() }}" title="Previous"
-            class="action previous"><span class="label">Page</span>
+    <li><a href="{{ $paginator->previousPageUrl() }}" title="Previous" class="action previous">
+        <i class="fa fa-angle-double-left"></i>
         </a>
     </li>
     @endif
     @if (is_array($element))
     @foreach ($element as $page => $url)
     @if($page == $paginator->currentPage())
-    <li class="item current">
-        <strong class="page"><span>{{$page}}</span></strong>
+    <li>
+        <span class="current">{{$page}}</span>
     </li>
     @else
-    <li class="item">
+    <li class="">
         <a href="{{$url}}" class="page">
             <span>{{$page}}</span>
         </a>
@@ -22,11 +22,11 @@
     @endforeach
     @endif
     @if ($paginator->hasMorePages())
-    <li class="item pages-item-next"><a href="{{ $paginator->nextPageUrl() }}" title="Next" class="action next"><span
-                class="label">Page</span>
+    <li>
+        <a href="{{ $paginator->nextPageUrl() }}" title="Next" class="action next">
+            <i class="fa fa-angle-double-right"></i>
         </a>
     </li>
     @endif
     @endforeach
 </ul>
-

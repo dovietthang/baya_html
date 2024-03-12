@@ -11,11 +11,11 @@
           @foreach($newPost as $item)
           <div class="item-article clearfix ">
             <div class="post-image">
-              <a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html">
+              <a href="{{route('blog.detail', [$item->slug])}}">
                 <img class="lazyload" data-src="{{$item->photo}}" src="{{$item->photo}}" alt="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng" /></a>
             </div>
             <div class="post-content">
-              <h3><a href="nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html">{{@$item->title}}</a></h3>
+              <h3><a href="{{route('blog.detail', [$item->slug])}}">{{@$item->title}}</a></h3>
               <p class="post-meta">
                 <!-- <span class="cate">Nguồn cảm hứng</span> -->
                 <span class="date">{{@$item->created_at}}</span>
@@ -37,7 +37,7 @@
       <div class="sidebox-content sidebox-content-togged">
         <ul class="menuList-links">
           @foreach($catePost as $item)
-          <li class=""><a href="{{route('blog.cate', [$item->title])}}" title="{{$item->title}}"><span>{{@$item->title}}</span></a></li>
+          <li class=""><a href="{{route('blog.cate', [$item->slug])}}" title="{{$item->title}}"><span>{{@$item->title}}</span></a></li>
           @endforeach
         </ul>
       </div>
