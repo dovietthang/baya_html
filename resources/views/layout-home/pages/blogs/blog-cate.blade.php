@@ -6,9 +6,7 @@
 @php
 $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
 @endphp
-{{@$newPost}}
-
-
+{{$posts}}
 
 <div class="layout-blogs">
 
@@ -35,7 +33,7 @@ $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
                 <div class="col-lg-9 col-md-12 col-12 boxBlog-left">
                     <div class="listBlogs-content">
                         <div class="heading-page">
-                            <h1>Nguồn cảm hứng</h1>
+                            <h1>{{@$cate->title}}</h1>
                         </div>
                         <div class="list-article-content blog-posts row">
 
@@ -412,8 +410,7 @@ $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
                         </div>
                     </div>
                 </div>
-                @include('layout-home.pages.blogs.blog-sidebar', ['newPost' => $newPost])
-
+                @include('layout-home.pages.blogs.blog-sidebar', ['newPost' => $newPost, 'catePost' => $catePost])
             </div>
         </div>
     </div>

@@ -89,11 +89,10 @@ class HomeController extends Controller
             $posts = $posts->orderByDesc('created_at')->paginate(10);
         }
 
-        $newPost = Post::whereHas('cates', function ($query) use ($cate) {
-            $query->where('category_id',  @$cate->id);
-        })->where('status', 1)->where('type', NULL)->orderBy('created_at')->limit(4)->get();
+        $newPost = Post::where('status', 1)->where('type', NULL)->orderBy('created_at')->limit(4)->get();
+        $catePost = Category::where('type', 'MenuPost')->where('status', 1)->get();
 
-        return view('layout-home.pages.blogs.blog-cate', compact('cate', 'fistPost', 'getPost', 'posts', 'newPost'));
+        return view('layout-home.pages.blogs.blog-cate', compact('cate', 'fistPost', 'getPost', 'posts', 'newPost', 'catePost'));
     }
     function blogDetail(Request $rq, $slug)
     {
