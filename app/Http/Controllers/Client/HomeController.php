@@ -52,48 +52,18 @@ class HomeController extends Controller
         if(!$cate){
             return view('errors.404-home');
         }
-        $getPost = Post::whereHas('cates', function ($query) use ($cate) {
-            $query->where('category_id',  @$cate->id);
-        })->where('status', 1)->where('type', NULL);
-        if($rq->filter_by){
-            if($rq->filter_by == 'old'){
-                $getPost = $getPost->orderBy('created_at')->limit(5)->get();
-            }
-            else if($rq->filter_by == 'views'){
-                $getPost = $getPost->orderByDesc('views')->limit(5)->get();
-            }
-            else if($rq->filter_by == 'random'){
-                $getPost = $getPost->inRandomOrder()->limit(5)->get();
-            }
-        }
-        else{
-            $getPost = $getPost->orderByDesc('created_at')->limit(5)->get();
-        }
-        $ids = $getPost->pluck('id')->toArray();
-        $fistPost = $getPost->shift();
+        // $getPost = Post::whereHas('cates', function ($query) use ($cate) {
+        //     $query->where('category_id',  @$cate->id);
+        // })->where('status', 1)->where('type', NULL);
+
         $posts = Post::whereHas('cates', function ($query) use ($cate) {
             $query->where('category_id', @$cate->id);
-        })->wherenotin('id', $ids)->where('status', 1)->where('type', NULL);
-        if($rq->filter_by){
-            if($rq->filter_by == 'old'){
-                $posts = $posts->orderBy('created_at')->paginate(10);
-            }
-            else if($rq->filter_by == 'views'){
-                $posts = $posts->orderByDesc('views')->paginate(10);
-            }
-            else if($rq->filter_by == 'random'){
-                $posts = $posts->inRandomOrder()->paginate(10);
-            }
-        }
-        else{
-            $posts = $posts->orderByDesc('created_at')->paginate(10);
-        }
+        })->where('status', 1)->where('type', NULL)->paginate(12);
 
-        $newPost = Post::whereHas('cates', function ($query) use ($cate) {
-            $query->where('category_id',  @$cate->id);
-        })->where('status', 1)->where('type', NULL)->orderBy('created_at')->limit(4)->get();
+        $newPost = Post::where('status', 1)->where('type', NULL)->orderBy('created_at')->limit(4)->get();
+        $catePost = Category::where('type', 'MenuPost')->where('status', 1)->get();
 
-        return view('layout-home.pages.blogs.blog-cate', compact('cate', 'fistPost', 'getPost', 'posts', 'newPost'));
+        return view('layout-home.pages.blogs.blog-cate', compact('cate', 'posts', 'newPost', 'catePost'));
     }
     function blogDetail(Request $rq, $slug)
     {

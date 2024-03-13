@@ -42,7 +42,7 @@ class PostController extends Controller
             ['link' => route('index-post'), 'name' => __('Post')],
             ['link' => 'javascript:void()', 'name' => __('Add')]
         ];
-        $cates = Category::where('type', 'Post')->where('status', 1)->get();
+        $cates = Category::where('type', 'MenuPost')->where('status', 1)->get();
         return view('layout-admin.pages.blogs.add', compact('cates', 'breadcrumb'));
     }
     public function save(Request $rq)
@@ -62,6 +62,7 @@ class PostController extends Controller
             $post->content = $rq->contents;
             $post->photo = $rq->file_thumb;
             $post->category = 0;
+            $post->description  = $rq->description;
             $post->status  = $rq->status;
             $post->added_by = Auth::user()->id;
             $post->save();
@@ -110,6 +111,7 @@ class PostController extends Controller
             $post->slug = $rq->slug;
             $post->content = $rq->contents;
             $post->status  = $rq->status;
+            $post->description  = $rq->description;
             $post->category = 0;
             $post->photo = $rq->file_thumb;
             $post->save();

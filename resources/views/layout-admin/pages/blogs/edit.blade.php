@@ -83,6 +83,14 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-2">
+                                        <label class="form-label">{{__('Description')}}</label>
+                                        <div id="content-editor-wrapper">
+                                            <textarea name="description" class="form-control">{{$post->description}}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-2">
                                         <label class="form-label">{{__('Content')}}</label>
                                         <div id="content-editor-wrapper">
                                             <textarea name="contents" class="form-control my-editor">{{$post->content}}</textarea>
