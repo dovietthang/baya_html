@@ -32,6 +32,7 @@ class PostController extends Controller
             return view('layout-admin.pages.blogs.ajax-filter')->with('posts', $posts)->render();
         } else {
             $posts = Post::orderBy('id', 'desc')->where('type', null)->paginate($numpage);
+            // var_dump($posts);
             return view('layout-admin.pages.blogs.index', compact('posts', 'breadcrumb'));
         }
     }
@@ -204,6 +205,7 @@ class PostController extends Controller
     {
         $post = Post::find($rq->id);
             $post->title = $rq->title;
+            // $post->slug = $rq->slug;
             $post->content = $rq->contents;
             $post->category = $rq->category;
             $post->save();

@@ -107,8 +107,8 @@
   <link href="{{asset('/front_end_asset/hstatic.net/0/0/global/api.jquery.js')}}" rel="preload" as="script" type="text/javascript">
   <link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" rel="preload" as="script" type="text/javascript">
 
-  <link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}" rel="preload" as="script">
-  <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}"></script>
+  <link href="{{asset('./front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}" rel="preload" as="script">
+  <script type="text/javascript" src="{{asset('./front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}"></script>
   <script>
     /* recapcha */
     setTimeout(function() {
@@ -127,6 +127,33 @@
   </script>
 
   <link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/app-buyxgety5b01.js?v=944')}}" rel="preload" as="script" type="text/javascript">
+
+  <script>
+    var formatMoney = "1₫";
+    var template = "article";
+    var priceMin = "";
+
+    var locationHeader = false;
+    locationHeader = true;
+
+    /* Fix app buyXgetY */
+    var cartItem = {};
+
+    var promotionApp = false,
+      promotionApp_name = "";
+
+    promotionApp = true;
+    promotionApp_name = "app_buyxgety";
+    var productReviewsApp = false;
+    var productReviewsProloop = false;
+
+    /* product set item */
+    var prodItem_desk = 5,
+      prodItem_mobile = 2;
+    prodItem_desk = 5;
+
+    prodItem_mobile = 2;
+  </script>
 
   <script>
     var cartAttributes = {};
@@ -740,7 +767,8 @@
   <script type="text/javascript" src="{{asset('/front_end_asset/style/js/popper.min.js')}}"></script>
   <script type="text/javascript" src="{{asset('/front_end_asset/hstatic.net/0/0/global/api.jquery.js')}}"></script>
   <script type="text/javascript" src="{{asset('/front_end_asset/style/js/jquery.jgrowl.map.js')}}"></script>
-  <script type="text/javascript" src="{{asset('/front_end_asset/bootstrap-4.3.1-dist/js/bootstrap.js')}}" defer></script>
+  <script type="text/javascript" src="{{asset('/front_end_asset/style/js/bootstrap.js')}}"></script>
+  <!-- <script type="text/javascript" src="{{asset('/front_end_asset/bootstrap-4.3.1-dist/js/bootstrap.js')}}" defer></script> -->
   <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/app-buyxgety5b01.js')}}" defer></script>
 
   <!-- SCRIPT THEME -->

@@ -31,6 +31,7 @@
                                         />
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-6 col-12">
                                     <div class="mb-2">
                                         <label class="form-label" for="blog-edit-category">{{__('Category')}}</label>
@@ -39,8 +40,20 @@
                                             <option @if($post->category == 1) selected @endif value="1" >{{__('Về chúng tôi')}}</option>
                                             <option @if($post->category == 2) selected @endif value="2" >{{__('Hỗ trợ khách hàng')}}</option>
                                             <option @if($post->category == 3) selected @endif value="3" >{{__('Chính sách')}}</option>
-                                            
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 d-none">
+                                    <div class="mb-2">
+                                        <label class="form-label" for="slug">{{__('Slug')}}</label>
+                                        <input
+                                            type="text"
+                                            id="slug"
+                                            class="form-control"
+                                            placeholder="the-best-features-and-web-design"
+                                            name="slug"
+                                            value="{{$post->slug}}"
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-12">

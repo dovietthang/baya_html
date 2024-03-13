@@ -82,10 +82,15 @@
                                 <div data-repeater-item>
                                     <div class="d-flex align-items-center gap-3">
                                         <p class="text-success mt-1 fw-bold">{{ __('Sku') }}</p>
-                                        <div>
+                                        <div class="d-flex"> 
                                             <div class="form-check form-check-info">
-                                                <label class="form-check-label">{{ __('Is default') }}</label>
+                                                <label class="form-check-label">{{ __('Is default') }} 1</label>
                                                 <input value="1" type="checkbox" id="is_default" name="is_default"
+                                                    class="form-check-input" checked>
+                                            </div>
+                                            <div class="form-check form-check-info ms-2">
+                                                <label class="form-check-label">{{ __('Is default') }} 2</label>
+                                                <input value="1" type="checkbox" id="is_default_2" name="is_default_2"
                                                     class="form-check-input" checked>
                                             </div>
                                         </div>
@@ -310,6 +315,17 @@
 <script src="{{ asset('admin_asset/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
 @endsection
 @section('page-js')
+<script>
+document.querySelectorAll('#invoice-id input[type=checkbox]').forEach(el=>{
+  el.addEventListener('change', function(){
+    if ( el.closest('#invoice-id').querySelectorAll('input:checked').length > 2 ){
+      this.setCustomValidity('Có thể chọn tối đa 2 mục')
+      this.checked = false
+      this.reportValidity()
+    }
+  })
+});
+</script
 <script src="{{ asset('admin_asset/assets/js/ajax-product.js') }}"></script>
 <script>
     let message_p = '{{ __('Value attribute already exists') }}'

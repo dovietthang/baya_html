@@ -83,15 +83,9 @@
                             <ul class="footerNav-link">
                                 @foreach ($posts_1 as $item)
                                 <li class="item">
-                                    <a href="{{route('detail.page', [$item->slug])}}" title="{{ $item->title }}">{{ $item->title }}</a>
+                                    <a href="{{route(($item->slug == 'tin-tuc') ? 'blog.cate' : 'detail.page', [$item->slug])}}" title="{{ $item->title }}">{{ $item->title }}</a>
                                 </li>
                                 @endforeach
-                                <li class="item">
-                                    <a href="{{route('blog.cate', ['tin-tuc'])}}" title="Blog">Blog</a>
-                                </li>
-                                <li class="item">
-                                    <a href="#" title="Hệ thống cửa hàng">Hệ thống cửa hàng</a>
-                                </li>
                             </ul>
                         </div>
                     </div>

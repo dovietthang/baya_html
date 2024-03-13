@@ -130,6 +130,7 @@ class ProductController extends Controller
                     $qtt = explode(' ', $val['quantity']);
                     foreach($val['size'] as $key => $p){
                         $is_default = isset($val['is_default']) && $key == 0 ? 1: 0;
+                        $is_default_2 = isset($val['is_default_2']) && $key == 0 ? 1: 0;
                         $productSku = new Sku();
                         $productSku->product_id = $product->id;
                         $productSku->sku = isset($val['sku_detail']) ? $val['sku_detail'] : $rq->sku ;
@@ -142,6 +143,7 @@ class ProductController extends Controller
                         $productSku->size_id = $p ? $p : null;
                         $productSku->sell_price = $val['sell_price'] ?  $val['sell_price'] : 0;
                         $productSku->is_default = $is_default;
+                        $productSku->is_default_2 = $is_default_2;
                         $productSku->photo = $val['photo_sku'];
                         $productSku->save();
                     }
@@ -217,6 +219,7 @@ class ProductController extends Controller
                     $qtt = $val['quantity'] ? explode(' ', $val['quantity']) : $val['quantity'];
                     foreach($val['size'] as $key => $p){
                         $is_default = isset($val['is_default']) && $key == 0 ? 1: 0;
+                        $is_default_2 = isset($val['is_default_2']) && $key == 0 ? 1: 0;
                         $productSku = Sku::where('product_id', $rq->id)->where('color_id', $val['color'])->where('size_id', $p)->first();
                         if (!$productSku){
                             $productSku = new Sku();
@@ -239,6 +242,7 @@ class ProductController extends Controller
                             $productSku->color_id = $val['color'] ? $val['color'] : null;
                             $productSku->size_id = $p ? $p : null;
                             $productSku->is_default = $is_default;
+                            $productSku->is_default_2 = $is_default_2;
                             $productSku->photo = $val['photo_sku'];
                             $productSku->save();
                             array_push($skuIds, $productSku->id);

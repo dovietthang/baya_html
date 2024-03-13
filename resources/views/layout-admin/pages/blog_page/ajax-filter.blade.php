@@ -63,42 +63,47 @@
                         </svg>
                     </a>
                 </div>
-            </td>
-            <div class="modal fade modal-primary post-modal" id="default-{{ $key }}">
-                <div class="modal-dialog modal-dialog-centered modal-lg ecommerce-application">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="card-body">
-                                <section class="app-ecommerce-details">
-                                    <div class="card m-0">
-                                        <!-- Product Details starts -->
-                                        <div class="blog-detail-wrapper">
-                                            <div class="row">
-                                                <!-- Blog -->
-                                                <div class="col-12">
-                                                    <div class="card overflow-hidden">
-                                                        <div class="mce-content-body">
-                                                            {!! $post->content !!}
+                <div class="modal fade modal-primary post-modal" id="default-{{ $key }}">
+                    <div class="modal-dialog modal-dialog-centered modal-lg ecommerce-application">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card-body">
+                                    <section class="app-ecommerce-details">
+                                        <div class="card m-0">
+                                            <!-- Product Details starts -->
+                                            <div class="blog-detail-wrapper">
+                                                <div class="row">
+                                                    <!-- Blog -->
+                                                    <div class="col-12">
+                                                        <div class="card overflow-hidden">
+                                                            <div class="mce-content-body">
+                                                                <div class="text-start">
+                                                                    @if($post->content)
+                                                                    {!! @$post->content !!}
+                                                                    @endif
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <!--/ Blog -->
                                                 </div>
-                                                <!--/ Blog -->
                                             </div>
                                         </div>
-                                    </div>
-                                </section>
+                                    </section>
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ __('Close')
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ __('Close')
                                 }}</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </td>
+
         </tr>
         @endforeach
         @endif

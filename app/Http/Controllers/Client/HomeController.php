@@ -60,7 +60,7 @@ class HomeController extends Controller
             $query->where('category_id', @$cate->id);
         })->where('status', 1)->where('type', NULL)->paginate(12);
 
-        $newPost = Post::where('status', 1)->where('type', NULL)->orderBy('created_at')->limit(4)->get();
+        $newPost = Post::where('status', 1)->where('type', NULL)->orderBy('created_at', 'desc')->limit(4)->get();
         $catePost = Category::where('type', 'MenuPost')->where('status', 1)->get();
 
         return view('layout-home.pages.blogs.blog-cate', compact('cate', 'posts', 'newPost', 'catePost'));
@@ -73,15 +73,21 @@ class HomeController extends Controller
         }
         $post->views += 1;
         $post->save();
-        if($rq->k){
-            $catePost = Category::where('slug', $rq->k)->first();
-        }
-        else{
-            $catePost = $post->cates()->first();
-        }
+        // if($rq->k){
+        //     $catePost = Category::where('slug', $rq->k)->where('status', 1)->first();
+        // }
+        // else{
+        //     $catePost = $post->cates()->first();
+        // }
+        $catePost = $post->cates()->first();
         $next = Post::where('id', '>', $post->id)->where('type', NULL)->orderBy('id')->first();
         $previous = Post::where('id', '<', $post->id)->where('type', NULL)->orderBy('id','desc')->first();
-        return view('layout-home.pages.blogs.blog-detail', compact('post', 'catePost', 'next', 'previous'));
+        $newPost = Post::where('status', 1)->where('type', NULL)->orderBy('created_at', 'desc')->limit(4)->get();
+        $catePost2 = Category::where('type', 'MenuPost')->where('status', 1)->get();
+        $relatedPost = Post::whereHas('cates', function ($query) use ($catePost) {
+            $query->where('category_id', @$catePost->id);
+        })->where('status', 1)->where('type', NULL)->limit(10)->get();
+        return view('layout-home.pages.blogs.blog-detail', compact('post', 'catePost', 'next', 'previous','newPost','catePost2', 'relatedPost'));
     }
     function home(Request $rq)
     {

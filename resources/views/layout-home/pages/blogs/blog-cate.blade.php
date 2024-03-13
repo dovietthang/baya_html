@@ -54,7 +54,9 @@
                                         <p class="entry-content">{{$item->description}}</p>
 
                                         <div class="article-post-meta">
-                                            <span class="author">Lượt xem: {{$item->views}}</span>
+                                            @if(isset($item->user))
+                                            <span class="author">bởi: {{$item->user->name}}</span>
+                                            @endif
                                             <span class="date">
                                                 <time pubdate datetime="{{$item->updated_at}}">{{$item->updated_at}}</time>
                                             </span>
