@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" id="get-check-checkbox">
                     <!-- Form -->
-                    <form id="products" action="{{ route('save-product') }}" method="post" enctype="multipart/form-data"
+                    <form id="products" action="{{ route('save-product') }}" method="post" enctype="multipart/form-data" 
                         class="invoice-repeater">
                         @csrf
                         <div class="row">
@@ -66,7 +66,7 @@
                                     <label class="form-label" for="sku">{{ __('SKU') }}</label>
                                     <input type="text" id="sku" class="form-control" placeholder="RTX-05500"
                                         name="sku" />
-                                </div>
+                                </div> 
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="mb-1">
@@ -82,12 +82,14 @@
                                 <div data-repeater-item>
                                     <div class="d-flex align-items-center gap-3">
                                         <p class="text-success mt-1 fw-bold">{{ __('Sku') }}</p>
-                                        <div class="d-flex"> 
+                                        <div class=""> 
                                             <div class="form-check form-check-info">
                                                 <label class="form-check-label">{{ __('Is default') }} 1</label>
                                                 <input value="1" type="checkbox" id="is_default" name="is_default"
                                                     class="form-check-input" checked>
                                             </div>
+                                        </div>
+                                        <div class=""> 
                                             <div class="form-check form-check-info ms-2">
                                                 <label class="form-check-label">{{ __('Is default') }} 2</label>
                                                 <input value="1" type="checkbox" id="is_default_2" name="is_default_2"
@@ -152,7 +154,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-6">
                                                     <div class="mb-1">
-                                                        <label class="form-label"">{{ __('Cost')
+                                                        <label class="form-label">{{ __('Cost')
                                                             }}</label>
                                                         <input id="cost" type="number" class="form-control"
                                                             placeholder="10" name="cost" />
@@ -316,16 +318,24 @@
 @endsection
 @section('page-js')
 <script>
-document.querySelectorAll('#invoice-id input[type=checkbox]').forEach(el=>{
-  el.addEventListener('change', function(){
-    if ( el.closest('#invoice-id').querySelectorAll('input:checked').length > 2 ){
-      this.setCustomValidity('Có thể chọn tối đa 2 mục')
-      this.checked = false
-      this.reportValidity()
-    }
-  })
-});
-</script
+    // Lấy tất cả các radio button
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+    // Lắng nghe sự kiện click trên mỗi radio button
+    radioButtons.forEach(function(radioButton) {
+        radioButton.addEventListener('click', function() {
+            // Nếu radio button đã được chọn, loại bỏ chọn của các radio button khác cùng tên
+            if (this.checked) {
+                const name = this.name;
+                radioButtons.forEach(function(otherRadioButton) {
+                    if (otherRadioButton.name === name && otherRadioButton !== radioButton) {
+                        otherRadioButton.checked = false;
+                    }
+                });
+            }
+        });
+    });
+</script>
 <script src="{{ asset('admin_asset/assets/js/ajax-product.js') }}"></script>
 <script>
     let message_p = '{{ __('Value attribute already exists') }}'

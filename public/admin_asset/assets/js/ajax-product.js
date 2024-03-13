@@ -12,6 +12,11 @@ $(document).ready(function () {
         $("input[type=checkbox]#is_default").prop("checked", false);
         $(this).prop("checked", true);
     });
+
+        $(document).on("click", "input[type=checkbox]#is_default_2", function () {
+          $("input[type=checkbox]#is_default_2").prop("checked", false);
+          $(this).prop("checked", true);
+        });
     //
     $(document).on("change", ".attribute", function (e) {
         let that = $(this);
