@@ -189,7 +189,7 @@ class ProductController extends Controller
         ];
         $messages = Helpers::switchLanguage('vi');
         $check = Validator::make($rq->all(), $rules, $messages);
-        if ($check->passes()) {
+        if ($check->passes() && $rq->invoice) {
             foreach ($rq->invoice as $val) {
                 if (!isset($val['color']) || !isset($val['size'])) {
                     return response()->json([

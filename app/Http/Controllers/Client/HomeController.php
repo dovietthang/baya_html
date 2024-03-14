@@ -948,7 +948,7 @@ class HomeController extends Controller
         $ids_sz = $getSku->pluck('size_id')->unique()->toArray();
         $colors = Color::wherein('id', $ids_cl)->get();
         $sizes = Size::wherein('id', $ids_sz)->get();
-        $products = $results->paginate(24);
+        $products = $results->paginate(10);
 
         return view("layout-home.pages.category", compact('products', 'colors', 'sizes', 'cate', 'lists', 'root', 'param_str', 'array_check', 'replace_str', 'childrenFilter', 'listFilter'));
     }

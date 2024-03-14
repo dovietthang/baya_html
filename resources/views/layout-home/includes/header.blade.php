@@ -29,7 +29,7 @@
                                 <div class="header-action_dropdown">
                                     <div class="header-dropdown_content">
                                         <div class="sitenav-menu menu-mobile" id="siteNav-menu">
-                                            <div class="menu-mobile--wrap"> 
+                                            <div class="menu-mobile--wrap">
                                                 <div class="menu-mobile--bottom">
                                                     <nav id="mp-menu" class="mp-menu mp-cover">
                                                         <div class="mp-level" data-level="1">
@@ -75,12 +75,18 @@
                                                                 </ul>
 
                                                                 @foreach ($menu as $item)
-                                                                @if($item->show_index && $item->childCate && count($item->childCate) > 0)
+                                                                @if($item->show_index && $item->childCate)
                                                                 <ul class="mm-panel list-child" id="{{$item->id}}">
                                                                     <li><a href="javascript:;"><i class="fa fa-angle-left" aria-hidden="true"></i>Quay về</a></li>
+                                                                    <li><a href="{{route('category', [$item->slug])}}"><b>Xem tất cả "{{$item->title}}"</b></a></li>
                                                                     @foreach ($item->childCate()->orderBy('order_by', 'asc')->get() as $cate)
-                                                                    <li><a href="{{route('detail.category', [$item->slug, $cate->slug])}}"><b>{{$cate->title}}</b></a></li>
+                                                                    <li class><a href="{{route('detail.category', [$item->slug, $cate->slug])}}"><span>-</span> {{$cate->title}}</a></li>
                                                                     @endforeach
+                                                                </ul>
+                                                                @else
+                                                                <ul class="mm-panel list-child" id="{{$item->id}}">
+                                                                    <li><a href="javascript:;"><i class="fa fa-angle-left" aria-hidden="true"></i>Quay về</a></li>
+                                                                    <li><a href="{{route('category', [$item->slug])}}"><b>Xem tất cả "{{$item->title}}"</b></a></li>
                                                                 </ul>
                                                                 @endif
                                                                 @endforeach
@@ -439,7 +445,9 @@
                                 <li class="has-submenu ">
                                     <a href="{{route('category', [$item->slug])}}" title="{{$item->title}}">
                                         {{$item->title}}
+                                        @if($item->show_index && $item->childCate && count($item->childCate) > 0)
                                         <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                        @endif
                                     </a>
                                     @if($item->show_index && $item->childCate && count($item->childCate) > 0)
                                     <ul class="menuList-submain">
