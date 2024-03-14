@@ -34,6 +34,9 @@
     var currentId = 1051064712;
 </script>
 <!--The End Datalayer-->
+@if(@$lists)
+@include('layout-home.breadcrumbs', [$lists, $cate])
+@endif
 <section class="productDetail-information productDetail_style__02">
     <div class="container container-pd0">
         <div class="productDetail--main">
@@ -208,16 +211,20 @@
             <div class="productDetailjs productDetail--content" id="detail-product">
                 <div class="wrapbox-detail stickyProduct-detail">
                     <div class="product-heading">
-                        <h1>Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA</h1>
+                        <h1>{{$product->title}}</h1>
 
-                        <span id="pro_sku">Mã sản phẩm: <strong>2000574</strong></span>
+                        <span id="pro_sku">Mã sản phẩm: <strong>{{$product->sku}}</strong></span>
 
                         <span class="pro-soldold">Tình trạng:
 
                             <strong>Còn hàng</strong>
                         </span>
-                        <span class="pro-vendor">Thương hiệu:
-                            <strong><a title="Show vendor" href="../collections/vendors55b6.html?q=sofia">SOFIA</a></strong></span>
+                        @php
+                        $cate = $product->cates->where('type', 'Menu')->where('status', 1)->first();
+                        @endphp
+
+                        <span class="pro-vendor">Thể loại:
+                            <strong><a title="Show vendor" href="../collections/vendors55b6.html?q=sofia">{{ $cate ? $cate->title : 'Chưa có' }}</a></strong></span>
                     </div>
                     <div class="product-price" id="price-preview">
                         <span class="pro-title">Giá: </span>
@@ -2442,5 +2449,5 @@
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/bootstrap.js')}}"></script> -->
 <!-- <script type="text/javascript" src="{{asset('./front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}"></script> -->
 <!-- <script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script> -->
-<!-- <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" defer></script> -->
+<script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" defer></script>
 @endsection

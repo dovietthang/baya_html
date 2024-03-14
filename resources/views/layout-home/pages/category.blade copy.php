@@ -3,8 +3,6 @@
 <title>{{ @$cate->title_web  ? @$cate->title_web : @$cate->title }}</title>
 @endsection
 @section('content')
-
-<div class="layout-collections">
 <div
     class="page-with-filter page-products categorypath-nam category-nam catalog-category-view page-layout-2columns-left">
     @if(@$lists)
