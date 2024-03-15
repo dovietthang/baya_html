@@ -5,6 +5,32 @@
 @section('content')
 @include('layout-home.includes.sidebar')
 
+<script>
+    var formatMoney = "{{$config->site_name}}₫";
+    var template = "index";
+    var priceMin = "";
+
+    var locationHeader = false;
+    locationHeader = true;
+
+    /* Fix app buyXgetY */
+    var cartItem = {};
+
+    var promotionApp = false,
+        promotionApp_name = "";
+
+    promotionApp = true;
+    promotionApp_name = "app_buyxgety";
+    var productReviewsApp = false;
+    var productReviewsProloop = false;
+
+    /* product set item */
+    var prodItem_desk = 5,
+        prodItem_mobile = 2;
+    prodItem_desk = 5;
+
+    prodItem_mobile = 2;
+</script>
 <section class="home-category">
     <div class="container">
         <div class="list-item">
@@ -7828,329 +7854,51 @@
 </section>
 
 <section class="home-blogs">
-          <div class="container">
-            <div class="section-heading">
-              <div class="box-header">
-                <h2 class="hTitle">
-                  <a href="blogs/all.html">Bài Viết Mới Nhất</a>
-                </h2>
-              </div>
+    <div class="container">
+        <div class="section-heading">
+            <div class="box-header">
+            <h2 class="hTitle"><a href="{{route('blog.cate', ['tin-tuc'])}}">Bài Viết Mới Nhất</a></h2>
             </div>
+        </div>
+        @foreach($posts as $item)
 
-            <div class="wrapper-content">
-              <div
-                class="listArticle-row owl-carousel owlCarousel-style"
-                id="owlBlog-latest"
-              >
+        <div class="wrapper-content">
+            <div class="listArticle-row owl-carousel owlCarousel-style" id="owlBlog-latest">
                 <article class="article-item">
-                  <div class="article-item__block">
-                    <div class="article-item__image">
-                      <div class="art-image">
-                        <a
-                          href="blogs/nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html"
-                          title="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng"
-                          aria-label="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng"
-                        >
-                          <img
-                            class="lazyload"
-                            data-src="../file.hstatic.net/200000796751/article/blog_baya_bq_giu_can_bep_gon_gan_0f15bf82cfa945c884efdc1b49de28ec_large.jpg"
-                            src="../file.hstatic.net/200000796751/article/blog_baya_bq_giu_can_bep_gon_gan_0f15bf82cfa945c884efdc1b49de28ec_large.jpg"
-                            alt="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                    <div class="article-item__detail">
-                      <h3 class="art-title">
-                        <a
-                          href="blogs/nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html"
-                          >Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng</a
-                        >
-                      </h3>
-                      <div class="art-desc">
-                        <p>
-                          Khu vực bếp là không gian quan trọng cho việc cả gia
-                          đình tận hưởng bữa ăn sau một ngày dài và là nơi để...
-                        </p>
-                      </div>
-                      <div class="art-meta">
-                        <div class="art-date">
-                          <time datetime="2024-03-08">08 Tháng 03, 2024</time>
+                    <div class="article-item__block">
+                        <div class="article-item__image">
+                            <div class="art-image">
+                                <a href="{{route('blog.detail', [$item->slug])}}" title="{{ @$item->title}}" aria-label="{{ @$item->title}}">
+                                    <img class="lazyload" data-src="../file.hstatic.net/200000796751/article/blog_baya_bq_giu_can_bep_gon_gan_0f15bf82cfa945c884efdc1b49de28ec_large.jpg" src="../file.hstatic.net/200000796751/article/blog_baya_bq_giu_can_bep_gon_gan_0f15bf82cfa945c884efdc1b49de28ec_large.jpg" alt="{{ @$item->title}}" />
+                                </a>
+                            </div>
                         </div>
-                        <a
-                          class="art-seemore"
-                          href="blogs/nguon-cam-hung/bi-quyet-de-giu-can-bep-luon-gon-gang.html"
-                          title="Bí Quyết Để Giữ Căn Bếp Luôn Gọn Gàng"
-                          >Xem thêm
-                          <i
-                            class="fa fa-angle-double-right"
-                            aria-hidden="true"
-                          ></i
-                        ></a>
-                      </div>
+                        <div class="article-item__detail">
+                            <h3 class="art-title">
+                                <a href="{{route('blog.detail', [$item->slug])}}">{{ @$item->title}}</a>
+                            </h3>
+                            <div class="art-desc">
+                                <p>
+                                {{$item->description}}
+                                </p>
+                            </div>
+                            <div class="art-meta">
+                                <div class="art-date">
+                                    <time datetime="2024-03-08">08 Tháng 03, 2024</time>
+                                </div>
+                                <a class="art-seemore" href="{{route('blog.detail', [$item->slug])}}" title="{{ @$item->title}}">Xem thêm
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </article>
+                @endforeach
 
-                <article class="article-item">
-                  <div class="article-item__block">
-                    <div class="article-item__image">
-                      <div class="art-image">
-                        <a
-                          href="blogs/nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html"
-                          title="Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học"
-                          aria-label="Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học"
-                        >
-                          <img
-                            class="lazyload"
-                            data-src="../file.hstatic.net/200000796751/article/blog_baya_tt_goc_hoc_tap__lam_vi_d891632de9504a479aa647e560226b51_large.jpg"
-                            src="../file.hstatic.net/200000796751/article/blog_baya_tt_goc_hoc_tap__lam_vi_d891632de9504a479aa647e560226b51_large.jpg"
-                            alt="Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                    <div class="article-item__detail">
-                      <h3 class="art-title">
-                        <a
-                          href="blogs/nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html"
-                          >Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa
-                          Học</a
-                        >
-                      </h3>
-                      <div class="art-desc">
-                        <p>
-                          Những góc học tập, làm việc được bài trí một cách khoa
-                          học và thông minh, giúp cho công việc học tập của bạn
-                          thuận...
-                        </p>
-                      </div>
-                      <div class="art-meta">
-                        <div class="art-date">
-                          <time datetime="2024-03-01">01 Tháng 03, 2024</time>
-                        </div>
-                        <a
-                          class="art-seemore"
-                          href="blogs/nguon-cam-hung/tips-trang-tri-goc-hoc-tap-lam-viec-dep-va-khoa-hoc.html"
-                          title="Tips Trang Trí Góc Học Tập, Làm Việc Đẹp Và Khoa Học"
-                          >Xem thêm
-                          <i
-                            class="fa fa-angle-double-right"
-                            aria-hidden="true"
-                          ></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </article>
 
-                <article class="article-item">
-                  <div class="article-item__block">
-                    <div class="article-item__image">
-                      <div class="art-image">
-                        <a
-                          href="blogs/nguon-cam-hung/su-khac-biet-giua-phong-cach-thiet-ke-noi-that-vintage-va-retro.html"
-                          title="Sự Khác Biệt Giữa Phong Cách Thiết Kế Nội Thất Vintage và Retro"
-                          aria-label="Sự Khác Biệt Giữa Phong Cách Thiết Kế Nội Thất Vintage và Retro"
-                        >
-                          <img
-                            class="lazyload"
-                            data-src="../file.hstatic.net/200000796751/article/blog_baya_vintage_va_retro_cd57fb8114b74988bc115873094b4ba2_large.jpg"
-                            src="../file.hstatic.net/200000796751/article/blog_baya_vintage_va_retro_cd57fb8114b74988bc115873094b4ba2_large.jpg"
-                            alt="Sự Khác Biệt Giữa Phong Cách Thiết Kế Nội Thất Vintage và Retro"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                    <div class="article-item__detail">
-                      <h3 class="art-title">
-                        <a
-                          href="blogs/nguon-cam-hung/su-khac-biet-giua-phong-cach-thiet-ke-noi-that-vintage-va-retro.html"
-                          >Sự Khác Biệt Giữa Phong Cách Thiết Kế Nội Thất
-                          Vintage và Retro</a
-                        >
-                      </h3>
-                      <div class="art-desc">
-                        <p>
-                          Khi nói đến thiết kế nội thất, hai từ "vintage" và
-                          "retro" thường được sử dụng thay thế cho nhau. Tuy
-                          nhiên, mặc dù có...
-                        </p>
-                      </div>
-                      <div class="art-meta">
-                        <div class="art-date">
-                          <time datetime="2024-02-15">15 Tháng 02, 2024</time>
-                        </div>
-                        <a
-                          class="art-seemore"
-                          href="blogs/nguon-cam-hung/su-khac-biet-giua-phong-cach-thiet-ke-noi-that-vintage-va-retro.html"
-                          title="Sự Khác Biệt Giữa Phong Cách Thiết Kế Nội Thất Vintage và Retro"
-                          >Xem thêm
-                          <i
-                            class="fa fa-angle-double-right"
-                            aria-hidden="true"
-                          ></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="article-item">
-                  <div class="article-item__block">
-                    <div class="article-item__image">
-                      <div class="art-image">
-                        <a
-                          href="blogs/nguon-cam-hung/10-y-tuong-trang-tri-san-vuon-hien-dai-va-doc-dao.html"
-                          title="10 Ý Tưởng Trang Trí Sân Vườn Hiện Đại và Độc Đáo"
-                          aria-label="10 Ý Tưởng Trang Trí Sân Vườn Hiện Đại và Độc Đáo"
-                        >
-                          <img
-                            class="lazyload"
-                            data-src="../file.hstatic.net/200000796751/article/blog_baya_tt_san_vuon_62a6ee9496dc4c30a235b906ef50f4b8_large.jpg"
-                            src="../file.hstatic.net/200000796751/article/blog_baya_tt_san_vuon_62a6ee9496dc4c30a235b906ef50f4b8_large.jpg"
-                            alt="10 Ý Tưởng Trang Trí Sân Vườn Hiện Đại và Độc Đáo"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                    <div class="article-item__detail">
-                      <h3 class="art-title">
-                        <a
-                          href="blogs/nguon-cam-hung/10-y-tuong-trang-tri-san-vuon-hien-dai-va-doc-dao.html"
-                          >10 Ý Tưởng Trang Trí Sân Vườn Hiện Đại và Độc Đáo</a
-                        >
-                      </h3>
-                      <div class="art-desc">
-                        <p>
-                          Bạn muốn biến sân vườn nhà mình thành một không gian
-                          nghệ thuật, nơi hòa mình cùng thiên nhiên và thư giãn
-                          sau những giờ...
-                        </p>
-                      </div>
-                      <div class="art-meta">
-                        <div class="art-date">
-                          <time datetime="2024-02-05">05 Tháng 02, 2024</time>
-                        </div>
-                        <a
-                          class="art-seemore"
-                          href="blogs/nguon-cam-hung/10-y-tuong-trang-tri-san-vuon-hien-dai-va-doc-dao.html"
-                          title="10 Ý Tưởng Trang Trí Sân Vườn Hiện Đại và Độc Đáo"
-                          >Xem thêm
-                          <i
-                            class="fa fa-angle-double-right"
-                            aria-hidden="true"
-                          ></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="article-item">
-                  <div class="article-item__block">
-                    <div class="article-item__image">
-                      <div class="art-image">
-                        <a
-                          href="blogs/nguon-cam-hung/10-cach-trang-tri-ban-an-dep-mat-ngay-tet.html"
-                          title="10 Cách Trang Trí Bàn Ăn Đẹp Mắt Ngày Tết"
-                          aria-label="10 Cách Trang Trí Bàn Ăn Đẹp Mắt Ngày Tết"
-                        >
-                          <img
-                            class="lazyload"
-                            data-src="../file.hstatic.net/200000796751/article/blog_baya_tt_ban_an_ngay_tet_d069cd66d96a4ab09dc5f02f91539b19_large.jpg"
-                            src="../file.hstatic.net/200000796751/article/blog_baya_tt_ban_an_ngay_tet_d069cd66d96a4ab09dc5f02f91539b19_large.jpg"
-                            alt="10 Cách Trang Trí Bàn Ăn Đẹp Mắt Ngày Tết"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                    <div class="article-item__detail">
-                      <h3 class="art-title">
-                        <a
-                          href="blogs/nguon-cam-hung/10-cach-trang-tri-ban-an-dep-mat-ngay-tet.html"
-                          >10 Cách Trang Trí Bàn Ăn Đẹp Mắt Ngày Tết</a
-                        >
-                      </h3>
-                      <div class="art-desc">
-                        <p>
-                          Tết không chỉ là dịp để sum họp gia đình, mà còn là cơ
-                          hội để thể hiện gu thẩm mỹ và sự sáng tạo...
-                        </p>
-                      </div>
-                      <div class="art-meta">
-                        <div class="art-date">
-                          <time datetime="2024-01-29">29 Tháng 01, 2024</time>
-                        </div>
-                        <a
-                          class="art-seemore"
-                          href="blogs/nguon-cam-hung/10-cach-trang-tri-ban-an-dep-mat-ngay-tet.html"
-                          title="10 Cách Trang Trí Bàn Ăn Đẹp Mắt Ngày Tết"
-                          >Xem thêm
-                          <i
-                            class="fa fa-angle-double-right"
-                            aria-hidden="true"
-                          ></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="article-item">
-                  <div class="article-item__block">
-                    <div class="article-item__image">
-                      <div class="art-image">
-                        <a
-                          href="blogs/nguon-cam-hung/bi-quyet-trang-tri-noi-that-cho-khong-gian-tet-am-cung.html"
-                          title="Bí Quyết Trang Trí Nội Thất Cho Không Gian Tết Ấm Cúng"
-                          aria-label="Bí Quyết Trang Trí Nội Thất Cho Không Gian Tết Ấm Cúng"
-                        >
-                          <img
-                            class="lazyload"
-                            data-src="../file.hstatic.net/200000796751/article/blog_baya_tt_noi_that_cho_kg_tet_am_cung_7a6ea0bed99949b6ba1e22c67f3eef42_large.jpg"
-                            src="../file.hstatic.net/200000796751/article/blog_baya_tt_noi_that_cho_kg_tet_am_cung_7a6ea0bed99949b6ba1e22c67f3eef42_large.jpg"
-                            alt="Bí Quyết Trang Trí Nội Thất Cho Không Gian Tết Ấm Cúng"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                    <div class="article-item__detail">
-                      <h3 class="art-title">
-                        <a
-                          href="blogs/nguon-cam-hung/bi-quyet-trang-tri-noi-that-cho-khong-gian-tet-am-cung.html"
-                          >Bí Quyết Trang Trí Nội Thất Cho Không Gian Tết Ấm
-                          Cúng</a
-                        >
-                      </h3>
-                      <div class="art-desc">
-                        <p>
-                          Tết Nguyên Đán không chỉ là dịp để sum họp gia đình mà
-                          còn là cơ hội để làm mới không gian sống của chúng...
-                        </p>
-                      </div>
-                      <div class="art-meta">
-                        <div class="art-date">
-                          <time datetime="2024-01-25">25 Tháng 01, 2024</time>
-                        </div>
-                        <a
-                          class="art-seemore"
-                          href="blogs/nguon-cam-hung/bi-quyet-trang-tri-noi-that-cho-khong-gian-tet-am-cung.html"
-                          title="Bí Quyết Trang Trí Nội Thất Cho Không Gian Tết Ấm Cúng"
-                          >Xem thêm
-                          <i
-                            class="fa fa-angle-double-right"
-                            aria-hidden="true"
-                          ></i
-                        ></a>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </div>
             </div>
-          </div>
-        </section>
+        </div>
+    </div>
+</section>
 
 <section class="home-blogs">
     <div class="container">
@@ -8186,7 +7934,7 @@
                     </div>
                 </article>
                 @endforeach
-                
+
             </div>
         </div>
     </div>
