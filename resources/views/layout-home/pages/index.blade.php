@@ -7857,11 +7857,10 @@
     <div class="container">
         <div class="section-heading">
             <div class="box-header">
-            <h2 class="hTitle"><a href="{{route('blog.cate', ['tin-tuc'])}}">Bài Viết Mới Nhất</a></h2>
+                <h2 class="hTitle"><a href="{{route('blog.cate', ['tin-tuc'])}}">Bài Viết Mới Nhất</a></h2>
             </div>
         </div>
         @foreach($posts as $item)
-
         <div class="wrapper-content">
             <div class="listArticle-row owl-carousel owlCarousel-style" id="owlBlog-latest">
                 <article class="article-item">
@@ -7869,7 +7868,7 @@
                         <div class="article-item__image">
                             <div class="art-image">
                                 <a href="{{route('blog.detail', [$item->slug])}}" title="{{ @$item->title}}" aria-label="{{ @$item->title}}">
-                                    <img class="lazyload" data-src="../file.hstatic.net/200000796751/article/blog_baya_bq_giu_can_bep_gon_gan_0f15bf82cfa945c884efdc1b49de28ec_large.jpg" src="../file.hstatic.net/200000796751/article/blog_baya_bq_giu_can_bep_gon_gan_0f15bf82cfa945c884efdc1b49de28ec_large.jpg" alt="{{ @$item->title}}" />
+                                    <img class="lazyload" data-src="{{$item->photo}}" src="{{$item->photo}}" alt="{{ @$item->title}}" />
                                 </a>
                             </div>
                         </div>
@@ -7879,7 +7878,7 @@
                             </h3>
                             <div class="art-desc">
                                 <p>
-                                {{$item->description}}
+                                    {{$item->description}}
                                 </p>
                             </div>
                             <div class="art-meta">
@@ -7893,48 +7892,6 @@
                     </div>
                 </article>
                 @endforeach
-
-
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="home-blogs">
-    <div class="container">
-        <div class="section-heading">
-            <div class="box-header">
-                <h2 class="hTitle"><a href="{{route('blog.cate', ['tin-tuc'])}}">Bài Viết Mới Nhất</a></h2>
-            </div>
-        </div>
-        <div class="wrapper-content">
-            <div class="listArticle-row owl-carousel owlCarousel-style" id="owlBlog-latest">
-                @foreach($posts as $item)
-                <article class="article-item">
-                    <div class="article-item__block">
-                        <div class="article-item__image">
-                            <div class="art-image">
-                                <a href="{{route('blog.detail', [$item->slug])}}" title="{{ @$item->title}}" aria-label="{{ @$item->title}}">
-                                    <img class="lazyload" data-src="{{$item->photo}}" src="{{$item->photo}}" alt="{{ @$item->title}}" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="article-item__detail">
-                            <h3 class="art-title"><a href="{{route('blog.detail', [$item->slug])}}">{{ @$item->title}}</a></h3>
-                            <div class="art-desc">
-                                <p>{{$item->description}}</p>
-                            </div>
-                            <div class="art-meta">
-                                <div class="art-date">
-                                    <time datetime="2024-03-08">08 Tháng 03, 2024</time>
-                                </div>
-                                <a class="art-seemore" href="{{route('blog.detail', [$item->slug])}}" title="{{ @$item->title}}">Xem thêm <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                @endforeach
-
             </div>
         </div>
     </div>
