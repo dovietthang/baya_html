@@ -465,21 +465,21 @@
                                         </div>
                                         <div class="proloop-detail">
                                             <p class="proloop--vendor">
-                                                <a title="Show vendor" href="vendors2b50.html?q=daisy">{{$item->sku}}</a>
+                                                <a title="Show vendor" href="#">{{$item->sku}}</a>
                                             </p>
                                             <h3>
                                                 <a href="{{route('detail.product' , [$item->slug])}}" class="quickview-product" data-handle="{{route('detail.product' , [$item->slug])}}">{{$item->title}}</a>
                                             </h3>
-                                            @if($salePrice > 0 && $salePrice < $productSku->price)
-                                                <p class="proloop--price on-sale">
-                                                    <span class="price">{{number_format($salePrice, 0, 0,',')}}₫</span>
-                                                    <span class="price-del">{{number_format($productSku->price, 0, 0,',') }}₫</span>
-                                                    <span class="pro-percent">-{{$textSell}}</span>
-                                                </p>
+                                                @if($salePrice > 0 && $salePrice < $productSku->price)
+                                                    <p class="proloop--price on-sale">
+                                                        <span class="price">{{number_format($salePrice, 0, 0,',')}}₫</span>
+                                                        <span class="price-del">{{number_format($productSku->price, 0, 0,',') }}₫</span>
+                                                        <span class="pro-percent">-{{$textSell}}</span>
+                                                    </p>
                                                 @else
-                                                <p class="proloop--price on-sale">
-                                                    <span class="price">{{number_format($productSku->price, 0, 0,',') }}₫</span>
-                                                </p>
+                                                    <p class="proloop--price on-sale">
+                                                        <span class="price">{{number_format($productSku->price, 0, 0,',') }}₫</span>
+                                                    </p>
                                                 @endif
 
 

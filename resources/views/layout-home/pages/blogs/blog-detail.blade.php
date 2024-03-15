@@ -42,7 +42,7 @@
                                     <span class="author">bởi: {{$post->user->name}}</span>
                                     @endif
                                     <span class="date">
-                                        <time pubdate datetime="01 Tháng 03, 2024">{{@$post->created_at}}</time>
+                                        <time pubdate datetime="01 Tháng 03, 2024">{{ @$post->created_at? date('d/m/Y',strtotime($post->created_at)) : '--' }}</time>
                                     </span>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
 
                                                 <div class="article-post-meta">
                                                     <span class="date">
-                                                        <time pubdate datetime="{{@$item->created_at}}">{{@$item->created_at}}</time>
+                                                        <time pubdate datetime="{{ @$item->created_at? date('d/m/Y',strtotime($item->created_at)) : '--' }}">{{ @$item->created_at? date('d/m/Y',strtotime($item->created_at)) : '--' }}</time>
                                                     </span>
                                                 </div>
                                             </div>

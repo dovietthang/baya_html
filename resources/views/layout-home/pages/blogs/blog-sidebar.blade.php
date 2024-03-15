@@ -18,7 +18,7 @@
               <h3><a href="{{route('blog.detail', [$item->slug])}}">{{@$item->title}}</a></h3>
               <p class="post-meta">
                 <!-- <span class="cate">Nguồn cảm hứng</span> -->
-                <span class="date">{{@$item->created_at}}</span>
+                <span class="date">{{ @$item->created_at? date('d/m/Y',strtotime($item->created_at)) : '--' }}</span>
               </p>
             </div>
           </div>

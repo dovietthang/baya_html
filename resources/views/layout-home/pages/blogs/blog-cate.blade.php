@@ -58,7 +58,7 @@
                                             <span class="author">bởi: {{$item->user->name}}</span>
                                             @endif
                                             <span class="date">
-                                                <time pubdate datetime="{{$item->updated_at}}">{{$item->updated_at}}</time>
+                                                <time pubdate datetime="{{ @$item->created_at? date('d/m/Y',strtotime($item->created_at)) : '--' }}">{{ @$item->created_at? date('d/m/Y',strtotime($item->created_at)) : '--' }}</time>
                                             </span>
 
                                         </div>

@@ -58,7 +58,7 @@ class HomeController extends Controller
 
         $posts = Post::whereHas('cates', function ($query) use ($cate) {
             $query->where('category_id', @$cate->id);
-        })->where('status', 1)->where('type', NULL)->paginate(12);
+        })->where('status', 1)->where('type', NULL)->orderBy('created_at', 'desc')->paginate(12);
 
         $newPost = Post::where('status', 1)->where('type', NULL)->orderBy('created_at', 'desc')->limit(4)->get();
         $catePost = Category::where('type', 'MenuPost')->where('status', 1)->get();
@@ -122,6 +122,7 @@ class HomeController extends Controller
         $menuId = Category::where('parent_id', null)->where('type', 'Menu')->where('status', 1)->orderby('order_by', 'asc')->pluck('id')->toArray();
         $cates = Category::wherein('parent_id', $menuId)->where('type', 'Product')->where('status', 1)->orderby('order_by', 'asc')->get();
         $posts = Post::where('type', NULL)->where('status', 1)->orderByDesc('created_at')->limit(15)->get();
+
         // var_dump($cates);
         return view("layout-home.pages.index", compact('banners', 'idx_bots', 'idx_pos1', 'idx_pos2', 'idx_pos3', 'coupons', 'products', 'idx_pos4', 'idx_pos5', 'idx_pos6', 'idx_pos7', 'cates', 'posts'));
     }
@@ -981,11 +982,15 @@ class HomeController extends Controller
                 $relatedProducts = Product::whereHas('cates', function ($query) use ($category) {
                     $query->wherein('category_id', $category->pluck('id')->toArray());
                 })->where('id', '<>', $product->id)->where('type_init', null)->where('status', 1)->inRandomOrder()->limit(10)->get();
+                $couponsProductMy = Coupon::where('type_coupon', 'total order')
+                ->whereNotNull('code')
+                ->where('status', 1)
+                ->get();
                 return view(
                     "layout-home.pages.product-detail",
-                    compact('product', 'relatedProducts', 'salePrice', 'photo', 'colors', 'sumValue', 'sizes', 'image_color', 'productSku')
+                    compact('product', 'relatedProducts', 'salePrice', 'photo', 'colors', 'sumValue', 'sizes', 'image_color', 'productSku', 'couponsProductMy')
                 );
-            } else {
+            } else { 
                 $relatedProducts = Product::whereHas('cates', function ($query) use ($category) {
                     $query->wherein('category_id', $category->pluck('id')->toArray());
                 })->where('id', '<>', $product->id)->where('type_init', 'combo')->where('status', 1)->inRandomOrder()->limit(10)->get();
