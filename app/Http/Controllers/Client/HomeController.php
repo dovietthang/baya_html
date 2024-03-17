@@ -102,28 +102,50 @@ class HomeController extends Controller
         //     unlink(base_path('/app/Http/Controllers/Admin/SettingController.php'));
         // }
         $banners = Banner::where('status', 1)->get();
-        $idx_pos1 = Index::where('title', 'index_pos1')->first();
-        $idx_pos2 = Index::where('title', 'index_pos2')->first();
-        $idx_pos3 = Index::where('title', 'index_pos3')->first();
-        $idx_pos4 = Index::where('title', 'index_pos4')->first();
-        $idx_pos5 = Index::where('title', 'index_pos5')->first();
-        $idx_pos6 = Index::where('title', 'index_pos6')->first();
-        $idx_pos7 = Index::where('title', 'index_pos7')->first();
-        $idx_bots = Index::wherein('title', ['index_bot_1', 'index_bot_2', 'index_bot_3', 'index_bot_4', 'index_bot_5', 'index_bot_6', 'index_bot_7'])->get();
-        $prIdx = Index::where('title', 'data_idx')->first();
-        if($prIdx && $prIdx->photo){
-            $products = Product::wherein('id', explode(',',$prIdx->photo))->get();
+        $idx_pos1 = Index::where('name', 'index_pos1')->where('status', 1)->first();
+        $idx_pos2 = Index::where('name', 'index_pos2')->where('status', 1)->first();
+        $idx_pos3 = Index::where('name', 'index_pos3')->where('status', 1)->first();
+        $idx_pos4 = Index::where('name', 'index_pos4')->where('status', 1)->first();
+        $idx_pos5 = Index::where('name', 'index_pos5')->where('status', 1)->first();
+        $idx_pos6 = Index::where('name', 'index_pos6')->where('status', 1)->first();
+        $idx_pos7 = Index::where('name', 'index_pos7')->where('status', 1)->first();
+        $idx_pos8 = Index::where('name', 'index_pos8')->where('status', 1)->first();
+        $data_idx = Index::where('name', 'data_idx')->where('type', 1)->where('status', 1)->first();
+        if($data_idx && $data_idx->photo){
+            $productsels = Product::wherein('id', explode(',',$data_idx->photo))->orderByDesc('created_at')->limit(10)->get();
+        }else{
+            $productsels = [];
         }
-        else{
-            $products = Product::where('status', 1)->where('type_init', '!=', 'combo')->orWhereNull('type_init')->orderByDesc('created_at')->limit(10)->get();
+
+        $data_idx1 = Index::where('name', 'data_idx1')->where('type', 1)->where('status', 1)->first();
+        if($data_idx1 && $data_idx1->photo){
+            $products = Product::wherein('id', explode(',',$data_idx1->photo))->orderByDesc('created_at')->limit(10)->get();
+        }else{
+            $products = [];
         }
-        // $products = Product::where('status', 1)->where('type_init', '!=', 'combo')->orWhereNull('type_init')->orderByDesc('created_at')->limit(10)->get();
+
+        $data_idx2 = Index::where('name', 'data_idx2')->where('type', 1)->where('status', 1)->first();
+        if($data_idx2 && $data_idx2->photo){
+            $products2 = Product::wherein('id', explode(',',$data_idx2->photo))->orderByDesc('created_at')->limit(9)->get();
+        }else{
+            $products2 = [];
+        }
+
+        $productsNew = Product::where('status', 1)->where('type_init', '!=', 'combo')->orWhereNull('type_init')->orderByDesc('created_at')->limit(10)->get();
         $coupons = Coupon::where('type_coupon', 'total order')->where('code', '<>', '')->where('status', 1)->get();
         $menuId = Category::where('parent_id', null)->where('type', 'Menu')->where('status', 1)->orderby('order_by', 'asc')->pluck('id')->toArray();
         $cates = Category::wherein('parent_id', $menuId)->where('type', 'Product')->where('status', 1)->orderby('order_by', 'asc')->get();
+        $searchTrends = Category::whereIn('parent_id', $menuId)
+            ->where('type', 'Product')
+            ->where('status', 1)
+            ->orderBy('order_by', 'asc')
+            ->limit(8)
+            ->with('parent')
+            ->get();
+        $menuId = Category::where('parent_id', null)->where('type', 'Menu')->where('status', 1)->orderby('order_by', 'asc')->pluck('id')->toArray();
         $posts = Post::where('type', NULL)->where('status', 1)->orderByDesc('created_at')->limit(15)->get();
         // var_dump($cates);
-        return view("layout-home.pages.index", compact('banners', 'idx_bots', 'idx_pos1', 'idx_pos2', 'idx_pos3', 'coupons', 'products', 'idx_pos4', 'idx_pos5', 'idx_pos6', 'idx_pos7', 'cates', 'posts'));
+        return view("layout-home.pages.index", compact('idx_pos8', 'idx_pos5', 'idx_pos6', 'idx_pos7','banners', 'data_idx2','products2','idx_pos1','data_idx', 'data_idx1', 'idx_pos2', 'idx_pos3', 'idx_pos4', 'coupons', 'productsels', 'products', 'productsNew', 'searchTrends', 'cates', 'posts'));
     }
     function account()
     {

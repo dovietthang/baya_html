@@ -25,7 +25,7 @@
                             <div class="col-md-4 col-12">
                                 <div class="mb-1">
                                     <label class="form-label" for="title">{{__('title')}}</label>
-                                    <input disabled type="text" id="title" class="form-control"
+                                    <input type="text" id="title" name="title" class="form-control"
                                         value="{{$index->title}}" placeholder="new title" />
                                 </div>
                             </div>
@@ -36,6 +36,22 @@
                                         value="{{$index->url}}" placeholder="http://app/url" />
                                 </div>
                             </div>
+                            <div class="col-md-4 col-6">
+                                    <div class="mb-2">
+                                        <label class="form-label" for="name">{{__('Code')}}</label>
+                                        <input disabled type="text" id="name" class="form-control"
+                                        value="{{$index->name}}" placeholder="new name" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6" id="status-p">
+                                    <div class="mb-2">
+                                        <label class="form-label" for="status">{{__('Status')}}</label>
+                                        <select class="select2 form-select" name="status" id="status">
+                                            <option @if($index->status == 1) selected @endif value="1" >{{__('Active')}}</option>
+                                            <option @if($index->status == 0) selected @endif value="0" >{{__('Inactive')}}</option>
+                                        </select>
+                                    </div>
+                                </div>
                             <div class="col-md-6 col-12 mb-2">
                                 <span class="form-label">{{__('Photo')}}</span>
                                 <div class="border rounded p-1" style="height: 110px">

@@ -17,7 +17,7 @@
             </ul>
         </div>
     </div>
-</div>
+</div>logout.shop
 <script>
     $(document).ready(function(){
         $(document).on('click', '.title.block-collapsible-nav-title', function(){

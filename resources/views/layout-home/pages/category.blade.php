@@ -60,6 +60,7 @@
     })(window, document, "clarity", "script", "k8ossms4ac");
 </script>
 <!--End Clarity-->
+{{@$cate->childCate}}
 <div class="layout-collections">
     @if(@$lists)
     @include('layout-home.breadcrumbs', [$lists, $cate])

@@ -189,7 +189,12 @@ Route::group(['middleware' => 'lang'], function(){
         Route::get('index-update/{id}', [IndexController::class, 'edit'])->name('edit-index-home');
         Route::post('index-update/save', [IndexController::class, 'update'])->name('update-index-home');
         Route::get('get-product-new', [IndexController::class, 'getnewproduct']);
-        Route::post('save-product-new', [IndexController::class, 'saveProductnew']);
+        // Route::post('save-product-new', [IndexController::class, 'saveProductnew']);
+
+        //product option
+        Route::get('product-option-list', [IndexController::class, 'productOptionList'])->name('index-product-option');
+        Route::get('product-option/{id}', [IndexController::class, 'editProductOption'])->name('edit-product-option');
+        Route::post('product-option/save', [IndexController::class, 'saveProductnew'])->name('update-product-option');
     });
     Route::get('/', [HomeController::class, 'home'])->name('home');
     Route::post('/add-mail', [UserEmailController::class, 'addEmail'])->name('add.mail');

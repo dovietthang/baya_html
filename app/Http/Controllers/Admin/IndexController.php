@@ -19,49 +19,109 @@ class IndexController extends Controller
             ['link' => route('dashboard'), 'name' => __('Dashboard')],
             ['link' => 'javascript:void()', 'name' => __('Index')],
         ];
-        $idxPr = Index::where('title', 'data_idx')->first();
-        $products = Product::wherein('id', $idxPr && $idxPr->photo ? explode(',',$idxPr->photo) : [])->get();
         if ($rq->ajax()) {
             $rq->pagenum ? $numpage = $rq->pagenum : $numpage;
             if ($rq->search) {
-                $indexs = Index::where('title', 'like', '%' . $rq->search . '%')->orderBy('id', 'desc')->paginate($numpage);
+                $indexs = Index::where('title', 'like', '%' . $rq->search . '%')->whereNull('type')->orderBy('id', 'desc')->paginate($numpage);
             } else {
-                $indexs = Index::orderBy('id', 'desc')->paginate($numpage);
+                $indexs = Index::orderBy('id', 'desc')->whereNull('type')->paginate($numpage);
             }
             return view('layout-admin.pages.homes.ajax-filter')->with('indexs', $indexs)->render();
         } else {
-            $indexs = Index::orderBy('id', 'desc')->paginate($numpage);
-            return view('layout-admin.pages.homes.index', compact('indexs', 'products', 'breadcrumb'));
+            $indexs = Index::orderBy('id', 'desc')->whereNull('type')->paginate($numpage);
+            return view('layout-admin.pages.homes.index', compact('indexs', 'breadcrumb'));
         }
     }
-    public function getnewproduct(Request $rq){
-        $ids = [];
-        if ($rq->ids){
-            $ids = $rq->ids;
+
+
+    public function productOptionList(Request $rq)
+    {
+        $numpage = 5;
+        $breadcrumb = [
+            ['link' => route('dashboard'), 'name' => __('Dashboard')],
+            ['link' => 'javascript:void()', 'name' => __('Index')],
+        ];
+        $idxPr = Index::where('type', 1)->first();
+        $products = Product::wherein('id', $idxPr && $idxPr->photo ? explode(',', $idxPr->photo) : [])->get();
+        if ($rq->ajax()) {
+            $rq->pagenum ? $numpage = $rq->pagenum : $numpage;
+            if ($rq->search) {
+                $indexs = Index::where('title', 'like', '%' . $rq->search . '%')->where('type', 1)->orderBy('id', 'desc')->paginate($numpage);
+            } else {
+                $indexs = Index::orderBy('id', 'desc')->where('type', 1)->paginate($numpage);
+            }
+            return view('layout-admin.pages.products-option.ajax-filter')->with('indexs', $indexs)->render();
+        } else {
+            $indexs = Index::orderBy('id', 'desc')->where('type', 1)->paginate($numpage);
+            return view('layout-admin.pages.products-option.index', compact('indexs', 'products', 'breadcrumb'));
         }
-        $result = Product::where('type_init', NULL)->whereNotIn('id', $ids)->where('title', 'like', '%'.$rq->search.'%')->orderBy('id', 'desc')->select('title', 'id')->limit(10)->get();
-        return response()->json(
-            $result
-        );
     }
-    public function saveProductnew(Request $rq){
-        $newData = Index::where('title', 'data_idx')->first();
-        if(!$newData){
-            $newData = new Index();
-            $newData->title = 'data_idx';
-            $newData->photo = $rq->ids ? implode(',', $rq->ids) : NULL;
-            $newData->save();
+
+    // public function editProductOption(Request $rq)
+    // {
+    //     $numpage = 5;
+    //     $breadcrumb = [
+    //         ['link' => route('dashboard'), 'name' => __('Dashboard')],
+    //         ['link' => 'javascript:void()', 'name' => __('Index')],
+    //     ];
+    //     $idxPr = Index::where('title', 'data_idx')->first();
+    //     $products = Product::wherein('id', $idxPr && $idxPr->photo ? explode(',',$idxPr->photo) : [])->get();
+    //     if ($rq->ajax()) {
+    //         $rq->pagenum ? $numpage = $rq->pagenum : $numpage;
+    //         if ($rq->search) {
+    //             $indexs = Index::where('title', 'like', '%' . $rq->search . '%')->where('title', 'data_idx')->where('type', 1)->orderBy('id', 'desc')->paginate($numpage);
+    //         } else {
+    //             $indexs = Index::orderBy('id', 'desc')->where('title', 'data_idx')->where('type', 1)->paginate($numpage);
+    //         }
+    //         return view('layout-admin.pages.products-option.ajax-filter')->with('indexs', $indexs)->render();
+    //     } else {
+    //         $indexs = Index::orderBy('id', 'desc')->where('title', 'data_idx')->where('type', 1)->paginate($numpage);
+    //         return view('layout-admin.pages.products-option.index', compact('indexs', 'products', 'breadcrumb'));
+    //     }
+    // }
+
+    public function editProductOption($id)
+    {
+        if ($id) {
+            $breadcrumb = [
+                ['link' => route('dashboard'), 'name' => __('Dashboard')],
+                ['link' => route('index-product-option'), 'name' => __('Index')],
+                ['link' => 'javascript:void()', 'name' => __('Edit')]
+            ];
+            $index = Index::find($id);
+            $products = Product::wherein('id', $index && $index->photo ? explode(',', $index->photo) : [])->get();
+            return view('layout-admin.pages.products-option.edit', compact('index', 'breadcrumb', 'products'));
         }
-        else{
-            $newData->photo = $rq->ids ? implode(',', $rq->ids) : NULL;
-            $newData->save();
-        }
+    }
+
+    public function saveProductnew(Request $rq)
+    {
+
+        // return response()->json([$rq->photo]);
+        $index = Index::find($rq->id);
+        $index->title = $rq->title;
+        $index->status = $rq->status;
+        $index->photo = $rq->photo ? implode(',', $rq->photo) : NULL;
+        // var_dump($rq);
+        $index->save();
         return response()->json([
             "type" => 'update',
             'success' => true,
             'message' => __('Update') . ' ' . __('success') . ' !'
         ]);
     }
+    public function getnewproduct(Request $rq)
+    {
+        $ids = [];
+        if ($rq->ids) {
+            $ids = $rq->ids;
+        }
+        $result = Product::where('type_init', NULL)->whereNotIn('id', $ids)->where('title', 'like', '%' . $rq->search . '%')->orderBy('id', 'desc')->select('title', 'id')->limit(10)->get();
+        return response()->json(
+            $result
+        );
+    }
+
     public function edit($id)
     {
         if ($id) {
@@ -84,6 +144,8 @@ class IndexController extends Controller
             $index->photo = $rq->photo;
             $index->photo2 = $rq->photo2;
             $index->url = $rq->link;
+            $index->title = $rq->title;
+            $index->status = $rq->status;
             $index->save();
             return response()->json([
                 "type" => 'update',

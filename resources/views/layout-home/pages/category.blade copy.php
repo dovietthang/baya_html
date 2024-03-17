@@ -265,7 +265,7 @@
                             @endif
                             @endforeach
                         </ol>
-                    </div>
+                    </div> 
 
                     <div class="toolbar toolbar-products">
                         @if(count($products) > 0)
