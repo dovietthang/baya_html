@@ -537,37 +537,50 @@
                                     </div>
                                 </div>
                                 <script>
-                                        // Gắn sự kiện click vào nút button với id là "executeButton"
-                                        $("#executeButton").click(function() {
-                                            // Thực thi lệnh khi click vào nút button
-                                            $("#content-slider-{{$item->id}}").lightSlider({
-                                                loop: true,
-                                                keyPress: true
-                                            });
-                                            $('#image-gallery-{{$item->id}}').lightSlider({
-                                                gallery: true,
-                                                item: 1,
-                                                thumbItem: 9,
-                                                slideMargin: 0,
-                                                speed: 500,
-                                                auto: true,
-                                                loop: true,
-                                            });
+                                    // Gắn sự kiện click vào nút button với id là "executeButton"
+                                    $("#executeButton").click(function() {
+                                        // Thực thi lệnh khi click vào nút button
+                                        $("#content-slider-{{$item->id}}").lightSlider({
+                                            loop: true,
+                                            keyPress: true
                                         });
+                                        $('#image-gallery-product-{{$item->id}}').lightSlider({
+                                            gallery: true,
+                                            item: 1,
+                                            thumbItem: 6,
+                                            slideMargin: 0,
+                                            speed: 500,
+                                            auto: true,
+                                            loop: true,
+                                        });
+                                    });
+
 
                                     $(document).ready(function() {
                                         $("#content-slider-{{$item->id}}").lightSlider({
                                             loop: true,
                                             keyPress: true
                                         });
-                                        $('#image-gallery-{{$item->id}}').lightSlider({
+                                        $('#image-gallery-product-{{$item->id}}').lightSlider({
                                             gallery: true,
                                             item: 1,
-                                            thumbItem: 9,
                                             slideMargin: 0,
                                             speed: 500,
-                                            auto: true,
+                                            auto: false,
                                             loop: true,
+                                            vertical: false,
+                                            verticalHeight: 500,
+                                            vThumbWidth: 100,
+                                            addClass: 'product-thumb__item',
+                                            useCSS: true,
+                                            thumbItem: 6,
+                                            pager: true,
+                                            gallery: false,
+                                            galleryMargin: 5,
+                                            thumbMargin: 5,
+                                            currentPagerPosition: 'middle',
+                                            prevHtml: "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-left' viewBox='0 0 16 16'> <path fill - rule = 'evenodd' d = 'M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0' /> </svg>",
+                                            nextHml: "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-right' viewBox='0 0 16 16'> <path fill - rule = 'evenodd' d = 'M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708' /></svg>",
                                         });
                                     });
                                 </script>
@@ -587,47 +600,164 @@
                                             <div class="modal-body modal-detailProduct">
                                                 <div class="productDetail-information">
                                                     <div class="productDetail--gallery">
-                                                        <div class="d-block" style="    width: 500px; height: 500px;">
-                                                            <ul id="image-gallery-{{$item->id}}" class="content-slider">
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-2.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-2.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-3.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-3.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-4.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-4.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-5.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-5.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-6.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-6.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-7.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-7.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-8.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-8.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-9.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-9.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-10.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-10.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-11.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-12.jpg" />
-                                                                </li>
-                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-13.jpg">
-                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-13.jpg" />
-                                                                </li>
-                                                            </ul>
+                                                        <div class="product-container-gallery">
+
+                                                            <div class="wrapbox-image">
+
+                                                                <ul class="quickview-sliderproduct owl-carousel owl-loaded owl-drag" id="image-gallery-product-{{$item->id}}">
+                                                                    <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                        <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                    </li>
+                                                                    <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                        <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                    </li>
+                                                                    <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                        <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                    </li>
+                                                                    <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                        <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                    </li>
+                                                                    <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                        <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                    </li>
+                                                                    <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                        <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                    </li>
+                                                                    <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                        <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                    </li>
+                                                                    <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                        <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                    </li>
+
+                                                                    <!-- <div class="owl-item active" style="width: 397px;">
+                                                                                <li class="product-gallery" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_master.jpg">
+                                                                                    <a class="gallery-item" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_master.jpg">
+                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_master.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                                    </a>
+                                                                                </li>
+                                                                            </div> -->
+                                                                </ul>
+                                                                <!-- <ul class="quickview-sliderthumb owl-carousel owl-loaded owl-drag" id="quickview-thumbproduct">
+                                                                    <div class="owl-stage-outer">
+                                                                        <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 357px;">
+                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
+                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000574_1_e7eb284fa5ab433c9d97a17f0d58f203_compact.jpg">
+                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
+                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000574_1_e7eb284fa5ab433c9d97a17f0d58f203_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                                    </a>
+                                                                                </li>
+                                                                            </div>
+                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
+                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000575_1_07473a4c913e44d18a33f0cccdd020dd_compact.jpg">
+                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
+                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000575_1_07473a4c913e44d18a33f0cccdd020dd_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                                    </a>
+                                                                                </li>
+                                                                            </div>
+                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
+                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000575_2_3303da2e6a3442dbb7124eea57bc5a4a_compact.jpg">
+                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
+                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000575_2_3303da2e6a3442dbb7124eea57bc5a4a_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                                    </a>
+                                                                                </li>
+                                                                            </div>
+                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
+                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000576_ad9a2a22607b4f8ca084944ed33adbbf_compact.jpg">
+                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
+                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000576_ad9a2a22607b4f8ca084944ed33adbbf_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                                    </a>
+                                                                                </li>
+                                                                            </div>
+                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
+                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_1_4ee4805e62514375ab101749d3baee6c_compact.jpg">
+                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
+                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_1_4ee4805e62514375ab101749d3baee6c_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                                    </a>
+                                                                                </li>
+                                                                            </div>
+                                                                            <div class="owl-item active current" style="width: 54.351px; margin-right: 5px;">
+                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_compact.jpg">
+                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
+                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
+                                                                                    </a>
+                                                                                </li>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
+                                                                    <div class="owl-dots disabled"></div>
+                                                                </ul> -->
+
+                                                            </div>
+
+
+                                                            <div class="product-percent"><span class="pro-sale">-30%<br> OFF </span></div>
+
                                                         </div>
                                                     </div>
+                                                    <!-- <div class="productDetail--gallery">
+                                                        <div class="d-block">
+                                                            <div class="lSSlideOuter">
+                                                                <div class="lSSlideWrapper usingCss" style="transition-duration: 500ms; transition-timing-function: ease;">
+                                                                    <ul id="image-gallery-product-{{$item->id}}" class="content-slider lightSlider lsGrab lSSlide" style=" transform: translate3d(-4788px, 0px, 0px);  padding-bottom: 0%;">
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-2.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-2.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-3.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-3.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-4.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-4.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-5.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-5.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-6.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-6.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-7.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-7.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-8.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-8.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-9.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-9.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-10.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-10.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-11.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-12.jpg" />
+                                                                        </li>
+                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-13.jpg">
+                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-13.jpg" />
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div class="lSAction"><a class="lSPrev"></a><a class="lSNext"></a></div>
+                                                                </div>
+                                                                <ul class="lSPager lSGallery" style="margin-top: 5px; transition-duration: 500ms; width: 539.167px; transform: translate3d(-135.167px, 0px, 0px);">
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-2.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-3.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-4.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-5.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-6.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-7.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-8.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-9.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-10.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-11.jpg"></a></li>
+                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class="active"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-13.jpg"></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div> -->
+
                                                     <div class="productDetail--content">
                                                         <div class="wrapbox-detail">
                                                             <div class="product-heading">
