@@ -100,6 +100,12 @@
                                 class="menu-title text-truncate">{{__('Product')}}</span></a>
                     </li>
                     <li
+                        class=" nav-item @if(request()->routeIs('index-product-option') || request()->routeIs('edit-product-option') || request()->routeIs('update-product-option')) active @endif">
+                        <a class="d-flex align-items-center" href="{{route('index-product-option')}}"><i
+                                data-feather="grid"></i><span
+                                class="menu-title text-truncate">{{__('Product')}} tùy chọn </span></a>
+                    </li>
+                    <li
                         class=" nav-item @if(request()->routeIs('index-post') || request()->routeIs('add-post') || request()->routeIs('edit-post')) active @endif">
                         <a class="d-flex align-items-center" href="{{route('index-post')}}"><i
                                 data-feather="file-text"></i><span

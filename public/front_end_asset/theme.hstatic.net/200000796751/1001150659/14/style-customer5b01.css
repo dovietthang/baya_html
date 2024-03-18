@@ -29,6 +29,7 @@
 .customers_accountForm .icon-field {display:none;}
 .customers_accountForm input[type=email],
 .customers_accountForm input[type=password],
+.customers_accountForm input[type=date],
 .customers_accountForm input[type=text]{
 	width: 100%;
 	height: 55px;	padding:5px 20px;

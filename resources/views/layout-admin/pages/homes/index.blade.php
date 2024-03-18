@@ -36,9 +36,7 @@
                                 <label class="ps-1">{{ __('entries') }}</label>
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
-                            <button type="submit" class="btn btn-primary me-1" id="btn-sav-index">{{__('Lưu sản phẩm')}}</button>
-                        </div>
+       
                         <div class="col-12 col-md-3">
                             <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                 <label class="d-flex justify-content-end align-items-center">{{ __('Search') }}:<input
@@ -47,18 +45,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12 col-12">
-                            <div class="mb-2">
-                                <label class="form-label" for="items">{{__('Hiển thị sản phẩm mới')}}</label>
-                                    <select class="select2 form-select" name="items[]" id="items" multiple>
-                                        @if(count($products) > 0)
-                                            @foreach($products as $item)
-                                                <option value="{{$item->id}}" selected>{{$item->title}}</option>
-                                            @endforeach
-                                        @endif
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="showPage">
                         <table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0"
@@ -86,6 +73,10 @@
                                     <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                         style="width: 261px;" aria-label="Email: activate to sort column ascending">
                                         {{ __('Url') }}
+                                    </th>
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 93px;"
+                                        aria-label="Status: activate to sort column ascending">{{__('Status')}}
                                     </th>
                                     <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 68px;"
                                         aria-label="Actions">{{ __('Actions') }}
@@ -120,6 +111,13 @@
                                     </td>
                                     <td>{{ $index->title }}</td>
                                     <td>{{ $index->url }}</td>
+                                    <td>
+                                        @if ($index->status == 0)
+                                        <span class="text-danger">{{__('Inactive')}}</span>
+                                        @else
+                                        <span class="text-success">{{__('Active')}}</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <a href="{{ route('edit-index-home', [$index->id]) }}" class="item-edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
