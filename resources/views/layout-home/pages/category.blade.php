@@ -60,7 +60,12 @@
     })(window, document, "clarity", "script", "k8ossms4ac");
 </script>
 <!--End Clarity-->
-{{@$cate->childCate}}
+<link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/lightslider.css')}}" as="style">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{asset('/front_end_asset/style/js/lightslider.js')}}"></script>
+
+
+
 <div class="layout-collections">
     @if(@$lists)
     @include('layout-home.breadcrumbs', [$lists, $cate])
@@ -407,6 +412,7 @@
                             </div>
                         </div>
                         <div class="wraplist-collection">
+
                             <div class="row listProduct-row listProduct-filter">
 
                                 @foreach ($products as $item)
@@ -433,13 +439,13 @@
                                 $photo_2 = $productSku_2->photo ? $productSku_2->photo : $item->photo;
                                 }
                                 @endphp
-                                <div class="col-lg-cus5 col-md-6 col-6 product-loop" data-id="1114784731">
-                                    <div class="product-inner" data-proid="1051036516" id="collection_loop_1">
+                                <div class="col-lg-3 col-md-6 col-6 product-loop" data-id="{{$item->id}}">
+                                    <div class="product-inner" data-proid="{{$item->id}}" id="collection_loop_1">
                                         <div class="proloop-image">
                                             @if($salePrice > 0 && $salePrice < $productSku->price)
                                                 <div class="pro-sale"><span>-{{$textSell}}</span></div>
                                                 @endif
-                                                <div class="gift product_gift_label d-none" data-id="1051036516">
+                                                <div class="gift product_gift_label d-none" data-id="{{$item->id}}">
                                                     <img class="lazyload" data-src="{{$photo}}" src="{{$photo}}" alt="icon quà tặng" />
                                                 </div>
 
@@ -471,23 +477,23 @@
                                             <h3>
                                                 <a href="{{route('detail.product' , [$item->slug])}}" class="quickview-product" data-handle="{{route('detail.product' , [$item->slug])}}">{{$item->title}}</a>
                                             </h3>
-                                                @if($salePrice > 0 && $salePrice < $productSku->price)
-                                                    <p class="proloop--price on-sale">
-                                                        <span class="price">{{number_format($salePrice, 0, 0,',')}}₫</span>
-                                                        <span class="price-del">{{number_format($productSku->price, 0, 0,',') }}₫</span>
-                                                        <span class="pro-percent">-{{$textSell}}</span>
-                                                    </p>
+                                            @if($salePrice > 0 && $salePrice < $productSku->price)
+                                                <p class="proloop--price on-sale">
+                                                    <span class="price">{{number_format($salePrice, 0, 0,',')}}₫</span>
+                                                    <span class="price-del">{{number_format($productSku->price, 0, 0,',') }}₫</span>
+                                                    <span class="pro-percent">-{{$textSell}}</span>
+                                                </p>
                                                 @else
-                                                    <p class="proloop--price on-sale">
-                                                        <span class="price">{{number_format($productSku->price, 0, 0,',') }}₫</span>
-                                                    </p>
+                                                <p class="proloop--price on-sale">
+                                                    <span class="price">{{number_format($productSku->price, 0, 0,',') }}₫</span>
+                                                </p>
                                                 @endif
 
 
-                                                <div class="proloop-actions" data-vrid="1114784731">
+                                                <div class="proloop-actions" data-vrid="{{$item->id}}">
                                                     <div class="proloop-actions__inner">
                                                         <div class="actions-primary">
-                                                            <button type="submit" class="btn-proloop-cart add-to-cart btn-addcart-view" onclick="HRT.All.addCartProdItem('1114784731')">
+                                                            <button id="executeButton" type="submit" class="btn-proloop-cart add-to-cart btn-addcart-view" data-toggle="modal" data-target="#quick-view-modal">
                                                                 <span class="btnadd"> Thêm vào giỏ </span>
                                                                 <span class="btnico" title="Thêm vào giỏ">
                                                                     <svg class="btnico-first" version="1.0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -499,15 +505,15 @@
                                                                 </span>
                                                             </button>
                                                         </div>
-                                                        <div class="actions-boxqty d-flex">
+                                                        <!-- <div class="actions-boxqty d-flex">
                                                             <div class="actions-wrapqty d-flex">
-                                                                <button class="qty-btn proloop-minus" onclick="HRT.All.minusQtyProdItem('1114784731')">
+                                                                <button class="qty-btn proloop-minus" >
                                                                     <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                                         <rect height="1" width="18" y="9" x="1"></rect>
                                                                     </svg>
                                                                 </button>
                                                                 <input class="proloop-value" type="text" readonly="" name="proloop-quantity" value="" />
-                                                                <button class="qty-btn proloop-plus" onclick="HRT.All.plusQtyProdItem('1114784731')">
+                                                                <button class="qty-btn proloop-plus" >
                                                                     <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                                         <rect x="9" y="1" width="1" height="17"></rect>
                                                                         <rect x="1" y="9" width="17" height="1"></rect>
@@ -515,7 +521,7 @@
                                                                 </button>
                                                             </div>
                                                             <div class="actions-icon">
-                                                                <span class="btnico" onclick="HRT.All.addCartProdItem('1114784731')" title="Thêm vào giỏ">
+                                                                <span class="btnico" title="Thêm vào giỏ">
                                                                     <svg version="1.0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                                                                         <g transform="translate(0 512) scale(.1 -.1)">
                                                                             <path d="m2371 5100c-150-40-306-141-387-248l-35-48-492-58c-271-32-501-63-512-69-31-16-44-39-45-75 0-32 54-516 64-573 5-25 3-27-44-31-27-3-56-11-65-18s-78-117-155-245l-139-232-86-1660c-47-913-85-1692-85-1730 0-60 3-73 23-91l23-22h2125 2126l21 23c18 19 22 35 22 92 0 37-38 815-85 1728l-86 1660-139 232c-77 128-147 238-156 246-11 9-49 15-106 18-86 3-90 4-84 25 3 11 18 74 33 138 29 128 26 152-19 182-13 8-190 54-393 101-204 47-380 90-391 94-14 6-24 22-28 45-11 60-92 208-153 281-76 91-209 181-324 220-73 25-102 29-219 32-111 2-148-1-209-17zm318-176c139-34 279-140 353-265 21-34 36-64 34-66s-51 8-110 22c-113 28-152 27-180-4-8-9-34-96-56-192-23-95-43-182-46-191-4-14-72-44-80-35-1 1-19 139-39 306-19 167-40 311-44 320-21 39-55 45-163 33-56-7-103-10-106-7-8 8 127 68 183 81 72 18 178 17 254-2zm-329-258c0-2 14-117 30-256 17-139 27-256 23-260s-190-51-413-104c-308-74-410-102-427-118-31-29-30-70 7-220 17-67 30-128 30-135 0-10-45-13-203-13h-203l-56 478c-31 262-56 478-55 478 1 1 283 36 627 77s628 75 633 76c4 0 7-1 7-3zm1105-357c242-56 444-105 449-110 6-5-20-134-64-324l-74-315h-246-246l-82 343c-72 301-85 345-107 365-31 26-65 28-147 6-33-8-61-14-63-12-1 2 7 42 18 89l20 86 51-13c28-7 249-58 491-115zm-495-226c0-5 27-120 60-257 33-136 60-252 60-257s-276-9-643-9h-642l-28 117c-15 64-26 117-24 119 2 1 1194 291 1210 293 4 0 7-2 7-6zm-1980-282c0-9 14-119 25-203l5-38h-100c-55 0-100 3-100 6 0 18 145 244 156 244 8 0 14-4 14-9zm3239-110c39-66 71-122 71-125s-74-6-165-6-165 3-165 8c0 4 12 60 27 125l27 117h67 66l72-119zm155-373c3-35 40-733 81-1553s76-1511 78-1537l4-48h-1987-1987l4 48c2 26 37 717 78 1537s78 1518 81 1553l6 62h1818 1818l6-62z" />
@@ -524,9 +530,421 @@
                                                                     </svg>
                                                                 </span>
                                                             </div>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                        // Gắn sự kiện click vào nút button với id là "executeButton"
+                                        $("#executeButton").click(function() {
+                                            // Thực thi lệnh khi click vào nút button
+                                            $("#content-slider-{{$item->id}}").lightSlider({
+                                                loop: true,
+                                                keyPress: true
+                                            });
+                                            $('#image-gallery-{{$item->id}}').lightSlider({
+                                                gallery: true,
+                                                item: 1,
+                                                thumbItem: 9,
+                                                slideMargin: 0,
+                                                speed: 500,
+                                                auto: true,
+                                                loop: true,
+                                            });
+                                        });
+
+                                    $(document).ready(function() {
+                                        $("#content-slider-{{$item->id}}").lightSlider({
+                                            loop: true,
+                                            keyPress: true
+                                        });
+                                        $('#image-gallery-{{$item->id}}').lightSlider({
+                                            gallery: true,
+                                            item: 1,
+                                            thumbItem: 9,
+                                            slideMargin: 0,
+                                            speed: 500,
+                                            auto: true,
+                                            loop: true,
+                                        });
+                                    });
+                                </script>
+
+                                <div id="quick-view-modal" class="modal fade modal-product-quickview show" aria-modal="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content wrapper-quickview">
+
+                                            <div class="modal-header modal-paramlink">
+                                                <div class="modal-close quickview-close" data-dismiss="modal" aria-label="Close">
+                                                </div>
+                                                <div class="paramlink-topbar text-center">
+                                                    <h4 class="purl-title"><span>Chăn Sofa BELLA</span></h4>
+                                                    <p class="purl-link">baya.vn</p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body modal-detailProduct">
+                                                <div class="productDetail-information">
+                                                    <div class="productDetail--gallery">
+                                                        <div class="d-block" style="    width: 500px; height: 500px;">
+                                                            <ul id="image-gallery-{{$item->id}}" class="content-slider">
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-2.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-2.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-3.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-3.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-4.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-4.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-5.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-5.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-6.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-6.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-7.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-7.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-8.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-8.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-9.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-9.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-10.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-10.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-11.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-12.jpg" />
+                                                                </li>
+                                                                <li data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-13.jpg">
+                                                                    <img src="http://sachinchoolur.github.io/lightslider/img/cS-13.jpg" />
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="productDetail--content">
+                                                        <div class="wrapbox-detail">
+                                                            <div class="product-heading">
+                                                                <h2>Chăn Sofa BELLA</h2>
+
+                                                                <span class="pro_sku">Mã sản phẩm: <strong>2000560</strong></span>
+
+                                                                <span class="pro-soldold">Tình trạng:
+
+                                                                    <strong>Còn hàng</strong>
+
+                                                                </span>
+                                                                <span class="pro-vendor">Thương hiệu: <strong><a title="Show vendor" href="/collections/vendors?q=bella">BELLA</a></strong></span>
+                                                            </div>
+                                                            <div class="product-price" id="price-preview-quickview"><span class="pro-title">Giá: </span><span class="pro-price">139,000₫</span><del>199,000₫</del><span class="pro-percent">-30%</span></div>
+
+
+                                                            <div class="product-variants">
+                                                                <form id="add-item-form-quickview" action="/cart/add" method="post" class="variants clearfix">
+                                                                    <div class="select clearfix">
+                                                                        <div class="selector-wrapper"><label for="product-select-quickview-option-0">Màu sắc</label><select class="single-option-selector" data-option="option1" id="product-select-quickview-option-0">
+                                                                                <option value="Hồng">Hồng</option>
+                                                                                <option value="Tím">Tím</option>
+                                                                                <option value="Xanh lá cây">Xanh lá cây</option>
+                                                                            </select></div>
+                                                                        <div class="selector-wrapper"><label for="product-select-quickview-option-1">Kích thước</label><select class="single-option-selector" data-option="option2" id="product-select-quickview-option-1">
+                                                                                <option value="D152xR102">D152xR102</option>
+                                                                            </select></div><select id="product-select-quickview" name="id" style="display:none;">
+
+                                                                            <option value="1114835122">Hồng / D152xR102 - 139,000₫</option>
+
+                                                                            <option value="1114835123">Tím / D152xR102 - 139,000₫</option>
+
+                                                                            <option value="1114835124">Xanh lá cây / D152xR102 - 139,000₫</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="select-swatch clearfix">
+
+
+
+                                                                        <div id="variant-swatch-0-quickview" class="swatch clearfix" data-option="option1" data-option-index="0">
+                                                                            <div class="title-swap header">Màu sắc: <strong>Hồng</strong></div>
+                                                                            <div class="select-swap">
+
+
+
+
+
+
+
+
+                                                                                <div data-value="Hồng" class="n-sd swatch-element color hong  ">
+                                                                                    <input class="variant-0" id="swatch-0-hong-quickview" type="radio" name="option1" value="Hồng" data-vhandle="hong" checked="">
+
+
+                                                                                    <label class="hong sd" for="swatch-0-hong-quickview">
+                                                                                        <span>Hồng</span>
+                                                                                    </label>
+
+                                                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                <div data-value="Tím" class="n-sd swatch-element color tim  ">
+                                                                                    <input class="variant-0" id="swatch-0-tim-quickview" type="radio" name="option1" value="Tím" data-vhandle="tim">
+
+
+                                                                                    <label class="tim" for="swatch-0-tim-quickview">
+                                                                                        <span>Tím</span>
+                                                                                    </label>
+
+                                                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                <div data-value="Xanh lá cây" class="n-sd swatch-element color xanh-la-cay  ">
+                                                                                    <input class="variant-0" id="swatch-0-xanh-la-cay-quickview" type="radio" name="option1" value="Xanh lá cây" data-vhandle="xanh-la-cay">
+
+
+                                                                                    <label class="xanh-la-cay" for="swatch-0-xanh-la-cay-quickview">
+                                                                                        <span>Xanh lá cây</span>
+                                                                                    </label>
+
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        <div id="variant-swatch-1-quickview" class="swatch clearfix" data-option="option2" data-option-index="1">
+                                                                            <div class="title-swap header">Kích thước: </div>
+                                                                            <div class="select-swap">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                <div data-value="D152xR102" class="n-sd swatch-element d152xr102">
+                                                                                    <input class="variant-1" id="swatch-1-d152xr102-quickview" type="radio" name="option2" value="D152xR102" data-vhandle="d152xr102" checked="">
+
+                                                                                    <label for="swatch-1-d152xr102-quickview" class="sd">
+                                                                                        <span>D152xR102</span>
+                                                                                    </label>
+
+                                                                                </div>
+
+
+
+
+
+
+
+
+                                                                            </div>
+                                                                        </div>
+
+
+
+
+
+
+
+
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+
+                                                            <div class="product-appxy">
+
+                                                                <div class="product-buyxgety q-selector-buyxgety d-none">
+                                                                    <div id="buyxgety-program">
+                                                                        <div class="buyxgety-heading">
+                                                                            <h3>Các sản phẩm được tặng kèm</h3>
+                                                                            <p>Chọn 1 trong các loại quà tặng</p>
+                                                                        </div>
+                                                                        <div id="buyxgety-product-list" data-id="1051064533" data-title="Chăn Sofa BELLA">
+                                                                            <div class="buyxgety_content clearfix">
+                                                                                <div class="buyxgety_lists"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="product-viewaction quickview-toolbarproduct" id="toolbarProduct">
+                                                                <div class="productToolbar-addcart">
+                                                                    <div class="product-actions">
+                                                                        <div class="block-quantity quantity-selector ">
+                                                                            <div class="quantity-title">Số lượng:</div>
+                                                                            <button type="button" onclick="HRT.Quickview.minusQtyView()" class="qty-btn">
+                                                                                <svg focusable="false" class="icon icon--minus " viewBox="0 0 10 2" role="presentation">
+                                                                                    <path d="M10 0v2H0V0z"></path>
+                                                                                </svg>
+                                                                            </button>
+                                                                            <input type="text" id="quickview-qtyvalue" name="quantity" value="1" min="1" class="quickview-qtyvalue quantity-number">
+                                                                            <button type="button" onclick="HRT.Quickview.plusQtyView()" class="qty-btn">
+                                                                                <svg focusable="false" class="icon icon--plus " viewBox="0 0 10 10" role="presentation">
+                                                                                    <path d="M6 4h4v2H6v4H4V6H0V4h4V0h2v4z"></path>
+                                                                                </svg>
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div class="block-addcart">
+                                                                            <button type="button" id="add-to-cartQuickview" data-pid="1051064533" class="add-to-cartProduct button dark btn-addtocart addtocart-modal btnred" name="add"><span>Thêm vào giỏ</span></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-toshare">
+                                                                <span>Chia sẻ: </span>
+                                                                <a href="//www.facebook.com/sharer/sharer.php?u=https://baya.vn/products/chan-sofa-bella" target="_blank" class="share-facebook">
+                                                                    <i class="fa fa-facebook"></i>
+                                                                </a>
+                                                                <a href="https://m.me/297692681125169" target="_blank" rel="noreferrer" aria-label="messenger" class="share-messenger">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28">
+                                                                        <g fill="none" fill-rule="evenodd">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <g>
+                                                                                            <g>
+                                                                                                <g transform="translate(-293.000000, -708.000000) translate(180.000000, 144.000000) translate(16.000000, 16.000000) translate(0.000000, 548.000000) translate(61.000000, 0.000000) translate(36.000000, 0.000000)">
+                                                                                                    <circle cx="14" cy="14" r="14" fill="#0084FF"></circle>
+                                                                                                    <path fill="#FFF" d="M14.848 15.928l-1.771-1.9-3.457 1.9 3.802-4.061 1.815 1.9 3.414-1.9-3.803 4.061zM14.157 7.2c-3.842 0-6.957 2.902-6.957 6.481 0 2.04 1.012 3.86 2.593 5.048V21.2l2.368-1.308c.632.176 1.302.271 1.996.271 3.842 0 6.957-2.902 6.957-6.482S17.999 7.2 14.157 7.2z"></path>
+                                                                                                </g>
+                                                                                            </g>
+                                                                                        </g>
+                                                                                    </g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </svg>
+                                                                </a>
+                                                                <a href="https://twitter.com/intent/tweet?text=optional%20promo%20text%20https://baya.vn/products/chan-sofa-bella" target="_blank" class="share-twitter">
+                                                                    <i class="fa fa-twitter"></i>
+                                                                </a>
+                                                                <a href="//pinterest.com/pin/create/link/?url=https://baya.vn&amp;media=https://product.hstatic.net/200000796751/product/bella_comforter_baya_2000560_ba4cb6ff50334575aecc266acc5c48ad.jpg&amp;description=Chăn Sofa BELLA" target="_blank" class="share-pinterest">
+                                                                    <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                                                                </a>
+                                                                <a class="share-link quickview-share">
+                                                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                                                    <span class="ico-tooltip d-none">Đã sao chép</span>
+                                                                    <div class="productDetail-linkcopy"><input class="linkToCopy" readonly="readonly" value="https://baya.vn/products/chan-sofa-bella" id="myInputQuickview"></div>
+                                                                </a>
+                                                            </div>
+                                                            <div class="product-viewdetail text-left">
+                                                                <a href="/products/chan-sofa-bella" class="productdetail-link">Xem chi tiết sản phẩm</a>
+                                                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -554,7 +972,7 @@
         <input type="text" class="d-none" id="coll-handle" value="(collectionid:product=1003859223)" />
     </div>
 </div>
-<script type="text/javascript" src="{{asset('/front_end_asset/style/js/category.product.js')}}"></script>
+<!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/category.product.js')}}"></script> -->
 
 @section('page-js')
 

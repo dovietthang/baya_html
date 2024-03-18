@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
         });
         view()->composer('layout-home.includes.header', function ($view) {
             $menu = Category::where('parent_id', null)->where('type', 'Menu')->where('status', 1)->orderby('order_by', 'asc')->get();
-            $view->with('menu', $menu);
+            $view->with('menu', $menu); 
         });
         view()->composer('layout-home.includes.footer', function ($view) {
             $posts_1 = Post::where('status', 1)->where('category', 1)->orderBy('created_at', 'desc')->get();
@@ -81,7 +81,8 @@ class AppServiceProvider extends ServiceProvider
             $config = Setting::select('*')->first();
             $popup = Setting2::where('id', 1)->where('status', 1)->first();
             $coupon_list = Coupon::where('status', 1)->orderBy('created_at', 'desc')->get();
-            $view->with('config', $config)->with('popup', $popup)->with('coupon_list', $coupon_list);
+            $idx_pos9 = Index::where('name', 'index_pos9')->where('status', 1)->first();
+            $view->with('config', $config)->with('popup', $popup)->with('coupon_list', $coupon_list)->with('idx_pos9', $idx_pos9);
         });
         view()->composer('layout-home.layout-base', function ($view) {
             $spin = Spin::where('id', 1)->where('status', 1)->first();

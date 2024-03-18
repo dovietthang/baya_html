@@ -265,9 +265,9 @@
                                                         <ul>
                                                             <li class="user-name"><span>{{@Auth::user()->name}} {{@Auth::user()->last_name}}</span></li>
                                                             <li><a href="{{route('account')}}">Tài khoản của tôi</a></li>
-                                                            <li><a href="{{route('order.index')}}">Đơn hàng</a></li>
+                                                            <!-- <li><a href="{{route('order.index')}}">Đơn hàng</a></li> -->
                                                             <li><a href="{{route('address')}}">Danh sách địa chỉ</a></li>
-                                                            <li><a href="{{route('newsletter')}}">Đăng ký nhận tin</a></li>
+                                                            <!-- <li><a href="{{route('newsletter')}}">Đăng ký nhận tin</a></li> -->
                                                             <li><a href="{{route('logout.shop')}}">Đăng xuất</a></li>
                                                         </ul>
                                                     </div>

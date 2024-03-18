@@ -1320,9 +1320,10 @@
                 <h2 class="hTitle"><a href="{{route('blog.cate', ['tin-tuc'])}}">Bài Viết Mới Nhất</a></h2>
             </div>
         </div>
-        @foreach($posts as $item)
         <div class="wrapper-content">
             <div class="listArticle-row owl-carousel owlCarousel-style" id="owlBlog-latest">
+        @foreach($posts as $item)
+
                 <article class="article-item">
                     <div class="article-item__block">
                         <div class="article-item__image">

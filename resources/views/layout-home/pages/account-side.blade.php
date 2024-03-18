@@ -1,4 +1,4 @@
-<div class="sidebar sidebar-main">
+<!-- <div class="sidebar sidebar-main">
     <div class="block block-collapsible-nav">
         <div class="title block-collapsible-nav-title"><strong> Tài khoản của tôi</strong></div>
         <div class="content block-collapsible-nav-content" id="block-collapsible-nav">
@@ -17,11 +17,20 @@
             </ul>
         </div>
     </div>
-</div>logout.shop
-<script>
-    $(document).ready(function(){
-        $(document).on('click', '.title.block-collapsible-nav-title', function(){
-            $('.content.block-collapsible-nav-content').slideToggle()
-        })
-    })
-</script>
+</div> -->
+
+
+<div class="AccountSidebar">
+    <h3 class="AccountTitle titleSidebar">Tài khoản</h3>
+    <div class="AccountContent">
+        <div class="AccountList">
+            <ul class="list-unstyled">
+                <li class="current"><a href="{{route('account')}}">Thông tin tài khoản</a></li>
+                <li><a href="{{route('order.index')}}">Đơn hàng</a></li>
+                <li><a href="{{route('address')}}">Danh sách địa chỉ</a></li>
+                <li><a href="{{route('newsletter')}}">Đăng ký nhận tin</a></li>
+                <li class="last"><a href="{{route('logout.shop')}}">Đăng xuất</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

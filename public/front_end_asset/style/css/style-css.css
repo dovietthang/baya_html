@@ -16275,3 +16275,86 @@ a.text-dark:hover {
 .soon[data-scale=xxs] {
   font-size: 1.25rem
 }
+.wrapbox-content-account {
+    margin: 35px auto 50px;
+    padding: 25px 30px 30px;
+}
+
+.layout-account .header-page h1 {
+    position: relative;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+    margin: 0px 0;
+    line-height: initial;
+}
+
+.layout-account .header-page h1:after {
+    content: "";
+    background: #000;
+    display: block;
+    width: 60px;
+    height: 4px;
+    margin: 20px auto;
+}
+
+.clearfix::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.AccountSidebar {
+    margin-bottom: 30px;
+}
+
+.AccountSidebar .AccountTitle {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.AccountSidebar .AccountList ul>li>a {
+    display: block;
+    position: relative;
+    padding: 5px 0px;
+    color: #252a2b;
+}
+
+.AccountSidebar .AccountList ul>li>a:before {
+    content: "\f192";
+    font-family: "FontAwesome";
+    font-size: 8px;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: 2px;
+}
+
+.wrap_inforAccount .title-detail {
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    position: relative;
+    border-bottom: 1px solid #ededed;
+    padding-bottom: 8px;
+}
+
+.wrap_inforAccount .name_account {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    margin: 10px 0 5px;
+}
+
+.wrap_inforAccount p {
+    margin-bottom: 3px;
+}

@@ -3,171 +3,144 @@
 <title>{{ __('Address') }}</title>
 @endsection
 @section('content')
-<div class="account customer-account-index page-layout-2columns-left">
-    <main id="maincontent" class="page-main">
-        <div data-bind="scope: 'messages'">
-            <div role="alert" class="messages">
-                @if(session('success'))
-                <div class="message-success success message" data-ui-id="message-success">
-                    <div>{{session('success')}}</div>
-                </div>
-                @endif
-                @if(session('errors'))
-                <div class="message-error error message" data-ui-id="message-error">
-                    <div>{{session('errors')}}</div>
-                </div>
-                @endif
+<style>
+    .wrap_addAddress .add-new-address {
+        display: inline-block;
+        padding: 10px;
+        background: #323232;
+        color: #fff !important;
+        text-transform: uppercase;
+        width: 100%;
+        text-align: center;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .wrap_addAddress .add_address_table {
+        padding: 5px 15px 15px;
+        background: #fbfbfb;
+    }
+
+    .wrap_editAddress .address_title {
+        margin-bottom: 0;
+        font-size: 16px;
+        padding: 14px 65px 14px 10px;
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+        position: relative;
+    }
+
+    .wrap_editAddress .address_title .address_actions {
+        position: absolute;
+        z-index: 99;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+    .wrap_editAddress .address_title h3 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .wrap_editAddress .address_title .address_actions .action_link {
+        vertical-align: middle;
+        display: inline-block;
+        height: 100%;
+        line-height: 100%;
+        width: 30px;
+        padding: 14px 0;
+        text-align: center;
+    }
+
+    .wrap_editAddress .address_title .address_actions .action_link {
+        vertical-align: middle;
+        display: inline-block;
+        height: 100%;
+        line-height: 100%;
+        width: 30px;
+        padding: 14px 0;
+        text-align: center;
+    }
+
+    .wrap_editAddress .address_table {
+        margin-bottom: 15px;
+        border-top: 0px solid #ddd;
+        background: #fbfbfb;
+        padding: 5px 15px 15px;
+    }
+
+    .wrap_editAddress .address_table .view_address .large_view {
+        margin-bottom: 8px;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row nowrap;
+        flex-flow: row nowrap;
+    }
+</style>
+
+<div class="layout-account">
+    <div class="container">
+        <div class="wrapbox-content-account">
+            <div class="header-page clearfix">
+                <h1>Thông tin địa chỉ</h1>
             </div>
-        </div>
-        <div class="columns">
-            <div class="column main">
-                <div class="page-title-wrapper">
-                    <h1 class="page-title"><span class="base" data-ui-id="page-title-wrapper">Địa chỉ</span></h1>
-                </div><input name="form_key" type="hidden" value="1oc7i7q1aENM68Td">
-                <div id="authenticationPopup" data-bind="scope:'authenticationPopup', style: {display: 'none'}"
-                    style="display: none;">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12 sidebar-account">
+                    @include('layout-home.pages.account-side')
                 </div>
-                <div class="block block-addresses-default">
-                    <div class="block-title"><strong>Địa chỉ mặc định</strong></div>
-                    <div class="block-content">
-                        {{-- <div class="box box-address-billing"><strong class="box-title"><span>Default Billing
-                                    Address</span></strong>
-                            <div class="box-content">
-                                <address>1233333 <br>
-
-                                    q113131321tttttt<br>
-
-
-
-                                    Huyện Chợ Mới, An Giang, Xã Nhơn Mỹ<br>
-                                    Vietnam<br>
-                                    T: <a href="tel:02189999111">02189999111</a>
-
-                                </address>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="row wrap_content_address">
+                        <div class="col-12 wrap_editAddress">
+                            <div id="address_tables">
+                                <div class="row">
+                                    <div class="col-lg-12 col-xs-12 clearfix">
+                                        <div class="address_title ">
+                                            <h3>
+                                                <strong>{{$default->name}} {{$default->last_name}}</strong>
+                                                <span class="default_address note">(Địa chỉ mặc định)</span>
+                                            </h3>
+                                            <p class="address_actions text-right">
+                                                <span class="action_link action_edit"><a href="{{route('address.edit',  [$default->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></span>
+                                                <span class="action_link action_delete"><a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="address-table">
+                                    <div id="view_address_10049829655" class="customer_address">
+                                        <div class="view_address row">
+                                            <div class="col-lg-12 col-md-12 large_view my-2">
+                                                <p><strong>{{$default->name}} {{$default->last_name}}</strong></p>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 large_view mb-2">
+                                                <div class="lb-left"><b>Công ty:</b></div>
+                                                <div class="lb-right">
+                                                    <p>{{$default->city}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 large_view mb-2">
+                                                <div class="lb-left"><b>Địa chỉ:</b></div>
+                                                <div class="lb-right">
+                                                    <p>{{$default->address}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 large_view mb-2">
+                                                <div class="lb-left"><b>Số điện thoại:</b></div>
+                                                <div class="lb-right">{{$default->phone}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="box-actions"><a class="action edit"
-                                    href="https://onoff.vn/customer/address/edit/id/272940/"><span>Change Billing
-                                        Address</span></a></div>
-                        </div> --}}
-                        <div class="box box-address-shipping"><strong class="box-title"><span>Địa chỉ ship mặc
-                                    định</span></strong>
-                            <div class="box-content">
-                                @if($default)
-                                <address>{{$default->name}}
-                                    <br>
-                                    {{$default->address}}
-                                    <br>
-                                    {{$default->city}} - {{$default->district}} - {{$default->ward}}<br>
-                                    {{$default->country}}<br>
-                                    T: <a href="tel:{{$default->phone}}">{{$default->phone}}</a>
-
-                                </address>
-                                @endif
-                            </div>
-                            <div class="box-actions"><a class="action edit" href="{{route('address.edit',  [$default->id])}}"><span>Thay
-                                        đổi địa chỉ</span></a></div>
                         </div>
                     </div>
                 </div>
-                <div class="block block-addresses-list">
-                    <div class="block-title"><strong>Thêm địa chỉ</strong></div>
-                    <div class="block-content">
-                        @if(count($address) == 0)
-                        <p class="empty">Bạn không có mục địa chỉ nào khác trong sổ địa chỉ của mình.</p>
-                        @else
-                        <div class="table-wrapper additional-addresses">
-                            <table class="data table table-additional-addresses-items history"
-                                id="additional-addresses-table">
-                                <caption class="table-caption">Additional addresses</caption>
-                                <thead>
-                                    <tr>
-                                        <th scope="col" class="col firstname">Tên</th>
-                                        <th scope="col" class="col lastname">Họ</th>
-                                        <th scope="col" class="col streetaddress">Địa chỉ</th>
-                                        <th scope="col" class="col city">Quận/Huyện</th>
-                                        <th scope="col" class="col country">Quốc gia</th>
-                                        <th scope="col" class="col state">Tỉnh/Thành</th>
-                                        <th scope="col" class="col zip">Xã/Phường</th>
-                                        <th scope="col" class="col phone">Phone</th>
-                                        <th scope="col" class="col actions"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($address as $item)
-                                    <tr>
-                                        <td data-th="Tên" class="col firstname">{{$item->name}}</td>
-                                        <td data-th="Họ" class="col lastname">{{$item->last_name}}</td>
-                                        <td data-th="Địa chỉ" class="col streetaddress">{{$item->address}}</td>
-                                        <td data-th="Quận/Huyện" class="col city">{{$item->district}}</td>
-                                        <td data-th="Quốc gia" class="col country">{{$item->country}}</td>
-                                        <td data-th="Tỉnh/Thành" class="col state">{{$item->city}}</td>
-                                        <td data-th="Xã/Phường" class="col zip">{{$item->ward}}</td>
-                                        <td data-th="Phone" class="col phone">{{$item->phone}}</td>
-                                        <td data-th="Actions" class="col actions"><a class="action edit"
-                                                href="{{route('address.edit', [$item->id])}}"><span>Sửa</span></a>
-                                            <a class="action delete_" style="color: #d10029" data-url="{{route('address.remove', [$item->id])}}" href="javascript:void(0)" role="delete-address"
-                                                data-address="272964"><span>Xoá</span></a></td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        @endif
-                    </div>
-                </div>
-                <div class="actions-toolbar">
-                    <div class="primary"><a href="{{route('address.new')}}"><button type="button" role="add-address" title="Thêm địa chỉ mới"
-                            class="action primary add"><span>Thêm địa chỉ mới</span></button></a></div>
-                    <div class="secondary"><a class="action back" href="{{route('account')}}"><span>{{__('Go
-                                back')}}</span></a></div>
-                </div>
             </div>
-            @include('layout-home.pages.account-side')
         </div>
-    </main>
+    </div>
 </div>
-@endsection
-@section('page-js')
-    <script>
-        let url = null
-        var alte = `<div style="width: 500px" class="modal-inner-wrap" data-role="focusable-scope">
-                <header class="modal-header">
 
-                    <button class="action-close" data-role="closeBtn" type="button">
-                        <span>Close</span>
-                    </button>
-                </header>
-                <div id="modal-content-23" class="modal-content" data-role="content"><div>Are you sure you want to delete this address?</div></div>
-
-                <footer class="modal-footer">
-
-                    <button class="action-secondary action-dismiss" type="button" data-role="action"><span>Cancel</span></button>
-
-                    <button class="action-primary action-accept on-na" type="button" data-role="action"><span>OK</span></button>
-
-                </footer>
-
-            </div>`
-        $(document).ready(function(){
-            $('.block-addresses-list .delete_').click(function(){
-                url = $(this).attr('data-url')
-                $('.modals-wrapper-popup .modal-popup').html(alte)
-                $('body').addClass("_has-modal");
-                $(".modals-wrapper-popup").append(
-                    '<div class="modals-overlay"></div>'
-                );
-                $(".modals-wrapper-popup .modal-popup").css({
-                    "z-index": 10001,
-                });
-                setTimeout(() => {
-                    $('.modal-popup').addClass('confirm _show')
-                }, 100);
-            })
-            $(document).on('click', '.action-accept.on-na', function() {
-                if(url){
-                 window.location.href = url
-                }
-            })
-        })
-    </script>
 @endsection
