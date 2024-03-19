@@ -59,13 +59,10 @@
         y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "k8ossms4ac");
 </script>
-<!--End Clarity-->
 <link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/lightslider.css')}}" as="style">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/lightslider.js')}}"></script>
-
-
-
+<!--The End Datalayer-->
 <div class="layout-collections">
     @if(@$lists)
     @include('layout-home.breadcrumbs', [$lists, $cate])
@@ -466,7 +463,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="quickview-product">
-                                                    <a class="icon-quickview" href="javascript:void(0)" data-handle="{{route('detail.product' , [$item->slug])}}" title="Xem nhanh"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                    <button class="icon-quickview executeButton"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                    <!-- <a id="executeButton" class="icon-quickview" href="javascript:void(0)" title="Xem nhanh"><i class="fa fa-eye" aria-hidden="true"></i></a> -->
                                                 </div>
                                                 <a href="{{route('detail.product' , [$item->slug])}}" class="proloop-link quickview-product" data-handle="{{route('detail.product' , [$item->slug])}}" title="{{$item->title}}"></a>
                                         </div>
@@ -493,7 +491,7 @@
                                                 <div class="proloop-actions" data-vrid="{{$item->id}}">
                                                     <div class="proloop-actions__inner">
                                                         <div class="actions-primary">
-                                                            <button id="executeButton" type="submit" class="btn-proloop-cart add-to-cart btn-addcart-view" data-toggle="modal" data-target="#quick-view-modal">
+                                                            <button type="submit" class="btn-proloop-cart add-to-cart btn-addcart-view executeButton" data-toggle="modal" data-target="#quick-view-modal" data-whatever="{{$item}}">
                                                                 <span class="btnadd"> Thêm vào giỏ </span>
                                                                 <span class="btnico" title="Thêm vào giỏ">
                                                                     <svg class="btnico-first" version="1.0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -536,56 +534,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <script>
-                                    // Gắn sự kiện click vào nút button với id là "executeButton"
-                                    $("#executeButton").click(function() {
-                                        // Thực thi lệnh khi click vào nút button
-                                        $("#content-slider-{{$item->id}}").lightSlider({
-                                            loop: true,
-                                            keyPress: true
-                                        });
-                                        $('#image-gallery-product-{{$item->id}}').lightSlider({
-                                            gallery: true,
-                                            item: 1,
-                                            thumbItem: 6,
-                                            slideMargin: 0,
-                                            speed: 500,
-                                            auto: true,
-                                            loop: true,
-                                        });
-                                    });
 
-
-                                    $(document).ready(function() {
-                                        $("#content-slider-{{$item->id}}").lightSlider({
-                                            loop: true,
-                                            keyPress: true
-                                        });
-                                        $('#image-gallery-product-{{$item->id}}').lightSlider({
-                                            gallery: true,
-                                            item: 1,
-                                            slideMargin: 0,
-                                            speed: 500,
-                                            auto: false,
-                                            loop: true,
-                                            vertical: false,
-                                            verticalHeight: 500,
-                                            vThumbWidth: 100,
-                                            addClass: 'product-thumb__item',
-                                            useCSS: true,
-                                            thumbItem: 6,
-                                            pager: true,
-                                            gallery: false,
-                                            galleryMargin: 5,
-                                            thumbMargin: 5,
-                                            currentPagerPosition: 'middle',
-                                            prevHtml: "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-left' viewBox='0 0 16 16'> <path fill - rule = 'evenodd' d = 'M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0' /> </svg>",
-                                            nextHml: "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-right' viewBox='0 0 16 16'> <path fill - rule = 'evenodd' d = 'M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708' /></svg>",
-                                        });
-                                    });
-                                </script>
 
                                 <div id="quick-view-modal" class="modal fade modal-product-quickview show" aria-modal="true">
+                                {{  explode(',', $item->photo)}}
+
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content wrapper-quickview">
 
@@ -593,7 +546,7 @@
                                                 <div class="modal-close quickview-close" data-dismiss="modal" aria-label="Close">
                                                 </div>
                                                 <div class="paramlink-topbar text-center">
-                                                    <h4 class="purl-title"><span>Chăn Sofa BELLA</span></h4>
+                                                    <h4 class="purl-title"><span>{{$item->title}}</span></h4>
                                                     <p class="purl-link">baya.vn</p>
                                                 </div>
                                             </div>
@@ -604,7 +557,7 @@
 
                                                             <div class="wrapbox-image">
 
-                                                                <ul class="quickview-sliderproduct owl-carousel owl-loaded owl-drag" id="image-gallery-product-{{$item->id}}">
+                                                                <ul class="owl-carousel owl-loaded owl-drag" id="image-gallery-product">
                                                                     <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
                                                                         <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
                                                                     </li>
@@ -629,65 +582,8 @@
                                                                     <li class="product-thumb" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
                                                                         <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
                                                                     </li>
-
-                                                                    <!-- <div class="owl-item active" style="width: 397px;">
-                                                                                <li class="product-gallery" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_master.jpg">
-                                                                                    <a class="gallery-item" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_master.jpg">
-                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_master.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
-                                                                                    </a>
-                                                                                </li>
-                                                                            </div> -->
                                                                 </ul>
-                                                                <!-- <ul class="quickview-sliderthumb owl-carousel owl-loaded owl-drag" id="quickview-thumbproduct">
-                                                                    <div class="owl-stage-outer">
-                                                                        <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 357px;">
-                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
-                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000574_1_e7eb284fa5ab433c9d97a17f0d58f203_compact.jpg">
-                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
-                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000574_1_e7eb284fa5ab433c9d97a17f0d58f203_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
-                                                                                    </a>
-                                                                                </li>
-                                                                            </div>
-                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
-                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000575_1_07473a4c913e44d18a33f0cccdd020dd_compact.jpg">
-                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
-                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000575_1_07473a4c913e44d18a33f0cccdd020dd_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
-                                                                                    </a>
-                                                                                </li>
-                                                                            </div>
-                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
-                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000575_2_3303da2e6a3442dbb7124eea57bc5a4a_compact.jpg">
-                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
-                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000575_2_3303da2e6a3442dbb7124eea57bc5a4a_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
-                                                                                    </a>
-                                                                                </li>
-                                                                            </div>
-                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
-                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000576_ad9a2a22607b4f8ca084944ed33adbbf_compact.jpg">
-                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
-                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000576_ad9a2a22607b4f8ca084944ed33adbbf_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
-                                                                                    </a>
-                                                                                </li>
-                                                                            </div>
-                                                                            <div class="owl-item active" style="width: 54.351px; margin-right: 5px;">
-                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_1_4ee4805e62514375ab101749d3baee6c_compact.jpg">
-                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
-                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_1_4ee4805e62514375ab101749d3baee6c_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
-                                                                                    </a>
-                                                                                </li>
-                                                                            </div>
-                                                                            <div class="owl-item active current" style="width: 54.351px; margin-right: 5px;">
-                                                                                <li class="product-thumb" data-image="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_compact.jpg">
-                                                                                    <a class="product-thumb__item" href="javascript:void(0);">
-                                                                                        <img src="//product.hstatic.net/200000796751/product/sofia_comforter_baya_2000587_2_12a1217fa0a84c8e86a26db0d174d6bd_compact.jpg" alt=" Chăn Sofa Vải Tổng Hợp Nhiều Màu SOFIA ">
-                                                                                    </a>
-                                                                                </li>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
-                                                                    <div class="owl-dots disabled"></div>
-                                                                </ul> -->
+
 
                                                             </div>
 
@@ -696,72 +592,12 @@
 
                                                         </div>
                                                     </div>
-                                                    <!-- <div class="productDetail--gallery">
-                                                        <div class="d-block">
-                                                            <div class="lSSlideOuter">
-                                                                <div class="lSSlideWrapper usingCss" style="transition-duration: 500ms; transition-timing-function: ease;">
-                                                                    <ul id="image-gallery-product-{{$item->id}}" class="content-slider lightSlider lsGrab lSSlide" style=" transform: translate3d(-4788px, 0px, 0px);  padding-bottom: 0%;">
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-1.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-2.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-2.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-3.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-3.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-4.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-4.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-5.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-5.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-6.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-6.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-7.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-7.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-8.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-8.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-9.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-9.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-10.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-10.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-11.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-12.jpg" />
-                                                                        </li>
-                                                                        <li class="lslide" data-thumb="http://sachinchoolur.github.io/lightslider/img/thumb/cS-13.jpg">
-                                                                            <img src="http://sachinchoolur.github.io/lightslider/img/cS-13.jpg" />
-                                                                        </li>
-                                                                    </ul>
-                                                                    <div class="lSAction"><a class="lSPrev"></a><a class="lSNext"></a></div>
-                                                                </div>
-                                                                <ul class="lSPager lSGallery" style="margin-top: 5px; transition-duration: 500ms; width: 539.167px; transform: translate3d(-135.167px, 0px, 0px);">
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-1.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-2.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-3.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-4.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-5.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-6.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-7.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-8.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-9.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-10.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class=""><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-11.jpg"></a></li>
-                                                                    <li style="width:100%;width:39.888888888888886px;margin-right:5px" class="active"><a href="#"><img src="http://sachinchoolur.github.io/lightslider/img/thumb/cS-13.jpg"></a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div> -->
+
 
                                                     <div class="productDetail--content">
                                                         <div class="wrapbox-detail">
                                                             <div class="product-heading">
-                                                                <h2>Chăn Sofa BELLA</h2>
+                                                                <h2>{{$item->title}}</h2>
 
                                                                 <span class="pro_sku">Mã sản phẩm: <strong>2000560</strong></span>
 
@@ -821,34 +657,6 @@
                                                                                 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                                                                 <div data-value="Tím" class="n-sd swatch-element color tim  ">
                                                                                     <input class="variant-0" id="swatch-0-tim-quickview" type="radio" name="option1" value="Tím" data-vhandle="tim">
 
@@ -858,31 +666,6 @@
                                                                                     </label>
 
                                                                                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -905,57 +688,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                                                         <div id="variant-swatch-1-quickview" class="swatch clearfix" data-option="option2" data-option-index="1">
                                                                             <div class="title-swap header">Kích thước: </div>
                                                                             <div class="select-swap">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                                                                                 <div data-value="D152xR102" class="n-sd swatch-element d152xr102">
@@ -967,22 +702,8 @@
 
                                                                                 </div>
 
-
-
-
-
-
-
-
                                                                             </div>
                                                                         </div>
-
-
-
-
-
-
-
 
                                                                     </div>
                                                                 </form>
@@ -1101,7 +822,42 @@
         </div>
         <input type="text" class="d-none" id="coll-handle" value="(collectionid:product=1003859223)" />
     </div>
+
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var slider = null;
+        $('#quick-view-modal').on('shown.bs.modal', function(event) {
+            // var button = $(event.relatedTarget); // Button that triggered the modal
+            // var recipient = button.data('whatever'); // Extract info from data-* attributes
+            // console.log(recipient.title);
+            // var modal = $(this)
+            // modal.find('.product-heading h2').text(recipient.title)
+
+            // slider.refresh();
+            // slider.destroy();
+
+            if (slider) {
+                slider.destroy();
+                slider.refresh();
+            }
+            slider = $('#image-gallery-product').lightSlider({
+                gallery: true,
+                item: 1,
+                slideMargin: 0,
+                speed: 500,
+                auto: false,
+                loop: true,
+                thumbItem: 6,
+                prevHtml: "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-left' viewBox='0 0 16 16'> <path fill-rule='evenodd' d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0' /> </svg>",
+                nextHtml: "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-right' viewBox='0 0 16 16'> <path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708' /></svg>",
+            });
+        });
+
+    });
+</script>
+
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/category.product.js')}}"></script> -->
 
 @section('page-js')
@@ -1125,6 +881,7 @@
         window.history.pushState(null, null, newURL);
         window.location.reload()
     })
+    console.log(123)
 </script>
 @endsection
 @endsection

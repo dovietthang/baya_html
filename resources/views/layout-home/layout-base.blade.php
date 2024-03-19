@@ -385,9 +385,8 @@
     gtag('config', 'AW-11285911050');
   </script>
 
-  <!--The End Datalayer-->
 </head>
-</head>
+
 
 <body class="mainBody-theme  template-index" itemscope itemtype="http://schema.org/Website">
   <!-- Google Tag Manager (noscript) -->
