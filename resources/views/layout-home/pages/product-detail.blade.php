@@ -161,7 +161,9 @@ $jsonData = json_decode($product, true);
 
                     <div class="product-variants">
                         <form id="add-item-form" action="https://baya.vn/cart/add" method="post" class="variants clearfix">
-                            <div class="select clearfix">
+                            <input type="text" id="product-id" name="id" value="{{$product->id}}" style="display: none" />
+
+                            <!-- <div class="select clearfix">
                                 <select id="product-select" name="id" style="display: none">
                                     <option value="1114835500">
                                         Đỏ / D200xR150 - 500,000₫
@@ -179,16 +181,16 @@ $jsonData = json_decode($product, true);
                                         Hồng 2 / D152xR127 - 209,000₫
                                     </option>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="select-swatch clearfix">
                                 <div id="variant-swatch-0" class="swatch clearfix" data-option="option1" data-option-index="0">
                                     <div class="title-swap header">
                                         {{__('Color')}}: <strong></strong>
                                     </div>
                                     <div class="select-swap">
-                                        @foreach ($colors as $color)
+                                        @foreach ($colors as  $color)
                                         <div data-value="{{ $color->title}}" class="n-sd swatch-element color {{$color->value}} ">
-                                            <input class="variant-0" id="swatch-0-{{$color->value}}" type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->title}}" />
+                                            <input class="variant-0" id="swatch-0-{{$color->value}}" type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->title}}" {{$color->title == 'Đỏ' ? 'checked' : '' }}/>
 
                                             <label class="{{$color->value}}" for="swatch-0-{{$color->value}}">
                                                 <span>{{ $color->title}}</span>
@@ -217,7 +219,7 @@ $jsonData = json_decode($product, true);
                         </form>
                     </div>
 
-                    <div class="product-buyxgety selector-buyxgety" id="detail-product">
+                    <!-- <div class="product-buyxgety selector-buyxgety" id="detail-product">
                         <div id="buyxgety-program" class="d-none">
                             <div class="buyxgety-heading">
                                 <h3>Các sản phẩm được tặng kèm</h3>
@@ -229,7 +231,7 @@ $jsonData = json_decode($product, true);
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="product-actions">
                         <div class="select-actions d-none d-lg-block clearfix">
@@ -266,7 +268,7 @@ $jsonData = json_decode($product, true);
                             </style>
 
                             <div class="addcart-area">
-                                <button type="button" id="add-to-cart" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
+                                <button type="button" id="product-addtocart-button" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
                                     Thêm vào giỏ
                                 </button>
 
@@ -593,6 +595,60 @@ $jsonData = json_decode($product, true);
         </div>
     </div>
 </section>
+
+<script>
+    $(document).ready(function(){
+        $('#product-addtocart-button').click(function () {
+            $('.mage-error').remove()
+            const dataId = []
+            const options = []
+            let flag = true
+            $('#product-options-wrapper select').each(function(){
+                const intxt = $(this).find('option:selected').text()
+                const value = $(this).val()
+                if(!value){
+                    $(this).parents('.field.option').append(`<div generated="true" class="mage-error">Đây là trường bắt buộc.</div>`)
+                    flag = false
+                    return
+                }
+                dataId.push(value)
+                options.push(intxt)
+            })
+            if(flag){
+                const productId = $(this).attr('product-id')
+                const quantity = $('input#qty').val()
+                const url = location.origin + "/cart-add";
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {
+                        comboId: dataId,
+                        productId: productId,
+                        quantity: quantity,
+                        options: options
+                    },
+                    success: function (res) {
+                        if (res && res.message) {
+                            $(".counter.qty .counter-number").text(res.total);
+                            $(".modals-wrapper-popup").append(
+                                '<div class="modals-overlay"></div>'
+                            );
+                            $(".modals-wrapper-popup .modal-popup").html(res.popup);
+                            $(".modal-popup").css({
+                                "z-index": 10002,
+                                "margin-left": "10px",
+                                "margin-right": "10px",
+                            });
+                            setTimeout(() => {
+                                $(".modal-popup").addClass("confirm _show");
+                            }, 200);
+                        }
+                    }
+                })
+            }
+         })
+    })
+</script>
 
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/product.detail.js')}}"></script>
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" defer></script> -->

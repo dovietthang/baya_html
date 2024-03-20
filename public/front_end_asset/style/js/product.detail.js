@@ -766,10 +766,12 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $("#add-to-cart").click(function (e) {
+
     e.preventDefault();
-    var variant_id = $("#product-select").val(),
+    var variant_id = $("#product-id").val(),
       quantity = $("#quantity").val(),
       title = $(".productDetail--content .product-heading h1").html();
+
     buyXgetY.addCartBuyXGetY_detail(
       false,
       variant_id,
@@ -779,7 +781,6 @@ $(document).ready(function () {
       "normal",
       function () {
         HRT.All.getCartModal(true);
-        //console.log(1)
         if ($(window).width() < 992) {
           $("body").removeClass("locked-scroll").addClass("body-showcart");
           $(".siteCart-mobile").addClass("show-cart");
@@ -789,7 +790,7 @@ $(document).ready(function () {
   });
   $("#buy-now").click(function (e) {
     e.preventDefault();
-    var variant_id = $("#product-select").val(),
+    var variant_id = $("#product-id").val(),
       quantity = $("#quantity").val(),
       title = $(".productDetail--content .product-heading h1").html();
     buyXgetY.addCartBuyXGetY_detail(
