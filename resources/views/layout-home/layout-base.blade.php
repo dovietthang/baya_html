@@ -8,15 +8,13 @@
   <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0' />
   <meta name="revisit-after" content="1 day" />
   <meta name="HandheldFriendly" content="true">
-  <link rel="shortcut icon" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/favicon5b01.png?v=944')}}" type="image/png" />
+  <link rel="shortcut icon" href="{{$config->site_logo}}" type="{{$config->site_name}}" />
   <meta name="google-site-verification" content="mHatT3Z1rAVgHFQvMAiWWja2irFLxApxy0odN9PPts8" />
   <meta name="google-site-verification" content="pNNB6xUSugJf7bom6Opi4W7CeSkosGKwzm2AdBDM4jI" />
-  <title>
-    Baya - Si&#234;u thị nội thất &amp; trang tr&#237; Baya
-  </title>
+  <title>{{$config->site_title_content}}</title>
   <link rel="canonical" href="index.html" />
   <link rel="alternate" href="index.html" hreflang="vi-vn" />
-  <meta name="keywords" content="Baya">
+  <meta name="keywords" content="{{$config->site_name}}">
 
   <meta name="robots" content="index,follow,noodp">
 
@@ -87,11 +85,11 @@
     }
   </style>
 
-  <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/logo5b01.png?v=944')}}" as="image">
+  <!-- <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/logo5b01.png?v=944')}}" as="image">
   <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/topbar_img5b01.jpg?v=944')}}" as="image" media="(min-width: 768px)">
   <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/topbar_img_mb5b01.jpg?v=944')}}" as="image" media="(max-width: 767px)">
   <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/slide_1_img5b01.jpg?v=944')}}" as="image" media="(min-width: 768px)">
-  <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/slide_1_mb5b01.jpg?v=944')}}" as="image" media="(max-width: 767px)">
+  <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/slide_1_mb5b01.jpg?v=944')}}" as="image" media="(max-width: 767px)"> -->
 
 
   <link rel="preconnect" href="http://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&amp;display=swap" crossorigin>
@@ -104,12 +102,12 @@
 
   <link rel="preload stylesheet" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/style-themes.scss5b01.css?v=944')}}" as="style">
   <!--+++++++++++++ JS THEME ++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-  <link href="{{asset('/front_end_asset/hstatic.net/0/0/global/api.jquery.js')}}" rel="preload" as="script" type="text/javascript">
-  <link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" rel="preload" as="script" type="text/javascript">
+  <!-- <link href="{{asset('/front_end_asset/hstatic.net/0/0/global/api.jquery.js')}}" rel="preload" as="script" type="text/javascript"> -->
+  <!-- <link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" rel="preload" as="script" type="text/javascript"> -->
 
-  <link href="{{asset('./front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}" rel="preload" as="script">
+  <!-- <link href="{{asset('./front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}" rel="preload" as="script"> -->
   <script type="text/javascript" src="{{asset('./front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}"></script>
-  <script>
+  <!-- <script>
     /* recapcha */
     setTimeout(function() {
       ! function(e, t, n) {
@@ -118,15 +116,15 @@
         c.async = true, c.src = "../www.google.com/recaptcha/api4d7a.js?render=6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-", a.parentNode.insertBefore(c, a)
       }(window, document, "script");
     }, 5000);
-  </script>
-  <script>
+  </script> -->
+  <!-- <script>
     $(function() {
       const resultcss = `<link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/render-library.css?v=944')}}" rel="preload stylesheet" as="style" type="text/css">`;
       $('head').append(resultcss);
     });
-  </script>
+  </script> -->
 
-  <link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/app-buyxgety5b01.js?v=944')}}" rel="preload" as="script" type="text/javascript">
+  <!-- <link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/app-buyxgety5b01.js?v=944')}}" rel="preload" as="script" type="text/javascript"> -->
 
   <script>
     var formatMoney = "1₫";
@@ -155,7 +153,7 @@
     prodItem_mobile = 2;
   </script>
 
-  <script>
+  <!-- <script>
     var cartAttributes = {};
 
     var store = [
@@ -219,9 +217,9 @@
       return objURL;
     };
     var paramUrl = parseQueryString();
-  </script>
+  </script> -->
 
-  <script>
+  <!-- <script>
     var prmt_icon = {
       "frame": {
         "tag": "Phụ kiện nhà bếp,null,null,null,null",
@@ -230,17 +228,17 @@
     };
     prmt_icon.frame.tag = prmt_icon.frame.tag.split(',');
     prmt_icon.frame.icon = prmt_icon.frame.icon.split(',');
-  </script>
+  </script> -->
 
 
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" name="description" content="" />
-  <meta property="og:image" content="http://theme.hstatic.net/200000796751/1001150659/14/share_fb_home.png?v=944" />
-  <meta property="og:image:secure_url" content="https://theme.hstatic.net/200000796751/1001150659/14/share_fb_home.png?v=944" />
+  <meta property="og:title" name="description" content="{{$config->site_name}}" />
+  <meta property="og:image" content="{{$config->site_logo}}" />
+  <meta property="og:image:secure_url" content="{{$config->site_logo}}" />
   <meta property="og:description" name="description" content="" />
-  <meta property="og:url" content="https://baya.vn/" />
-  <meta property="og:site_name" content="Baya" />
+  <meta property="og:url" content="{{$config->site_name}}" />
+  <meta property="og:site_name" content="{{$config->site_title_filling}}" />
 
 
 
@@ -248,7 +246,7 @@
 
 
   <!-- SEO META DESCRIPTION -->
-  <meta name="description" content="Baya - Siêu thị nội thất & trang trí Baya - Sứ mệnh xây thêm tổ ấm với sản phẩm và dịch vụ nội thất chất lượng và giá cả hấp dẫn." />
+  <meta name="description" content="{{$config->site_title_content}}" />
   <!-- END SEO META DESCRIPTION -->
 
   <!-- SEO PAGI -->
@@ -260,7 +258,7 @@
 
 
 
-  <script type='text/javascript'>
+  <!-- <script type='text/javascript'>
     //<![CDATA[
     if ((typeof Haravan) === 'undefined') {
       Haravan = {};
@@ -274,14 +272,14 @@
     };
     Haravan.domain = 'baya.vn';
     //]]>
-  </script>
-  <script defer src="{{asset('/front_end_asset/stats.hstatic.net/beacon.min.js')}}" hrv-beacon-t='200000796751'></script>
-  <style>
+  </script> -->
+  <!-- <script defer src="{{asset('/front_end_asset/stats.hstatic.net/beacon.min.js')}}" hrv-beacon-t='200000796751'></script> -->
+  <!-- <style>
     .grecaptcha-badge {
       visibility: hidden;
     }
-  </style>
-  <script type='text/javascript'>
+  </style> -->
+  <!-- <script type='text/javascript'>
     window.HaravanAnalytics = window.HaravanAnalytics || {};
     window.HaravanAnalytics.meta = window.HaravanAnalytics.meta || {};
     window.HaravanAnalytics.meta.currency = 'VND';
@@ -294,9 +292,9 @@
       window.HaravanAnalytics.meta[attr] = meta[attr];
     }
     window.HaravanAnalytics.AutoTrack = true;
-  </script>
-  <script async src='https://www.googletagmanager.com/gtag/js?id=G-Z5G7Y00FXM'></script>
-  <script>
+  </script> -->
+  <!-- <script async src='https://www.googletagmanager.com/gtag/js?id=G-Z5G7Y00FXM'></script> -->
+  <!-- <script>
     window.HaravanAnalytics.ga4 = "G-Z5G7Y00FXM";
     window.HaravanAnalytics.enhancedEcommercev4 = true;
     window.dataLayer = window.dataLayer || [];
@@ -334,9 +332,9 @@
     });
     fbq('track', 'PageView');
     //]]>
-  </script>
-  <noscript><img height='1' width='1' style='display:none' src='https://www.facebook.com/tr?id=1072705667470350&amp;ev=PageView&amp;noscript=1' /></noscript>
-  <script type="application/ld+json" defer>
+  </script> -->
+  <!-- <noscript><img height='1' width='1' style='display:none' src='https://www.facebook.com/tr?id=1072705667470350&amp;ev=PageView&amp;noscript=1' /></noscript> -->
+  <!-- <script type="application/ld+json" defer>
     {
       "@context": "http://schema.org",
       "@type": "WebSite",
@@ -348,9 +346,9 @@
         "query-input": "required name=search_term_string"
       }
     }
-  </script>
+  </script> -->
   <!-- Google Tag Manager -->
-  <script>
+  <!-- <script>
     (function(w, d, s, l, i) {
       w[l] = w[l] || [];
       w[l].push({
@@ -365,7 +363,7 @@
         '../www.googletagmanager.com/gtm5445.html?id=' + i + dl;
       f.parentNode.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', 'GTM-NZD72JPJ');
-  </script>
+  </script> -->
   <!-- End Google Tag Manager -->
   <!--datalayer -->
   <script>
@@ -373,8 +371,8 @@
 
   </script>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11285911050"></script>
-  <script>
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11285911050"></script> -->
+  <!-- <script>
     window.dataLayer = window.dataLayer || [];
 
     function gtag() {
@@ -383,8 +381,10 @@
     gtag('js', new Date());
 
     gtag('config', 'AW-11285911050');
-  </script>
-
+  </script> -->
+  <link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/lightslider.css')}}" as="style">
+  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+  <script type="text/javascript" src="{{asset('/front_end_asset/style/js/lightslider.js')}}"></script>
 </head>
 
 
@@ -414,7 +414,7 @@
 
     </div>
     <!--Clarity-->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
       (function(c, l, a, r, i, t, y) {
         c[a] =
           c[a] ||
@@ -427,7 +427,7 @@
         y = l.getElementsByTagName(r)[0];
         y.parentNode.insertBefore(t, y);
       })(window, document, "clarity", "script", "k8ossms4ac");
-    </script>
+    </script> -->
     <!--End Clarity-->
 
     <!-- content -->
@@ -761,7 +761,6 @@
   </div>
 
 
-
   <script type="text/javascript" src="{{asset('/front_end_asset/style/js/scrip-js.js')}}"></script>
   <script type="text/javascript" src="{{asset('/front_end_asset/style/js/Soon.js')}}"></script>
   <script type="text/javascript" src="{{asset('/front_end_asset/style/js/popper.min.js')}}"></script>
@@ -774,25 +773,6 @@
   <!-- SCRIPT THEME -->
   <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js')}}" defer></script>
 
-
-  <!-- POPUP LOAD -->
-  <!--END *** POPUP LOAD =====================-->
-
-  <!-- chatbot-harafunnel -->
-  <script>
-    setTimeout(function() {
-      if ($(window).width() >= 768) {
-        var chatbot_src = "{{asset('/front_end_asset/app.harasocial.com/widget/297692681125169.js')}}";
-        $("head").append('<!-- harafunnel --><script src="' + chatbot_src + '" ' + 'async="async"><\/script>');
-      }
-    }, 5000);
-  </script>
-
-
-
-
 </body>
-
-<!-- Mirrored from baya.vn/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 09 Mar 2024 16:28:47 GMT -->
 
 </html>

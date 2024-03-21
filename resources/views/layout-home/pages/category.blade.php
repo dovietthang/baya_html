@@ -29,7 +29,7 @@
 
     prodItem_mobile = 2;
 </script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     //<![CDATA[
     if (typeof Haravan === "undefined") {
         Haravan = {};
@@ -43,9 +43,9 @@
     };
     Haravan.domain = "baya.vn";
     //]]>
-</script>
+</script> -->
 <!--Clarity-->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     (function(c, l, a, r, i, t, y) {
         c[a] =
             c[a] ||
@@ -58,10 +58,8 @@
         y = l.getElementsByTagName(r)[0];
         y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "k8ossms4ac");
-</script>
-<link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/lightslider.css')}}" as="style">
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
-<script type="text/javascript" src="{{asset('/front_end_asset/style/js/lightslider.js')}}"></script>
+</script> -->
+
 <!--The End Datalayer-->
 <div class="layout-collections">
     @if(@$lists)
@@ -427,16 +425,23 @@
                                 $photo = $productSku->photo ? $productSku->photo : $item->photo;
                                 $getPrice = $productSku->price ? $productSku->price : $item->price;
                                 $colors = $productSku->colors($productSkus->pluck('color_id')->unique()->toArray());
+                                $sizes = $productSku->colors($productSkus->pluck('size_id')->unique()->toArray());
                                 $image_color = $productSkus->pluck('photo', 'color_id')->toArray();
                                 $getSale = \App\Models\Coupon::getSaleProduct($productSku->id);
                                 $salePrice = $getSale->get('getPrice');
-                                $textSell = $getSale->get('text');
+                                $textSell = $getSale->get('text') ? $getSale->get('text') : '';
                                 }
                                 if($productSku_2){
                                 $photo_2 = $productSku_2->photo ? $productSku_2->photo : $item->photo;
                                 }
                                 @endphp
+                                @php
+                                $cate = $item->cates->where('type', 'Menu')->where('status', 1)->first();
+                                $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes]);
+                                @endphp
                                 <div class="col-lg-3 col-md-6 col-6 product-loop" data-id="{{$item->id}}">
+                                    <!-- {{$sizes}} -->
+
                                     <div class="product-inner" data-proid="{{$item->id}}" id="collection_loop_1">
                                         <div class="proloop-image">
                                             @if($salePrice > 0 && $salePrice < $productSku->price)
@@ -463,7 +468,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="quickview-product">
-                                                    <button class="icon-quickview executeButton"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                    <button class="icon-quickview executeButton" data-toggle="modal" data-target="#quick-view-modal" data-whatever="<?php echo htmlspecialchars($dataItem); ?>"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                                     <!-- <a id="executeButton" class="icon-quickview" href="javascript:void(0)" title="Xem nhanh"><i class="fa fa-eye" aria-hidden="true"></i></a> -->
                                                 </div>
                                                 <a href="{{route('detail.product' , [$item->slug])}}" class="proloop-link quickview-product" data-handle="{{route('detail.product' , [$item->slug])}}" title="{{$item->title}}"></a>
@@ -486,16 +491,12 @@
                                                     <span class="price">{{number_format($productSku->price, 0, 0,',') }}₫</span>
                                                 </p>
                                                 @endif
-                                                @php
-                                                $cate = $item->cates->where('type', 'Menu')->where('status', 1)->first();
-                                                @endphp
 
 
                                                 <div class="proloop-actions" data-vrid="{{$item->id}}">
                                                     <div class="proloop-actions__inner">
                                                         <div class="actions-primary">
-                                                            <button type="submit" id="modal-product-detail" class="btn-proloop-cart add-to-cart btn-addcart-view executeButton" data-toggle="modal" data-target="#quick-view-modal" 
-                                                            data-whatever="{{$item}}" data-textSell="{{$textSell}}" data-salePrice="{{$salePrice}}" data-cate="{{$cate}}">
+                                                            <button type="submit" class="btn-proloop-cart add-to-cart btn-addcart-view executeButton" data-toggle="modal" data-target="#quick-view-modal" data-whatever="<?php echo htmlspecialchars($dataItem); ?>">
                                                                 <span class="btnadd"> Thêm vào giỏ </span>
                                                                 <span class="btnico" title="Thêm vào giỏ">
                                                                     <svg class="btnico-first" version="1.0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -588,271 +589,8 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        var count = 0
-        var slider = null;
-        if (slider) {
-            slider.refresh()
-        };
-        $('#quick-view-modal').on('shown.bs.modal', function(event) {
-            $(window).resize();
-            $(window).resize();
-            var button = $(event.relatedTarget);
-            var projectDetail = button.data('whatever');
-            var cate = button.data('cate');
-            var salePrice = $('#modal-product-detail').data('salePrice');
-            var textSell = $('#modal-product-detail').data('textSell').textSell;
-            var modal = $(this)
-            var img = projectDetail.photo ? projectDetail.photo.split(",") : [];
-            modal.find('.product-heading h2').text(projectDetail.title)
-
-            // Thay đổi HTML của .productDetail--gallery
-            var productGalleryHtml = `
-                <div class="productDetail--gallery">
-                        <div class="wrapbox-image">
-                            <ul class="owl-carousel owl-loaded owl-drag" id="image-gallery-product">`;
-
-            img.forEach(function(imageSrc) {
-                productGalleryHtml += `
-                    <li class="product-thumb" data-thumb="${imageSrc}">
-                        <img src="${imageSrc}" alt="${projectDetail.title}">
-                    </li>`;
-            });
-
-            console.log(textSell);
-
-            productGalleryHtml += `</ul></div>`
-            if(salePrice > 0 && salePrice < projectDetail.price){
-                productGalleryHtml += `<div class="product-percent"><span class="pro-sale">-${textSell}%<br> OFF</span></div>`
-            }
-            productGalleryHtml += `</div>`;
-
-            modal.find('.productDetail--gallery').replaceWith(productGalleryHtml);
-
-            // Thêm HTML mới vào .productDetail--content
-            var productContentHtml = '<div class="productDetail--content">';
-            productContentHtml += '<div class="wrapbox-detail">';
-            productContentHtml += '<div class="product-heading">';
-            productContentHtml += '<h2>' + projectDetail.title + '</h2>';
-            productContentHtml += '<span class="pro_sku">Mã sản phẩm: <strong>' + projectDetail.sku + '</strong></span>';
-            productContentHtml += '<span class="pro-soldold">Đã bán: <strong>' + projectDetail.status + '</strong></span>';
-            productContentHtml += '<span class="pro-vendor">Thể loại: <strong><a title="Show vendor" href="' + projectDetail.vendorLink + '">' + projectDetail.vendorName + '</a></strong></span>';
-            productContentHtml += '</div>';
-            productContentHtml += '<div class="product-price" id="price-preview-quickview"><span class="pro-title">Giá: </span><span class="pro-price">' + projectDetail.price + '₫</span><del>' + projectDetail.originalPrice + '₫</del><span class="pro-percent">-' + projectDetail.discount + '%</span></div>';
-            productContentHtml += '<div class="product-variants">';
-            productContentHtml += '<form id="add-item-form-quickview" action="/cart/add" method="post" class="variants clearfix">';
-            productContentHtml += `<div class="select clearfix">
-                                        <div class="selector-wrapper"><label for="product-select-quickview-option-0">Màu sắc</label><select class="single-option-selector" data-option="option1" id="product-select-quickview-option-0">
-                                                <option value="Hồng">Hồng</option>
-                                                <option value="Tím">Tím</option>
-                                                <option value="Xanh lá cây">Xanh lá cây</option>
-                                            </select></div>
-                                        <div class="selector-wrapper"><label for="product-select-quickview-option-1">Kích thước</label><select class="single-option-selector" data-option="option2" id="product-select-quickview-option-1">
-                                            <option value="D152xR102">D152xR102</option>
-                                            </select></div><select id="product-select-quickview" name="id" style="display:none;">
-                                            <option value="1114835122">Hồng / D152xR102 - 139,000₫</option>
-                                            <option value="1114835123">Tím / D152xR102 - 139,000₫</option>
-                                            <option value="1114835124">Xanh lá cây / D152xR102 - 139,000₫</option>
-                                        </select>
-                                    </div>
-                                    <div class="select-swatch clearfix">
-                                        <div id="variant-swatch-0-quickview" class="swatch clearfix" data-option="option1" data-option-index="0">
-                                            <div class="title-swap header">Màu sắc: <strong>Hồng</strong></div>
-                                            <div class="select-swap">
-
-                                                <div data-value="Hồng" class="n-sd swatch-element color hong  ">
-                                                    <input class="variant-0" id="swatch-0-hong-quickview" type="radio" name="option1" value="Hồng" data-vhandle="hong" checked="">
-                                                    <label class="hong sd" for="swatch-0-hong-quickview">
-                                                        <span>Hồng</span>
-                                                    </label>
-                                                </div>
-
-
-                                                <div data-value="Tím" class="n-sd swatch-element color tim  ">
-                                                    <input class="variant-0" id="swatch-0-tim-quickview" type="radio" name="option1" value="Tím" data-vhandle="tim">
-                                                    <label class="tim" for="swatch-0-tim-quickview">
-                                                        <span>Tím</span>
-                                                    </label>
-                                                </div>
-
-                                                <div data-value="Xanh lá cây" class="n-sd swatch-element color xanh-la-cay  ">
-                                                    <input class="variant-0" id="swatch-0-xanh-la-cay-quickview" type="radio" name="option1" value="Xanh lá cây" data-vhandle="xanh-la-cay">
-                                                    <label class="xanh-la-cay" for="swatch-0-xanh-la-cay-quickview">
-                                                        <span>Xanh lá cây</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="variant-swatch-1-quickview" class="swatch clearfix" data-option="option2" data-option-index="1">
-                                            <div class="title-swap header">Kích thước: </div>
-                                            <div class="select-swap">
-                                                <div data-value="D152xR102" class="n-sd swatch-element d152xr102">
-                                                    <input class="variant-1" id="swatch-1-d152xr102-quickview" type="radio" name="option2" value="D152xR102" data-vhandle="d152xr102" checked="">
-
-                                                    <label for="swatch-1-d152xr102-quickview" class="sd">
-                                                        <span>D152xR102</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-            productContentHtml += '</form>';
-
-            // Tiếp tục thêm phần HTML mới vào .productDetail--content ở đây
-            productContentHtml += '</div>';
-            productContentHtml += '<div class="product-appxy">';
-            productContentHtml += `<div class="product-buyxgety q-selector-buyxgety d-none">
-                                    <div id="buyxgety-program">
-                                        <div class="buyxgety-heading">
-                                            <h3>Các sản phẩm được tặng kèm</h3>
-                                            <p>Chọn 1 trong các loại quà tặng</p>
-                                        </div>
-                                        <div id="buyxgety-product-list" data-id="1051064533" data-title="Chăn Sofa BELLA">
-                                            <div class="buyxgety_content clearfix">
-                                                <div class="buyxgety_lists"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-            productContentHtml += '</div>';
-
-            // Tiếp tục thêm phần HTML mới vào .productDetail--content ở đây
-            productContentHtml += '<div class="product-viewaction quickview-toolbarproduct" id="toolbarProduct">';
-            productContentHtml += `<div class="productToolbar-addcart">
-                                    <div class="product-actions">
-                                        <div class="block-quantity quantity-selector ">
-                                            <div class="quantity-title">Số lượng:</div>
-                                            <button type="button" onclick="HRT.Quickview.minusQtyView()" class="qty-btn">
-                                                <svg focusable="false" class="icon icon--minus " viewBox="0 0 10 2" role="presentation">
-                                                    <path d="M10 0v2H0V0z"></path>
-                                                </svg>
-                                            </button>
-                                            <input type="text" id="quickview-qtyvalue" name="quantity" value="1" min="1" class="quickview-qtyvalue quantity-number">
-                                            <button type="button" onclick="HRT.Quickview.plusQtyView()" class="qty-btn">
-                                                <svg focusable="false" class="icon icon--plus " viewBox="0 0 10 10" role="presentation">
-                                                    <path d="M6 4h4v2H6v4H4V6H0V4h4V0h2v4z"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-
-                                        <div class="block-addcart">
-                                            <button type="button" id="add-to-cartQuickview" data-pid="1051064533" class="add-to-cartProduct button dark btn-addtocart addtocart-modal btnred" name="add"><span>Thêm vào giỏ</span></button>
-                                        </div>
-                                    </div>
-                                </div>`;
-            productContentHtml += '</div>';
-            productContentHtml += '<div class="product-toshare">';
-            productContentHtml += `<span>Chia sẻ: </span>
-                                <a href="//www.facebook.com/sharer/sharer.php?u=https://baya.vn/products/chan-sofa-bella" target="_blank" class="share-facebook">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                                <a href="https://m.me/297692681125169" target="_blank" rel="noreferrer" aria-label="messenger" class="share-messenger">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28">
-                                        <g fill="none" fill-rule="evenodd">
-                                            <g>
-                                                <g>
-                                                    <g>
-                                                        <g>
-                                                            <g>
-                                                                <g transform="translate(-293.000000, -708.000000) translate(180.000000, 144.000000) translate(16.000000, 16.000000) translate(0.000000, 548.000000) translate(61.000000, 0.000000) translate(36.000000, 0.000000)">
-                                                                    <circle cx="14" cy="14" r="14" fill="#0084FF"></circle>
-                                                                    <path fill="#FFF" d="M14.848 15.928l-1.771-1.9-3.457 1.9 3.802-4.061 1.815 1.9 3.414-1.9-3.803 4.061zM14.157 7.2c-3.842 0-6.957 2.902-6.957 6.481 0 2.04 1.012 3.86 2.593 5.048V21.2l2.368-1.308c.632.176 1.302.271 1.996.271 3.842 0 6.957-2.902 6.957-6.482S17.999 7.2 14.157 7.2z"></path>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </svg>
-                                </a>
-                                <a href="https://twitter.com/intent/tweet?text=optional%20promo%20text%20https://baya.vn/products/chan-sofa-bella" target="_blank" class="share-twitter">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                                <a href="//pinterest.com/pin/create/link/?url=https://baya.vn&amp;media=https://product.hstatic.net/200000796751/product/bella_comforter_baya_2000560_ba4cb6ff50334575aecc266acc5c48ad.jpg&amp;description=Chăn Sofa BELLA" target="_blank" class="share-pinterest">
-                                    <i class="fa fa-pinterest-p" aria-hidden="true"></i>
-                                </a>
-                                <a class="share-link quickview-share">
-                                    <i class="fa fa-link" aria-hidden="true"></i>
-                                    <span class="ico-tooltip d-none">Đã sao chép</span>
-                                    <div class="productDetail-linkcopy"><input class="linkToCopy" readonly="readonly" value="https://baya.vn/products/chan-sofa-bella" id="myInputQuickview"></div>
-                                </a>`;
-            productContentHtml += '</div>';
-
-            // Tiếp tục thêm phần HTML mới vào .productDetail--content ở đây
-            productContentHtml += '<div class="product-viewdetail text-left">';
-            productContentHtml += '<a href="/products/chan-sofa-bella" class="productdetail-link">Xem chi tiết sản phẩm</a>';
-            productContentHtml += '<i class="fa fa-angle-double-right" aria-hidden="true"></i>';
-            productContentHtml += '</div>';
-            productContentHtml += '</div>';
-            productContentHtml += '</div>';
-            modal.find('.productDetail--content').replaceWith(productContentHtml);
-
-
-            slider = $('#image-gallery-product').lightSlider({
-                gallery: true,
-                item: 1,
-                thumbItem: 6,
-                slideMargin: 0,
-                speed: 500,
-                pauseOnHover: true,
-                controls: true,
-                prevHtml: "<svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' fill='currentColor' class='bi bi-chevron-left' viewBox='0 0 16 16'> <path fill-rule='evenodd' d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0' /> </svg>",
-                nextHtml: "<svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' fill='currentColor' class='bi bi-chevron-right' viewBox='0 0 16 16'> <path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708' /></svg>",
-                // responsive: [{
-                //         breakpoint: 990,
-                //         settings: {
-                //             gallery: true,
-
-                //         },
-                //         breakpoint: 900,
-                //         settings: {
-                //             gallery: false,
-
-                //         }
-                //     },
-                // ],
-            });
-        });
-    });
-</script>
-<!-- 
-<script type="text/javascript">
-    $(document).ready(function() {
-        var slider = null;
-        $('#quick-view-modal').on('shown.bs.modal', function(event) {
-            // var button = $(event.relatedTarget); // Button that triggered the modal
-            // var recipient = button.data('whatever'); // Extract info from data-* attributes
-            // console.log(recipient.title);
-            // var modal = $(this)
-            // modal.find('.product-heading h2').text(recipient.title)
-
-            // slider.refresh();
-            // slider.destroy();
-
-            if (slider) {
-                slider.destroy();
-            }
-            slider = $('#image-gallery-product').lightSlider({
-                gallery: true,
-                item: 1,
-                slideMargin: 0,
-                speed: 500,
-                auto: false,
-                loop: true,
-                thumbItem: 6,
-                prevHtml: "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-left' viewBox='0 0 16 16'> <path fill-rule='evenodd' d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0' /> </svg>",
-                nextHtml: "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-right' viewBox='0 0 16 16'> <path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708' /></svg>",
-            });
-            slider.refresh();
-        });
-
-    });
-</script> -->
-
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/category.product.js')}}"></script> -->
+<script type="text/javascript" src="{{asset('/front_end_asset/style/js/modalProduct.js')}}"></script>
 
 @section('page-js')
 
@@ -875,7 +613,6 @@
         window.history.pushState(null, null, newURL);
         window.location.reload()
     })
-    console.log(123)
 </script>
 @endsection
 @endsection

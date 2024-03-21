@@ -418,18 +418,18 @@ var HRT = {
 
 HRT.All = {
 	checkCart: function(){
-		$.ajax({
-			url:'/cart.js',
-			type:'GET',
-			async: false,
-			success: function(cart){	
-				$('.count-holder .count').html(cart.item_count);
-				cartGet = cart;
-				if(cart.items.length > 0){
-					cart.items.map((x,i) => {$('.proloop-actions[data-vrid="'+x.variant_id+'"] .proloop-value').val(x.quantity); $('.proloop-actions[data-vrid="'+x.variant_id+'"]').addClass('action-count');});
-				}
-			}
-		});
+		// $.ajax({
+		// 	url:'/cart.js',
+		// 	type:'GET',
+		// 	async: false,
+		// 	success: function(cart){	
+		// 		$('.count-holder .count').html(cart.item_count);
+		// 		cartGet = cart;
+		// 		if(cart.items.length > 0){
+		// 			cart.items.map((x,i) => {$('.proloop-actions[data-vrid="'+x.variant_id+'"] .proloop-value').val(x.quantity); $('.proloop-actions[data-vrid="'+x.variant_id+'"]').addClass('action-count');});
+		// 		}
+		// 	}
+		// });
 	},
 	notifyProduct:	function ($info){
 		var wait = setTimeout(function(){

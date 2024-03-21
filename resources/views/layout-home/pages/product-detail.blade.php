@@ -44,7 +44,7 @@ $jsonData = json_decode($product, true);
         <div class="breadcrumb-list">
             <ol class="breadcrumb breadcrumb-arrows" itemscope itemtype="http://schema.org/BreadcrumbList">
                 <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                <a href="{{route('home')}}" target="_self" itemprop="item"><span itemprop="name">{{__('Home')}}</span></a>
+                    <a href="{{route('home')}}" target="_self" itemprop="item"><span itemprop="name">{{__('Home')}}</span></a>
                     <meta itemprop="position" content="1" />
                 </li>
 
@@ -65,7 +65,6 @@ $jsonData = json_decode($product, true);
         </div>
     </div>
 </div>
-
 
 <section class="productDetail-information productDetail_style__02">
     <div class="container container-pd0">
@@ -161,25 +160,6 @@ $jsonData = json_decode($product, true);
 
                     <div class="product-variants">
                         <form id="add-item-form" action="https://baya.vn/cart/add" method="post" class="variants clearfix">
-                            <div class="select clearfix">
-                                <select id="product-select" name="id" style="display: none">
-                                    <option value="1114835500">
-                                        Đỏ / D200xR150 - 500,000₫
-                                    </option>
-
-                                    <option value="1114835501">
-                                        Hồng 2 / D200xR150 - 400,000₫
-                                    </option>
-
-                                    <option value="1114835502">
-                                        Hồng / đỏ / D203xR152 - 419,000₫
-                                    </option>
-
-                                    <option value="1114835503">
-                                        Hồng 2 / D152xR127 - 209,000₫
-                                    </option>
-                                </select>
-                            </div>
                             <div class="select-swatch clearfix">
                                 <div id="variant-swatch-0" class="swatch clearfix" data-option="option1" data-option-index="0">
                                     <div class="title-swap header">
@@ -266,9 +246,12 @@ $jsonData = json_decode($product, true);
                             </style>
 
                             <div class="addcart-area">
-                                <button type="button" id="add-to-cart" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
-                                    Thêm vào giỏ
+                                <button data-product-sku="{{$productSku->id}}" data-product="{{$product->id}}" title="Thêm vào giỏ hàng" class="action primary tocart" id="product-addtocart-button" type="button">
+                                    <span>{{__('Add to cart')}}</span>
                                 </button>
+                                <!-- <button type="button" id="add-to-cart" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
+                                    Thêm vào giỏ
+                                </button> -->
 
                                 <button type="button" id="buy-now" class="button dark btn-buynow btnred addtocart-modal" name="add">
                                     Mua ngay
@@ -490,6 +473,7 @@ $jsonData = json_decode($product, true);
                 $photo_2 = $productSku_2->photo ? $productSku_2->photo : $item->photo;
                 }
                 @endphp
+
                 <div class="product-loop" data-id="1114458356">
                     <div class="product-inner" data-proid="1050909470" id="listProdRelated_loop_1">
                         <div class="proloop-image">
@@ -597,5 +581,5 @@ $jsonData = json_decode($product, true);
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/product.detail.js')}}"></script>
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" defer></script> -->
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/bootstrap.js')}}"></script> -->
-<script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script>
+<!-- <script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script> -->
 @endsection
