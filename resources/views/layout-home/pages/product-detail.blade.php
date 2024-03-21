@@ -68,7 +68,7 @@ $jsonData = json_decode($product, true);
 
 <section class="productDetail-information productDetail_style__02">
     <div class="container container-pd0">
-        <div class="productDetail--main">
+        <div class="productDetail--main" >
             <div class="productDetail--gallery">
                 <div class="product-container-gallery">
                     <div class="wrapbox-image wrapbox-image-scrollspy d-none d-lg-block">
@@ -145,7 +145,7 @@ $jsonData = json_decode($product, true);
                     </div>
                 </div>
             </div>
-            <div class="productDetailjs productDetail--content" id="detail-product">
+            <div class="productDetailjs productDetail--content" data-product-id="{{$product->id}}" id="product-data">
                 <div class="wrapbox-detail stickyProduct-detail">
                     <div class="product-heading">
                         <h1>{{$product->title}}</h1>
@@ -193,15 +193,16 @@ $jsonData = json_decode($product, true);
                                         @foreach ($colors as $color)
                                         <!-- {{$image_color[$color->id]}} -->
 
-                                        <div data-value="{{ $color->title}}" class="n-sd swatch-element color {{ $color->title == 'Đen' ? 'color-1' : ''}}">
-                                            <input class="variant-0" id="swatch-0-{{$color->value}}" type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->value}}" {{($color->title == 'Đỏ' )? 'checked' : ''}} />
+                                        <div data-value="{{ $color->title}}" class="n-sd swatch-element color ">
+                                            <input class="variant-0" id="swatch-0-{{$color->value}}" type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->value}}"  />
 
-                                            <label class="{{$color->value}} {{($color->title == 'Đỏ' )? 'sd' : ''}}" for="swatch-0-{{$color->value}}">
+                                            <label class="{{$color->value}} select-color" for="swatch-0-{{$color->value}}">
                                                 <span>{{ $color->title}}</span>
                                             </label>
                                         </div>
                                         @endforeach
                                     </div>
+                                    <div class="mage-error" generated="true" id="super_color-error"></div>
                                 </div>
 
                                 <div id="variant-swatch-1" class="swatch clearfix" data-option="option2" data-option-index="1">
@@ -216,8 +217,8 @@ $jsonData = json_decode($product, true);
                                             </label>
                                         </div>
                                         @endforeach
-
                                     </div>
+                                    <div class="mage-error" generated="true" id="super_size-error"></div>
                                 </div>
                             </div>
                         </form>
@@ -272,7 +273,7 @@ $jsonData = json_decode($product, true);
                             </style>
 
                             <div class="addcart-area">
-                                <button type="button" id="product-addtocart-button" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
+                                <button type="button" id="product-addtocart-button" data-product-sku="{{$productSku->id}}" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
                                     Thêm vào giỏ
                                 </button>
                                 <!-- <button type="button" id="add-to-cart" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
@@ -500,10 +501,10 @@ $jsonData = json_decode($product, true);
                 $photo_2 = $productSku_2->photo ? $productSku_2->photo : $item->photo;
                 }
                 @endphp
-                            @php
-                                $cate = $item->cates->where('type', 'Menu')->where('status', 1)->first();
-                                $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes]);
-                                @endphp
+                @php
+                $cate = $item->cates->where('type', 'Menu')->where('status', 1)->first();
+                $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes]);
+                @endphp
                 <div class="product-loop" data-id="1114458356">
                     <div class="product-inner" data-proid="1050909470" id="listProdRelated_loop_1">
                         <div class="proloop-image">
@@ -532,7 +533,7 @@ $jsonData = json_decode($product, true);
                                     </div>
                                 </div>
                                 <div class="quickview-product">
-                                <button class="icon-quickview executeButton" data-toggle="modal" data-target="#quick-view-modal" data-whatever="<?php echo htmlspecialchars($dataItem); ?>"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                    <button class="icon-quickview executeButton" data-toggle="modal" data-target="#quick-view-modal" data-whatever="<?php echo htmlspecialchars($dataItem); ?>"><i class="fa fa-eye" aria-hidden="true"></i></button>
 
                                     <!-- <a class="icon-quickview" href="javascript:void(0)" data-handle="/products/tho-black-white" title="Xem nhanh"><i class="fa fa-eye" aria-hidden="true"></i></a> -->
                                 </div>
@@ -630,56 +631,74 @@ $jsonData = json_decode($product, true);
     </div>
 </div>
 <script>
+    let color_id = null,
+        size_id = null,
+        quantity = 1,
+        handle = null;
     $(document).ready(function() {
-        $('#product-addtocart-button').click(function() {
-            $('.mage-error').remove()
-            const dataId = []
-            const options = []
-            let flag = true
-            $('#product-options-wrapper select').each(function() {
-                const intxt = $(this).find('option:selected').text()
-                const value = $(this).val()
-                if (!value) {
-                    $(this).parents('.field.option').append(`<div generated="true" class="mage-error">Đây là trường bắt buộc.</div>`)
-                    flag = false
-                    return
-                }
-                dataId.push(value)
-                options.push(intxt)
-            })
-            if (flag) {
-                const productId = $(this).attr('product-id')
-                const quantity = $("#quantity").val()
-                const url = location.origin + "/cart-add";
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: {
-                        comboId: dataId,
-                        productId: productId,
-                        quantity: quantity,
-                        options: options
-                    },
-                    success: function(res) {
-                        if (res && res.message) {
-                            $(".counter.qty .counter-number").text(res.total);
-                            $(".modals-wrapper-popup").append(
-                                '<div class="modals-overlay"></div>'
-                            );
-                            $(".modals-wrapper-popup .modal-popup").html(res.popup);
-                            $(".modal-popup").css({
-                                "z-index": 10002,
-                                "margin-left": "10px",
-                                "margin-right": "10px",
-                            });
-                            setTimeout(() => {
-                                $(".modal-popup").addClass("confirm _show");
-                            }, 200);
-                        }
-                    }
-                })
+        $(document).on("click", "#add-item-form .swatch-element.color", function() {
+            $that = $(this).parents("#product-data");
+            $("#super_color-error").text("");
+            // $(".swatch-option.image.selected").not($(this)).removeClass("selected");
+            // $(this).toggleClass("selected");
+            color_id = $(this).hasClass("selected") ?
+                $(this).attr("data-color-id") :
+                null;
+                
+            console.log(color_id, "22222222222222222222");
+
+            handle = "1";
+            if ($(this).attr("only-color")) {
+                onlySkuColor($that);
+            } else {
+                skuDetailOnly($that);
             }
-        })
+        });
+        $(document).on("click", "button#product-addtocart-button", function() {
+            if (!color_id) {
+                $("#super_color-error").text(fError);
+            }
+            if (!size_id) {
+                $("#super_size-error").text(fError);
+            }
+            if (!color_id || !size_id) {
+                return;
+            }
+            const skuId = $(this).attr("data-product-sku");
+            pushCart(skuId);
+        });
+
+        function pushCart(skuId) {
+            const url = location.origin + "/cart-add";
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    skuId: skuId,
+                    size_id: size_id,
+                    quantity: quantity
+                },
+                success: function(res) {
+                    if (res && res.message) {
+                        $(".counter.qty .counter-number").text(res.total);
+                        $(".modals-wrapper-popup").append(
+                            '<div class="modals-overlay"  style="z-index: 10001"></div>'
+                        );
+                        $(".modals-wrapper-popup .modal-popup").html(res.popup);
+                        $(".modals-wrapper-popup .modal-popup").css({
+                            "z-index": 10002,
+                            "margin-left": "10px",
+                            "margin-right": "10px",
+                        });
+                        setTimeout(() => {
+                            $(".modals-wrapper-popup .modal-popup").addClass(
+                                "add-to-cart-success-popup confirm _show"
+                            );
+                        }, 200);
+                    }
+                },
+            });
+        }
     })
 </script>
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/modalProduct.js')}}"></script>
