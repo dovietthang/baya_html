@@ -305,13 +305,19 @@
                                             var_dump($getSortOrder);
                                             @endphp
                                             <div class="collection-sortby-option layered_filter_mobileContent" id="layered_sortby_mobile">
-                                                <ul class="sort-by sort-by-content">
+                                                <ul class="sort-by sort-by-content" id="sort_by_content">
+                                                    <li><span data-value="asc" data-filter="(price:product=asc)">Giá: Tăng dần</span></li>
+                                                    <li><span data-value="desc" data-filter="(price:product=desc)">Giá: Giảm dần</span></li>
+                                                    <li><span data-value="created-ascending" data-filter="(updated_at:product=asc)">Cũ nhất</span></li>
+                                                    <li><span data-value="created-descending" data-filter="(updated_at:product=desc)">Mới nhất</span></li>
+                                                </ul>
+                                                <!-- <ul class="sort-by sort-by-content">
                                                     <li>
                                                         <span data-value="manual" data-filter="">Sản phẩm nổi bật </span>
 
                                                     </li>
                                                     <li>
-                                                        <!-- <span data-value="price-ascending" data-filter="(price:product=asc)">Giá: Tăng dần</span> -->
+                                                        <span data-value="price-ascending" data-filter="(price:product=asc)">Giá: Tăng dần</span>
                                                         @if($param_str)
                                                         <a href="{{$param_str. '&sort_order=asc'}}" class="action sorter-action @if(Request::get('sort_order') == 'asc') sort-asc @else sort-asc @endif" data-role="direction-switcher" data-value="asc">
                                                             @if($getSortOrder == 'asc')
@@ -332,7 +338,7 @@
 
                                                     </li>
                                                     <li>
-                                                        <!-- <span data-value="price-descending" data-filter="(price:product=desc)">Giá: Giảm dần</span> -->
+                                                        <span data-value="price-descending" data-filter="(price:product=desc)">Giá: Giảm dần</span>
                                                         @if($param_str)
                                                         <a href="{{$param_str. '&sort_order=desc'}}" class="action sorter-action @if(Request::get('sort_order') == 'desc') sort-desc @else sort-asc @endif" data-role="direction-switcher" data-value="desc">
                                                             @if($getSortOrder == 'desc')
@@ -369,7 +375,7 @@
                                                     <li>
                                                         <span data-value="quantity-descending" data-filter="(quantity:product=desc)">Tồn kho giảm dần</span>
                                                     </li>
-                                                </ul>
+                                                </ul> -->
                                             </div>
                                         </div>
                                     </div>
@@ -614,5 +620,23 @@
         window.location.reload()
     })
 </script>
+
+<script>
+
+$(document).ready(function() {
+    $('.sort-by-content li').click(function() {
+        // Lấy giá trị data-filter của thẻ span bên trong thẻ li được click
+        var filterValue = $(this).find('span').data('filter');
+        
+        // Thực hiện xử lý lọc dữ liệu dựa trên filterValue
+        // Ở đây, bạn có thể gọi hàm lọc dữ liệu hoặc thực hiện các thao tác cần thiết với filterValue
+        
+        // Đánh dấu thẻ li được click là active và loại bỏ class active từ các thẻ li khác
+        $(this).addClass('active').siblings().removeClass('active');
+    });
+});
+
+</script>
+
 @endsection
 @endsection

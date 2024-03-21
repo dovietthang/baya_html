@@ -5,7 +5,7 @@
 @section('content')
 <link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/Carousel.style.css')}}" as="style">
 <script>
-    var formatMoney = "{{@$cate->title}}₫";
+    var formatMoney = "{{@$product->title}}₫";
     var template = "product";
     var priceMin = "";
 
@@ -74,29 +74,42 @@ $jsonData = json_decode($product, true);
                     <div class="wrapbox-image wrapbox-image-scrollspy d-none d-lg-block">
                         <div class="productGallery_thumb stickyProduct-gallery" id="productScroll-spy">
                             <div class="productList-thumb list-group">
-                                @if(count($photo) > 0)
+                                @if($photo && count($photo) > 0)
                                 <?php $url_img_def = 'admin_asset/app-assets/images/empty.png' ?>
                                 @foreach ($photo as $key => $item)
-                                <div class="product-thumb" data-image="{{$item ? $item : $url_img_def}}">
+                                @if(!isset($item) || !$item)
+                                <div class="product-thumb" data-image="{{asset('/front_end_asset/admin_asset/app-assets/images/empty.png')}}">
                                     <a href="#gallery-scroll-{{$key + 1}}" class="product-thumb__item d-inline-block list-group-item">
-                                        <img src="{{$item ? $item : $url_img_def}}" alt="{{$product->title}}" />
+                                        <img src="{{asset('/front_end_asset/admin_asset/app-assets/images/empty.png')}}" alt="{{$product->title}}" />
                                     </a>
                                 </div>
+                                @else
+                                <div class="product-thumb" data-image="{{$item}}">
+                                    <a href="#gallery-scroll-{{$key + 1}}" class="product-thumb__item d-inline-block list-group-item">
+                                        <img src="{{$item}}" alt="{{$product->title}}" />
+                                    </a>
+                                </div>
+                                @endif
                                 @endforeach
                                 @endif
                             </div>
                         </div>
                         <div class="productGallery_slider">
                             <div class="productList-slider" id="productScroll-slider">
-                                @if(count($photo) > 0)
+                                @if($photo && count($photo) > 0)
                                 @foreach ($photo as $key => $item)
-
                                 <div id="gallery-scroll-{{$key + 1}}" class="product-gallery" data-image="{{$item ? $item : $url_img_def}}">
                                     <a data-fancybox="gallery" href="{{$item ? $item : $url_img_def}}" class="product-gallery__item">
                                         <picture>
-                                            <source media="(max-width: 480px)" srcset=" {{$item ? $item : $url_img_def}} " />
-                                            <source media="(min-width: 481px) and (max-width: 991px)" srcset=" {{$item ? $item : $url_img_def}}" />
-                                            <img class="product-image-feature" src="{{$item ? $item : $url_img_def}}" alt="{{$product->title}}" />
+                                            @if(!isset($item) || !$item)
+                                            <source media="(max-width: 480px)" srcset="{{asset('/front_end_asset/admin_asset/app-assets/images/empty.png')}}" />
+                                            <source media="(min-width: 481px) and (max-width: 991px)" srcset="{{asset('/front_end_asset/admin_asset/app-assets/images/empty.png')}}" />
+                                            <img class="product-image-feature" src="{{asset('/front_end_asset/admin_asset/app-assets/images/empty.png')}}" alt="{{$product->title}}" />
+                                            @else
+                                            <source media="(max-width: 480px)" srcset=" {{$item}} " />
+                                            <source media="(min-width: 481px) and (max-width: 991px)" srcset=" {{$item}}" />
+                                            <img class="product-image-feature" src="{{$item}}" alt="{{$product->title}}" />
+                                            @endif
                                         </picture>
                                     </a>
                                 </div>
@@ -107,14 +120,24 @@ $jsonData = json_decode($product, true);
                     </div>
                     <div class="wrapbox-image mobile_gallery d-sm-block d-lg-none">
                         <div class="productGallery_slider">
-                            @if(count($photo) > 0)
-                            @foreach ($photo as $key => $item)
+
                             <ul class="productList-slider productCarousel-slider owl-carousel" id="productCarousel-slider-mobile">
+                                @if(count($photo) > 0)
+                                @foreach ($photo as $key => $item)
+
+                                @if(!isset($item) || !$item)
+                                <li class="product-gallery" data-image="{{asset('/front_end_asset/admin_asset/app-assets/images/empty.png')}}">
+                                    <a class="product-gallery__item" data-fancybox="gallery" href="{{asset('/front_end_asset/admin_asset/app-assets/images/empty.png')}}">
+                                        <img src="{{asset('/front_end_asset/admin_asset/app-assets/images/empty.png')}}" alt="{{$product->title}}" />
+                                    </a>
+                                </li>
+                                @else
                                 <li class="product-gallery" data-image="{{$item ? $item : $url_img_def}}">
                                     <a class="product-gallery__item" data-fancybox="gallery" href="{{$item ? $item : $url_img_def}}">
                                         <img src="{{$item ? $item : $url_img_def}}" alt="{{$product->title}}" />
                                     </a>
                                 </li>
+                                @endif
                                 @endforeach
                                 @endif
                             </ul>
@@ -161,37 +184,19 @@ $jsonData = json_decode($product, true);
                     <div class="product-variants">
                         <form id="add-item-form" action="https://baya.vn/cart/add" method="post" class="variants clearfix">
                             <input type="text" id="product-id" name="id" value="{{$product->id}}" style="display: none" />
-
-                            <!-- <div class="select clearfix">
-                                <select id="product-select" name="id" style="display: none">
-                                    <option value="1114835500">
-                                        Đỏ / D200xR150 - 500,000₫
-                                    </option>
-
-                                    <option value="1114835501">
-                                        Hồng 2 / D200xR150 - 400,000₫
-                                    </option>
-
-                                    <option value="1114835502">
-                                        Hồng / đỏ / D203xR152 - 419,000₫
-                                    </option>
-
-                                    <option value="1114835503">
-                                        Hồng 2 / D152xR127 - 209,000₫
-                                    </option>
-                                </select>
-                            </div> -->
                             <div class="select-swatch clearfix">
                                 <div id="variant-swatch-0" class="swatch clearfix" data-option="option1" data-option-index="0">
                                     <div class="title-swap header">
                                         {{__('Color')}}: <strong></strong>
                                     </div>
                                     <div class="select-swap">
-                                        @foreach ($colors as  $color)
-                                        <div data-value="{{ $color->title}}" class="n-sd swatch-element color {{$color->value}} ">
-                                            <input class="variant-0" id="swatch-0-{{$color->value}}" type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->title}}" {{$color->title == 'Đỏ' ? 'checked' : '' }}/>
+                                        @foreach ($colors as $color)
+                                        <!-- {{$image_color[$color->id]}} -->
 
-                                            <label class="{{$color->value}}" for="swatch-0-{{$color->value}}">
+                                        <div data-value="{{ $color->title}}" class="n-sd swatch-element color {{ $color->title == 'Đen' ? 'color-1' : ''}}">
+                                            <input class="variant-0" id="swatch-0-{{$color->value}}" type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->value}}" {{($color->title == 'Đỏ' )? 'checked' : ''}} />
+
+                                            <label class="{{$color->value}} {{($color->title == 'Đỏ' )? 'sd' : ''}}" for="swatch-0-{{$color->value}}">
                                                 <span>{{ $color->title}}</span>
                                             </label>
                                         </div>
@@ -204,7 +209,7 @@ $jsonData = json_decode($product, true);
                                     <div class="select-swap">
                                         @foreach ($sizes as $size)
                                         <div data-value="{{$size->value}}" class="n-sd swatch-element {{$size->value}}">
-                                            <input class="variant-1" id="swatch-1-{{$size->value}}" type="radio" name="option2" value="{{$size->value}}" data-vhandle="{{$size->value}}" checked />
+                                            <input class="variant-1" id="swatch-1-{{$size->value}}" type="radio" name="option2" value="{{$size->value}}" data-vhandle="{{$size->value}}" />
 
                                             <label for="swatch-1-{{$size->value}}">
                                                 <span>{{$size->title}}</span>
@@ -485,6 +490,7 @@ $jsonData = json_decode($product, true);
                 $photo = $productSku->photo ? $productSku->photo : $item->photo;
                 $getPrice = $productSku->price ? $productSku->price : $item->price;
                 $colors = $productSku->colors($productSkus->pluck('color_id')->unique()->toArray());
+                $sizes = $productSku->colors($productSkus->pluck('size_id')->unique()->toArray());
                 $image_color = $productSkus->pluck('photo', 'color_id')->toArray();
                 $getSale = \App\Models\Coupon::getSaleProduct($productSku->id);
                 $salePrice = $getSale->get('getPrice');
@@ -494,7 +500,10 @@ $jsonData = json_decode($product, true);
                 $photo_2 = $productSku_2->photo ? $productSku_2->photo : $item->photo;
                 }
                 @endphp
-
+                            @php
+                                $cate = $item->cates->where('type', 'Menu')->where('status', 1)->first();
+                                $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes]);
+                                @endphp
                 <div class="product-loop" data-id="1114458356">
                     <div class="product-inner" data-proid="1050909470" id="listProdRelated_loop_1">
                         <div class="proloop-image">
@@ -523,7 +532,9 @@ $jsonData = json_decode($product, true);
                                     </div>
                                 </div>
                                 <div class="quickview-product">
-                                    <a class="icon-quickview" href="javascript:void(0)" data-handle="/products/tho-black-white" title="Xem nhanh"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <button class="icon-quickview executeButton" data-toggle="modal" data-target="#quick-view-modal" data-whatever="<?php echo htmlspecialchars($dataItem); ?>"><i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                    <!-- <a class="icon-quickview" href="javascript:void(0)" data-handle="/products/tho-black-white" title="Xem nhanh"><i class="fa fa-eye" aria-hidden="true"></i></a> -->
                                 </div>
                                 <a href="{{route('detail.product' , [$item->slug])}}" class="proloop-link quickview-product" data-handle="{{route('detail.product' , [$item->slug])}}" title="{{$item->title}}"></a>
                         </div>
@@ -549,7 +560,7 @@ $jsonData = json_decode($product, true);
                                 <div class="proloop-actions" data-vrid="1114458356">
                                     <div class="proloop-actions__inner">
                                         <div class="actions-primary">
-                                            <button type="submit" class="btn-proloop-cart add-to-cart btn-addcart-view" onclick="HRT.All.addCartProdItem('1114458356')">
+                                            <button type="submit" class="btn-proloop-cart add-to-cart btn-addcart-view" data-toggle="modal" data-target="#quick-view-modal" data-whatever="<?php echo htmlspecialchars($dataItem); ?>">
                                                 <span class="btnadd"> Thêm vào giỏ </span>
                                                 <span class="btnico" title="Thêm vào giỏ">
                                                     <svg version="1.0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -598,18 +609,37 @@ $jsonData = json_decode($product, true);
         </div>
     </div>
 </section>
+<div id="quick-view-modal" class="modal fade modal-product-quickview show" aria-modal="true">
 
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content wrapper-quickview">
+
+            <div class="modal-header modal-paramlink">
+                <div class="modal-close quickview-close" data-dismiss="modal" aria-label="Close">
+                </div>
+            </div>
+            <div class="modal-body modal-detailProduct">
+                <div class="productDetail-information">
+                    <div class="productDetail--gallery"></div>
+
+                    <div class="productDetail--content"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 <script>
-    $(document).ready(function(){
-        $('#product-addtocart-button').click(function () {
+    $(document).ready(function() {
+        $('#product-addtocart-button').click(function() {
             $('.mage-error').remove()
             const dataId = []
             const options = []
             let flag = true
-            $('#product-options-wrapper select').each(function(){
+            $('#product-options-wrapper select').each(function() {
                 const intxt = $(this).find('option:selected').text()
                 const value = $(this).val()
-                if(!value){
+                if (!value) {
                     $(this).parents('.field.option').append(`<div generated="true" class="mage-error">Đây là trường bắt buộc.</div>`)
                     flag = false
                     return
@@ -617,9 +647,9 @@ $jsonData = json_decode($product, true);
                 dataId.push(value)
                 options.push(intxt)
             })
-            if(flag){
+            if (flag) {
                 const productId = $(this).attr('product-id')
-                const quantity = $('input#qty').val()
+                const quantity = $("#quantity").val()
                 const url = location.origin + "/cart-add";
                 $.ajax({
                     type: "GET",
@@ -630,7 +660,7 @@ $jsonData = json_decode($product, true);
                         quantity: quantity,
                         options: options
                     },
-                    success: function (res) {
+                    success: function(res) {
                         if (res && res.message) {
                             $(".counter.qty .counter-number").text(res.total);
                             $(".modals-wrapper-popup").append(
@@ -649,12 +679,13 @@ $jsonData = json_decode($product, true);
                     }
                 })
             }
-         })
+        })
     })
 </script>
+<script type="text/javascript" src="{{asset('/front_end_asset/style/js/modalProduct.js')}}"></script>
 
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/product.detail.js')}}"></script>
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" defer></script> -->
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/bootstrap.js')}}"></script> -->
-<!-- <script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script> -->
+<script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script>
 @endsection
