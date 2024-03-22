@@ -551,13 +551,16 @@ class HomeController extends Controller
             $item->sub_quantity = $productSku->sub_quantity;
         }
         $this->addItemToCart($item);
-        $html = view('layout-home.pages.popup.add-cart')->with('name', $item->name)->render();
+        $carts = session()->get('cartShop');
+
+        $html = view('layout-home.pages.ajax-page.cart-item')->with('carts',  $carts)->render();
         return response()->json([
             'message' => true,
             'total' => number_format($this->getTotalCart(), 0, 0, '.'),
             'popup' => $html,
             'price_sum' => number_format($this->getSumPrice(), 0, 0, '.') . ' VNĐ'
         ]);
+
     }
     public function deleteOneCart(Request $rq)
     {
@@ -590,8 +593,10 @@ class HomeController extends Controller
     }
     function cartView()
     {
-        $carts = session()->get('cartShop');
-        return view('layout-home.pages.ajax-page.cart-item')->with('carts', $carts);
+        $cartss = session()->get('cartShop');
+        var_dump($cartss);
+        var_dump(111111111111111);
+        return view('layout-home.pages.ajax-page.cart-item')->with('cartss', $cartss);
     }
     function updateCart(Request $rq)
     {

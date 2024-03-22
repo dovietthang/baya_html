@@ -68,7 +68,7 @@ $jsonData = json_decode($product, true);
 
 <section class="productDetail-information productDetail_style__02">
     <div class="container container-pd0">
-        <div class="productDetail--main" >
+        <div class="productDetail--main">
             <div class="productDetail--gallery">
                 <div class="product-container-gallery">
                     <div class="wrapbox-image wrapbox-image-scrollspy d-none d-lg-block">
@@ -193,8 +193,8 @@ $jsonData = json_decode($product, true);
                                         @foreach ($colors as $color)
                                         <!-- {{$image_color[$color->id]}} -->
 
-                                        <div data-value="{{ $color->title}}" class="n-sd swatch-element color ">
-                                            <input class="variant-0" id="swatch-0-{{$color->value}}" type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->value}}"  />
+                                        <div data-value="{{$color->title}}" data-id="{{$color->id}}" class="n-sd swatch-element color ">
+                                            <input class="variant-0" id="swatch-0-{{$color->value}}" type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->value}}" />
 
                                             <label class="{{$color->value}} select-color" for="swatch-0-{{$color->value}}">
                                                 <span>{{ $color->title}}</span>
@@ -202,14 +202,15 @@ $jsonData = json_decode($product, true);
                                         </div>
                                         @endforeach
                                     </div>
-                                    <div class="mage-error" generated="true" id="super_color-error"></div>
                                 </div>
+                                <div class="mage-error px-3 text-danger" generated="true" id="super_color-error"></div>
+
 
                                 <div id="variant-swatch-1" class="swatch clearfix" data-option="option2" data-option-index="1">
                                     <div class="title-swap header">{{__('Size')}}:</div>
                                     <div class="select-swap">
                                         @foreach ($sizes as $size)
-                                        <div data-value="{{$size->value}}" class="n-sd swatch-element {{$size->value}}">
+                                        <div data-value="{{$size->value}}" data-id="{{$size->id}}" class="n-sd swatch-element size">
                                             <input class="variant-1" id="swatch-1-{{$size->value}}" type="radio" name="option2" value="{{$size->value}}" data-vhandle="{{$size->value}}" />
 
                                             <label for="swatch-1-{{$size->value}}">
@@ -218,8 +219,9 @@ $jsonData = json_decode($product, true);
                                         </div>
                                         @endforeach
                                     </div>
-                                    <div class="mage-error" generated="true" id="super_size-error"></div>
                                 </div>
+                                <div class="mage-error px-3 text-danger" generated="true" id="super_size-error"></div>
+
                             </div>
                         </form>
                     </div>
@@ -248,7 +250,7 @@ $jsonData = json_decode($product, true);
                                         <path d="M10 0v2H0V0z"></path>
                                     </svg>
                                 </button>
-                                <input type="text" id="quantity" name="quantity" value="1" min="1" class="quantity-input" />
+                                <input type="text" id="quantity" name="quantity" value="1" min="1" max="10" class="quantity-input" />
                                 <button type="button" onclick="HRT.All.plusQuantity()" class="qty-btn">
                                     <svg focusable="false" class="icon icon--plus" viewBox="0 0 10 10" role="presentation">
                                         <path d="M6 4h4v2H6v4H4V6H0V4h4V0h2v4z"></path>
@@ -634,26 +636,22 @@ $jsonData = json_decode($product, true);
     let color_id = null,
         size_id = null,
         quantity = 1,
-        handle = null;
+        handle = null,
+        fError = 'Trường bắt buộc';
+
     $(document).ready(function() {
         $(document).on("click", "#add-item-form .swatch-element.color", function() {
-            $that = $(this).parents("#product-data");
             $("#super_color-error").text("");
-            // $(".swatch-option.image.selected").not($(this)).removeClass("selected");
-            // $(this).toggleClass("selected");
-            color_id = $(this).hasClass("selected") ?
-                $(this).attr("data-color-id") :
-                null;
-                
-            console.log(color_id, "22222222222222222222");
-
-            handle = "1";
-            if ($(this).attr("only-color")) {
-                onlySkuColor($that);
-            } else {
-                skuDetailOnly($that);
-            }
+            color_id = $(this).data("id") ?? null;
+            console.log("Color ID:", color_id);
         });
+
+        $(document).on("click", "#add-item-form .swatch-element.size", function() {
+            $("#super_size-error").text("");
+            size_id = $(this).data("id") ?? null;
+            console.log("size_id ID:", size_id);
+        });
+
         $(document).on("click", "button#product-addtocart-button", function() {
             if (!color_id) {
                 $("#super_color-error").text(fError);
@@ -661,12 +659,30 @@ $jsonData = json_decode($product, true);
             if (!size_id) {
                 $("#super_size-error").text(fError);
             }
+            quantity = $("#quantity").val(),
+
+                console.log(color_id);
+            console.log(size_id);
+            console.log(quantity);
             if (!color_id || !size_id) {
                 return;
             }
             const skuId = $(this).attr("data-product-sku");
             pushCart(skuId);
         });
+
+        // $('.header-action_cart').click(function(e) {
+        //     if ($(this).hasClass('js-action-show')) {
+        //         $('body').removeClass('locked-scroll');
+        //         $(this).removeClass('js-action-show');
+        //         console.log(11111111111);
+        //     } else {
+        //         $('body').addClass('locked-scroll');
+        //         $(this).addClass('js-action-show');
+        //         console.log(22222222222);
+        //     }
+        // });
+
 
         function pushCart(skuId) {
             const url = location.origin + "/cart-add";
@@ -680,21 +696,13 @@ $jsonData = json_decode($product, true);
                 },
                 success: function(res) {
                     if (res && res.message) {
-                        $(".counter.qty .counter-number").text(res.total);
-                        $(".modals-wrapper-popup").append(
-                            '<div class="modals-overlay"  style="z-index: 10001"></div>'
-                        );
-                        $(".modals-wrapper-popup .modal-popup").html(res.popup);
-                        $(".modals-wrapper-popup .modal-popup").css({
-                            "z-index": 10002,
-                            "margin-left": "10px",
-                            "margin-right": "10px",
-                        });
-                        setTimeout(() => {
-                            $(".modals-wrapper-popup .modal-popup").addClass(
-                                "add-to-cart-success-popup confirm _show"
-                            );
-                        }, 200);
+                        $(".header-action-item.header-action_cart .count-holder .count").text(res.total);
+                        if (!$(".header-action-item.header-action_cart").hasClass('js-action-show')) {
+                            $('body').addClass('locked-scroll');
+                            $(".header-action-item.header-action_cart").addClass('js-action-show');
+                        }
+                        // $(".mainBody-theme.template-index").addClass('locked-scroll');
+                        $(".header-action-item.header-action_cart").html(res.popup);
                     }
                 },
             });
@@ -706,5 +714,5 @@ $jsonData = json_decode($product, true);
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/product.detail.js')}}"></script>
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" defer></script> -->
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/bootstrap.js')}}"></script> -->
-<script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script>
+<!-- <script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script> -->
 @endsection

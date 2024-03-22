@@ -72,6 +72,12 @@ class AppServiceProvider extends ServiceProvider
             $view->with('banners', $banners);
         });
 
+        view()->composer('layout-home.pages.ajax-page.cart-item', function ($view) {
+            $carts = session()->get('cartShop');
+            // var_dump($carts);
+            $view->with('carts', $carts);
+        });
+
         view()->composer('layout-home.includes.support-bar', function ($view) {
             $pages = Post::where('type', 'page')->where('category', 3)->where('title', '!=', 'page404')->get();
             $view->with('pages', $pages);
