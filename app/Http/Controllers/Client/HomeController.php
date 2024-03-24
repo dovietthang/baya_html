@@ -1077,13 +1077,7 @@ class HomeController extends Controller
             $productSku = $temp;
             $getSale = Coupon::getSaleProduct($productSku->id);
             $salePrice = $getSale->get('getPrice');
-            $photo = [];
-            if ($notActive != 'color') {
-                $photo[] = $productSku->photo;
-            }
-            if ($product->photo) {
-                $photo = [...$photo, ...explode(',', $product->photo)];
-            }
+            $photo = $product->photo ? explode(',', $product->photo) : $productSku->photo;
 
             return view('layout-home.pages.ajax-page.detail-page-item')
                 ->with('salePrice', $salePrice)

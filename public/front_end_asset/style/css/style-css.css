@@ -16358,3 +16358,6 @@ a.text-dark:hover {
 .wrap_inforAccount p {
     margin-bottom: 3px;
 }
+.productDetail--content .product-variants .select-swatch .swatch .swatch-element:not(.size) {
+  overflow: hidden;
+}

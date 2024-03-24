@@ -1,165 +1,329 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout-home.layout-base')
+@section('title')
+<title>{{ @$cate->title_web  ? @$cate->title_web : @$cate->title }}</title>
+@endsection
+@section('content')
+<div id="layout-cart">
+    <div class="breadcrumb-shop">
+        <div class="container">
+            <div class="breadcrumb-list">
+                <ol class="breadcrumb breadcrumb-arrows" itemscope>
+                    <li itemprop="itemListElement" itemscope>
+                        <a href="{{route('home')}}" target="_self" itemprop="item"><span itemprop="name">{{__('Home')}}</span></a>
+                        <meta itemprop="position" content="1" />
+                    </li>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{__('Order')}}</title>
-    <link rel="stylesheet" type="text/css" media="all" href="{{asset('/front_asset/css/checkout/cef.min.css')}}" />
-    <link rel="stylesheet" type="text/css" media="screen and (min-width: 768px)"
-        href="{{asset('/front_asset/css/checkout/styles-l.min.css')}}" />
-    <link rel="stylesheet" type="text/css" media="print" href="{{asset('/front_asset/css/checkout/print.min.css')}}" />
-    <link rel="stylesheet" type="text/css" media="all" href="{{asset('/front_asset/css/checkout/c6a3.min.css')}}" />
-    <link rel="stylesheet" type="text/css" media="all" href="{{asset('/front_asset/css/custom.css')}}" />
-    <script type="text/javascript" src="{{asset('/front_asset/library/jquery-3.7.1.min.js')}}">
-    </script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" type="text/javascript">
-    </script>
-    <style>
-        label.error {
-            color: #e02b27;
-            font-size: 1.2rem;
-            margin-top: 7px;
-        }
-    </style>
-</head>
+                    <li class="active" itemprop="itemListElement" itemscope>
+                        <span itemprop="item"><strong itemprop="name">Giỏ hàng ({{ ($carts && count($carts) > 0) ? count($carts) : 0 }})</strong></span>
+                        <meta itemprop="position" content="2" />
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper-mainCart">
+        <div class="content-bodyCart">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-12 col-12 contentCart-detail">
+                        <div class="mainCart-detail">
+                            <h1 class="heading-cart">{{__('Order')}}</h1>
+                            @if($carts && count($carts) > 0)
+                            <div class="list-pageform-cart">
+                                <form action="/cart" method="post" id="cartformpage" data-gtm-form-interact-id="1">
+                                    <div class="cart-row">
+                                        <p class="title-number-cart">
+                                            Bạn đang có <strong class="count-cart">{{count($carts)}} sản phẩm</strong> trong giỏ hàng
+                                        </p>
+                                        <div class="table-cart">
+                                            @foreach (@$carts as $item)
+                                            <div class="media-line-item line-item" data-variant-id="1114458441" data-product-id="1050909507">
+                                                <div class="media-left">
+                                                    <div class="item-img">
+                                                        <a href="{{route('detail.product' , [$item->slug])}}">
+                                                            <img src="{{ ($item->image && $item->image != '') ? $item->image : asset('admin_asset/app-assets/images/empty.png') }}" alt="{{$item->name}}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-remove">
+                                                        <a href="javascript:void(0)" onclick="HRT.Cart.removeItemCart(this,'/cart/change?line=1&amp;quantity=0')" class="cart">Xóa</a>
+                                                    </div>
+                                                </div>
+                                                <div class="media-right">
+                                                    <div class="item-info">
+                                                        <h3 class="item--title"><a href="{{route('detail.product' , [$item->slug])}}">{{$item->name}}</a></h3>
 
-<body data-container="body" id="html-body" class="checkout-index-index page-layout-checkout" aria-busy="false">
-    <div class="page-wrapper">
-        <main id="maincontent" class="page-main">
-            <div data-bind="scope: 'messages'">
-                <div role="alert" class="messages">
-                    @if(session('success'))
-                    <div class="message-success success message" data-ui-id="message-success">
-                        <div>{{session('success')}}</div>
-                    </div>
-                    @endif
-                    @if(session('errors'))
-                    <div class="message-error error message" data-ui-id="message-error">
-                        <div>{{session('errors')}}</div>
-                    </div>
-                    @endif
-                </div>
-            </div>
-            <a id="contentarea" tabindex="-1"></a>
-            <div class="page-title-wrapper">
-                <h1 class="page-title"><span class="base" data-ui-id="page-title-wrapper">{{__('Order')}}</span></h1>
-            </div>
-            <div class="columns">
-                <div class="column main">
-                    <div id="authenticationPopup" style="display: none;"></div>
-                    <div id="checkout" class="checkout-container am-checkout -classic -layout-3columns"
-                        data-amcheckout-js="checkout">
-                        <div class="checkout-header">
-                            <h1 class="title">{{__('ORDER AND PAYMENT')}}</h1>
-                            <div class="description">{{__('Click')}} <a href="{{route('home')}}"
-                                    title="Tiếp tục mua sắm">{{__('here')}}</a> để tiếp tục mua sắm</div>
-                        </div>
-                        <div class="authentication-wrapper" data-block="authentication">
-                            @if(!Auth::user())
-                            <a href="{{route('login.shop')}}">
-                                <span>{{__('Log in')}}</span>
-                            </a>
+                                                        <div class="item--variant">
+                                                            <span>{{isset($item->item_id) ? implode('-', $item->item_id) : ''}}</span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="item-price">
+                                                        <p>
+                                                            <span>{{number_format($item->price,0,0,'.')}}₫</span>
+
+                                                            <del>4,490,000₫</del>
+                                                            {{$item->sub_quantity}} - {{$item->quantity}}
+
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="media-total">
+                                                    <div class="item-total-price">
+                                                        <div class="price">
+                                                            <span class="line-item-total">{{number_format($item->price,0,0,'.')}}₫</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-qty">
+                                                        <div class="qty quantity-partent qty-click clearfix">
+                                                            <button type="button" class="qtyminus qty-btn" fdprocessedid="r448ue">
+                                                                <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                                    <rect height="1" width="18" y="9" x="1"></rect>
+                                                                </svg>
+                                                            </button>
+                                                            <input type="text" size="4" name="qty" min="1" oriprice="449000000" line="1" productid="1050909507" variantid="1114458441" id="updates_1114458441" data-price="381650000" value="{{$item->quantity}}" readonly="" class="tc line-item-qty item-quantity" fdprocessedid="6skc1">
+                                                            <button type="button" class="qtyplus qty-btn" fdprocessedid="8t4auo">
+                                                                <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                                    <rect x="9" y="1" width="1" height="17"></rect>
+                                                                    <rect x="1" y="9" width="17" height="1"></rect>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="cart-row">
+                                        <div class="order-noted-block">
+                                            <div class="container-pd15">
+                                                <div class="checkout-buttons clearfix">
+                                                    <label for="note" class="note-label">Ghi chú đơn hàng</label>
+                                                    <textarea class="form-control" id="note" name="note" rows="5"></textarea>
+                                                </div>
+                                                <button type="submit" id="checkout" class="btn-checkout button d-none " name="checkout" value="">Thanh toán</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cart-row">
+                                        <div class="order-invoice-block">
+                                            <div class="checkbox">
+                                                <input type="hidden" name="attributes[invoice]" id="re-checkbox-bill" value="yes">
+                                                <input type="checkbox" id="checkbox-bill" value="yes" name="regular-checkbox" class="regular-checkbox" data-gtm-form-interact-field-id="1">
+                                                <label for="checkbox-bill" class="box"></label>
+                                                <label for="checkbox-bill" class="title">Xuất hoá đơn cho đơn hàng</label>
+                                            </div>
+
+
+                                            <div class="bill-field" style="display: block;">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control val-f check_change" name="attributes[bill_order_company]" value="" placeholder="Tên công ty..." fdprocessedid="za9rmy">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="number" pattern=".{10,}" onkeydown="return HRT.All.FilterInput(event)" onpaste="HRT.All.handlePaste(event)" class="form-control val-f val-n check_change" name="attributes[bill_order_tax_code]" value="" placeholder="Mã số thuế..." fdprocessedid="txtfdh">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="email" class="form-control val-f val-mail check_change" name="attributes[bill_email]" value="" placeholder="Email..." fdprocessedid="7cxaql">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control val-f check_change" name="attributes[bill_order_address]" value="" placeholder="Địa chỉ công ty..." fdprocessedid="otolj">
+                                                </div>
+                                                <div class="form-btn">
+                                                    <a href="javascript:void();" class="button btn-save">Lưu thông tin</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            @else
+                            <div class="expanded-message">
+                                Giỏ hàng của bạn đang trống
+                            </div>
                             @endif
                         </div>
-                        <div class="opc-wrapper am-opc-wrapper layout-3columns am-submit-summary">
-                            <div class="checkout-column opc">
-                                <div class="checkout-block -summary">
-                                    <div class="opc-block-summary amcheckout-summary-container">
-                                        <p class="step-title amcheckout-title" data-amcheckout-js="step-title">
-                                            {{__('Information order')}}</p>
-                                        <div class="step-content amcheckout-content" data-amcheckout-js="step-content">
-                                            <div class="amcheckout-wrapper">
-                                                <div class="block items-in-cart">
-                                                    <div class="content minicart-items" data-role="content">
-                                                        <div id="minicart-items"
-                                                            class="minicart-items-wrapper overflowed">
-                                                            <ol class="minicart-items">
-                                                                @if($carts && count($carts) > 0)
-                                                                @foreach (@$carts as $item)
-                                                                <li class="product-item">
-                                                                    <div class="product">
-                                                                        <span class="product-image-container"
-                                                                            style="height: 150px; width: 125px;">
-                                                                            <span class="product-image-wrapper">
-                                                                                @if($item->image != '' ||
-                                                                                $item->image != null)
-                                                                                <img src="{{$item->image}}"
-                                                                                    width="125" height="150"
-                                                                                    alt="{{$item->name}}"
-                                                                                    title="{{$item->name}}" />
-                                                                                @else
-                                                                                <img src="{{asset('admin_asset/app-assets/images/empty.png')}}"
-                                                                                    width="125" height="150"
-                                                                                    alt="{{$item->name}}"
-                                                                                    title="{{$item->name}}" />
-                                                                                @endif
-                                                                            </span>
-                                                                        </span>
-                                                                        <div class="product-item-details">
-                                                                            <div>
-                                                                                <div class="product-item-inner">
-                                                                                    <div
-                                                                                        class="product-item-name-block">
-                                                                                        <strong
-                                                                                            class="product-item-name">{{$item->name}}</strong>
-                                                                                    </div>
-                                                                                    <div class="subtotal">
-                                                                                        <span
-                                                                                            class="price-excluding-tax"
-                                                                                            data-label="Excl. Tax">
-                                                                                            <span class="cart-price">
-                                                                                                <span class="price">{{number_format($item->price,0,0,'.')}}đ</span>
-                                                                                                <span class="price old-price"></span>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="product options">
-                                                                                    @if(!isset($item->combo))
-                                                                                        <ul class="item-options">
-                                                                                            <li>
-                                                                                                <label
-                                                                                                    class="label">{{__('Color')}}</label>
-                                                                                                <span
-                                                                                                    class="values">{{$item->color}} - &nbsp;</span>
-                                                                                            </li>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-12 sidebarCart-sticky">
+                        <div class="wrap-order-summary">
+                            <div class="order-summary-block">
+                                <h2 class="summary-title">{{__('Information order')}}</h2>
 
-                                                                                            <li>
-                                                                                                <label
-                                                                                                    class="label">{{__('Size')}}</label>
-                                                                                                <span
-                                                                                                    class="values">{{$item->size}}</span>
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    @else
-                                                                                        <ul class="item-options">
-                                                                                            @foreach ($item->options as $option)
-                                                                                            <li><span>{{$option}}</span></li>
-                                                                                            @endforeach
-                                                                                        </ul>
-                                                                                    @endif
-                                                                                </div>
-                                                                                <div class="details-qty"
-                                                                                    data-item="{{$item->id}}" data-check="{{isset($item->item_id) ? implode('-', $item->item_id) : ''}}">
-                                                                                    <span
-                                                                                        class="label"><span>{{__('Quantity')}}</span>
-                                                                                    </span>
-                                                                                    <input class="qty" type="number"
-                                                                                        name="qty"
-                                                                                        data-quantity="{{$item->sub_quantity}}"
-                                                                                        value="{{$item->quantity}}"
-                                                                                        min="1" autocomplete="off" />
-                                                                                    <div class="delete"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                @endforeach
-                                                                @endif
-                                                            </ol>
+                                <div class="summary-total">
+                                    <p>Tổng tiền: <span>0₫</span></p>
+                                </div>
+                                <div class="summary-action">
+                                    <p>Phí vận chuyển sẽ được tính ở trang thanh toán.</p>
+                                    <p>
+                                        Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.
+                                    </p>
+                                    <p>
+                                        Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.
+                                    </p>
+                                    <div class="summary-alert alert alert-danger" style="display: block">
+                                        Giỏ hàng của bạn hiện chưa đạt mức tối thiểu để
+                                        thanh toán.
+                                    </div>
+                                </div>
+                                <div class="summary-button">
+                                    <a id="btnCart-checkout" class="checkout-btn btnred disabled" data-price-min="" data-price-total="0" href="#">THANH TOÁN
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="order-summary-block">
+                                <div class="cart-coupon coupon-initial coupon-second bgWhite">
+                                    <div class="title-coupon">
+                                        <h2>Khuyến mãi dành cho bạn</h2>
+                                    </div>
+                                    <div class="owl-carousel owlCarousel-style" id="sliderCouponCart">
+                                        <div class="row-coupon">
+                                            <div class="col-12 col-md-6 col-xl-12 coupon-item">
+                                                <div class="coupon-item__inner">
+                                                    <div class="coupon-item__left">
+                                                        <div class="cp-img boxlazy-img">
+                                                            <span class="boxlazy-img__insert">
+                                                                <img class="lazyload" data-src="//theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img.png?v=944" src="../theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img5b01.png?v=944" alt="Giảm 200.000đ" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="coupon-item__right">
+                                                        <button type="button" class="cp-icon" data-toggle="popover" data-container="body" data-placement="bottom" data-popover-content="#cp-tooltip-1" data-class="coupon-popover" title="Giảm 200.000đ ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+                                                                <defs>
+                                                                    <path id="4gg7gqe5ua" d="M8.333 0C3.738 0 0 3.738 0 8.333c0 4.595 3.738 8.334 8.333 8.334 4.595 0 8.334-3.739 8.334-8.334S12.928 0 8.333 0zm0 1.026c4.03 0 7.308 3.278 7.308 7.307 0 4.03-3.278 7.308-7.308 7.308-4.03 0-7.307-3.278-7.307-7.308 0-4.03 3.278-7.307 7.307-7.307zm.096 6.241c-.283 0-.512.23-.512.513v4.359c0 .283.23.513.512.513.284 0 .513-.23.513-.513V7.78c0-.283-.23-.513-.513-.513zm.037-3.114c-.474 0-.858.384-.858.858 0 .473.384.857.858.857s.858-.384.858-.857c0-.474-.384-.858-.858-.858z" />
+                                                                </defs>
+                                                                <g>
+                                                                    <g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g transform="translate(-2808 -4528) translate(2708 80) translate(52 4304) translate(48 144) translate(1.667 1.667)">
+                                                                                        <use xlink:href="#4gg7gqe5ua" />
+                                                                                    </g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </g>
+                                                            </svg>
+                                                        </button>
+
+                                                        <div class="cp-top">
+                                                            <h3>Giảm 200.000đ</h3>
+                                                            <p>Đơn hàng từ 3 triệu</p>
+                                                        </div>
+                                                        <div class="cp-bottom">
+                                                            <div class="cp-bottom-detail">
+                                                                <p>Mã: <strong>VOUCHER200K</strong></p>
+                                                                <p>HSD: 31/03/2024</p>
+                                                            </div>
+                                                            <div class="cp-bottom-btn">
+                                                                <button class="cp-btn button" data-coupon="VOUCHER200K">
+                                                                    Sao chép mã
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-xl-12 coupon-item">
+                                                <div class="coupon-item__inner">
+                                                    <div class="coupon-item__left">
+                                                        <div class="cp-img boxlazy-img">
+                                                            <span class="boxlazy-img__insert">
+                                                                <img class="lazyload" data-src="//theme.hstatic.net/200000796751/1001150659/14/home_coupon_2_img.png?v=944" src="../theme.hstatic.net/200000796751/1001150659/14/home_coupon_2_img5b01.png?v=944" alt="Giảm 100.000đ" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="coupon-item__right">
+                                                        <button type="button" class="cp-icon" data-toggle="popover" data-container="body" data-placement="bottom" data-popover-content="#cp-tooltip-2" data-class="coupon-popover" title="Giảm 100.000đ ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+                                                                <defs>
+                                                                    <path id="4gg7gqe5ua" d="M8.333 0C3.738 0 0 3.738 0 8.333c0 4.595 3.738 8.334 8.333 8.334 4.595 0 8.334-3.739 8.334-8.334S12.928 0 8.333 0zm0 1.026c4.03 0 7.308 3.278 7.308 7.307 0 4.03-3.278 7.308-7.308 7.308-4.03 0-7.307-3.278-7.307-7.308 0-4.03 3.278-7.307 7.307-7.307zm.096 6.241c-.283 0-.512.23-.512.513v4.359c0 .283.23.513.512.513.284 0 .513-.23.513-.513V7.78c0-.283-.23-.513-.513-.513zm.037-3.114c-.474 0-.858.384-.858.858 0 .473.384.857.858.857s.858-.384.858-.857c0-.474-.384-.858-.858-.858z" />
+                                                                </defs>
+                                                                <g>
+                                                                    <g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g transform="translate(-2808 -4528) translate(2708 80) translate(52 4304) translate(48 144) translate(1.667 1.667)">
+                                                                                        <use xlink:href="#4gg7gqe5ua" />
+                                                                                    </g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </g>
+                                                            </svg>
+                                                        </button>
+
+                                                        <div class="cp-top">
+                                                            <h3>Giảm 100.000đ</h3>
+                                                            <p>Đơn hàng từ 2 triệu đồng</p>
+                                                        </div>
+                                                        <div class="cp-bottom">
+                                                            <div class="cp-bottom-detail">
+                                                                <p>Mã: <strong>VOUCHER100K</strong></p>
+                                                                <p>HSD: 31/03/2024</p>
+                                                            </div>
+                                                            <div class="cp-bottom-btn">
+                                                                <button class="cp-btn button" data-coupon="VOUCHER100K">
+                                                                    Sao chép mã
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row-coupon">
+                                            <div class="col-12 col-md-6 col-xl-12 coupon-item">
+                                                <div class="coupon-item__inner">
+                                                    <div class="coupon-item__left">
+                                                        <div class="cp-img boxlazy-img">
+                                                            <span class="boxlazy-img__insert">
+                                                                <img class="lazyload" data-src="//theme.hstatic.net/200000796751/1001150659/14/home_coupon_3_img.png?v=944" src="../theme.hstatic.net/200000796751/1001150659/14/home_coupon_3_img5b01.png?v=944" alt="Giảm 50.000đ" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="coupon-item__right">
+                                                        <button type="button" class="cp-icon" data-toggle="popover" data-container="body" data-placement="bottom" data-popover-content="#cp-tooltip-3" data-class="coupon-popover" title="Giảm 50.000đ ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+                                                                <defs>
+                                                                    <path id="4gg7gqe5ua" d="M8.333 0C3.738 0 0 3.738 0 8.333c0 4.595 3.738 8.334 8.333 8.334 4.595 0 8.334-3.739 8.334-8.334S12.928 0 8.333 0zm0 1.026c4.03 0 7.308 3.278 7.308 7.307 0 4.03-3.278 7.308-7.308 7.308-4.03 0-7.307-3.278-7.307-7.308 0-4.03 3.278-7.307 7.307-7.307zm.096 6.241c-.283 0-.512.23-.512.513v4.359c0 .283.23.513.512.513.284 0 .513-.23.513-.513V7.78c0-.283-.23-.513-.513-.513zm.037-3.114c-.474 0-.858.384-.858.858 0 .473.384.857.858.857s.858-.384.858-.857c0-.474-.384-.858-.858-.858z" />
+                                                                </defs>
+                                                                <g>
+                                                                    <g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g transform="translate(-2808 -4528) translate(2708 80) translate(52 4304) translate(48 144) translate(1.667 1.667)">
+                                                                                        <use xlink:href="#4gg7gqe5ua" />
+                                                                                    </g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </g>
+                                                            </svg>
+                                                        </button>
+
+                                                        <div class="cp-top">
+                                                            <h3>Giảm 50.000đ</h3>
+                                                            <p>Đơn hàng từ 1 triệu đồng</p>
+                                                        </div>
+                                                        <div class="cp-bottom">
+                                                            <div class="cp-bottom-detail">
+                                                                <p>Mã: <strong>VOUCHER50K</strong></p>
+                                                                <p>HSD: 31/03/2024</p>
+                                                            </div>
+                                                            <div class="cp-bottom-btn">
+                                                                <button class="cp-btn button" data-coupon="VOUCHER50K">
+                                                                    Sao chép mã
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -168,687 +332,116 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="checkout-column opc">
-                                <div class="checkout-block -shipping_address">
-                                    <li id="shipping" class="checkout-shipping-address amcheckout-shipping-address">
-                                        <p class="step-title amcheckout-title" data-amcheckout-js="step-title"
-                                            data-role="title">{{__('Delivery address')}}</p>
-                                        <div id="checkout-step-shipping" class="step-content amcheckout-content"
-                                            data-amcheckout-js="step-content" data-role="content">
-                                            <div class="amcheckout-wrapper">
-                                                <form class="form form-shipping-address" id="co-shipping-form"
-                                                    data-hasrequired="* Đây là trường bắt buộc.">
-                                                    @csrf
-                                                    <div id="shipping-new-address-form" class="fieldset address">
-                                                        <div class="field _required" name="shippingAddress.firstname">
-                                                            <label class="label" for="firstname">
-                                                                <span>{{__('Full name')}}</span>
-                                                            </label>
-
-                                                            <div class="control">
-                                                                <input class="input-text" type="text" name="firstname"
-                                                                    aria-required="true" aria-invalid="false" value="{{@$shipAddress->last_name}} {{@$shipAddress->name}}"
-                                                                    id="firstname" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="field _required" name="shippingAddress.region_id">
-                                                            <label class="label"
-                                                                for="WOBMSV9"><span>{{__('Province')}}</span>
-                                                            </label>
-                                                            <div class="control">
-                                                                <select class="select" name="region_id" id="WOBMSV9"
-                                                                    aria-required="true" aria-invalid="false">
-                                                                    <option value="">{{__('Select a region, state or province')}}.</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="field _required" name="shippingAddress.city">
-                                                            <label class="label" for="LXU15EI">
-                                                                <span>{{__('District')}}</span>
-                                                            </label>
-
-                                                            <div class="control">
-                                                                <select class="admin__control-select" name="city"
-                                                                    id="LXU15EI" aria-describedby="notice-LXU15EI">
-                                                                    <option value="">{{__('Select district')}}</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="field _required" name="shippingAddress.postcode">
-                                                            <label class="label" for="KJIN0AB">
-                                                                <span>{{__('Wards')}}</span>
-                                                            </label>
-
-                                                            <div class="control">
-                                                                <select class="admin__control-select" name="postcode"
-                                                                    id="KJIN0AB" aria-describedby="notice-KJIN0AB">
-                                                                    <option value="">{{__('Select ward/commune')}}
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <fieldset class="field street admin__control-fields required">
-                                                            <legend class="label">
-                                                                <span>{{__('Address')}}</span>
-                                                            </legend>
-                                                            <div class="control">
-                                                                <div class="field _required"
-                                                                    name="shippingAddress.street.0">
-                                                                    <div class="control">
-                                                                        <input class="input-text" type="text"
-                                                                            name="street" aria-required="true" value="{{@$shipAddress->address}}"
-                                                                            aria-invalid="false" id="WATYA90" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </fieldset>
-                                                        <div class="field _required" name="shippingAddress.telephone">
-                                                            <label class="label" for="YV4N0KY">
-                                                                <span>{{__('Phone')}}</span>
-                                                            </label>
-
-                                                            <div class="control _with-tooltip">
-                                                                <input class="input-text" type="number" maxlength="10"
-                                                                    name="telephone" aria-describedby="notice-YV4N0KY"
-                                                                    id="YV4N0KY" value="{{@$shipAddress->phone}}"/>
-                                                                <div class="field-tooltip toggle">
-                                                                    <span id="tooltip-label" class="label">
-                                                                        <span>Tooltip</span>
-                                                                    </span>
-                                                                    <span id="tooltip"
-                                                                        class="field-tooltip-action action-help"
-                                                                        tabindex="0" data-toggle="dropdown"
-                                                                        aria-labelledby="tooltip-label"
-                                                                        aria-haspopup="true" aria-expanded="false"
-                                                                        role="button">
-                                                                    </span>
-
-                                                                    <div class="field-tooltip-content"
-                                                                        data-target="dropdown" aria-hidden="true">
-                                                                        {{__('Contact you upon delivery')}}.</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="field _required"
-                                                            name="shippingAddress.custom_attributes.custom_field_1_shippingAddress">
-                                                            <label class="label" for="JOYGQWX">
-                                                                <span>Email</span>
-                                                            </label>
-
-                                                            <div class="control">
-                                                                <input class="input-text" type="text" name="email"
-                                                                    aria-required="true" aria-invalid="false"
-                                                                    value="{{@Auth::user()->email}}"
-                                                                    id="JOYGQWX" />
-                                                            </div>
-                                                        </div>
-                                    <li class="order-attributes">
-                                        <div class="order-attributes-form fieldset address"></div>
-                                    </li>
-                                    <div class="field" name="amastyShippingAttributes.comment">
-                                        <label class="label" for="FHH20V7">
-                                            <span>{{__('Note')}}</span>
-                                        </label>
-
-                                        <div class="control">
-                                            <input class="input-text" type="text" name="comment" aria-invalid="false"
-                                                id="FHH20V7" />
-                                        </div>
-                                    </div>
-                                    {{-- <div class="admin__field admin__field-option">
-                                        <input type="checkbox" class="admin__control-checkbox" id="J2TKRQ4"
-                                            name="additional[subscribe]" value="false" />
-
-                                        <label class="admin__field-label" for="J2TKRQ4">Đăng ký nhận bản tin</label>
-                                    </div> --}}
-                                </div>
-                                </form>
-                            </div>
                         </div>
-                        </li>
-                    </div>
-                </div>
-
-                <div class="checkout-column opc">
-                    <div class="checkout-block -payment_method">
-                        <li id="payment" role="presentation" class="checkout-payment-method">
-                            <div id="checkout-step-payment" class="step-content" data-role="content" role="tabpanel"
-                                aria-hidden="false">
-                                <form id="co-payment-form" class="form payments" novalidate="novalidate">
-                                    <fieldset class="fieldset">
-                                        <legend class="legend">
-                                            <span>{{__('Payment Information')}}</span>
-                                        </legend>
-                                        <br />
-                                        <input name="captcha_form_id" type="hidden" value="payment_processing_request"
-                                            data-scope="" />
-                                        <br />
-                                        <div id="checkout-payment-method-load" class="opc-payment">
-                                            <div class="items payment-methods amcheckout-payment-methods">
-                                                <div class="payment-group" data-repeat-index="0">
-                                                    <div class="amcheckout-title" data-amcheckout-js="step-title">
-                                                        <div class="step-title" data-role="title">{{__('PAYMENT METHODS')}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="step-content amcheckout-content"
-                                                        data-amcheckout-js="step-content">
-                                                        <div class="amcheckout-wrapper">
-                                                            <div class="payment-method _active">
-                                                                <div class="payment-method-title field choice">
-                                                                    <input type="radio" name="payment[method]"
-                                                                        class="radio" id="cashondelivery" value="cod"
-                                                                        checked />
-                                                                    <label class="label" for="cashondelivery">
-                                                                        <span>{{__('Thanh toán tiền mặt khi giao hàng')}}</span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            <!-- <div class="payment-method">
-                                                                <div class="payment-method-title field choice">
-                                                                    <input type="radio" name="payment[method]"
-                                                                        class="radio" id="shopee" value="pay" />
-                                                                    <label class="label" for="shopee"><span>{{__('Online
-                                                                            payment')}}</span></label>
-                                                                </div>
-                                                            </div> -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="no-quotes-block" style="display: none;">
-                                            <span>No Payment method available.</span>
-                                        </div>
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </li>
-                    </div>
-                    <div class="checkout-block checkout-block-totals" id="checkout-total">
-                        @php
-                        $fee = $config->fee;
-                        if(!$province || ($province != 'Thành phố Hà Nội' && $province != 'Thành phố Hồ Chí Minh')){
-                        $fee = $config->fee2;
-                        }
-                        $freeship = $config->freeship;
-                        @endphp
-                        <div class="payment-option opc-payment-additional discount-code">
-                            <div class="payment-option-content" data-role="content">
-                                <div data-role="checkout-messages" class="messages"
-                                    data-bind="visible: isVisible(), click: removeAll" style="display: none;">
-                                </div>
-                                <form class="form form-discount" id="discount-form">
-                                    <div class="payment-option-inner">
-                                        <div class="field">
-                                            <label class="label" for="discount-code">
-                                                <span>{{__('Enter discount code')}}</span>
-                                            </label>
-                                            <div class="control">
-                                                @if($countPonSpin)
-                                                    <input class="input-text" value="{{$countPonSpin ? $countPonSpin->code : ''}}"
-                                                    type="text" value="" id="discount-code"
-                                                    name="{{$countPonSpin && $message && $message[0] ? 'not_discount_code' : 'discount_code'}}"
-                                                    placeholder="{{__('Enter discount code')}}" />
-                                                @else
-                                                    <input class="input-text" value="{{$discount ? $discount->code : ''}}"
-                                                    type="text" value="" id="discount-code"
-                                                    name="{{$discount && $message && $message[0] ? 'not_discount_code' : 'discount_code'}}"
-                                                    placeholder="{{__('Enter discount code')}}" />
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="actions-toolbar">
-                                        <div class="primary">
-                                            @if(($discount || $countPonSpin) && $message && $message[0])
-                                            <button class="action action-cancel" type="submit" value="Cancel">
-                                                <span><span>{{__('Cancel coupon')}}</span></span>
-                                            </button>
-                                            @else
-                                            <button class="action action-apply" type="submit" value="Apply">
-                                                <span>
-                                                    <span>{{__('Apply')}}</span>
-                                                </span>
-                                            </button>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        @if($freeship > 0 && $freeship > $baseTotal)
-                        <div class="shipping-remind" style="display: block;">
-                            <div class="icon"></div>
-                            <div class="notify">
-                                <div>{{__('Buy more')}} <span class="price">{{number_format($freeship -
-                                        $baseTotal,0,0,'.')}}₫</span> {{__('to get free shipping')}}. {{__('Click')}} <a
-                                        href="{{route('home')}}" title="Tiếp tục mua sắm">{{__('here')}}</a> Tiếp tục mua hàng
-                                </div>
-                            </div>
-                            <div class="clear clr"></div>
-                        </div>
-                        @endif
-                        <div class="" style="margin: 0 -12px 25px;">
-                            <table class="data table table-totals">
-                                <caption class="table-caption">
-                                    {{__('Information order')}}
-                                </caption>
-                                <tbody>
-                                    <tr class="totals sub">
-                                        <th class="mark" scope="row">{{__('Total cost')}}</th>
-                                        <td class="amount">
-                                            <span class="price">{{number_format($baseTotal, 0, 0, '.')}}đ</span>
-                                        </td>
-                                    </tr>
-                                    @if($countPonSpin)
-                                    @php
-                                        $spinItem = $countPonSpin->spinItem;
-                                    @endphp
-                                        @if($countPonSpin && $message && $message[0])
-                                        <tr class="totals discount">
-                                            <th>
-                                                <span class="title">{{__('Discount')}}</span>
-                                            </th>
-                                            <td class="amount">
-                                                @if($spinItem->type == 1)
-                                                <span class="price">{{$spinItem->amount}}%</span>
-                                                @else
-                                                <span class="price">{{number_format($spinItem->amount, 0, 0,
-                                                    '.')}}đ</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endif
-                                    @else
-                                        @if($discount && $message && $message[0])
-                                        <tr class="totals discount">
-                                            <th>
-                                                <span class="title">{{__('Discount')}}</span>
-                                            </th>
-                                            <td class="amount">
-                                                @if($discount->type == 'percent price')
-                                                <span class="price">{{$discount->price_value}}%</span>
-                                                @else
-                                                <span class="price">{{number_format($discount->price_value, 0, 0,
-                                                    '.')}}đ</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endif
-                                    @endif
-                                    <tr class="totals shipping excl">
-                                        <th class="mark" scope="row">
-                                            <span class="label">{{__('Transport fee')}}</span>
-                                        </th>
-                                        <td class="amount">
-                                            @if($freeship > $baseTotal)
-                                            <span class="price">{{number_format($fee, 0, 0, '.')}}đ</span>
-                                            @else
-                                            <span class="price">0đ</span>
-                                            @endif
-
-                                        </td>
-                                    </tr>
-                                    <tr class="grand totals">
-                                        @php
-                                        $endTotal = $baseTotal;
-                                        if($countPonSpin && $spinItem){
-                                            if($countPonSpin && $message && $message[0]){
-                                                if ($spinItem->type == 1) {
-                                                    $endTotal = $endTotal - ($spinItem->amount * $endTotal) / 100;
-                                                }
-                                                else {
-                                                    $endTotal = $endTotal - $spinItem->amount;
-                                                }
-                                            }
-                                        }
-                                        else{
-                                            if($discount && $message && $message[0]){
-                                                if ($discount->type == 'percent price') {
-                                                    $endTotal = $endTotal - ($discount->price_value * $endTotal) / 100;
-                                                }
-                                                else {
-                                                    $endTotal = $endTotal - $discount->price_value;
-                                                }
-                                            }
-                                        }
-                                        if($freeship > $baseTotal){
-                                            $endTotal = $endTotal + $fee;
-                                        }
-                                        @endphp
-                                        <th class="mark" scope="row">
-                                            <strong>{{__('Total amount after discount')}}</strong>
-                                        </th>
-                                        <td class="amount">
-                                            <strong><span class="price">{{number_format($endTotal , 0, 0,
-                                                    '.')}}đ</span></strong>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="payment-methods" style="display: block;">
-                                <div class="actions-toolbar">
-                                    <button class="action primary checkout amasty" type="submit" data-role="review-save"
-                                        title="{{__('Order now')}}">
-                                        <span data-bind="text: label">
-                                            {{__('Order now')}}
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
+        </div>
     </div>
+</div>
+<div class="d-none">
+    <div class="cpi-tooltip__info" id="cp-tooltip-1">
+        <div class="popover-content__coupon">
+            <div class="dfex-txt dfex-bkg">
+                <div class="dfex-txt--1">Mã</div>
+                <div class="dfex-txt--2">
+                    <b> VOUCHER200K</b>
+                    <span class="cpi-trigger" data-coupon-index="coupon-item__1" data-coupon="VOUCHER200K"></span>
+                </div>
+            </div>
+            <div class="dfex-txt dfex-bkg">
+                <div class="dfex-txt--1">Hạn sử dụng</div>
+                <div class="dfex-txt--2">31/03/2024</div>
+            </div>
+            <div class="dfex-txt dfex-bkg">
+                <div class="dfex-txt--3">
+                    <ul>
+                        <li>Dành cho đơn hàng từ 3 triệu</li>
+                        <li>Mỗi khách hàng được sử dụng tối đa 1 lần.</li>
+                        <li>
+                            Sao chép mã và nhập mã khuyến mãi ở trang thanh toán
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dfex-txt dfex-bkg dfex-none">
+                <div class="dfex-txt--cta">
+                    <button class="btn-popover btn-popover-code" data-coupon="VOUCHER200K">
+                        Sao chép mã
+                    </button>
+                    <button class="btn-popover btn-popover-close">Đóng</button>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="cpi-tooltip__info" id="cp-tooltip-2">
+        <div class="popover-content__coupon">
+            <div class="dfex-txt dfex-bkg">
+                <div class="dfex-txt--1">Mã</div>
+                <div class="dfex-txt--2">
+                    <b> VOUCHER100K</b>
+                    <span class="cpi-trigger" data-coupon-index="coupon-item__2" data-coupon="VOUCHER100K"></span>
+                </div>
+            </div>
+            <div class="dfex-txt dfex-bkg">
+                <div class="dfex-txt--1">Hạn sử dụng</div>
+                <div class="dfex-txt--2">31/03/2024</div>
+            </div>
+            <div class="dfex-txt dfex-bkg">
+                <div class="dfex-txt--3">
+                    <ul>
+                        <li>Đơn hàng từ 2 triệu đồng</li>
+                        <li>Mỗi khách hàng được sử dụng tối đa 1 lần.</li>
+                        <li>
+                            Sao chép mã và nhập mã khuyến mãi ở trang thanh toán
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dfex-txt dfex-bkg dfex-none">
+                <div class="dfex-txt--cta">
+                    <button class="btn-popover btn-popover-code" data-coupon="VOUCHER100K">
+                        Sao chép mã
+                    </button>
+                    <button class="btn-popover btn-popover-close">Đóng</button>
+                </div>
+            </div>
+        </div>
     </div>
-    </main>
-    <div class="modals-wrapper-popup">
-        <aside role="dialog" class="modal-popup" aria-labelledby="modal-title-2" aria-describedby="modal-content2"
-            data-role="modal" data-type="slide" tabindex="0">
-        </aside>
+    <div class="cpi-tooltip__info" id="cp-tooltip-3">
+        <div class="popover-content__coupon">
+            <div class="dfex-txt dfex-bkg">
+                <div class="dfex-txt--1">Mã</div>
+                <div class="dfex-txt--2">
+                    <b> VOUCHER50K</b>
+                    <span class="cpi-trigger" data-coupon-index="coupon-item__3" data-coupon="VOUCHER50K"></span>
+                </div>
+            </div>
+            <div class="dfex-txt dfex-bkg">
+                <div class="dfex-txt--1">Hạn sử dụng</div>
+                <div class="dfex-txt--2">31/03/2024</div>
+            </div>
+            <div class="dfex-txt dfex-bkg">
+                <div class="dfex-txt--3">
+                    <ul>
+                        <li>Đơn hàng từ 1 triệu đồng</li>
+                        <li>Mỗi khách hàng được sử dụng tối đa 1 lần.</li>
+                        <li>
+                            Sao chép mã và nhập mã khuyến mãi ở trang thanh toán
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dfex-txt dfex-bkg dfex-none">
+                <div class="dfex-txt--cta">
+                    <button class="btn-popover btn-popover-code" data-coupon="VOUCHER50K">
+                        Sao chép mã
+                    </button>
+                    <button class="btn-popover btn-popover-close">Đóng</button>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-
-    <script>
-        var city_ = `{{@$shipAddress->city}}`
-        var district_ = `{{@$shipAddress->district}}`
-        var ward_ = `{{@$shipAddress->ward}}`
-        $(document).ready(function () {
-            var citis = document.getElementById("WOBMSV9");
-            var districts = document.getElementById("LXU15EI");
-            var wards = document.getElementById("KJIN0AB");
-            var Parameter = {
-                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-                method: "GET",
-                responseType: "application/json",
-            };
-            var promise = axios(Parameter);
-            promise.then(function (result) {
-                renderCity(result.data);
-            });
-
-            function renderCity(data) {
-                for (const x of data) {
-                    let flag_a = false
-                    if(x.Name == city_){
-                        this.value = x.Name
-                        flag_a = true
-                    }
-                    citis.options[citis.options.length] = new Option(x.Name, x.Name, false, flag_a);
-                }
-                citis.onchange = function () {
-                    districts.length = 1;
-                    wards.length = 1;
-                    if (this.value != "") {
-                        const result = data.filter((n) => n.Name === this.value);
-
-                        for (const k of result[0].Districts) {
-                            let flag_b = false
-                            if(k.Name == district_){
-                                flag_b = true
-                            }
-                            districts.options[districts.options.length] = new Option(k.Name, k.Name, false, flag_b);
-                        }
-                    }
-                };
-                citis.onchange()
-                districts.onchange = function () {
-                    wards.length = 1;
-                    const dataCity = data.filter((n) => n.Name === citis.value);
-                    if (this.value != "") {
-                        const dataWards = dataCity[0].Districts.filter((n) => n.Name === this.value)[0].Wards;
-
-                        for (const w of dataWards) {
-                            let flag_c = false
-                            if(w.Name == ward_){
-                                flag_c = true
-                            }
-                            wards.options[wards.options.length] = new Option(w.Name, w.Name,false, flag_c);
-                        }
-                    }
-                };
-                districts.onchange()
-            }
-
-            const popUp = `<div style="max-width: 500px" class="modal-inner-wrap" data-role="focusable-scope">
-                    <header class="modal-header">
-                        <h1 class="modal-title" data-role="title">{{__('Error')}}</h1>
-                        <button class="action-close" data-role="closeBtn" type="button">
-                            <span>Close</span>
-                        </button>
-                    </header>
-                    <div class="modal-content" data-role="content">{{__('Exceeds existing quantity.')}}<div></div></div>
-                    <footer class="modal-footer">
-                        <button class="action-primary action-accept" type="button" data-role="action"><span>OK</span></button>
-                    </footer>
-                    </div>`;
-            const popupDl = `<div style="max-width: 500px" class="modal-inner-wrap" data-role="focusable-scope">
-                        <header class="modal-header">
-                            <button class="action-close" data-role="closeBtn" type="button">
-                                <span>Close</span>
-                            </button>
-                        </header>
-                        <div id="modal-content-39" class="modal-content" data-role="content"><div>Bạn có chắc muốn loại sản phẩm ra khỏi giỏ hàng?</div></div>
-                        <footer class="modal-footer">
-                            <button class="action-secondary action-accept" type="button" data-role="action"><span>Giữ lại</span></button>
-                            <button class="action-primary action-accept action-delete" type="button" data-role="action"><span>Loại bỏ</span></button>
-                        </footer>
-                    </div>`
-            $(document).on('change', '.details-qty .qty', function () {
-                let quantity = $(this).val()
-                const max = $(this).attr('data-quantity')
-                const province = $('#WOBMSV9').val()
-                const id = $(this).parents('.details-qty').attr('data-item')
-                const item_id = $(this).parents('.details-qty').attr('data-check')
-                const url = `{{route('checkout')}}`
-                if(parseInt(quantity) > parseInt(max)){
-                    quantity = max;
-                    $(this).val(max);
-                    $(".modals-wrapper-popup").append(
-                        '<div class="modals-overlay"></div>'
-                    );
-                    $(".modals-wrapper-popup .modal-popup").html(popUp);
-                    $(".modal-popup").css({
-                        "z-index": 10002,
-                        "margin-left": "45px",
-                    });
-                    setTimeout(() => {
-                        $(".modal-popup").addClass("confirm _show");
-                    }, 100);
-                    return
-                }
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: {
-                        id: id,
-                        item_id: item_id.split("-"),
-                        quantity: quantity,
-                        province: province
-                    },
-                    success: function (res) {
-                       if(res.message){
-                        $('#minicart-items').html(res.lists)
-                       $('#checkout-total').html(res.checkout)
-                       }
-                    },
-                });
-
-            })
-            $(document).on('change', '#WOBMSV9', function(){
-                const province = $(this).val()
-                const url = `{{route('checkout')}}`
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: {
-                        province: province,
-                    },
-                    success: function (res) {
-                       if(res.message){
-                        $('#checkout-total').html(res.checkout)
-                       }
-                    },
-                });
-            })
-            let id_El = undefined
-            let item_el = undefined
-            $(document).on('click', '.details-qty .delete', function () {
-                id_El = $(this).parents('.details-qty').attr('data-item')
-                item_el = $(this).parents('.details-qty').attr('data-check')
-                $(".modals-wrapper-popup").append(
-                        '<div class="modals-overlay"></div>'
-                    );
-                    $(".modals-wrapper-popup .modal-popup").html(popupDl);
-                    $(".modal-popup").css({
-                        "z-index": 10002,
-                        "margin-left": "45px",
-                    });
-                    setTimeout(() => {
-                        $(".modal-popup").addClass("confirm _show");
-                    }, 100);
-            })
-            $(document).on('click', '.action-delete', function () {
-                $('body').append(`<div class="button button-ts">
-                            <span class="loading loading-1"> </span>
-                        </div>`)
-                const id = id_El
-                const item_id = item_el.split("-")
-                const province = $('#WOBMSV9').val()
-                const url = `{{route('checkout')}}`
-                if(id){
-                    $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: {
-                        id_cl: id,
-                        item_id: item_id,
-                        province: province
-                    },
-                    success: function (res) {
-                       if(res.message){
-                        setTimeout(() => {
-                            $('.button.button-ts').remove()
-                            $('#minicart-items').html(res.lists)
-                            $('#checkout-total').html(res.checkout)
-                            if(res.flag){
-                                location.href = res.url
-                            }
-                        }, 300);
-                       }
-                    },
-                });
-                }
-
-            })
-            $(document).on('submit', 'form#discount-form', function (evt) {
-                evt.preventDefault()
-                const discount_code = $('#discount-code').val()
-                const province = $('#WOBMSV9').val()
-                const name = $('#discount-code').attr('name')
-                const url = `{{route('checkout')}}`
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: {
-                        [name]: discount_code,
-                        province: province
-                    },
-                    success: function (res) {
-                       if(res.message){
-                        $('#checkout-total').html(res.checkout)
-                        if(res.message_coupon && res.message_coupon.length > 0){
-                            if(res.message_coupon[0] == true){
-                                $('.messages').html(`<div aria-atomic="true" role="alert" class="message message-success success">
-                                                    <div data-ui-id="checkout-cart-validationmessages-message-success">${res.message_coupon[1]}</div>
-                                                </div>`)
-                                $('.messages').css({display: 'block'})
-                            }
-                            else{
-                                $('.messages').html(`<div aria-atomic="true" role="alert" class="message message-error error">
-                                                        <div data-ui-id="checkout-cart-validationmessages-message-error">${res.message_coupon[1]}</div>
-                                                    </div>`)
-                                $('.messages').css({display: 'block'})
-                            }
-                            setTimeout(() => {
-                                $('.messages').css({display: 'none'})
-                            }, 5000);
-                        }
-                       }
-                    },
-                });
-
-            })
-            $(document).on("click", "button.action-accept", function () {
-                $(".modal-popup").removeClass("confirm _show");
-                setTimeout(() => {
-                    $(".modals-wrapper-popup .modals-overlay").remove();
-                }, 250);
-            });
-            $(document).on(
-                    "click",
-                    ".modals-wrapper-popup .modal-header .action-close",
-                    function () {
-                        $(".modal-popup").removeClass("confirm _show");
-                        setTimeout(() => {
-                            $(".modals-wrapper-popup .modals-overlay").remove();
-                        }, 250);
-                    }
-                );
-
-            })
-            $(function() {
-                $("#co-shipping-form").validate({
-                    rules: {
-                        firstname: "required",
-                        region_id: "required",
-                        city: "required",
-                        postcode: "required",
-                        street: "required",
-                        telephone: "required",
-                        email: {
-                            required: true,
-                            email: true
-                        },
-                    },
-                    messages: {
-                        firstname: "Trường này là bắt buộc.",
-                        region_id: "Trường này là bắt buộc.",
-                        city: "Trường này là bắt buộc.",
-                        postcode: "Trường này là bắt buộc.",
-                        street: "Trường này là bắt buộc.",
-                        telephone: "Trường này là bắt buộc.",
-                        email: "Please enter a valid email address."
-                    },
-                    submitHandler: function(form) {
-                            const data = new FormData(form)
-                            const pay_method = $('input[name="payment[method]"]:checked').val();
-                            data.append('pay_method', pay_method)
-                            const url = `{{route('checkout.save')}}`
-                            $.ajax({
-                                type: "POST",
-                                url: url,
-                                data: data,
-                                processData: false,
-                                contentType: false,
-                                success: function (res) {
-                                    if(res && res.url){
-                                        window.location=res.url;
-                                    }
-                                },
-                            });
-                    }
-                });
-            });
-
-            $(document).on('click', '.action.checkout', function(evt){
-                $("#co-shipping-form").submit()
-            })
-    </script>
-</body>
-
-</html>
+</div>
+<div class="modal-coupon--backdrop"></div>
+@endsection
