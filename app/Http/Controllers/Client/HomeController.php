@@ -1250,7 +1250,11 @@ class HomeController extends Controller
                 'flag' => count($carts) == 0,
             ]);
         }
-        return view('layout-home.pages.checkout', compact('carts', 'baseTotal', 'discount', 'countPonSpin', 'message', 'province', 'shipAddress'));
+        $couponsProductMy = Coupon::where('type_coupon', 'total order')
+        ->whereNotNull('code')
+        ->where('status', 1)
+        ->get();        
+        return view('layout-home.pages.checkout', compact('carts', 'baseTotal', 'discount', 'countPonSpin', 'message', 'province', 'shipAddress', 'couponsProductMy'));
     }
     public function getDiscountTotal($discount)
     {

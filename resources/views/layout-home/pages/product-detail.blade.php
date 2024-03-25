@@ -409,19 +409,7 @@ $jsonData = json_decode($product, true);
                                 </div>
                                 <div class="dfex-txt dfex-bkg">
                                     <div class="dfex-txt--3">
-                                        <ul>
-                                            @if($item->price_value && $item->price_value != '')
-                                            <li>Dành cho đơn hàng từ {{ number_format($item->price_value, 0, 0,',')}}{{ $item->type == "fixed price" ?  '₫' : '%' }}</li>
-                                            @endif
-                                            @if($item->amount_code && $item->amount_code != '')
-                                            <li>Số lượng khuyễn mãi là: {{$item->amount_code}} mã</li>
-                                            @endif
-                                            @if($item->total_order_min || $item->price_order_max)
-                                            <li>Gía áp dụng từ {{$item->total_order_min}} {{$item->price_order_max ? 'đến' + $item->price_order_max : '' }}</li>
-                                            @endif
-                                            <li>Mỗi khách hàng được sử dụng tối đa 1 lần.</li>
-                                            <li>Sao chép mã và nhập mã khuyến mãi ở trang thanh toán</li>
-                                        </ul>
+                                        {!! $item->conten ? $item->conten : '--'!!}
                                     </div>
                                 </div>
                                 <div class="dfex-txt dfex-bkg dfex-none">
@@ -692,7 +680,7 @@ $jsonData = json_decode($product, true);
                                     ")"
                                 ).offset().top - 15,
                             },
-                            500
+                            800
                         );
                     }
                 }
@@ -708,7 +696,7 @@ $jsonData = json_decode($product, true);
                                 "#productScroll-slider div.product-gallery:eq(" + indeximg2 + ")"
                             ).offset().top - 15,
                         },
-                        500
+                        800
                     );
                 }
             }
@@ -796,5 +784,5 @@ $jsonData = json_decode($product, true);
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/product.detail.js')}}"></script>
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" defer></script> -->
 <!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/bootstrap.js')}}"></script> -->
-<!-- <script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script> -->
+<script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script>
 @endsection

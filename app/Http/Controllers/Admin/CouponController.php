@@ -136,6 +136,7 @@ class CouponController extends Controller
             $coupon->status = $rq->status ? $rq->status : 0;
             $coupon->description = $rq->description;
             $coupon->type_coupon = $rq->type_coupon;
+            $coupon->conten = $rq->conten;
             $coupon->type = $rq->type_coupon_code;
             $coupon->price_value = $rq->price;
             $coupon->date_start = NULL;
@@ -300,6 +301,7 @@ class CouponController extends Controller
             $coupon->name = $rq->name;
             $coupon->status = $rq->status ? $rq->status : 0;
             $coupon->description = $rq->description;
+            $coupon->conten = $rq->conten;
             $coupon->date_start = NULL;
             $coupon->date_end = NULL;
             $coupon->price_value = $rq->price;

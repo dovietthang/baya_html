@@ -66,7 +66,7 @@
                                     data-role="direction-switcher" data-value="asc">
                                     <span>Tăng dần</span></a>
                                 @else
-                                @if($param_str)
+                                @if(@$param_str)
                                 <a href="{{$param_str. '&sort_order=desc'}}"
                                     class="action sorter-action @if(Request::get('sort_order') == 'desc') sort-desc @else sort-asc @endif"
                                     data-role="direction-switcher" data-value="desc"><span>Giảm dần</span>
