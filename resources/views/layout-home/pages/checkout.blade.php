@@ -79,14 +79,14 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-qty">
-                                                        <div class="qty quantity-partent qty-click clearfix" data-item="{{$item->id}}" data-check="{{isset($item->item_id) ? implode('-', $item->item_id) : ''}}">
-                                                            <button type="button" class="qtyminus qty-btn" fdprocessedid="r448ue">
+                                                        <div class="qty quantity-partent qty-click clearfix">
+                                                            <button type="button" class="qtyminus qty-btn" fdprocessedid="r448ue" onclick="HRT.Cart.initQuantityPlus(this, '/checkout', '<?php echo $item->id; ?>' , '<?php echo isset($item->item_id) ? implode('-', $item->item_id) : ''; ?>', '<?php echo $item->sub_quantity; ?>', '<?php echo $item->quantity; ?>')"">
                                                                 <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                                     <rect height="1" width="18" y="9" x="1"></rect>
                                                                 </svg>
                                                             </button>
                                                             <input type="text" size="4" name="qty" min="1" line="1" productid="{{$item->id}}" variantid="{{$item->id}}" data-quantity="{{$item->sub_quantity}}" value="{{$item->quantity}}" readonly="" class="tc line-item-qty item-quantity">
-                                                            <button type="button" class="qtyplus qty-btn" fdprocessedid="8t4auo">
+                                                            <button type="button" class="qtyplus qty-btn" fdprocessedid="8t4auo" onclick="HRT.Cart.initQuantityMinus(this, '/checkout', '<?php echo $item->id; ?>' , '<?php echo isset($item->item_id) ? implode('-', $item->item_id) : ''; ?>', '<?php echo $item->sub_quantity; ?>', '<?php echo $item->quantity; ?>')"">
                                                                 <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                                     <rect x="9" y="1" width="1" height="17"></rect>
                                                                     <rect x="1" y="9" width="17" height="1"></rect>

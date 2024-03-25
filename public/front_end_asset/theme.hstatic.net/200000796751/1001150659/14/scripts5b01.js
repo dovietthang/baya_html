@@ -4133,6 +4133,7 @@ HRT.Cart = {
   },
   initQuantityCart: function () {
     $(document).on("click", ".qty-click .qtyplus", function (e) {
+      console.log(111111111111111);
       e.preventDefault();
       $(this).parent(".quantity-partent").find(".qtyminus").removeClass("stop");
       var input = $(this).parent(".quantity-partent").find("input");
@@ -4150,6 +4151,8 @@ HRT.Cart = {
     });
 
     $(document).on("click", ".qty-click .qtyminus:not(.stop)", function (e) {
+      console.log(2222222);
+
       e.preventDefault();
       var input = $(this).parent(".quantity-partent").find("input");
       var currentVal = parseInt(input.val());
@@ -4168,6 +4171,37 @@ HRT.Cart = {
       HRT.Cart.updatePriceChange("minus", line, vId, pId, currentQty);
     });
   },
+  initQuantityPlus: function (t, url, id, item_id, max, quantity) {
+    var self = $(t);
+    e.preventDefault();
+    var input = $(this).parent(".quantity-partent").find("input");
+    var currentVal = parseInt(input.val());
+    if (!isNaN(currentVal) && currentVal > 1) {
+      input.val(currentVal - 1);
+      if (currentVal - 1 == 1) $(this).addClass("stop");
+    } else {
+      input.val(1);
+      $(this).addClass("stop");
+    }
+    var line = input.attr("line");
+    var vId = input.attr("variantid");
+    var pId = input.attr("productid");
+    var currentQty = parseInt(input.val());
+    console.log(url);
+    console.log(id);
+    console.log(item_id);
+    console.log(max);
+    console.log(quantity);
+  },
+
+  initQuantityMinus: function (t, url, id, item_id, max, quantity) {
+    var self = $(t);
+    console.log(url);
+    console.log(id);
+    console.log(item_id);
+    console.log(max);
+    console.log(quantity);
+  },
   removeItemCart: function (t, url, id, item_id, max, quantity) {
     var self = $(t);
     const province = "";
@@ -4181,30 +4215,12 @@ HRT.Cart = {
       className: "swal-cart-remove",
     }).then(function () {
       $("body").on("click", ".swal-button--confirm", function () {
-        if (parseInt(quantity) > parseInt(max)) {
-          quantity = max;
-          // $(this).val(max);
-          // $(".modals-wrapper-popup").append(
-          //   '<div class="modals-overlay"></div>'
-          // );
-          // $(".modals-wrapper-popup .modal-popup").html(popUp);
-          // $(".modal-popup").css({
-          //   "z-index": 10002,
-          //   "margin-left": "45px",
-          // });
-          // setTimeout(() => {
-          //   $(".modal-popup").addClass("confirm _show");
-          // }, 100);
-          return;
-        }
         jQuery.ajax({
           type: "GET",
           url: url,
-          dataType: "json",
           data: {
-            id: id,
+            id_cl: id,
             item_id: item_id.split("-"),
-            quantity: quantity,
             province: province,
           },
           success: function (data) {
@@ -4218,11 +4234,6 @@ HRT.Cart = {
                 elParentItem.remove();
               }
             }, 200);
-            // window.location.reload();
-            /*	if (data.item_count == 0) {
-							window.location.href = '/';
-							return;
-						}	else{}*/
           },
           error: function (erorr) {
             console.log(error);
