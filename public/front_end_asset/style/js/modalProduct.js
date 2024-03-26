@@ -2,6 +2,13 @@ $(document).ready(function () {
   var count = 0;
   var slider = null;
   var modal = $("#quick-view-modal");
+  let color_id = null,
+    size_id = null,
+    quantity = 1,
+    handle = null,
+    fError = "Trường bắt buộc";
+  var pro_template = "style_02";
+  var check_scrollstyle2 = "";
   modal.on("shown.bs.modal", function (event) {
     var button = $(event.relatedTarget);
     var data_whatever = button.data("whatever");
@@ -49,7 +56,7 @@ $(document).ready(function () {
     modal.find(".productDetail--gallery").replaceWith(productGalleryHtml);
 
     // Thêm HTML mới vào .productDetail--content
-    var productContentHtml = '<div class="productDetail--content">';
+    var productContentHtml = `<div class="productDetail--content" data-product-id="${projectDetail.id}" id="product-data"> `;
     productContentHtml += '<div class="wrapbox-detail">';
     productContentHtml += '<div class="product-heading">';
     productContentHtml += "<h2>" + projectDetail.title + "</h2>";
@@ -86,52 +93,40 @@ $(document).ready(function () {
     }
     productContentHtml += '<div class="product-variants">';
     productContentHtml +=
-      '<form id="add-item-form-quickview" action="/cart/add" method="post" class="variants clearfix">';
-    productContentHtml += `<div class="select clearfix">
-                                        <div class="selector-wrapper"><label for="product-select-quickview-option-0">Màu sắc</label><select class="single-option-selector" data-option="option1" id="product-select-quickview-option-0">
-                                                <option value="Hồng">Hồng</option>
-                                                <option value="Tím">Tím</option>
-                                                <option value="Xanh lá cây">Xanh lá cây</option>
-                                            </select></div>
-                                        <div class="selector-wrapper"><label for="product-select-quickview-option-1">Kích thước</label><select class="single-option-selector" data-option="option2" id="product-select-quickview-option-1">
-                                            <option value="D152xR102">D152xR102</option>
-                                            </select></div><select id="product-select-quickview" name="id" style="display:none;">
-                                            <option value="1114835122">Hồng / D152xR102 - 139,000₫</option>
-                                            <option value="1114835123">Tím / D152xR102 - 139,000₫</option>
-                                            <option value="1114835124">Xanh lá cây / D152xR102 - 139,000₫</option>
-                                        </select>
-                                    </div>`;
+      '<div id="add-item-form-quickview" class="variants clearfix">';
     productContentHtml += `<div class="select-swatch clearfix">
-                                        <div id="variant-swatch-0-quickview" class="swatch clearfix" data-option="option1" data-option-index="0">
-                                            <div class="title-swap header">Màu sắc: <strong>Hồng</strong></div>
-                                            <div class="select-swap">`;
+                              <div id="variant-swatch-0 quickview" class="swatch clearfix" data-option="option1" data-option-index="0">
+                                  <div class="title-swap header">Màu sắc: <strong></strong></div>
+                                  <div class="select-swap">`;
     colors.forEach(function (color) {
-      productContentHtml += `<div data-value="${color.title}" class="n-sd swatch-element color ${color.code}  ">
-                                            <input class="variant-${color.id}" id="swatch-0-${color.code}-quickview" type="radio" name="option1" value="${color.title}" data-vhandle="${color.code}" checked="">
-                                            <label class="${color.code} sd" for="swatch-0-${color.code}-quickview">
-                                                <span>${color.title}</span>
-                                            </label>
-                                        </div>`;
+      productContentHtml += `<div data-value="${color.title}" data-id="${color.id}" class="n-sd swatch-element color">
+                              <input class="variant-0" id="swatch-0-${color.code}-quickview" type="radio" name="option1" value="${color.title}" data-vhandle="${color.code}" checked="">
+                              <label class="" for="swatch-0-${color.code}-quickview">
+                                  <span>${color.title}</span>
+                              </label>
+                            </div>`;
     });
 
     productContentHtml += `</div>
                                     </div>
-                                        <div id="variant-swatch-1-quickview" class="swatch clearfix" data-option="option2" data-option-index="1">
+                                    <div class="mage-error px-3 text-danger" generated="true" id="super_color-error"></div>
+                                        <div id="variant-swatch-1 quickview" class="swatch clearfix" data-option="option2" data-option-index="1">
                                             <div class="title-swap header">Kích thước: </div>
                                             <div class="select-swap">`;
 
     sizes.forEach(function (size) {
-      productContentHtml += `<div data-value="${size.title}" class="n-sd swatch-element ${size.code}">
-                                                    <input class="variant-1" id="swatch-1-${size.code}-quickview" type="radio" name="option2" value="${size.title}" data-vhandle="${size.code}" checked="">
-                                                    <label for="swatch-1-${size.code}-quickview" class="sd">
-                                                        <span>${size.title}</span>
-                                                    </label>
-                                                </div>`;
+      productContentHtml += `<div data-value="${size.title}" data-id="${size.id}" class="n-sd swatch-element size">
+                                <input class="variant-1" id="swatch-1-${size.code}-quickview" type="radio" name="option2" value="${size.title}" data-vhandle="${size.code}" checked="">
+                                <label for="swatch-1-${size.code}-quickview" class="">
+                                    <span>${size.title}</span>
+                                </label>
+                            </div>`;
     });
     productContentHtml += `</div>
-                                    </div>
-                                    </div>`;
-    productContentHtml += "</form>";
+                          </div>
+                          <div class="mage-error px-3 text-danger" generated="true" id="super_size-error"></div>
+                        </div> `;
+    productContentHtml += "</div>";
 
     // Tiếp tục thêm phần HTML mới vào .productDetail--content ở đây
     productContentHtml += "</div>";
@@ -172,7 +167,7 @@ $(document).ready(function () {
                                         </div>
 
                                         <div class="block-addcart">
-                                            <button type="button" id="add-to-cartQuickview" data-pid="1051064533" class="add-to-cartProduct button dark btn-addtocart addtocart-modal btnred" name="add"><span>Thêm vào giỏ</span></button>
+                                            <button type="button" id="add-button-cartQuickview" data-pid="1051064533" class="add-to-cartProduct button dark btn-addtocart addtocart-modal btnred"><span>Thêm vào giỏ</span></button>
                                         </div>
                                     </div>
                                 </div>`;
@@ -192,8 +187,10 @@ $(document).ready(function () {
 
     // Tiếp tục thêm phần HTML mới vào .productDetail--content ở đây
     productContentHtml += '<div class="product-viewdetail text-left">';
+    const urlDetail = location.origin + "/shop/" + projectDetail.slug;
+
     productContentHtml +=
-      '<a href="/products/chan-sofa-bella" class="productdetail-link">Xem chi tiết sản phẩm</a>';
+      `<a href="${urlDetail}" class="productdetail-link">Xem chi tiết sản phẩm</a>`;
     productContentHtml +=
       '<i class="fa fa-angle-double-right" aria-hidden="true"></i>';
     productContentHtml += "</div>";
@@ -213,28 +210,147 @@ $(document).ready(function () {
         "<svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' fill='currentColor' class='bi bi-chevron-left' viewBox='0 0 16 16'> <path fill-rule='evenodd' d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0' /> </svg>",
       nextHtml:
         "<svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' fill='currentColor' class='bi bi-chevron-right' viewBox='0 0 16 16'> <path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708' /></svg>",
-      // responsive: [{
-      //         breakpoint: 990,
-      //         settings: {
-      //             gallery: true,
-
-      //         },
-      //         breakpoint: 900,
-      //         settings: {
-      //             gallery: false,
-
-      //         }
-      //     },
-      // ],
     });
+    // addClassOnClick();
   });
   modal.on("hidden.bs.modal", function (event) {
-    // console.log(123);
     if (slider) {
       slider.refresh();
-      // slider.destroy();
     }
     modal.find(".productDetail--gallery").empty();
     modal.find(".productDetail--content").empty();
   });
+
+  // add class on click **************************************
+
+  var clicking2 = false;
+  $(document).on(
+    "click",
+    "#add-item-form-quickview .swatch-element.color",
+    function () {
+      if (clicking2) return;
+      clicking2 = true;
+
+      setTimeout(function () {
+        clicking2 = false;
+      }, 100);
+
+      $that = $(this).parents("#product-data");
+      $("#super_color-error").text("");
+      color_id = $(this).data("id") ?? null;
+      handle = "1";
+      $(this).siblings().find("label").removeClass("sd");
+      $(this).find("label").addClass("sd");
+
+      // console.log(color_id);
+      // if (color_id) {
+      //   check_scrollstyle2 = $(this).data("image-color").toString();
+      //   itemGallery();
+      // }
+
+      skuDetailOnly($that);
+    }
+  );
+
+  var clicking = false;
+
+  $(document).on(
+    "click",
+    "#add-item-form-quickview .swatch-element.size",
+    function () {
+      if (clicking) return;
+      clicking = true;
+
+      setTimeout(function () {
+        clicking = false;
+      }, 100);
+
+      $that = $(this).parents("#product-data");
+      $("#super_size-error").text("");
+      size_id = $(this).data("id") ?? null;
+      $(this).siblings().find("label").removeClass("sd");
+      $(this).find("label").addClass("sd");
+      console.log(size_id);
+
+      handle = "2";
+      skuDetailOnly($that);
+    }
+  );
+
+  $(document).on("click", "button#add-button-cartQuickview", function () {
+    if (!color_id) {
+      $("#super_color-error").text(fError);
+    }
+    if (!size_id) {
+      $("#super_size-error").text(fError);
+    }
+    quantity = $("#quantity").val();
+    if (!color_id || !size_id) {
+      return;
+    }
+    const skuId = $(this).attr("data-product-sku");
+    pushCart(skuId);
+  });
+
+  function skuDetailOnly($that) {
+    // console.log($that);
+    // return;
+
+    const product_id = $that.attr("data-product-id");
+    const url = location.origin + "/sku-detail";
+    (quantity = $("#quantity").val()),
+      $.ajax({
+        type: "GET",
+        url: url,
+        data: {
+          color_id: color_id,
+          size_id: size_id,
+          id: product_id,
+          visible: handle,
+        },
+        success: function (res) {
+          $("#main-detail-page").html(res);
+          $("#quickview-qtyvalue").val(quantity);
+          // $("#add-item-form .swatch-element.color[data-id='" + color_id + "'] label").addClass('sd');
+          // $("#add-item-form .swatch-element.size[data-id='" + size_id + "'] label").addClass('sd');
+        },
+      });
+  }
+
+  function pushCart(skuId) {
+    // console.log({
+    //     data: {
+    //         skuId: skuId,
+    //         size_id: size_id,
+    //         quantity: quantity
+    //     },
+    // });
+    // return;
+    const url = location.origin + "/cart-add";
+    $.ajax({
+      type: "GET",
+      url: url,
+      data: {
+        skuId: skuId,
+        size_id: size_id,
+        quantity: quantity,
+      },
+      success: function (res) {
+        if (res && res.message) {
+          $(".header-action-item.header-action_cart .count-holder .count").text(
+            res.total
+          );
+          // if ($(".header-action-item.header-action_cart").hasClass('js-action-show')) {
+          //     $('body').removeClass('locked-scroll');
+          //     $(".header-action-item.header-action_cart").removeClass('js-action-show');
+          // } else {
+          //     $('body').addClass('locked-scroll');
+          //     $(".header-action-item.header-action_cart").addClass('js-action-show');
+          // }
+          // $(".mainBody-theme.template-index").addClass('locked-scroll');
+          $(".header-action-item.header-action_cart").html(res.popup);
+        }
+      },
+    });
+  }
 });

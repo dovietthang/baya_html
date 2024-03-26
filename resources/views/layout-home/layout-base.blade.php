@@ -728,13 +728,13 @@
     </div>
     <div class="siteCart-mobile__overlay"></div>
   </div>
-  <div id="quick-view-modal" class="modal fade modal-product-quickview">
+  <!-- <div id="quick-view-modal" class="modal fade modal-product-quickview">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content wrapper-quickview 123">
+      <div class="modal-content wrapper-quickview">
       </div>
     </div>
-  </div>
-  <div class="quickviewOverlay"></div>
+  </div> -->
+  <!-- <div class="quickviewOverlay"></div> -->
 
   <div class="modal fade modal-productApp" id="alert_km_qv" tabindex="-1" role="dialog" aria-labelledby="alert_km" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

@@ -17,6 +17,9 @@ class Sku extends Model
     public function colors($ids){
         return Color::wherein('id', $ids)->where('status', 1)->get();
     }
+    public function sizes($ids){
+        return Size::wherein('id', $ids)->where('status', 1)->get();
+    }
     public function size(){
         return $this->hasOne(Size::class,'id', 'size_id');
     }

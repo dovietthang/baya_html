@@ -72,7 +72,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('banners', $banners);
         });
 
-        view()->composer('layout-home.pages.ajax-page.cart-item', function ($view) {
+        view()->composer(['layout-home.pages.ajax-page.cart-item', 'layout-home.includes.header'], function ($view) {
             $carts = session()->get('cartShop');
             // var_dump($carts);
             $view->with('carts', $carts);

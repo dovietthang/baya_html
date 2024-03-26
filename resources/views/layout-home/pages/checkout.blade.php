@@ -13,7 +13,7 @@
                         <meta itemprop="position" content="1" />
                     </li>
 
-                    <li class="active" itemprop="itemListElement" itemscope>
+                    <li class="active" itemprop="itemListElement" itemscope id="breadcrumb-cart-checkout">
                         <span itemprop="item"><strong itemprop="name">Giỏ hàng ({{ ($carts && count($carts) > 0) ? count($carts) : 0 }})</strong></span>
                         <meta itemprop="position" content="2" />
                     </li>
@@ -25,14 +25,14 @@
         <div class="content-bodyCart">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-md-12 col-12 contentCart-detail">
+                    <div class="col-lg-8 col-md-12 col-12 contentCart-detail" id="minicart-items">
                         <div class="mainCart-detail">
                             <h1 class="heading-cart">{{__('Order')}}</h1>
                             @if($carts && count($carts) > 0)
                             <div class="list-pageform-cart">
                                 <form action="/cart" method="post" id="cartformpage" data-gtm-form-interact-id="1">
                                     <div class="cart-row">
-                                        <p class="title-number-cart">
+                                        <p class="title-number-cart" id="breadcrumb-cart-checkout2">
                                             Bạn đang có <strong class="count-cart">{{count($carts)}} sản phẩm</strong> trong giỏ hàng
                                         </p>
                                         <div class="table-cart">
@@ -45,7 +45,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="item-remove">
-                                                        <a href="javascript:void(0)" onclick="HRT.Cart.removeItemCart(this, '/checkout', '<?php echo $item->id; ?>' , '<?php echo isset($item->item_id) ? implode('-', $item->item_id) : ''; ?>', '<?php echo $item->sub_quantity; ?>', '<?php echo $item->quantity; ?>')" class="cart">Xóa</a>
+                                                        <a href="javascript:void(0)" onclick="HRT.Cart.removeItemCart(this, '/checkout', '<?php echo $item->id; ?>' , '<?php echo isset($item->item_id) ? implode('-', $item->item_id) : ''; ?>')" class="cart">Xóa</a>
                                                     </div>
                                                 </div>
                                                 <div class="media-right">
@@ -79,17 +79,17 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-qty">
-                                                        <div class="qty quantity-partent qty-click clearfix">
-                                                            <button type="button" class="qtyminus qty-btn" fdprocessedid="r448ue" onclick="HRT.Cart.initQuantityPlus(this, '/checkout', '<?php echo $item->id; ?>' , '<?php echo isset($item->item_id) ? implode('-', $item->item_id) : ''; ?>', '<?php echo $item->sub_quantity; ?>', '<?php echo $item->quantity; ?>')"">
-                                                                <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                                    <rect height="1" width="18" y="9" x="1"></rect>
+                                                        <div class="qty quantity-partent qty-click clearfix ">
+                                                            <button type="button" class="qtyminus qty-btn " fdprocessedid="r448ue" onclick="HRT.Cart.initQuantityMinus(this, '/checkout', '<?php echo $item->id; ?>' , '<?php echo isset($item->item_id) ? implode('-', $item->item_id) : ''; ?>', '<?php echo $item->sub_quantity; ?>')">
+                                                                <svg width=" 18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect height="1" width="18" y="9" x="1"></rect>
                                                                 </svg>
                                                             </button>
                                                             <input type="text" size="4" name="qty" min="1" line="1" productid="{{$item->id}}" variantid="{{$item->id}}" data-quantity="{{$item->sub_quantity}}" value="{{$item->quantity}}" readonly="" class="tc line-item-qty item-quantity">
-                                                            <button type="button" class="qtyplus qty-btn" fdprocessedid="8t4auo" onclick="HRT.Cart.initQuantityMinus(this, '/checkout', '<?php echo $item->id; ?>' , '<?php echo isset($item->item_id) ? implode('-', $item->item_id) : ''; ?>', '<?php echo $item->sub_quantity; ?>', '<?php echo $item->quantity; ?>')"">
-                                                                <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                                    <rect x="9" y="1" width="1" height="17"></rect>
-                                                                    <rect x="1" y="9" width="17" height="1"></rect>
+                                                            <button type="button" class="qtyplus qty-btn " fdprocessedid="8t4auo" onclick="HRT.Cart.initQuantityPlus(this, '/checkout', '<?php echo $item->id; ?>' , '<?php echo isset($item->item_id) ? implode('-', $item->item_id) : ''; ?>', '<?php echo $item->sub_quantity; ?>')">
+                                                                <svg width=" 18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect x="9" y="1" width="1" height="17"></rect>
+                                                                <rect x="1" y="9" width="17" height="1"></rect>
                                                                 </svg>
                                                             </button>
                                                         </div>
@@ -151,9 +151,9 @@
                     @php
                     $freeship = $config->freeship;
                     @endphp
-                    <div class="col-lg-4 col-md-12 col-12 sidebarCart-sticky">
+                    <div class="col-lg-4 col-md-12 col-12 sidebarCart-sticky" >
                         <div class="wrap-order-summary">
-                            <div class="order-summary-block">
+                            <div class="order-summary-block" id="checkout-total">
                                 <h2 class="summary-title">{{__('Information order')}}</h2>
 
                                 <div class="summary-total">
@@ -167,80 +167,80 @@
                                     <p>
                                         Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.
                                     </p>
-                                    @if(@$baseTotal && $baseTotal < 1) <div class="summary-alert alert alert-danger" style="display: block">
-                                        Giỏ hàng của bạn hiện chưa đạt mức tối thiểu để
-                                        thanh toán.
-                                </div>
-                                @endif
-                            </div>
-                            <div class="summary-button">
-                                <a id="btnCart-checkout" class="checkout-btn btnred {{ ($baseTotal && $baseTotal < 1) ? 'disabled' : '' }} " data-price-min="" data-price-total="0" href="#">{{__('Order now')}}
-                                </a>
-                            </div>
-                        </div>
+                                    <div class="summary-alert alert alert-danger {{ ($carts && count($carts) > 0 && $baseTotal && $baseTotal > 0) ? 'd-none' : 'd-block' }}">
+                                        Giỏ hàng của bạn hiện chưa đạt mức tối thiểu để thanh toán.
+                                    </div>
 
-                        <div class="order-summary-block">
-                            <div class="cart-coupon coupon-initial coupon-second bgWhite">
-                                <div class="title-coupon">
-                                    <h2>Khuyến mãi dành cho bạn</h2>
                                 </div>
-                                <div class="owl-carousel owlCarousel-style owl-loaded owl-drag" id="sliderCouponCart">
-                                    <div class="row-coupon">
-                                        @if($couponsProductMy)
-                                        @foreach ($couponsProductMy as $key => $item)
-                                        <div class="col-12 col-md-6 col-xl-12 coupon-item">
-                                            <div class="coupon-item__inner">
-                                                <div class="coupon-item__left">
-                                                    <div class="cp-img boxlazy-img">
-                                                        <span class="boxlazy-img__insert">
-                                                            <img class="lazyload" data-src="//theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img.png?v=944" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img5b01.png?v=944')}}" alt="{{ $item->name}}">
-                                                        </span>
+                                <div class="summary-button">
+                                    <a id="btnCart-checkout" class="checkout-btn btnred {{ ($carts && count($carts) > 0 && $baseTotal && $baseTotal > 0) ? '' : 'disabled' }} " data-price-min="" data-price-total="0" href="#">{{__('Order now')}}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="order-summary-block">
+                                <div class="cart-coupon coupon-initial coupon-second bgWhite">
+                                    <div class="title-coupon">
+                                        <h2>Khuyến mãi dành cho bạn</h2>
+                                    </div>
+                                    <div class="owl-carousel owlCarousel-style owl-loaded owl-drag" id="sliderCouponCart">
+                                        <div class="row-coupon">
+                                            @if($couponsProductMy)
+                                            @foreach ($couponsProductMy as $key => $item)
+                                            <div class="col-12 col-md-6 col-xl-12 coupon-item">
+                                                <div class="coupon-item__inner">
+                                                    <div class="coupon-item__left">
+                                                        <div class="cp-img boxlazy-img">
+                                                            <span class="boxlazy-img__insert">
+                                                                <img class="lazyload" data-src="//theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img.png?v=944" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/home_coupon_1_img5b01.png?v=944')}}" alt="{{ $item->name}}">
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="coupon-item__right">
-                                                    <button type="button" class="cp-icon" data-toggle="popover" data-container="body" data-placement="bottom" data-popover-content="#cp-tooltip-{{$item->id}}" data-class="coupon-popover" title="{{ $item->name}} ">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
-                                                            <defs>
-                                                                <path id="4gg7gqe5ua" d="M8.333 0C3.738 0 0 3.738 0 8.333c0 4.595 3.738 8.334 8.333 8.334 4.595 0 8.334-3.739 8.334-8.334S12.928 0 8.333 0zm0 1.026c4.03 0 7.308 3.278 7.308 7.307 0 4.03-3.278 7.308-7.308 7.308-4.03 0-7.307-3.278-7.307-7.308 0-4.03 3.278-7.307 7.307-7.307zm.096 6.241c-.283 0-.512.23-.512.513v4.359c0 .283.23.513.512.513.284 0 .513-.23.513-.513V7.78c0-.283-.23-.513-.513-.513zm.037-3.114c-.474 0-.858.384-.858.858 0 .473.384.857.858.857s.858-.384.858-.857c0-.474-.384-.858-.858-.858z" />
-                                                            </defs>
-                                                            <g>
+                                                    <div class="coupon-item__right">
+                                                        <button type="button" class="cp-icon" data-toggle="popover" data-container="body" data-placement="bottom" data-popover-content="#cp-tooltip-{{$item->id}}" data-class="coupon-popover" title="{{ $item->name}} ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+                                                                <defs>
+                                                                    <path id="4gg7gqe5ua" d="M8.333 0C3.738 0 0 3.738 0 8.333c0 4.595 3.738 8.334 8.333 8.334 4.595 0 8.334-3.739 8.334-8.334S12.928 0 8.333 0zm0 1.026c4.03 0 7.308 3.278 7.308 7.307 0 4.03-3.278 7.308-7.308 7.308-4.03 0-7.307-3.278-7.307-7.308 0-4.03 3.278-7.307 7.307-7.307zm.096 6.241c-.283 0-.512.23-.512.513v4.359c0 .283.23.513.512.513.284 0 .513-.23.513-.513V7.78c0-.283-.23-.513-.513-.513zm.037-3.114c-.474 0-.858.384-.858.858 0 .473.384.857.858.857s.858-.384.858-.857c0-.474-.384-.858-.858-.858z" />
+                                                                </defs>
                                                                 <g>
                                                                     <g>
                                                                         <g>
                                                                             <g>
-                                                                                <g transform="translate(-2808 -4528) translate(2708 80) translate(52 4304) translate(48 144) translate(1.667 1.667)">
-                                                                                    <use xlink:href="#4gg7gqe5ua" />
+                                                                                <g>
+                                                                                    <g transform="translate(-2808 -4528) translate(2708 80) translate(52 4304) translate(48 144) translate(1.667 1.667)">
+                                                                                        <use xlink:href="#4gg7gqe5ua" />
+                                                                                    </g>
                                                                                 </g>
                                                                             </g>
                                                                         </g>
                                                                     </g>
                                                                 </g>
-                                                            </g>
-                                                        </svg>
-                                                    </button>
+                                                            </svg>
+                                                        </button>
 
-                                                    <div class="cp-top">
-                                                        <h3>{{ $item->name}}</h3>
-                                                        <p>{{ $item->description}}</p>
-                                                    </div>
-                                                    <div class="cp-bottom">
-                                                        <div class="cp-bottom-detail">
-                                                            <p>Mã: <strong>{{ $item->code ? $item->code : 'Đã được áp dụng'}}</strong></p>
-                                                            <p>HSD: {{ $item->date_end ? date('d/m/Y',strtotime($item->date_end)) : 'Không giới hạn' }} </p>
+                                                        <div class="cp-top">
+                                                            <h3>{{ $item->name}}</h3>
+                                                            <p>{{ $item->description}}</p>
                                                         </div>
-                                                        @if($item->code)
-                                                        <div class="cp-bottom-btn">
-                                                            <button class="cp-btn button" data-coupon="{{ $item->code}}">Sao chép mã</button>
+                                                        <div class="cp-bottom">
+                                                            <div class="cp-bottom-detail">
+                                                                <p>Mã: <strong>{{ $item->code ? $item->code : 'Đã được áp dụng'}}</strong></p>
+                                                                <p>HSD: {{ $item->date_end ? date('d/m/Y',strtotime($item->date_end)) : 'Không giới hạn' }} </p>
+                                                            </div>
+                                                            @if($item->code)
+                                                            <div class="cp-bottom-btn">
+                                                                <button class="cp-btn button" data-coupon="{{ $item->code}}">Sao chép mã</button>
+                                                            </div>
+                                                            @endif
                                                         </div>
-                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endforeach
+                                            @else
+                                            <span>Không có khuyến mại nào</span>
+                                            @endif
                                         </div>
-                                        @endforeach
-                                        @else
-                                        <span>Không có khuyến mại nào</span>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +250,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <div class="d-none">
     @foreach ($couponsProductMy as $key => $item)

@@ -69,7 +69,8 @@ $jsonData = json_decode($product, true);
 <section class="productDetail-information productDetail_style__02">
     <div class="container container-pd0">
         <div id="main-detail-page">
-            <div class="productDetail--main" data-product-id="{{$product->id}}" id="product-data">
+            <!-- <div class="productDetail--main" data-product-id="{{$product->id}}" id="product-data"> -->
+            <div class="productDetail--main">
                 <div class="productDetail--gallery">
                     <div class="product-container-gallery">
                         <div class="wrapbox-image wrapbox-image-scrollspy d-none d-lg-block">
@@ -477,7 +478,7 @@ $jsonData = json_decode($product, true);
                 $photo = $productSku->photo ? $productSku->photo : $item->photo;
                 $getPrice = $productSku->price ? $productSku->price : $item->price;
                 $colors = $productSku->colors($productSkus->pluck('color_id')->unique()->toArray());
-                $sizes = $productSku->colors($productSkus->pluck('size_id')->unique()->toArray());
+                $sizes = $productSku->sizes($productSkus->pluck('size_id')->unique()->toArray());
                 $image_color = $productSkus->pluck('photo', 'color_id')->toArray();
                 $getSale = \App\Models\Coupon::getSaleProduct($productSku->id);
                 $salePrice = $getSale->get('getPrice');
@@ -624,9 +625,17 @@ $jsonData = json_decode($product, true);
         fError = 'Trường bắt buộc';
     var pro_template = "style_02";
     var check_scrollstyle2 = ''
+    var clicking2 = false;
+    var clicking = false;
 
     $(document).ready(function() {
         $(document).on("click", "#add-item-form .swatch-element.color", function() {
+            if (clicking2) return;
+            clicking2 = true;
+
+            setTimeout(function() {
+                clicking2 = false;
+            }, 100);
             $that = $(this).parents("#product-data");
             $("#super_color-error").text("");
             color_id = $(this).data("id") ?? null;
@@ -640,6 +649,12 @@ $jsonData = json_decode($product, true);
         });
 
         $(document).on("click", "#add-item-form .swatch-element.size", function() {
+            if (clicking) return;
+            clicking = true;
+
+            setTimeout(function() {
+                clicking = false;
+            }, 100);
             $that = $(this).parents("#product-data");
             $("#super_size-error").text("");
             size_id = $(this).data("id") ?? null;
@@ -772,7 +787,7 @@ $jsonData = json_decode($product, true);
                         //     $(".header-action-item.header-action_cart").addClass('js-action-show');
                         // }
                         // $(".mainBody-theme.template-index").addClass('locked-scroll');
-                        $(".header-action-item.header-action_cart").html(res.popup);
+                        $("#menu-cart-header-data").html(res.popup);
                     }
                 },
             });

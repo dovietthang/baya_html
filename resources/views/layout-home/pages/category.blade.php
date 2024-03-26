@@ -431,7 +431,7 @@
                                 $photo = $productSku->photo ? $productSku->photo : $item->photo;
                                 $getPrice = $productSku->price ? $productSku->price : $item->price;
                                 $colors = $productSku->colors($productSkus->pluck('color_id')->unique()->toArray());
-                                $sizes = $productSku->colors($productSkus->pluck('size_id')->unique()->toArray());
+                                $sizes = $productSku->sizes($productSkus->pluck('size_id')->unique()->toArray());
                                 $image_color = $productSkus->pluck('photo', 'color_id')->toArray();
                                 $getSale = \App\Models\Coupon::getSaleProduct($productSku->id);
                                 $salePrice = $getSale->get('getPrice');

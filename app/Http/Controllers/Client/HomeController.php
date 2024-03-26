@@ -1158,9 +1158,9 @@ class HomeController extends Controller
             $shipAddress = $tem;
         }
         $carts = session()->get('cartShop');
-        if (!$carts || count($carts) == 0) {
-            return view('layout-home.pages.cart-index', compact('carts'));
-        }
+        // if (!$carts || count($carts) == 0) {
+        //     return view('layout-home.pages.cart-index', compact('carts'));
+        // }
         $code = session()->get('coupon');
         $baseTotal = $this->getSumPrice();
         $discount = null;
@@ -1239,7 +1239,7 @@ class HomeController extends Controller
             $carts = session()->get('cartShop');
             $baseTotal = $this->getSumPrice();
             $lists = view('layout-home.pages.ajax-page.checkout.list')->with('carts', $carts)->render();
-            $checkout = view('layout-home.pages.ajax-page.checkout.total')->with('baseTotal', $baseTotal)
+            $checkout = view('layout-home.pages.ajax-page.checkout.total')->with('baseTotal', $baseTotal)->with('carts', $carts)
                 ->with('discount', $discount)->with('countPonSpin', $countPonSpin)->with('message', $message)->with('province', $province)->render();
             return response()->json([
                 'message' => true,
@@ -1248,6 +1248,7 @@ class HomeController extends Controller
                 'checkout' => $checkout,
                 'url' => route('cart.index'),
                 'flag' => count($carts) == 0,
+                'carts' => $carts ? count($carts) : 0,
             ]);
         }
         $couponsProductMy = Coupon::where('type_coupon', 'total order')
