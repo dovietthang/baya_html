@@ -1078,7 +1078,20 @@ class HomeController extends Controller
             $getSale = Coupon::getSaleProduct($productSku->id);
             $salePrice = $getSale->get('getPrice');
             $photo = $product->photo ? explode(',', $product->photo) : $productSku->photo;
-
+            if ($rq->type && $rq->type == 'modal'){
+                return view('layout-home.pages.ajax-page.detail-modal-page-item')
+                ->with('salePrice', $salePrice)
+                ->with('colors', $colors)
+                ->with('notActive', $notActive)
+                ->with('sumValue', $sumValue)
+                ->with('sizes', $sizes)
+                ->with('listSize', $listSize)
+                ->with('listColor', $listColor)
+                ->with('image_color', $image_color)
+                ->with('productSku', $productSku)
+                ->with('photo', $photo)
+                ->with('product', $product)->render();
+            }
             return view('layout-home.pages.ajax-page.detail-page-item')
                 ->with('salePrice', $salePrice)
                 ->with('colors', $colors)

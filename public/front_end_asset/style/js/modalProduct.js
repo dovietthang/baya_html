@@ -56,7 +56,7 @@ $(document).ready(function () {
     modal.find(".productDetail--gallery").replaceWith(productGalleryHtml);
 
     // Thêm HTML mới vào .productDetail--content
-    var productContentHtml = `<div class="productDetail--content" data-product-id="${projectDetail.id}" id="product-data"> `;
+    var productContentHtml = `<div class="productDetail--content" data-product-id="${projectDetail.id}" id="product-data-detail-page"> `;
     productContentHtml += '<div class="wrapbox-detail">';
     productContentHtml += '<div class="product-heading">';
     productContentHtml += "<h2>" + projectDetail.title + "</h2>";
@@ -235,7 +235,7 @@ $(document).ready(function () {
         clicking2 = false;
       }, 100);
 
-      $that = $(this).parents("#product-data");
+      $that = $(this).parents("#product-data-detail-page");
       $("#super_color-error").text("");
       color_id = $(this).data("id") ?? null;
       handle = "1";
@@ -265,7 +265,7 @@ $(document).ready(function () {
         clicking = false;
       }, 100);
 
-      $that = $(this).parents("#product-data");
+      $that = $(this).parents("#product-data-detail-page");
       $("#super_size-error").text("");
       size_id = $(this).data("id") ?? null;
       $(this).siblings().find("label").removeClass("sd");
@@ -307,9 +307,10 @@ $(document).ready(function () {
           size_id: size_id,
           id: product_id,
           visible: handle,
+          type: "modal",
         },
         success: function (res) {
-          $("#main-detail-page").html(res);
+          $("#product-data-detail-page").html(res);
           $("#quickview-qtyvalue").val(quantity);
           // $("#add-item-form .swatch-element.color[data-id='" + color_id + "'] label").addClass('sd');
           // $("#add-item-form .swatch-element.size[data-id='" + size_id + "'] label").addClass('sd');

@@ -1388,7 +1388,7 @@
                 <div class="modal-close quickview-close" data-dismiss="modal" aria-label="Close">
                 </div>
             </div>
-            <div class="modal-body modal-detailProduct">
+            <div class="modal-body modal-detailProduct" >
                 <div class="productDetail-information">
                     <div class="productDetail--gallery"></div>
 
