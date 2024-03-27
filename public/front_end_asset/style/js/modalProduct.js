@@ -9,6 +9,13 @@ $(document).ready(function () {
     fError = "Trường bắt buộc";
   var pro_template = "style_02";
   var check_scrollstyle2 = "";
+  var line_item = {
+    url: "",
+    title: "",
+    image: null,
+    price: "",
+  };
+
   modal.on("shown.bs.modal", function (event) {
     var button = $(event.relatedTarget);
     var data_whatever = button.data("whatever");
@@ -21,11 +28,21 @@ $(document).ready(function () {
     var priceProductDef = projectDetail.product_sku.find(function (product) {
       return product.is_default === 1;
     });
+    var urlDetail = location.origin + "/shop/" + projectDetail.slug;
+
+    line_item.title = projectDetail.title;
+    line_item.url = urlDetail;
+    line_item.price =
+      salePrice > 0 && salePrice < priceProductDef.price
+        ? salePrice.toLocaleString()
+        : priceProductDef.price.toLocaleString();
     // console.log(sizes);
     // console.log(colors);
 
     var modal = $(this);
     var img = projectDetail.photo ? projectDetail.photo.split(",") : [];
+    // console.log(img);
+
     modal.find(".product-heading h2").text(projectDetail.title);
 
     // Thay đổi HTML của .productDetail--gallery
@@ -187,7 +204,6 @@ $(document).ready(function () {
 
     // Tiếp tục thêm phần HTML mới vào .productDetail--content ở đây
     productContentHtml += '<div class="product-viewdetail text-left">';
-    const urlDetail = location.origin + "/shop/" + projectDetail.slug;
 
     productContentHtml += `<a href="${urlDetail}" class="productdetail-link">Xem chi tiết sản phẩm</a>`;
     productContentHtml +=
@@ -353,8 +369,46 @@ $(document).ready(function () {
           // }
           // $(".mainBody-theme.template-index").addClass('locked-scroll');
           $("#menu-cart-header-data").html(res.popup);
+          if (line_item.image == null) {
+            image = "https://hstatic.net/0/0/global/noDefaultImage6.gif";
+          } else {
+            image = Haravan.resizeImage(line_item["image"], "small");
+          }
+          var $info =
+            '<div class="row"><div class="col-md-12 col-xs-12"><p class="jGowl-text">Đã thêm vào giỏ hàng thành công!</p></div><div class="col-md-4 col-xs-4"><a href="' +
+            line_item.url +
+            '"><img width="70px" src="' +
+            image +
+            '" alt="' +
+            line_item.title +
+            '"/></a></div><div class="col-md-8 col-xs-8"><div class="jGrowl-note"><a class="jGrowl-title" href="' +
+            line_item.url +
+            '">' +
+            line_item.title +
+            "</a>/div></div></div>";
+          notifyProduct($info);
+          $("#quick-view-modal").modal("hide");
+          $(
+            '.proloop-actions[data-vrid="' + variant_id + '"] .proloop-value'
+          ).val(line_item.quantity);
+          HRT.All.getCartModal();
+          if ($(window).width() < 992) {
+            //$('#quick-view-modal').on('hidden.bs.modal', function () {
+            //	debugger
+            $("body").removeClass("locked-scroll").addClass("body-showcart");
+            $(".siteCart-mobile").addClass("show-cart");
+            //		});
+          }
         }
       },
+    });
+  }
+
+  function notifyProduct(info) {
+    var wait = setTimeout(function () {
+      $.jGrowl(info, {
+        life: 2000,
+      });
     });
   }
 });

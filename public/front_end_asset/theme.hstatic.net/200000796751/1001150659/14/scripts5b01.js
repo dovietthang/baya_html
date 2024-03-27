@@ -921,9 +921,9 @@ HRT.All = {
   },
   deleteCart: function (line, variant_id) {
     var params = {
-      type: "POST",
-      url: "/cart/change.js",
-      data: "quantity=0&line=" + line,
+      type: "GET",
+      url: "/cart-delete",
+      data: "cartId=" + variant_id + "&item_id[]=",
       dataType: "json",
       success: function (cart) {
         HRT.All.getCartModal(false);
@@ -2168,7 +2168,7 @@ HRT.Main = {
   updateMiniCart: function () {
     $(document).on("click", ".mini-cart__quantity .mnc-plus", function (e) {
       e.preventDefault();
-      var line = $(this).parents(".mini-cart__item").index() + 1;
+      var line = $(this).parents(".mini-cart__item").attr("data-vid");
       var currentQty = parseInt(
         $(this).parents(".mini-cart__item").find("input").val()
       );
@@ -2178,7 +2178,7 @@ HRT.Main = {
 
     $(document).on("click", ".mini-cart__quantity .mnc-minus", function (e) {
       e.preventDefault();
-      var line = $(this).parents(".mini-cart__item").index() + 1;
+      var line = $(this).parents(".mini-cart__item").attr("data-vid");
       var currentQty = parseInt(
         $(this).parents(".mini-cart__item").find("input").val()
       );
@@ -2193,7 +2193,7 @@ HRT.Main = {
       ".mini-cart__quantity .mnc-plus",
       delayTime(function () {
         //debugger
-        var line = $(this).parents(".mini-cart__item").index() + 1;
+        var line = $(this).parents(".mini-cart__item").attr("data-vid");
         var vId = $(this)
           .parents(".mini-cart__item")
           .find("input")
@@ -2331,9 +2331,14 @@ HRT.Main = {
               jQuery.ajax(params);
             } else {
               var params = {
-                type: "POST",
-                url: "/cart/change.js",
-                data: "quantity=" + currentQty + "&line=" + line,
+                type: "GET",
+                url: "/cart-update",
+                data:
+                  "quantity=" +
+                  currentQty +
+                  "&skuId=" +
+                  line +
+                  "&item_id[]=",
                 async: false,
                 dataType: "json",
                 success: function (data) {
@@ -2362,9 +2367,9 @@ HRT.Main = {
         }
         if (updateNormal) {
           var params = {
-            type: "POST",
-            url: "/cart/change.js",
-            data: "quantity=" + currentQty + "&line=" + line,
+            type: "GET",
+            url: "/cart-update",
+            data: "quantity=" + currentQty + "&skuId=" + line + "&item_id[]=",
             async: false,
             dataType: "json",
             success: function (data) {
@@ -2409,7 +2414,7 @@ HRT.Main = {
       delayTime(function () {
         //var isXhasSpecialY = $(this).parents('.mini-cart__item').hasClass('xSpecial');
         var updates = [];
-        var line = $(this).parents(".mini-cart__item").index() + 1;
+        var line = $(this).parents(".mini-cart__item").attr("data-vid");
         var vId = $(this)
           .parents(".mini-cart__item")
           .find("input")
@@ -2527,9 +2532,10 @@ HRT.Main = {
                 jQuery.ajax(params);
               } else {
                 var params = {
-                  type: "POST",
-                  url: "/cart/change.js",
-                  data: "quantity=" + currentQty + "&line=" + line,
+                  type: "GET",
+                  url: "/cart-update",
+                  data:
+                    "quantity=" + currentQty + "&skuId=" + line + "&item_id[]=",
                   async: false,
                   dataType: "json",
                   success: function (data) {
@@ -2574,9 +2580,9 @@ HRT.Main = {
           }
           if (updateNormal) {
             var params = {
-              type: "POST",
-              url: "/cart/change.js",
-              data: "quantity=" + currentQty + "&line=" + line,
+              type: "GET",
+              url: "/cart-update",
+              data: "quantity=" + currentQty + "&skuId=" + line + "&item_id[]=",
               async: false,
               dataType: "json",
               success: function (data) {
