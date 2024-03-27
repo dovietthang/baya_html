@@ -1,4 +1,7 @@
 <div class="wrapbox-detail">
+    @php
+    $cate = $product->cates->where('type', 'Menu')->where('status', 1)->first();
+    @endphp
     <div class="product-heading">
         <h2>{{$product->title}}</h2><span class="pro_sku">Mã sản phẩm: <strong>{{$product->sku}}</strong></span><span class="pro-soldold">Đã bán: <strong>{{$sumValue}}</strong></span><span class="pro-vendor">Thể loại: <strong><a title="Show vendor" href="#">{{ $cate ? $cate->title : 'Chưa có' }}</a></strong></span>
     </div>
@@ -108,7 +111,7 @@
                             <path d="M10 0v2H0V0z"></path>
                         </svg>
                     </button>
-                    <input type="text" id="quickview-qtyvalue" name="quantity" value="{{$productSku->sub_quantity}}" max="{{$productSku->sub_quantity}}" data-quantity="{{$productSku->sub_quantity}}" min="1" class="quickview-qtyvalue quantity-number" fdprocessedid="7he8rm">
+                    <input type="text" id="quickview-qtyvalue" name="quantity" value="1" max="{{$productSku->sub_quantity}}" data-quantity="{{$productSku->sub_quantity}}" min="1" class="quickview-qtyvalue quantity-number" fdprocessedid="7he8rm">
                     <button type="button" onclick="HRT.Quickview.plusQtyView()" class="qty-btn" fdprocessedid="izontq">
                         <svg focusable="false" class="icon icon--plus " viewBox="0 0 10 10" role="presentation">
                             <path d="M6 4h4v2H6v4H4V6H0V4h4V0h2v4z"></path>
@@ -117,7 +120,7 @@
                 </div>
 
                 <div class="block-addcart">
-                    <button type="button" id="add-button-cartQuickview" data-pid="1051064533" class="add-to-cartProduct button dark btn-addtocart addtocart-modal btnred" fdprocessedid="5cfc9f"><span>Thêm vào giỏ</span></button>
+                    <button type="button" id="add-button-cartQuickview" data-product-sku="{{$productSku->id}}" data-pid="1051064533" class="add-to-cartProduct button dark btn-addtocart addtocart-modal btnred" fdprocessedid="5cfc9f"><span>Thêm vào giỏ</span></button>
                 </div>
             </div>
         </div>
@@ -133,5 +136,5 @@
             <i class="fa fa-youtube-play" aria-hidden="true"></i>
         </a>
     </div>
-    <div class="product-viewdetail text-left"><a href="{{route('detail.product' , [$productSku->slug])}}" class="productdetail-link">Xem chi tiết sản phẩm</a><i class="fa fa-angle-double-right" aria-hidden="true"></i></div>
+    <div class="product-viewdetail text-left"><a href="{{route('detail.product' , [$product->slug])}}" class="productdetail-link">Xem chi tiết sản phẩm</a><i class="fa fa-angle-double-right" aria-hidden="true"></i></div>
 </div>

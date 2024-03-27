@@ -167,7 +167,7 @@ $(document).ready(function () {
                                         </div>
 
                                         <div class="block-addcart">
-                                            <button type="button" id="add-button-cartQuickview" data-pid="1051064533" class="add-to-cartProduct button dark btn-addtocart addtocart-modal btnred"><span>Thêm vào giỏ</span></button>
+                                            <button type="button" data-product-sku="" id="add-button-cartQuickview" data-pid="1051064533" class="add-to-cartProduct button dark btn-addtocart addtocart-modal btnred"><span>Thêm vào giỏ</span></button>
                                         </div>
                                     </div>
                                 </div>`;
@@ -189,8 +189,7 @@ $(document).ready(function () {
     productContentHtml += '<div class="product-viewdetail text-left">';
     const urlDetail = location.origin + "/shop/" + projectDetail.slug;
 
-    productContentHtml +=
-      `<a href="${urlDetail}" class="productdetail-link">Xem chi tiết sản phẩm</a>`;
+    productContentHtml += `<a href="${urlDetail}" class="productdetail-link">Xem chi tiết sản phẩm</a>`;
     productContentHtml +=
       '<i class="fa fa-angle-double-right" aria-hidden="true"></i>';
     productContentHtml += "</div>";
@@ -217,6 +216,9 @@ $(document).ready(function () {
     if (slider) {
       slider.refresh();
     }
+    color_id = null;
+    size_id = null;
+    quantity = 1;
     modal.find(".productDetail--gallery").empty();
     modal.find(".productDetail--content").empty();
   });
@@ -284,7 +286,7 @@ $(document).ready(function () {
     if (!size_id) {
       $("#super_size-error").text(fError);
     }
-    quantity = $("#quantity").val();
+    quantity = $("#quickview-qtyvalue").val();
     if (!color_id || !size_id) {
       return;
     }
@@ -298,33 +300,33 @@ $(document).ready(function () {
 
     const product_id = $that.attr("data-product-id");
     const url = location.origin + "/sku-detail";
-    (quantity = $("#quantity").val()),
-      $.ajax({
-        type: "GET",
-        url: url,
-        data: {
-          color_id: color_id,
-          size_id: size_id,
-          id: product_id,
-          visible: handle,
-          type: "modal",
-        },
-        success: function (res) {
-          $("#product-data-detail-page").html(res);
-          $("#quickview-qtyvalue").val(quantity);
-          // $("#add-item-form .swatch-element.color[data-id='" + color_id + "'] label").addClass('sd');
-          // $("#add-item-form .swatch-element.size[data-id='" + size_id + "'] label").addClass('sd');
-        },
-      });
+    quantity = $("#quickview-qtyvalue").val();
+    $.ajax({
+      type: "GET",
+      url: url,
+      data: {
+        color_id: color_id,
+        size_id: size_id,
+        id: product_id,
+        visible: handle,
+        type: "modal",
+      },
+      success: function (res) {
+        $("#product-data-detail-page").html(res);
+        $("#quickview-qtyvalue").val(quantity);
+        // $("#add-item-form .swatch-element.color[data-id='" + color_id + "'] label").addClass('sd');
+        // $("#add-item-form .swatch-element.size[data-id='" + size_id + "'] label").addClass('sd');
+      },
+    });
   }
 
   function pushCart(skuId) {
     // console.log({
-    //     data: {
-    //         skuId: skuId,
-    //         size_id: size_id,
-    //         quantity: quantity
-    //     },
+    //   data: {
+    //     skuId: skuId,
+    //     size_id: size_id,
+    //     quantity: quantity,
+    //   },
     // });
     // return;
     const url = location.origin + "/cart-add";
@@ -341,6 +343,7 @@ $(document).ready(function () {
           $(".header-action-item.header-action_cart .count-holder .count").text(
             res.total
           );
+
           // if ($(".header-action-item.header-action_cart").hasClass('js-action-show')) {
           //     $('body').removeClass('locked-scroll');
           //     $(".header-action-item.header-action_cart").removeClass('js-action-show');
@@ -349,7 +352,7 @@ $(document).ready(function () {
           //     $(".header-action-item.header-action_cart").addClass('js-action-show');
           // }
           // $(".mainBody-theme.template-index").addClass('locked-scroll');
-          $(".header-action-item.header-action_cart").html(res.popup);
+          $("#menu-cart-header-data").html(res.popup);
         }
       },
     });
