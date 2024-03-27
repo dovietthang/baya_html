@@ -1,69 +1,89 @@
 <div class="wrapbox-detail">
     <div class="product-heading">
-        <h2>Quần lót nữ Lorencia Q26</h2><span class="pro_sku">Mã sản phẩm: <strong>Q26</strong></span><span class="pro-soldold">Đã bán: <strong>1</strong></span><span class="pro-vendor">Thể loại: <strong><a title="Show vendor" href="#">Nữ</a></strong></span>
+        <h2>{{$product->title}}</h2><span class="pro_sku">Mã sản phẩm: <strong>{{$product->sku}}</strong></span><span class="pro-soldold">Đã bán: <strong>{{$sumValue}}</strong></span><span class="pro-vendor">Thể loại: <strong><a title="Show vendor" href="#">{{ $cate ? $cate->title : 'Chưa có' }}</a></strong></span>
     </div>
-    <div class="product-price" id="price-preview-quickview"><span class="pro-title">Giá: </span><span class="pro-price">69.000₫</span></div>
+    @php
+    $getSale = \App\Models\Coupon::getSaleProduct($productSku->id);
+    $textSell = $getSale->get('text');
+    @endphp
+    <div class="product-price" id="price-preview-quickview">
+        @if($salePrice > 0 && $salePrice < $productSku->price)
+            <span class="pro-title">Giá: </span>
+            <span class="pro-price">{{number_format($salePrice, 0, 0,',')}}₫</span>
+            <del>{{number_format($productSku->price, 0, 0,',') }}₫</del>
+            <span class="pro-percent">-{{$textSell}}</span>
+            @else
+            <span class="pro-title">Giá: </span>
+            <span class="pro-price">{{number_format($productSku->price, 0, 0,',') }}₫</span>
+            @endif
+    </div>
     <div class="product-variants">
         <div id="add-item-form-quickview" class="variants clearfix">
             <div class="select-swatch clearfix">
                 <div id="variant-swatch-0 quickview" class="swatch clearfix" data-option="option1" data-option-index="0">
-                    <div class="title-swap header">Màu sắc: <strong></strong></div>
+                    <div class="title-swap header">{{__('Color')}}: <strong></strong></div>
                     <div class="select-swap">
-                        <div data-value="Đỏ" data-id="2" class="n-sd swatch-element color">
-                            <input class="variant-0" id="swatch-0-SL02-quickview" type="radio" name="option1" value="Đỏ" data-vhandle="SL02" checked="">
-                            <label class="sd" for="swatch-0-SL02-quickview">
-                                <span>Đỏ 1</span>
+
+                        @foreach ($colors as $color)
+                        @if(count($listColor) > 0 && !in_array($color->id, $listColor))
+
+                        <div data-value="{{$color->title}}" data-id="{{$color->id}}" class="n-sd swatch-element soldout">
+                            <input class="variant-0" id="swatch-0-{{$color->id}}" disabled type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->value}}" />
+
+                            <label class="{{$color->value}} select-color" for="swatch-0-{{$color->id}}">
+                                <span>{{ $color->title}}</span>
                             </label>
                         </div>
-                        <div data-value="Đen" data-id="4" class="n-sd swatch-element color">
-                            <input class="variant-0" id="swatch-0-Đen-quickview" type="radio" name="option1" value="Đen" data-vhandle="Đen" checked="">
-                            <label class="" for="swatch-0-Đen-quickview">
-                                <span>Đen</span>
+
+                        @else
+
+                        <div data-value="{{$color->title}}" data-id="{{$color->id}}" class="n-sd swatch-element color" data-image-color="{{$image_color[$color->id]}}" id="color-img-url">
+                            <input class="variant-0" id="swatch-0-{{$color->id}}" type="radio" name="option1" value="{{ $color->title}}" data-vhandle="{{ $color->value}}" @if($color->id == $productSku->color_id && $notActive != 'color') checked @endif/>
+
+                            <label class="{{$color->value}} select-color {{ ($color->id == $productSku->color_id && $notActive != 'color') ? 'sd' : '' }}" for="swatch-0-{{$color->id}}">
+                                <span>{{ $color->title}}</span>
                             </label>
                         </div>
-                        <div data-value="Da Đậm" data-id="14" class="n-sd swatch-element color">
-                            <input class="variant-0" id="swatch-0-Da Đậm-quickview" type="radio" name="option1" value="Da Đậm" data-vhandle="Da Đậm" checked="">
-                            <label class="" for="swatch-0-Da Đậm-quickview">
-                                <span>Da Đậm</span>
-                            </label>
-                        </div>
-                        <div data-value="Da Nhạt" data-id="15" class="n-sd swatch-element color">
-                            <input class="variant-0" id="swatch-0-Da Nhạt-quickview" type="radio" name="option1" value="Da Nhạt" data-vhandle="Da Nhạt" checked="">
-                            <label class="" for="swatch-0-Da Nhạt-quickview">
-                                <span>Da Nhạt</span>
-                            </label>
-                        </div>
+
+                        @endif
+                        @endforeach
                     </div>
                 </div>
                 <div class="mage-error px-3 text-danger" generated="true" id="super_color-error"></div>
                 <div id="variant-swatch-1 quickview" class="swatch clearfix" data-option="option2" data-option-index="1">
-                    <div class="title-swap header">Kích thước: </div>
+                    <div class="title-swap header">{{__('Size')}}:</div>
                     <div class="select-swap">
-                        <div data-value="M" data-id="2" class="n-sd swatch-element size">
-                            <input class="variant-1" id="swatch-1-undefined-quickview" type="radio" name="option2" value="M" data-vhandle="undefined" checked="">
-                            <label for="swatch-1-undefined-quickview" class="">
-                                <span>M</span>
+                        @foreach ($sizes as $size)
+
+                        @if(count($listSize) > 0 && !in_array($size->id, $listSize))
+                        <div data-value="{{$size->value}}" data-id="{{$size->id}}" class="n-sd swatch-element soldout">
+                            <input class="variant-1" id="swatch-1-{{$size->id}}" type="radio" disabled name="option2" value="{{$size->value}}" data-vhandle="{{$size->value}}" />
+
+                            <label for="swatch-1-{{$size->id}}">
+                                <span>{{$size->title}}</span>
                             </label>
                         </div>
-                        <div data-value="L" data-id="3" class="n-sd swatch-element size">
-                            <input class="variant-1" id="swatch-1-undefined-quickview" type="radio" name="option2" value="L" data-vhandle="undefined" checked="">
-                            <label for="swatch-1-undefined-quickview" class="sd">
-                                <span>L</span>
+
+                        @else
+
+                        <div data-value="{{$size->value}}" data-id="{{$size->id}}" class="n-sd swatch-element size">
+                            <input class="variant-1" id="swatch-1-{{$size->id}}" type="radio" name="option2" value="{{$size->value}}" data-vhandle="{{$size->value}}" @if($size->id == $productSku->size_id && $notActive != 'size') checked @endif/>
+
+                            <label for="swatch-1-{{$size->id}}" class="{{ ($size->id == $productSku->size_id && $notActive != 'size') ? 'sd' : '' }}">
+                                <span>{{$size->title}}</span>
                             </label>
                         </div>
-                        <div data-value="XL" data-id="4" class="n-sd swatch-element size">
-                            <input class="variant-1" id="swatch-1-undefined-quickview" type="radio" name="option2" value="XL" data-vhandle="undefined" checked="">
-                            <label for="swatch-1-undefined-quickview" class="">
-                                <span>XL</span>
-                            </label>
-                        </div>
+
+                        @endif
+
+                        @endforeach
                     </div>
                 </div>
                 <div class="mage-error px-3 text-danger" generated="true" id="super_size-error"></div>
             </div>
         </div>
     </div>
-    <div class="product-appxy">
+    <!-- <div class="product-appxy">
         <div class="product-buyxgety q-selector-buyxgety d-none">
             <div id="buyxgety-program">
                 <div class="buyxgety-heading">
@@ -77,7 +97,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="product-viewaction quickview-toolbarproduct" id="toolbarProduct">
         <div class="productToolbar-addcart">
             <div class="product-actions">
@@ -88,7 +108,7 @@
                             <path d="M10 0v2H0V0z"></path>
                         </svg>
                     </button>
-                    <input type="text" id="quickview-qtyvalue" name="quantity" value="1" min="1" class="quickview-qtyvalue quantity-number" fdprocessedid="7he8rm">
+                    <input type="text" id="quickview-qtyvalue" name="quantity" value="{{$productSku->sub_quantity}}" max="{{$productSku->sub_quantity}}" data-quantity="{{$productSku->sub_quantity}}" min="1" class="quickview-qtyvalue quantity-number" fdprocessedid="7he8rm">
                     <button type="button" onclick="HRT.Quickview.plusQtyView()" class="qty-btn" fdprocessedid="izontq">
                         <svg focusable="false" class="icon icon--plus " viewBox="0 0 10 10" role="presentation">
                             <path d="M6 4h4v2H6v4H4V6H0V4h4V0h2v4z"></path>
@@ -113,5 +133,5 @@
             <i class="fa fa-youtube-play" aria-hidden="true"></i>
         </a>
     </div>
-    <div class="product-viewdetail text-left"><a href="http://127.0.0.1:8000/shop/quan-lot-nu-lorencia-q26" class="productdetail-link">Xem chi tiết sản phẩm</a><i class="fa fa-angle-double-right" aria-hidden="true"></i></div>
+    <div class="product-viewdetail text-left"><a href="{{route('detail.product' , [$productSku->slug])}}" class="productdetail-link">Xem chi tiết sản phẩm</a><i class="fa fa-angle-double-right" aria-hidden="true"></i></div>
 </div>
