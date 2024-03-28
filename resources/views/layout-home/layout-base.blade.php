@@ -395,7 +395,7 @@
   <div class="mainBody-theme-container mainBody-modalshow     layoutProduct_scroll ">
     @if($idx_pos9)
     <div class="topbar-banner text-center">
-      <a href="pages/big-sale.html">
+      <a href="{{$idx_pos9->url ? $idx_pos9->url : '#'}}">
         <picture>
           <source media="(max-width: 767px)" srcset="{{$idx_pos9->photo}}" />
           <source media="(min-width: 768px)" srcset="{{$idx_pos9->photo}}" />
@@ -639,95 +639,7 @@
       </div>
     </div>
   </div>
-  <div class="siteCart-mobile">
-    <div class="siteCart-mobile__header">
-      <div class="boxinfo p-count">0 sản phẩm </div>
-      <div class="boxinfo p-price">0₫</div>
-      <div class="boxinfo">Xem chi tiết</div>
-    </div>
-    <div class="siteCart-mobile__dialog">
-      <div class="siteCart-mobile__header">
-        <div class="boxinfo p-count">0 sản phẩm </div>
-        <div class="boxinfo p-price">0₫</div>
-        <div class="boxinfo">Đóng</div>
-      </div>
-      <div class="siteCart-mobile__body">
-
-
-        <div class="sitenav-content sitenav-cart">
-          <p class="boxtitle">Giỏ hàng</p>
-          <div class="cart-view clearfix">
-            <div class="cart-view-scroll">
-              <table id="clone-item-cart" class="table-clone-cart">
-                <tr class="mini-cart__item d-none">
-                  <td class="mini-cart__left"><a class="mnc-link" href="#" title=""><img src="#" alt="" /></a></td>
-                  <td class="mini-cart__right">
-                    <p class="mini-cart__title">
-                      <a class="mnc-title mnc-link" href="#" title=""></a>
-                      <span class="mnc-variant"> </span>
-                    </p>
-                    <div class="mini-cart__quantity">
-                      <button class="qty-btn mnc-minus">
-                        <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                          <rect height="1" width="18" y="9" x="1"></rect>
-                        </svg>
-                      </button>
-                      <input class="qty-value" type="text" readonly="" name="mnc-quantity" value="">
-                      <button class="qty-btn mnc-plus">
-                        <svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                          <rect x="9" y="1" width="1" height="17"></rect>
-                          <rect x="1" y="9" width="17" height="1"></rect>
-                        </svg>
-                      </button>
-                    </div>
-                    <div class="mini-cart__price">
-                      <span class="mnc-price">0₫</span>
-                      <del class="mnc-ori-price"></del>
-                    </div>
-                    <div class="mini-cart__remove"></div>
-                  </td>
-                </tr>
-              </table>
-              <table id="cart-view">
-
-                <tr class="mini-cart__empty">
-                  <td>
-                    <div class="svgico-mini-cart">
-                      <svg width="81" height="70" viewBox="0 0 81 70">
-                        <g transform="translate(0 2)" stroke-width="4" fill="none" fill-rule="evenodd">
-                          <circle stroke-linecap="square" cx="34" cy="60" r="6"></circle>
-                          <circle stroke-linecap="square" cx="67" cy="60" r="6"></circle>
-                          <path d="M22.9360352 15h54.8070373l-4.3391876 30H30.3387146L19.6676025 0H.99560547"></path>
-                        </g>
-                      </svg>
-                    </div>
-                    Hiện chưa có sản phẩm
-                  </td>
-                </tr>
-
-              </table>
-            </div>
-            <div class="cart-view-line"></div>
-            <div class="cart-view-total">
-              <table class="table-total">
-                <tr>
-                  <td class="mnc-total text-left">TỔNG TIỀN:</td>
-                  <td class="mnc-total text-right" id="total-view-cart">0₫</td>
-                </tr>
-                <tr class="mini-cart__button">
-                  <td colspan="2"><a href="cart.html" class="linktocart button ">Xem giỏ hàng</a></td>
-
-                </tr>
-              </table>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-    <div class="siteCart-mobile__overlay"></div>
-  </div>
+  
   <!-- <div id="quick-view-modal" class="modal fade modal-product-quickview">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content wrapper-quickview">

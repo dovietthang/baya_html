@@ -26,6 +26,7 @@ use App\Helpers\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Title;
 
 class HomeController extends Controller
 {
@@ -49,7 +50,7 @@ class HomeController extends Controller
     function blogCate(Request $rq, $slug)
     {
         $cate = Category::where('slug', $slug)->where('status', 1)->first();
-        if(!$cate){
+        if (!$cate) {
             return view('errors.404-home');
         }
         // $getPost = Post::whereHas('cates', function ($query) use ($cate) {
@@ -68,7 +69,7 @@ class HomeController extends Controller
     function blogDetail(Request $rq, $slug)
     {
         $post = Post::where('slug', $slug)->where('type', NULL)->where('status', 1)->first();
-        if(!$post){
+        if (!$post) {
             return view('errors.404-home');
         }
         $post->views += 1;
@@ -81,13 +82,13 @@ class HomeController extends Controller
         // }
         $catePost = $post->cates()->first();
         $next = Post::where('id', '>', $post->id)->where('type', NULL)->orderBy('id')->first();
-        $previous = Post::where('id', '<', $post->id)->where('type', NULL)->orderBy('id','desc')->first();
+        $previous = Post::where('id', '<', $post->id)->where('type', NULL)->orderBy('id', 'desc')->first();
         $newPost = Post::where('status', 1)->where('type', NULL)->orderBy('created_at', 'desc')->limit(4)->get();
         $catePost2 = Category::where('type', 'MenuPost')->where('status', 1)->get();
         $relatedPost = Post::whereHas('cates', function ($query) use ($catePost) {
             $query->where('category_id', @$catePost->id);
         })->where('status', 1)->where('type', NULL)->limit(10)->get();
-        return view('layout-home.pages.blogs.blog-detail', compact('post', 'catePost', 'next', 'previous','newPost','catePost2', 'relatedPost'));
+        return view('layout-home.pages.blogs.blog-detail', compact('post', 'catePost', 'next', 'previous', 'newPost', 'catePost2', 'relatedPost'));
     }
     function home(Request $rq)
     {
@@ -111,27 +112,27 @@ class HomeController extends Controller
         $idx_pos7 = Index::where('name', 'index_pos7')->where('status', 1)->first();
         $idx_pos8 = Index::where('name', 'index_pos8')->where('status', 1)->first();
         $data_idx = Index::where('name', 'data_idx')->where('type', 1)->where('status', 1)->first();
-        if($data_idx && $data_idx->photo){
-            $productsels = Product::wherein('id', explode(',',$data_idx->photo))->orderByDesc('created_at')->limit(10)->get();
-        }else{
+        if ($data_idx && $data_idx->photo) {
+            $productsels = Product::wherein('id', explode(',', $data_idx->photo))->orderByDesc('created_at')->limit(10)->get();
+        } else {
             $productsels = [];
         }
 
         $data_idx1 = Index::where('name', 'data_idx1')->where('type', 1)->where('status', 1)->first();
-        if($data_idx1 && $data_idx1->photo){
-            $products = Product::wherein('id', explode(',',$data_idx1->photo))->orderByDesc('created_at')->limit(10)->get();
-        }else{
+        if ($data_idx1 && $data_idx1->photo) {
+            $products = Product::wherein('id', explode(',', $data_idx1->photo))->orderByDesc('created_at')->limit(10)->get();
+        } else {
             $products = [];
         }
 
         $data_idx2 = Index::where('name', 'data_idx2')->where('type', 1)->where('status', 1)->first();
-        if($data_idx2 && $data_idx2->photo){
-            $products2 = Product::wherein('id', explode(',',$data_idx2->photo))->orderByDesc('created_at')->limit(9)->get();
-        }else{
+        if ($data_idx2 && $data_idx2->photo) {
+            $products2 = Product::wherein('id', explode(',', $data_idx2->photo))->orderByDesc('created_at')->limit(9)->get();
+        } else {
             $products2 = [];
         }
-
-        $productsNew = Product::where('status', 1)->where('type_init', '!=', 'combo')->orWhereNull('type_init')->orderByDesc('created_at')->limit(10)->get();
+        $twoMonthsAgo = Carbon::now()->subMonths(2);
+        $productsNew = Product::where('status', 1)->where('type_init', '!=', 'combo')->orWhereNull('type_init')->whereDate('created_at', '>=', $twoMonthsAgo)->orderByDesc('created_at')->limit(10)->get();
         $coupons = Coupon::where('type_coupon', 'total order')->where('code', '<>', '')->where('status', 1)->get();
         $menuId = Category::where('parent_id', null)->where('type', 'Menu')->where('status', 1)->orderby('order_by', 'asc')->pluck('id')->toArray();
         $cates = Category::wherein('parent_id', $menuId)->where('type', 'Product')->where('status', 1)->orderby('order_by', 'asc')->get();
@@ -146,7 +147,7 @@ class HomeController extends Controller
         $posts = Post::where('type', NULL)->where('status', 1)->orderByDesc('created_at')->limit(15)->get();
 
         // var_dump($cates);
-        return view("layout-home.pages.index", compact('idx_pos8', 'idx_pos5', 'idx_pos6', 'idx_pos7','banners', 'data_idx2','products2','idx_pos1','data_idx', 'data_idx1', 'idx_pos2', 'idx_pos3', 'idx_pos4', 'coupons', 'productsels', 'products', 'productsNew', 'searchTrends', 'cates', 'posts'));
+        return view("layout-home.pages.index", compact('idx_pos8', 'idx_pos5', 'idx_pos6', 'idx_pos7', 'banners', 'data_idx2', 'products2', 'idx_pos1', 'data_idx', 'data_idx1', 'idx_pos2', 'idx_pos3', 'idx_pos4', 'coupons', 'productsels', 'products', 'productsNew', 'searchTrends', 'cates', 'posts'));
     }
     function account()
     {
@@ -308,9 +309,9 @@ class HomeController extends Controller
     function OrderUserSearch(Request $rq)
     {
         if (Auth::user()) {
-            if($rq->search){
+            if ($rq->search) {
                 $order = Order::where('order_code', '=', $rq->search)->first();
-                if(!$order){
+                if (!$order) {
                     return response()->json(['error' => 'Không tìm thấy đơn hàng']);
                 }
                 return view('layout-home.pages.ajax-page.template-order-search')->with('order', $order);
@@ -560,7 +561,6 @@ class HomeController extends Controller
             'popup' => $html,
             'price_sum' => number_format($this->getSumPrice(), 0, 0, '.') . ' VNĐ'
         ]);
-
     }
     public function deleteOneCart(Request $rq)
     {
@@ -587,7 +587,7 @@ class HomeController extends Controller
         return response()->json([
             'message' => true,
             'total' => number_format($this->getTotalCart(), 0, 0, '.'),
-            'price_sum' => number_format($this->getSumPrice(), 0, 0, '.') . ' VNĐ',
+            'price_sum' => number_format($this->getSumPrice(), 0, 0, '.') . '₫',
             'alert' => __('Your shopping cart is empty')
         ]);
     }
@@ -618,25 +618,40 @@ class HomeController extends Controller
         session()->save();
         return response()->json([
             'message' => true,
-            'price_sum' => number_format($this->getSumPrice(), 0, 0, '.') . ' VNĐ'
+            'price_sum' => number_format($this->getSumPrice(), 0, 0, '.') . '₫'
         ]);
     }
     function category(Request $rq, $slug)
     {
-        $cate = Category::where('slug', $slug)->first();
-        if(!$cate){
-            return view('errors.404-home');
+        if ($slug == 'product-all') {
+            $lists = collect(['title' => 'Tất cả sản phẩm']);
+        }else if ($slug == 'product-new') {
+            $lists = collect(['title' => 'Sản phẩm mới']);
+        }else if ($slug == 'sale-outlet') {
+            $data_idx = Index::where('name', 'data_idx')->where('status', 1)->first();
+            $lists = collect(['title' => $data_idx->title]);
+        }else if ($slug == 'collections') {
+            $data_idx2 = Index::where('name', 'data_idx2')->where('status', 1)->first();
+            $lists = collect(['title' => $data_idx2->title]);
+        } else if ($slug == 'outstanding') {
+            $data_idx1 = Index::where('name', 'data_idx1')->where('status', 1)->first();
+            $lists = collect(['title' => $data_idx1->title]);
+        }else {
+            $cate = Category::where('slug', $slug)->first();
+            if (!$cate) {
+                return view('errors.404-home');
+            }
+            $ids = [$cate->id];
+            Category::getAllIdChild($ids, $cate->id);
+            $lists = [];
+            Category::getRoot($lists, $cate);
+            $getChildIds = Category::wherein('id', $ids)->where('status', 1)->pluck('id')->toArray();
+            $childrenFilter = $cate->childCate;
         }
-        $ids = [$cate->id];
-        Category::getAllIdChild($ids, $cate->id);
-        $lists = [];
-        Category::getRoot($lists, $cate);
-        $getChildIds = Category::wherein('id', $ids)->where('status', 1)->pluck('id')->toArray();
         $param_str = '';
         $replace_str = [];
         $array_check = [];
         $listFilter = [];
-        $childrenFilter = $cate->childCate;
         if ($rq->cat || $rq->color || $rq->size || $rq->sort || $rq->sort_order) {
             $colSort = 'created_at';
             $prefix = '?';
@@ -727,9 +742,25 @@ class HomeController extends Controller
                 }
             }
         } else {
-            $results = Product::whereHas('cates', function ($query) use ($getChildIds) {
-                $query->wherein('category_id',  $getChildIds);
-            })->where('status', 1)->orderByDesc('created_at');
+            if ($slug == 'product-all') {
+                $results = Product::where('status', 1)->orderByDesc('created_at');
+            }else if ($slug == 'product-new') {
+                $twoMonthsAgo = Carbon::now()->subMonths(2);
+                $results = Product::where('status', 1)->whereDate('created_at', '>=', $twoMonthsAgo)->orderByDesc('created_at');
+            }else if ($slug == 'sale-outlet') {
+                $ids = explode(",", $data_idx->photo);
+                $results = Product::wherein('id', $ids)->where('status', 1)->orderByDesc('created_at');
+            }else if ($slug == 'collections') {
+                $ids = explode(",", $data_idx2->photo);
+                $results = Product::wherein('id', $ids)->where('status', 1)->orderByDesc('created_at');
+            }else if ($slug == 'outstanding') {
+                $ids = explode(",", $data_idx1->photo);
+                $results = Product::wherein('id', $ids)->where('status', 1)->orderByDesc('created_at');
+            } else {
+                $results = Product::whereHas('cates', function ($query) use ($getChildIds) {
+                    $query->wherein('category_id',  $getChildIds);
+                })->where('status', 1)->orderByDesc('created_at');
+            }
         }
         $ids_pr = $results->pluck('id')->toArray();
         $getSku = Sku::wherein('product_id', $ids_pr);
@@ -738,8 +769,13 @@ class HomeController extends Controller
         $colors = Color::wherein('id', $ids_cl)->get();
         $sizes = Size::wherein('id', $ids_sz)->get();
         $products = $results->paginate(24);
-        return view('layout-home.pages.category', compact('products', 'sizes', 'colors', 'cate', 'lists', 'param_str', 'array_check', 'replace_str', 'childrenFilter', 'listFilter'));
+        if ($slug == 'product-all'|| $slug == 'product-new' || $slug == 'sale-outlet'|| $slug == 'collections'|| $slug == 'outstanding') {
+            return view('layout-home.pages.category', compact('products', 'sizes', 'colors', 'lists', 'param_str', 'array_check', 'replace_str', 'listFilter'));
+        } else {
+            return view('layout-home.pages.category', compact('products', 'sizes', 'colors', 'cate', 'lists', 'param_str', 'array_check', 'replace_str', 'listFilter'));
+        }
     }
+
     function resultQuery(Request $rq)
     {
         $param_str = '';
@@ -862,7 +898,7 @@ class HomeController extends Controller
         $root = Category::where('slug', $root)->where('parent_id', null)->first();
         Category::getAllIdChild($temp, @$root->id);
         $cate = Category::wherein('id', $temp)->where('slug', $slug)->first();
-        if(!$cate){
+        if (!$cate) {
             return view('errors.404-home');
         }
         $ids = [@$cate->id];
@@ -983,7 +1019,7 @@ class HomeController extends Controller
     function productDetail(Request $rq, $slug)
     {
         $product = Product::where('slug', $slug)->first();
-        if(!$product){
+        if (!$product) {
             return view('errors.404-home');
         }
         if ($product) {
@@ -999,7 +1035,7 @@ class HomeController extends Controller
                 $sizes = Size::wherein('id', $list_size)->get();
                 $image_color = $productSku->pluck('photo', 'color_id')->toArray();
                 $productSku = $productSku->where('is_default', 1)->first();
-                if(!$productSku){
+                if (!$productSku) {
                     $productSku = $product->productSku()->first();
                 }
                 $getSale = Coupon::getSaleProduct(@$productSku->id);
@@ -1010,14 +1046,14 @@ class HomeController extends Controller
                     $query->wherein('category_id', $category->pluck('id')->toArray());
                 })->where('id', '<>', $product->id)->where('type_init', null)->where('status', 1)->inRandomOrder()->limit(10)->get();
                 $couponsProductMy = Coupon::where('type_coupon', 'total order')
-                ->whereNotNull('code')
-                ->where('status', 1)
-                ->get();
+                    ->whereNotNull('code')
+                    ->where('status', 1)
+                    ->get();
                 return view(
                     "layout-home.pages.product-detail",
                     compact('product', 'relatedProducts', 'salePrice', 'photo', 'colors', 'sumValue', 'sizes', 'image_color', 'productSku', 'couponsProductMy')
                 );
-            } else { 
+            } else {
                 $relatedProducts = Product::whereHas('cates', function ($query) use ($category) {
                     $query->wherein('category_id', $category->pluck('id')->toArray());
                 })->where('id', '<>', $product->id)->where('type_init', 'combo')->where('status', 1)->inRandomOrder()->limit(10)->get();
@@ -1031,7 +1067,7 @@ class HomeController extends Controller
     function pageDetail(Request $rq, $slug)
     {
         $page = Post::where('slug', $slug)->first();
-        if(!$page){
+        if (!$page) {
             return view('errors.404-home');
         }
         return view('layout-home.pages.page')->with('page', $page)->render();
@@ -1078,19 +1114,19 @@ class HomeController extends Controller
             $getSale = Coupon::getSaleProduct($productSku->id);
             $salePrice = $getSale->get('getPrice');
             $photo = $product->photo ? explode(',', $product->photo) : $productSku->photo;
-            if ($rq->type && $rq->type == 'modal'){
+            if ($rq->type && $rq->type == 'modal') {
                 return view('layout-home.pages.ajax-page.detail-modal-page-item')
-                ->with('salePrice', $salePrice)
-                ->with('colors', $colors)
-                ->with('notActive', $notActive)
-                ->with('sumValue', $sumValue)
-                ->with('sizes', $sizes)
-                ->with('listSize', $listSize)
-                ->with('listColor', $listColor)
-                ->with('image_color', $image_color)
-                ->with('productSku', $productSku)
-                ->with('photo', $photo)
-                ->with('product', $product)->render();
+                    ->with('salePrice', $salePrice)
+                    ->with('colors', $colors)
+                    ->with('notActive', $notActive)
+                    ->with('sumValue', $sumValue)
+                    ->with('sizes', $sizes)
+                    ->with('listSize', $listSize)
+                    ->with('listColor', $listColor)
+                    ->with('image_color', $image_color)
+                    ->with('productSku', $productSku)
+                    ->with('photo', $photo)
+                    ->with('product', $product)->render();
             }
             return view('layout-home.pages.ajax-page.detail-page-item')
                 ->with('salePrice', $salePrice)
@@ -1143,10 +1179,9 @@ class HomeController extends Controller
         $day = Carbon::createFromFormat('Y-m-d H:i:s', $discount->created_at);
         $dif = $daynow->diffInHours($day);
         $flag = false;
-        if($dif > $maxDate * 24){
+        if ($dif > $maxDate * 24) {
             return [$flag, __('Code not activated')];
-        }
-        else{
+        } else {
             $flag = true;
             return [$flag, __('Use code successfully')];
         }
@@ -1163,9 +1198,9 @@ class HomeController extends Controller
     function checkout(Request $rq)
     {
         $shipAddress = null;
-        if(Auth::user()){
+        if (Auth::user()) {
             $tem = Address::where('user_id', Auth::user()->id)->where('is_default', 1)->first();
-            if(!$tem){
+            if (!$tem) {
                 $tem = Address::where('user_id', Auth::user()->id)->first();
             }
             $shipAddress = $tem;
@@ -1187,21 +1222,19 @@ class HomeController extends Controller
             $isCoupon = true;
             $discount = Coupon::whereNotNull('code')->where('code', $rq->discount_code ? $rq->discount_code : $code)->where('status', 1)->first();
             $countPonSpin = AccountSpin::whereNotNull('code')->where('code', $rq->discount_code ? $rq->discount_code : $code)->first();
-            if(!$discount && $countPonSpin){
+            if (!$discount && $countPonSpin) {
                 $isCoupon = false;
             }
             if (!$discount && !$countPonSpin) {
                 $message = [false, __('Code does not exist')];
             } else {
-                if($isCoupon)
-                {
+                if ($isCoupon) {
                     $getFlag = $this->discountStatus($discount, $baseTotal);
                     $message = $getFlag;
                     if ($rq->discount_code) {
                         session(['coupon' => $discount->code]);
                     }
-                }
-                else{
+                } else {
                     $getFlag = $this->discountStatusSpins($countPonSpin);
                     $message = $getFlag;
                     session(['coupon' => $countPonSpin->code]);
@@ -1265,9 +1298,9 @@ class HomeController extends Controller
             ]);
         }
         $couponsProductMy = Coupon::where('type_coupon', 'total order')
-        ->whereNotNull('code')
-        ->where('status', 1)
-        ->get();        
+            ->whereNotNull('code')
+            ->where('status', 1)
+            ->get();
         return view('layout-home.pages.checkout', compact('carts', 'baseTotal', 'discount', 'countPonSpin', 'message', 'province', 'shipAddress', 'couponsProductMy'));
     }
     public function getDiscountTotal($discount)
@@ -1315,16 +1348,17 @@ class HomeController extends Controller
             'message' => $message
         ]);
     }
-    function checkoutSuccess(){
-        if(session('msg_order')){
+    function checkoutSuccess()
+    {
+        if (session('msg_order')) {
             $order = session('msg_order');
             $shipAddress = null;
-            if(Auth::user()){
+            if (Auth::user()) {
                 $tem = Address::where('user_id', @$order->customer_id)->where('is_default', 1)->first();
-                if(!$tem){
+                if (!$tem) {
                     $tem = Address::where('user_id', @$order->customer_id)->first();
                 }
-            $shipAddress = $tem;
+                $shipAddress = $tem;
             }
             return view('layout-home.pages.onssuccess-checkout', compact('order', 'shipAddress'));
         }
@@ -1351,7 +1385,7 @@ class HomeController extends Controller
             $isCoupon = true;
             $discount = Coupon::whereNotNull('code')->where('code', $discount_code)->where('status', 1)->first();
             $countPonSpin = AccountSpin::whereNotNull('code')->where('code', $discount_code)->first();
-            if(!$discount && $countPonSpin){
+            if (!$discount && $countPonSpin) {
                 $isCoupon = false;
             }
             if ($discount && $isCoupon) {
@@ -1359,8 +1393,7 @@ class HomeController extends Controller
                 if ($message[0] == true) {
                     $total = $this->getDiscountTotal($discount)->get('total');
                 }
-            }
-            else if($countPonSpin && !$isCoupon){
+            } else if ($countPonSpin && !$isCoupon) {
                 $message = $this->getDiscountTotalSpin($countPonSpin)->get('message');
                 if ($message[0] == true) {
                     $total = $this->getDiscountTotalSpin($countPonSpin)->get('total');
@@ -1387,11 +1420,10 @@ class HomeController extends Controller
         $order->address = $rq->street;
         $order->messages = $rq->comment;
         $order->fee = $fee;
-        if($countPonSpin){
+        if ($countPonSpin) {
             $order->coupon_code = $countPonSpin && (isset($message[0]) && $message[0] == true) ? $countPonSpin->code : '';
-            $order->coupon_amount = $countPonSpin && (isset($message[0]) && $message[0] == true) ? number_format($countPonSpin->spinItem->amount,0,0, '.') . ($countPonSpin->spinItem->type == 1 ? '%' : '') : 'đ';
-        }
-        else{
+            $order->coupon_amount = $countPonSpin && (isset($message[0]) && $message[0] == true) ? number_format($countPonSpin->spinItem->amount, 0, 0, '.') . ($countPonSpin->spinItem->type == 1 ? '%' : '') : 'đ';
+        } else {
             $order->coupon_code = $discount && (isset($message[0]) && $message[0] == true) ? $discount->code : '';
             $order->coupon_amount = $discount && (isset($message[0]) && $message[0] == true) ?  number_format($discount->price_value, 0, 0, '.') . ($discount->type == 'percent price' ? '%' : 'đ') : '';
         }

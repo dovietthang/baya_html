@@ -29,41 +29,12 @@
 
     prodItem_mobile = 2;
 </script>
-<!-- <script type="text/javascript">
-    //<![CDATA[
-    if (typeof Haravan === "undefined") {
-        Haravan = {};
-    }
-    Haravan.culture = "vi-VN";
-    Haravan.shop = "baya.myharavan.com";
-    Haravan.theme = {
-        name: "Baya 10.2023 (Eatini_v1.0001)",
-        id: 1001150659,
-        role: "main",
-    };
-    Haravan.domain = "baya.vn";
-    //]]>
-</script> -->
-<!--Clarity-->
-<!-- <script type="text/javascript">
-    (function(c, l, a, r, i, t, y) {
-        c[a] =
-            c[a] ||
-            function() {
-                (c[a].q = c[a].q || []).push(arguments);
-            };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = "https://www.clarity.ms/tag/" + i;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", "k8ossms4ac");
-</script> -->
+
 
 <!--The End Datalayer-->
 <div class="layout-collections">
     @if(@$lists)
-    @include('layout-home.breadcrumbs', [$lists, $cate])
+    @include('layout-home.breadcrumbs', [@$lists])
     @endif
     <div class="wrapper-mainCollection">
         <div class="collection-listproduct" id="collection-body">
@@ -99,21 +70,27 @@
                                                         <ul class="tree-menu">
                                                             <li class="">
                                                                 <span></span>
-                                                                <a class="" href="hang-moi-ve.html" title="Sản phẩm mới" target="_self">
+                                                                <a class="" href="{{route('category', ['product-new'])}}" title="Sản phẩm mới" target="_self">
                                                                     Sản phẩm mới
                                                                 </a>
                                                             </li>
 
                                                             <li class="">
                                                                 <span></span>
-                                                                <a class="" href="sale-outlet.html" title="Sản phẩm khuyến mãi" target="_self">
+                                                                <a class="" href="{{route('category', ['sale-outlet'])}}" title="Sản phẩm khuyến mãi" target="_self">
                                                                     Sản phẩm khuyến mãi
+                                                                </a>
+                                                            </li>
+                                                            <li class="">
+                                                                <span></span>
+                                                                <a class="" href="{{route('category', ['outstanding'])}}" title="Sản phẩm khuyến mãi" target="_self">
+                                                                    Sản phẩm nổi bật
                                                                 </a>
                                                             </li>
 
                                                             <li class="">
                                                                 <span></span>
-                                                                <a class="" href="all.html" title="Tất cả sản phẩm" target="_self">
+                                                                <a class="" href="{{route('category', ['product-all'])}}" title="Tất cả sản phẩm" target="_self">
                                                                     Tất cả sản phẩm
                                                                 </a>
                                                             </li>
@@ -167,7 +144,7 @@
 
                                         <!-- ./filter brand -->
 
-                                        <div class="filter_group" aria-expanded="false">
+                                        <!-- <div class="filter_group" aria-expanded="false">
                                             <div class="filter_group_block">
                                                 <div class="filter_group-subtitle">
                                                     <span>Nhà cung cấp</span>
@@ -187,11 +164,11 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                         <!-- ./filter price -->
 
-                                        <div class="filter_group" aria-expanded="false">
+                                        <!-- <div class="filter_group" aria-expanded="false">
                                             <div class="filter_group_block">
                                                 <div class="filter_group-subtitle">
                                                     <span>Giá</span>
@@ -231,7 +208,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                         <!-- ./filter color -->
 
@@ -251,7 +228,7 @@
                     </div>
                     <div class="col-lg-9 col-md-12 col-12 collection-content">
                         <div class="collection-heading">
-                            @if(!@$cate->parent_id)
+                            @if(@$cate && !@$cate->parent_id)
                             <div class="collection-heading__banner">
                                 <img class="lazyload" data-src="{{@$cate->photo ? $cate->photo : $cate->photo_index}}" src="{{@$cate->photo ? $cate->photo : $cate->photo_index}}" alt="{{@$cate->title_web}}" />
                             </div>
@@ -259,9 +236,9 @@
                             <div class="collection-heading__content">
                                 <div class="dFlex-row">
                                     <div class="heading-box">
-                                        <h1 class="title">{{@$cate->title}}</h1>
+                                        <h1 class="title">{{@$cate->title ? $cate->title : $lists['title']}}</h1>
                                         <div class="filter-box">
-                                            <span class="title-count"><b>{{count($products) }}</b> sản phẩm</span>
+                                            <span class="title-count"><b>{{$products->total()}}</b> sản phẩm</span>
                                             <p class="title-filter d-sm-flex d-lg-none">
                                                 <span>Bộ lọc 1</span>
                                                 <svg viewBox="0 0 20 20">
@@ -311,71 +288,6 @@
                                                     <li><span data-value="created-ascending" data-filter="(updated_at:product=asc)">Cũ nhất</span></li>
                                                     <li><span data-value="created-descending" data-filter="(updated_at:product=desc)">Mới nhất</span></li>
                                                 </ul>
-                                                <!-- <ul class="sort-by sort-by-content">
-                                                    <li>
-                                                        <span data-value="manual" data-filter="">Sản phẩm nổi bật </span>
-
-                                                    </li>
-                                                    <li>
-                                                        <span data-value="price-ascending" data-filter="(price:product=asc)">Giá: Tăng dần</span>
-                                                        @if($param_str)
-                                                        <a href="{{$param_str. '&sort_order=asc'}}" class="action sorter-action @if(Request::get('sort_order') == 'asc') sort-asc @else sort-asc @endif" data-role="direction-switcher" data-value="asc">
-                                                            @if($getSortOrder == 'asc')
-                                                            <span class="font-weight-bold">Giá: Tăng dần</span>
-                                                            @else
-                                                            <span>Giá: Tăng dần</span>
-                                                            @endif
-                                                        </a>
-                                                        @else
-                                                        <a href="?sort_order=asc" class="action sorter-action @if(Request::get('sort_order') == 'asc') sort-asc @else sort-asc @endif" data-role="direction-switcher" data-value="asc">
-                                                            @if($getSortOrder == 'asc')
-                                                            <span class="font-weight-bold">Giá: Tăng dần</span>
-                                                            @else
-                                                            <span>Giá: Tăng dần</span>
-                                                            @endif
-                                                        </a>
-                                                        @endif
-
-                                                    </li>
-                                                    <li>
-                                                        <span data-value="price-descending" data-filter="(price:product=desc)">Giá: Giảm dần</span>
-                                                        @if($param_str)
-                                                        <a href="{{$param_str. '&sort_order=desc'}}" class="action sorter-action @if(Request::get('sort_order') == 'desc') sort-desc @else sort-asc @endif" data-role="direction-switcher" data-value="desc">
-                                                            @if($getSortOrder == 'desc')
-                                                            <span class="font-weight-bold">Giá: Giảm dần</span>
-                                                            @else
-                                                            <span>Giá: Giảm dần</span>
-                                                            @endif
-                                                        </a>
-                                                        @else
-                                                        <a href="?sort_order=desc" class="action sorter-action @if(Request::get('sort_order') == 'desc') sort-desc @else sort-asc @endif" data-role="direction-switcher" data-value="desc">
-                                                            @if($getSortOrder == 'desc')
-                                                            <span class="font-weight-bold">Giá: Giảm dần</span>
-                                                            @else
-                                                            <span>Giá: Giảm dần</span>
-                                                            @endif
-                                                        </a>
-                                                        @endif
-                                                    </li>
-                                                    <li>
-                                                        <span data-value="title-ascending" data-filter="(title:product=asc)">Tên: A-Z</span>
-                                                    </li>
-                                                    <li>
-                                                        <span data-value="title-descending" data-filter="(title:product=desc)">Tên: Z-A</span>
-                                                    </li>
-                                                    <li>
-                                                        <span data-value="created-ascending" data-filter="(updated_at:product=asc)">Cũ nhất</span>
-                                                    </li>
-                                                    <li>
-                                                        <span data-value="created-descending" data-filter="(updated_at:product=desc)">Mới nhất</span>
-                                                    </li>
-                                                    <li>
-                                                        <span data-value="best-selling" data-filter="(sold_quantity:product=desc)">Bán chạy nhất</span>
-                                                    </li>
-                                                    <li>
-                                                        <span data-value="quantity-descending" data-filter="(quantity:product=desc)">Tồn kho giảm dần</span>
-                                                    </li>
-                                                </ul> -->
                                             </div>
                                         </div>
                                     </div>

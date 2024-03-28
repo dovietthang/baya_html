@@ -144,7 +144,7 @@
                         <form class="form form-edit-account form-address-edit" action="{{route('address.update')}}" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="* Đây là trường bắt buộc." novalidate="novalidate">
                             <fieldset class="fieldset">
                                 @csrf
-                                <input type="hidden" value={{$default->id}} name="id">
+                                <input type="hidden" value="{{$default->id}}" name="id">
                                 <legend class="legend"><span>Thông tin liên lạc</span></legend><br> <input name="form_key" type="hidden" value="1oc7i7q1aENM68Td"> <input type="hidden" name="success_url" value=""><input type="hidden" name="error_url" value="">
                                 <div class="field field-name-firstname required clearfix large_form"><label class="label" for="firstname"><span>Tên</span></label>
                                     <div class="control"><input type="text" id="firstname" name="firstname" value="{{$default->name}}" title="Tên" class="input-text required-entry" data-validate="{required:true}" aria-required="true"></div>

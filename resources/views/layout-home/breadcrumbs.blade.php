@@ -10,6 +10,13 @@
                 $num = count($lists) - 1;
                 @endphp
                 @foreach ($lists as $key => $item)
+                @if($key == 'title')
+                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <strong itemprop="item">
+                        <span itemprop="name">{{ $item }}</span>
+                    </strong>
+                </li>
+                @else
                 <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
                     @if($key == $num)
                     <strong itemprop="item">
@@ -30,6 +37,7 @@
                     @endif
                     @endif
                 </li>
+                @endif
                 @endforeach
 
             </ol>

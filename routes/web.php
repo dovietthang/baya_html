@@ -236,5 +236,9 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('/page-load', [HomeController::class, 'ajaxLoadPage']);
     Route::get('/pages/{slug}', [HomeController::class, 'pageDetail'])->name('detail.page');
     Route::get('/{slug}', [HomeController::class, 'category'])->name('category');
+    // Route::get('/product-new', [HomeController::class, 'productNew'])->name('product.new');
+    // Route::get('/product-all', [HomeController::class, 'productAll'])->name('product.all');
+    // Route::get('/product-sale', [HomeController::class, 'productSale'])->name('product.sale');
+    Route::get('/{slug}', [HomeController::class, 'category'])->name('category');
     Route::get('/{parent}/{slug}', [HomeController::class, 'categoryDetail'])->name('detail.category');
 });

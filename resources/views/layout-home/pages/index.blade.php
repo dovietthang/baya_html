@@ -125,7 +125,7 @@
         <div class="wrapper-content row-mg-parent">
             <div class="section-heading">
                 <div class="box-header">
-                    <h2 class="hTitle"><a href="collections/ceramic.html">{{$data_idx->title}}</a></h2>
+                    <h2 class="hTitle"><a href="{{route('category', ['sale-outlet'])}}">{{$data_idx->title}}</a></h2>
                 </div>
             </div>
 
@@ -264,7 +264,7 @@
 
             </div>
             <div class="box-link">
-                <a href="collections/ceramic.html" class="button">
+                <a href="{{route('category', ['sale-outlet'])}}" class="button">
                     Xem tất cả
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
                         <circle class="st0" cx="16" cy="16" r="13" />
@@ -282,7 +282,7 @@
     <div class="container container-pd-parent">
         <div class="section-heading">
             <div class="box-header">
-                <h2 class="hTitle"><a href="#">Sản Phẩm Mới</a></h2>
+                <h2 class="hTitle"><a href="{{route('category', ['product-new'])}}">Sản Phẩm Mới</a></h2>
             </div>
         </div>
 
@@ -428,7 +428,7 @@
         <div class="wrapbox row">
             <div class="wrapbox-left col-lg-2 col-md-12 col-12">
                 <div class="wrapbox--content">
-                    <p class="title-box">Xu hướng tìm kiếm</p><a href="#" class="btn-box button">Xem ngay</a>
+                    <p class="title-box">Xu hướng</p>
                 </div>
             </div>
             <div class="wrapbox-right col-lg-10 col-md-12 col-12">
@@ -633,7 +633,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="tab-pane fade " id="collection-tabs-2" role="tabpanel" data-get="false">
+                    <!-- <div class="tab-pane fade " id="collection-tabs-2" role="tabpanel" data-get="false">
                         <div class="row listProduct-row">
 
 
@@ -807,8 +807,8 @@
 
 
                         </div>
-                    </div>
-                    <div class="tab-pane fade " id="collection-tabs-3" role="tabpanel" data-get="false">
+                    </div> -->
+                    <!-- <div class="tab-pane fade " id="collection-tabs-3" role="tabpanel" data-get="false">
                         <div class="row listProduct-row">
 
 
@@ -982,8 +982,8 @@
 
 
                         </div>
-                    </div>
-                    <div class="tab-pane fade " id="collection-tabs-4" role="tabpanel" data-get="false">
+                    </div> -->
+                    <!-- <div class="tab-pane fade " id="collection-tabs-4" role="tabpanel" data-get="false">
                         <div class="row listProduct-row">
 
 
@@ -1157,13 +1157,13 @@
 
 
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
 
             <div class="wrapbox--btn ">
-                <a href="collections/sale-outlet.html" class="button btn-loadmore">Xem tất cả <strong>Sale up to 80%</strong></a>
+                <a href="{{route('category', ['outstanding'])}}" class="button btn-loadmore">Xem tất cả</a>
             </div>
 
         </div>
@@ -1178,7 +1178,7 @@
             <div class="{{$idx_pos4 && $idx_pos4 != '' ? 'wraper--content__left' : ''}}">
                 <div class="section-heading">
                     <div class="box-header">
-                        <h2 class="hTitle"><a href="collections/noi-that-phong-khach.html">{{$data_idx2->title}}</a></h2>
+                        <h2 class="hTitle"><a href="{{route('category', ['collections'])}}">{{$data_idx2->title}}</a></h2>
                     </div>
                 </div>
                 <div class=" owlCarousel-style">

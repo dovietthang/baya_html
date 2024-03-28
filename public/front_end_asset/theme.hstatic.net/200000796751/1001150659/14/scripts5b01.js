@@ -696,6 +696,7 @@ HRT.All = {
             .removeClass("mainBody-mbcart")
             .removeClass("body-showcart");
         } else {
+          
           //jQuery('#exampleModalLabel').html('Bạn có ' + cart.item_count + ' sản phẩm trong giỏ hàng.');
           jQuery("body").addClass("mainBody-mbcart");
           jQuery("#cartform").removeClass("d-none");
@@ -789,10 +790,13 @@ HRT.All = {
         }, 300);
         setTimeout(function () {
           $(".header-action_cart").addClass("js-action-show");
+          $("#product-toolbar").removeClass("d-sm-block");
+
           $("body").addClass("locked-scroll");
         }, 500);
       } else {
         $(".header-action_cart").addClass("js-action-show");
+        $("#product-toolbar").removeClass("d-sm-block");
         $("body").addClass("locked-scroll");
         jQuery("html, body").animate(
           {
@@ -804,6 +808,7 @@ HRT.All = {
     }
   },
   clone_item: function (product, i, xHasyPrice) {
+    
     if ($(window).width() < 992) {
       var item_product = jQuery(
         ".siteCart-mobile .sitenav-cart .table-clone-cart"
@@ -926,7 +931,30 @@ HRT.All = {
       data: "cartId=" + variant_id + "&item_id[]=",
       dataType: "json",
       success: function (cart) {
-        HRT.All.getCartModal(false);
+        // HRT.All.getCartModal(false);
+        $(
+          '#cart-view .mini-cart__item[data-vid="' + variant_id + '"]'
+        ).addClass("d-none");
+        $("#total-view-cart").text(cart.price_sum.toLocaleString());
+        $(".count-holder .count").html(cart.total);
+        if (cart.total == "0") {
+          $(".header-action_cart #cart-view")
+            .html(`<tr class="mini-cart__empty">
+                <td>
+                    <div class="svgico-mini-cart">
+                        <svg width="81" height="70" viewBox="0 0 81 70">
+                            <g transform="translate(0 2)" stroke-width="4" fill="none" fill-rule="evenodd">
+                                <circle stroke-linecap="square" cx="34" cy="60" r="6"></circle>
+                                <circle stroke-linecap="square" cx="67" cy="60" r="6"></circle>
+                                <path d="M22.9360352 15h54.8070373l-4.3391876 30H30.3387146L19.6676025 0H.99560547"></path>
+                            </g>
+                        </svg>
+                    </div>
+                    Giỏ hàng của bạn đang trống
+                </td>
+            </tr>`);
+        }
+        ///************ */
         $(
           '.proloop-actions[data-vrid="' + variant_id + '"] .proloop-value'
         ).val(0);
@@ -1897,6 +1925,8 @@ HRT.Main = {
     });
   },
   clickIconsHeader: function () {
+          console.log(111111111111111);
+
     $(".header-action_clicked").click(function (e) {
       e.preventDefault();
       if ($(this).parents(".header-action-item").hasClass("js-action-show")) {
@@ -2334,16 +2364,14 @@ HRT.Main = {
                 type: "GET",
                 url: "/cart-update",
                 data:
-                  "quantity=" +
-                  currentQty +
-                  "&skuId=" +
-                  line +
-                  "&item_id[]=",
+                  "quantity=" + currentQty + "&skuId=" + line + "&item_id[]=",
                 async: false,
                 dataType: "json",
                 success: function (data) {
                   cartItem = {};
                   cartGet = data;
+                  $("#total-view-cart").text(data.price_sum.toLocaleString());
+
                   for (i = 0; i < data.items.length; i++) {
                     var id = data.items[i].variant_id;
                     cartItem[data.items[i].variant_id] = data.items[i].quantity;
@@ -2375,6 +2403,7 @@ HRT.Main = {
             success: function (data) {
               cartItem = {};
               cartGet = data;
+              $("#total-view-cart").text(data.price_sum.toLocaleString());
               for (i = 0; i < data.items.length; i++) {
                 var id = data.items[i].variant_id;
                 cartItem[data.items[i].variant_id] = data.items[i].quantity;
@@ -2541,6 +2570,7 @@ HRT.Main = {
                   success: function (data) {
                     cartItem = {};
                     cartGet = data;
+                    $("#total-view-cart").text(data.price_sum.toLocaleString());
                     for (i = 0; i < data.items.length; i++) {
                       var id = data.items[i].variant_id;
                       cartItem[data.items[i].variant_id] =
@@ -2588,6 +2618,7 @@ HRT.Main = {
               success: function (data) {
                 cartItem = {};
                 cartGet = data;
+                $("#total-view-cart").text(data.price_sum.toLocaleString());
                 for (i = 0; i < data.items.length; i++) {
                   var id = data.items[i].variant_id;
                   cartItem[data.items[i].variant_id] = data.items[i].quantity;
@@ -3160,13 +3191,13 @@ HRT.Product = {
     //that.tooltipShare();
   },
   addCartProduct: function () {
-    $('#add-to-cart').click(function(e){
-    e.preventDefault();
-    $(this).addClass('clicked_buy');
-    HRT.All.addItemShowModalCart($('#product-select').val());
-    if($(window).width() < 768){
-    	$('.siteCart-mobile').addClass('show-cart');
-    	}
+    $("#add-to-cart").click(function (e) {
+      e.preventDefault();
+      $(this).addClass("clicked_buy");
+      HRT.All.addItemShowModalCart($("#product-select").val());
+      if ($(window).width() < 768) {
+        $(".siteCart-mobile").addClass("show-cart");
+      }
     });
     $("#add-to-cartBottom").click(function () {
       $("#add-to-cart").trigger("click");
@@ -3461,19 +3492,19 @@ HRT.Page = {
             };
             throttle("scroll", "optimizedScroll");
           })();
-        //   /*
-				// window.addEventListener("optimizedScroll", function(){
-				// 	//var hOffset = window.pageYOffset - $('.section-about02-client').offset().top;
-				// 	if (winBottom > elY && winY < elY + parentH) {
-				// 		var elBottom = ((winBottom - elY) * speed);
-				// 		var elTop = winH +  parentH;
-				// 		elPx = ((((elBottom / elTop) * 100) + (50 - (speed * 50))) - 50) * -1;
-				// 	}
-				// 	Item1.style.transform = "translateY(" + Math.floor(elPx) + "px)";
-				// 	Item2.style.transform = "translateY(" + Math.floor(elPx) + "px)";
-				// 	Item3.style.transform = "translateY(" + Math.floor(elPx) + "px)";
-				// })
-				// */
+          //   /*
+          // window.addEventListener("optimizedScroll", function(){
+          // 	//var hOffset = window.pageYOffset - $('.section-about02-client').offset().top;
+          // 	if (winBottom > elY && winY < elY + parentH) {
+          // 		var elBottom = ((winBottom - elY) * speed);
+          // 		var elTop = winH +  parentH;
+          // 		elPx = ((((elBottom / elTop) * 100) + (50 - (speed * 50))) - 50) * -1;
+          // 	}
+          // 	Item1.style.transform = "translateY(" + Math.floor(elPx) + "px)";
+          // 	Item2.style.transform = "translateY(" + Math.floor(elPx) + "px)";
+          // 	Item3.style.transform = "translateY(" + Math.floor(elPx) + "px)";
+          // })
+          // */
           window.addEventListener("optimizedScroll", function () {
             //console.log(window.pageYOffset - $('.section-about02-client').offset().top)
             var hOffset =
@@ -4197,7 +4228,10 @@ HRT.Cart = {
       input.val(1);
     }
     var quantity = currentVal + 1 > max ? currentVal : currentVal + 1;
-    HRT.Cart.updateQuantityChange("plus", url, id, item_id, quantity);
+    console.log(quantity);
+    console.log(max);
+
+    // HRT.Cart.updateQuantityChange("plus", url, id, item_id, quantity);
   },
 
   initQuantityMinus: function (t, url, id, item_id, max) {

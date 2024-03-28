@@ -106,12 +106,12 @@
                     <span class="pro-price">{{number_format($productSku->price, 0, 0,',') }}₫</span>
                     @endif
             </div>
-
             <div class="product-variants">
                 <div id="add-item-form" class="variants clearfix">
                     <input type="text" id="product-id" name="id" value="{{$product->id}}" style="display: none" />
                     <div class="select-swatch clearfix">
                         <div id="variant-swatch-0" class="swatch clearfix" data-option="option1" data-option-index="0">
+                            
                             <div class="title-swap header">{{__('Color')}}: <strong></strong></div>
                             <div class="select-swap">
                                 @foreach ($colors as $color)
@@ -147,7 +147,7 @@
                             <div class="select-swap">
                                 @foreach ($sizes as $size)
 
-                                @if(count($listSize) > 0 && !in_array($size->id, $listSize))
+                                @if(count($listSize) > 0 && !in_array($size->id, $listSize) || intval($productSku->quantity) <= 0)
                                 <div data-value="{{$size->value}}" data-id="{{$size->id}}" class="n-sd swatch-element soldout">
                                     <input class="variant-1" id="swatch-1-{{$size->id}}" type="radio" disabled name="option2" value="{{$size->value}}" data-vhandle="{{$size->value}}" />
 
@@ -201,7 +201,7 @@
                                 <path d="M10 0v2H0V0z"></path>
                             </svg>
                         </button>
-                        <input type="text" id="quantity" name="quantity" value="{{$productSku->sub_quantity}}" min="1" max="{{$productSku->sub_quantity}}" class="quantity-input" data-quantity="{{$productSku->sub_quantity}}" />
+                        <input type="text" id="quantity" name="quantity" value="1" min="1" max="{{$productSku->sub_quantity}}" class="quantity-input" data-quantity="{{$productSku->sub_quantity}}" />
                         <button type="button" onclick="HRT.All.plusQuantity()" class="qty-btn">
                             <svg focusable="false" class="icon icon--plus" viewBox="0 0 10 10" role="presentation">
                                 <path d="M6 4h4v2H6v4H4V6H0V4h4V0h2v4z"></path>
