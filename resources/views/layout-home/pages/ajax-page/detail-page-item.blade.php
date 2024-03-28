@@ -287,3 +287,24 @@
         </div>
     </div>
 </div>
+
+<section class="productDetail-toolbar d-sm-block d-lg-none" id="product-toolbar">
+                    <div class="productToolbar-addcart">
+                        <div class="container">
+                            <div class="product-actions">
+                                <div class="block-quantity quantity-selector ">
+                                    <input type="button" value="-" onclick="HRT.All.minusQuantity()" class="qty-btn">
+                                    <!-- <input type="text" id="quantity" name="quantity" value="1" min="1" class="quantity-number"> -->
+                                    <input type="text" id="quantity" name="quantity" value="1" min="1" max="{{$productSku->sub_quantity}}" class="quantity-number" data-quantity="{{$productSku->sub_quantity}}" />
+
+                                    <input type="button" value="+" onclick="HRT.All.plusQuantity()" class="qty-btn">
+                                </div>
+                                <div class="block-addcart">
+                                    <button type="button" id="product-addtocart-button" data-product-sku="{{$productSku->id}}" class=" add-to-cartProduct btnred button dark btn-addtocart addtocart-modal" name="add">
+                                        Thêm vào giỏ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>

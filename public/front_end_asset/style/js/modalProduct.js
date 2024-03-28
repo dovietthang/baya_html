@@ -368,7 +368,7 @@ $(document).ready(function () {
           //     $(".header-action-item.header-action_cart").addClass('js-action-show');
           // }
           // $(".mainBody-theme.template-index").addClass('locked-scroll');
-          $("#menu-cart-header-data").html(res.popup);
+          $(".menu-cart-header-data").html(res.popup);
           if (line_item.image == null) {
             image = "https://hstatic.net/0/0/global/noDefaultImage6.gif";
           } else {

@@ -445,7 +445,7 @@
                                 <div class="header-dropdown_content">
                                     <div class="sitenav-content sitenav-cart">
                                         <p class="boxtitle">{{__('Your cart')}}</p>
-                                        <div id="menu-cart-header-data">
+                                        <div id="menu-cart-header-data" class="menu-cart-header-data">
                                             @include('layout-home.pages.ajax-page.cart-item')
 
                                         </div>
@@ -544,7 +544,7 @@
 
                 <div class="sitenav-content sitenav-cart">
                     <p class="boxtitle">{{__('Your cart')}}</p>
-                    <div id="menu-cart-header-data">
+                    <div id="menu-cart-header-data" class="menu-cart-header-data">
                         @include('layout-home.pages.ajax-page.cart-item')
 
                     </div>

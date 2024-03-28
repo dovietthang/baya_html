@@ -94,7 +94,7 @@
         <table class="table-total">
             <tr>
                 <td class="mnc-total text-left">{{__('Total cost')}}:</td>
-                <td class="mnc-total text-right" id="total-view-cart">{{number_format($sumTotal, 0, 0)}}₫</td>
+                <td class="mnc-total text-right total-view-cart" id="total-view-cart">{{number_format($sumTotal, 0, 0)}}₫</td>
             </tr>
             <tr class="mini-cart__button">
                 <td colspan="2"><a href="{{route('checkout')}}" class="linktocart button ">{{__('Order')}}</a></td>

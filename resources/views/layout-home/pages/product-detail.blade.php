@@ -331,6 +331,26 @@ $jsonData = json_decode($product, true);
                         </div>
                     </div>
                 </div>
+                <section class="productDetail-toolbar d-sm-block d-lg-none" id="product-toolbar">
+                    <div class="productToolbar-addcart">
+                        <div class="container">
+                            <div class="product-actions">
+                                <div class="block-quantity quantity-selector ">
+                                    <input type="button" value="-" onclick="HRT.All.minusQuantity()" class="qty-btn">
+                                    <!-- <input type="text" id="quantity" name="quantity" value="1" min="1" class="quantity-number"> -->
+                                    <input type="text" id="quantity" name="quantity" value="1" min="1" max="{{$productSku->sub_quantity}}" class="quantity-number" data-quantity="{{$productSku->sub_quantity}}" />
+
+                                    <input type="button" value="+" onclick="HRT.All.plusQuantity()" class="qty-btn">
+                                </div>
+                                <div class="block-addcart">
+                                    <button type="button" id="product-addtocart-button" data-product-sku="{{$productSku->id}}" class=" add-to-cartProduct btnred button dark btn-addtocart addtocart-modal" name="add">
+                                        Thêm vào giỏ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
         @if($couponsProductMy)
@@ -454,6 +474,7 @@ $jsonData = json_decode($product, true);
     </div>
 </section>
 
+
 <!-- related -->
 <section class="productDetail-related">
     <div class="container container-pd0">
@@ -466,21 +487,21 @@ $jsonData = json_decode($product, true);
                 @foreach (@$relatedProducts as $item)
                 @php
                 $productSkus = $item->productSku;
-                $productSku = $productSkus->where('is_default', 1)->first();
+                $productSku_3 = $productSkus->where('is_default', 1)->first();
                 $productSku_2 = $productSkus->where('is_default_2', 1)->first();
                 if(!$productSku_2){
                 $productSku_2 = $productSkus->first();
                 }
                 if(!$productSku){
-                $productSku = $productSkus->first();
+                $productSku_3 = $productSkus->first();
                 }
-                if($productSku){
-                $photo = $productSku->photo ? $productSku->photo : $item->photo;
-                $getPrice = $productSku->price ? $productSku->price : $item->price;
-                $colors = $productSku->colors($productSkus->pluck('color_id')->unique()->toArray());
-                $sizes = $productSku->sizes($productSkus->pluck('size_id')->unique()->toArray());
+                if($productSku_3){
+                $photo = $productSku_3->photo ? $productSku_3->photo : $item->photo;
+                $getPrice = $productSku_3->price ? $productSku_3->price : $item->price;
+                $colors = $productSku_3->colors($productSkus->pluck('color_id')->unique()->toArray());
+                $sizes = $productSku_3->sizes($productSkus->pluck('size_id')->unique()->toArray());
                 $image_color = $productSkus->pluck('photo', 'color_id')->toArray();
-                $getSale = \App\Models\Coupon::getSaleProduct($productSku->id);
+                $getSale = \App\Models\Coupon::getSaleProduct($productSku_3->id);
                 $salePrice = $getSale->get('getPrice');
                 $textSell = $getSale->get('text');
                 }
@@ -495,7 +516,7 @@ $jsonData = json_decode($product, true);
                 <div class="product-loop" data-id="1114458356">
                     <div class="product-inner" data-proid="1050909470" id="listProdRelated_loop_1">
                         <div class="proloop-image">
-                            @if($salePrice > 0 && $salePrice < $productSku->price)
+                            @if($salePrice > 0 && $salePrice < $productSku_3->price)
                                 <div class="pro-sale"><span>-{{$textSell}}</span></div>
                                 @endif
 
@@ -533,15 +554,15 @@ $jsonData = json_decode($product, true);
                             <h3>
                                 <a href="{{route('detail.product' , [$item->slug])}}" class="quickview-product" data-handle="{{route('detail.product' , [$item->slug])}}">{{$item->title}}</a>
                             </h3>
-                            @if($salePrice > 0 && $salePrice < $productSku->price)
+                            @if($salePrice > 0 && $salePrice < $productSku_3->price)
                                 <p class="proloop--price on-sale">
                                     <span class="price">{{number_format($salePrice, 0, 0,',')}}₫</span>
-                                    <span class="price-del">{{number_format($productSku->price, 0, 0,',') }}₫</span>
+                                    <span class="price-del">{{number_format($productSku_3->price, 0, 0,',') }}₫</span>
                                     <span class="pro-percent">-{{$textSell}}</span>
                                 </p>
                                 @else
                                 <p class="proloop--price on-sale">
-                                    <span class="price">{{number_format($productSku->price, 0, 0,',') }}₫</span>
+                                    <span class="price">{{number_format($productSku_3->price, 0, 0,',') }}₫</span>
                                 </p>
                                 @endif
 
@@ -597,28 +618,7 @@ $jsonData = json_decode($product, true);
         </div>
     </div>
 </section>
-<section class="productDetail-toolbar d-sm-block d-lg-none" id="product-toolbar">
-    <div class="productToolbar-addcart">
-        <div class="container">
-            <div class="product-actions">
-                <div class="block-quantity quantity-selector ">
-                    <input type="button" value="-" onclick="HRT.All.minusQuantity()" class="qty-btn">
-                    <!-- <input type="text" id="quantity" name="quantity" value="1" min="1" class="quantity-number"> -->
-                    <input type="text" id="quantity" name="quantity" value="1" min="1" max="{{$productSku->sub_quantity}}" class="quantity-number" data-quantity="{{$productSku->sub_quantity}}" />
 
-                    <input type="button" value="+" onclick="HRT.All.plusQuantity()" class="qty-btn">
-                </div>
-                <div class="block-addcart">
-                    <button type="button" id="product-addtocart-button" data-product-sku="{{$productSku->id}}" class=" add-to-cartProduct btnred button dark btn-addtocart addtocart-modal" name="add">
-
-                        Thêm vào giỏ
-
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <div id="quick-view-modal" class="modal fade modal-product-quickview show" aria-modal="true">
 
     <div class="modal-dialog modal-dialog-centered">
@@ -809,7 +809,7 @@ $jsonData = json_decode($product, true);
                         //     $(".header-action-item.header-action_cart").addClass('js-action-show');
                         // }
                         // $(".mainBody-theme.template-index").addClass('locked-scroll');
-                        $("#menu-cart-header-data").html(res.popup);
+                        $(".menu-cart-header-data").html(res.popup);
                     }
                 },
             });

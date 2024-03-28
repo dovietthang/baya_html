@@ -696,7 +696,6 @@ HRT.All = {
             .removeClass("mainBody-mbcart")
             .removeClass("body-showcart");
         } else {
-          
           //jQuery('#exampleModalLabel').html('Bạn có ' + cart.item_count + ' sản phẩm trong giỏ hàng.');
           jQuery("body").addClass("mainBody-mbcart");
           jQuery("#cartform").removeClass("d-none");
@@ -712,10 +711,10 @@ HRT.All = {
           HRT.All.clone_item(item, i, xHasyPrice);
         });
 
-        jQuery(".header-action_cart #total-view-cart").html(
+        jQuery(".header-action_cart .total-view-cart").html(
           Haravan.formatMoney(cart.total_price, formatMoney)
         );
-        jQuery(".siteCart-mobile #total-view-cart").html(
+        jQuery(".siteCart-mobile .total-view-cart").html(
           Haravan.formatMoney(cart.total_price, formatMoney)
         );
         jQuery(".siteCart-mobile__header .p-price").html(
@@ -791,6 +790,7 @@ HRT.All = {
         setTimeout(function () {
           $(".header-action_cart").addClass("js-action-show");
           $("#product-toolbar").removeClass("d-sm-block");
+          console.log(22222222222222);
 
           $("body").addClass("locked-scroll");
         }, 500);
@@ -808,7 +808,6 @@ HRT.All = {
     }
   },
   clone_item: function (product, i, xHasyPrice) {
-    
     if ($(window).width() < 992) {
       var item_product = jQuery(
         ".siteCart-mobile .sitenav-cart .table-clone-cart"
@@ -935,7 +934,7 @@ HRT.All = {
         $(
           '#cart-view .mini-cart__item[data-vid="' + variant_id + '"]'
         ).addClass("d-none");
-        $("#total-view-cart").text(cart.price_sum.toLocaleString());
+        $(".total-view-cart").text(cart.price_sum.toLocaleString());
         $(".count-holder .count").html(cart.total);
         if (cart.total == "0") {
           $(".header-action_cart #cart-view")
@@ -1925,12 +1924,13 @@ HRT.Main = {
     });
   },
   clickIconsHeader: function () {
-          console.log(111111111111111);
-
     $(".header-action_clicked").click(function (e) {
       e.preventDefault();
+      $("#product-toolbar").removeClass("d-sm-block");
+      $("#product-toolbar").addClass("d-none");
       if ($(this).parents(".header-action-item").hasClass("js-action-show")) {
         $("body").removeClass("locked-scroll");
+
         $(this).parents(".header-action-item").removeClass("js-action-show");
         if ($(window).width() < 992) {
           if (
@@ -1939,6 +1939,7 @@ HRT.Main = {
               .hasClass("header-action_cart")
           ) {
             $(".siteCart-mobile__overlay").removeClass("show-cart");
+            $(".siteCart-mobile").addClass("show-cart");
             $("body").removeClass("locked-scroll").removeClass("body-showcart");
           }
         }
@@ -1954,6 +1955,7 @@ HRT.Main = {
               .hasClass("header-action_cart")
           ) {
             $(".siteCart-mobile").addClass("show-cart");
+
             $("body").removeClass("locked-scroll").addClass("body-showcart");
           }
         }
@@ -1975,6 +1977,8 @@ HRT.Main = {
       $(this).parents(".siteCart-mobile").removeClass("show-cart");
       $("body").removeClass("locked-scroll").removeClass("body-showcart");
       $(".header-action-item.header-action_cart").removeClass("js-action-show");
+      $("#product-toolbar").addClass("d-sm-block");
+      $("#product-toolbar").removeClass("d-none");
     });
     $("body").on("click", "#sitenav-overlay", function (e) {
       $("body").removeClass("locked-scroll");
@@ -2370,7 +2374,7 @@ HRT.Main = {
                 success: function (data) {
                   cartItem = {};
                   cartGet = data;
-                  $("#total-view-cart").text(data.price_sum.toLocaleString());
+                  $(".total-view-cart").text(data.price_sum.toLocaleString());
 
                   for (i = 0; i < data.items.length; i++) {
                     var id = data.items[i].variant_id;
@@ -2403,7 +2407,7 @@ HRT.Main = {
             success: function (data) {
               cartItem = {};
               cartGet = data;
-              $("#total-view-cart").text(data.price_sum.toLocaleString());
+              $(".total-view-cart").text(data.price_sum.toLocaleString());
               for (i = 0; i < data.items.length; i++) {
                 var id = data.items[i].variant_id;
                 cartItem[data.items[i].variant_id] = data.items[i].quantity;
@@ -2422,7 +2426,7 @@ HRT.Main = {
                 data.total_price,
                 formatMoney
               );
-              $("#total-view-cart,.boxinfo.p-price,.mnc-total-price").html(
+              $(".total-view-cart,.boxinfo.p-price,.mnc-total-price").html(
                 total_price
               );
               $(".count-holder .count").html(data.item_count);
@@ -2549,7 +2553,7 @@ HRT.Main = {
                       formatMoney
                     );
                     $(
-                      "#total-view-cart,.boxinfo.p-price,.mnc-total-price"
+                      ".total-view-cart,.boxinfo.p-price,.mnc-total-price"
                     ).html(total_price);
                     $(".count-holder .count").html(data.item_count);
                     $(".boxinfo.p-count").html(data.item_count + " sản phẩm");
@@ -2570,7 +2574,7 @@ HRT.Main = {
                   success: function (data) {
                     cartItem = {};
                     cartGet = data;
-                    $("#total-view-cart").text(data.price_sum.toLocaleString());
+                    $(".total-view-cart").text(data.price_sum.toLocaleString());
                     for (i = 0; i < data.items.length; i++) {
                       var id = data.items[i].variant_id;
                       cartItem[data.items[i].variant_id] =
@@ -2595,7 +2599,7 @@ HRT.Main = {
                       formatMoney
                     );
                     $(
-                      "#total-view-cart,.boxinfo.p-price,.mnc-total-price"
+                      ".total-view-cart,.boxinfo.p-price,.mnc-total-price"
                     ).html(total_price);
                     $(".count-holder .count").html(data.item_count);
                     $(".boxinfo.p-count").html(data.item_count + " sản phẩm");
@@ -2618,7 +2622,7 @@ HRT.Main = {
               success: function (data) {
                 cartItem = {};
                 cartGet = data;
-                $("#total-view-cart").text(data.price_sum.toLocaleString());
+                $(".total-view-cart").text(data.price_sum.toLocaleString());
                 for (i = 0; i < data.items.length; i++) {
                   var id = data.items[i].variant_id;
                   cartItem[data.items[i].variant_id] = data.items[i].quantity;
@@ -2639,7 +2643,7 @@ HRT.Main = {
                   data.total_price,
                   formatMoney
                 );
-                $("#total-view-cart,.boxinfo.p-price,.mnc-total-price").html(
+                $(".total-view-cart,.boxinfo.p-price,.mnc-total-price").html(
                   total_price
                 );
                 $(".count-holder .count").html(data.item_count);
