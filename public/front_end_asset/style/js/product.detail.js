@@ -430,17 +430,17 @@ jQuery(document).on("click", "#add-item-form .swatch input", function (e) {
         ) {
           var _val = $(this).data("value");
           $("#add-item-form .single-option-selector").eq(2).val(_val).change();
-          if (check_variant == true) {
-            if (_avi_op1 == "") {
-              _avi_op1 = _key;
-            }
-            if (_avi_op2 == "") {
-              _avi_op2 = _val;
-            }
-            //console.log(_avi_op1 + ' -- ' + _avi_op2)
-          } else {
-            _unavi += 1;
-          }
+          // if (check_variant == true) {
+          //   if (_avi_op1 == "") {
+          //     _avi_op1 = _key;
+          //   }
+          //   if (_avi_op2 == "") {
+          //     _avi_op2 = _val;
+          //   }
+          //   //console.log(_avi_op1 + ' -- ' + _avi_op2)
+          // } else {
+          //   _unavi += 1;
+          // }
         });
         if (_unavi == _count_op3) {
           $(
@@ -564,16 +564,16 @@ $(document).ready(function () {
       ) {
         var _val = $(this).data("value");
         $("#add-item-form .single-option-selector").eq(1).val(_val).change();
-        if (check_variant == true) {
-          if (_avi_op1 == "") {
-            _avi_op1 = _key;
-          }
-          if (_avi_op2 == "") {
-            _avi_op2 = _val;
-          }
-        } else {
-          _unavi += 1;
-        }
+        // if (check_variant == true) {
+        //   if (_avi_op1 == "") {
+        //     _avi_op1 = _key;
+        //   }
+        //   if (_avi_op2 == "") {
+        //     _avi_op2 = _val;
+        //   }
+        // } else {
+        //   _unavi += 1;
+        // }
       });
       if (_unavi == _count) {
         //$('#add-item-form #variant-swatch-0 .swatch-element[data-value = "'+_key+'"]').addClass('soldout');
@@ -626,19 +626,19 @@ $(document).ready(function () {
             .eq(2)
             .val(_key_va3)
             .change();
-          if (check_variant == true) {
-            if (_avi_op1 == "") {
-              _avi_op1 = _key_va1;
-            }
-            if (_avi_op2 == "") {
-              _avi_op2 = _key_va2;
-            }
-            if (_avi_op3 == "") {
-              _avi_op3 = _key_va3;
-            }
-          } else {
-            _unavi_2 += 1;
-          }
+          // if (check_variant == true) {
+          //   if (_avi_op1 == "") {
+          //     _avi_op1 = _key_va1;
+          //   }
+          //   if (_avi_op2 == "") {
+          //     _avi_op2 = _key_va2;
+          //   }
+          //   if (_avi_op3 == "") {
+          //     _avi_op3 = _key_va3;
+          //   }
+          // } else {
+          //   _unavi_2 += 1;
+          // }
         });
         if (_unavi_2 == _size_op3) {
           _count_unavi += 1;

@@ -461,6 +461,7 @@ $(document).on("click", "#detail-product .combo-info .add-combo", function () {
     if ($(window).width() < 992) {
       $("body").removeClass("locked-scroll").addClass("body-showcart");
       $(".siteCart-mobile").addClass("show-cart");
+      $("#product-toolbar").addClass("d-none");
     }
   });
 });
@@ -488,6 +489,7 @@ $(document).on("click", "#quick-view-modal .add-combo", function () {
     if ($(window).width() < 992) {
       $("body").removeClass("locked-scroll").addClass("body-showcart");
       $(".siteCart-mobile").addClass("show-cart");
+      $("#product-toolbar").addClass("d-none");
     }
   });
 });
@@ -555,9 +557,9 @@ var HRT = {
     var that = this;
     that.initViews();
     that.Main.init();
-    // $.get("/cart.js").done(function (cart) {
-    //   $(".count-holder .count").html(cart.item_count);
-    // });
+    $.get("/cart.js").done(function (cart) {
+      $(".count-holder .count").html(cart.item_count);
+    });
     /*that.All.getCartModal('first');*/
   },
   initViews: function () {
@@ -691,6 +693,7 @@ HRT.All = {
           );
           jQuery("#cartform").hide();
           jQuery(".siteCart-mobile").removeClass("show-cart");
+          $("#product-toolbar").removeClass("d-none");
           jQuery(".header-action_cart").removeClass("js-action-show");
           jQuery("body")
             .removeClass("mainBody-mbcart")
@@ -744,6 +747,7 @@ HRT.All = {
           '<div class="mini-cart__empty"><div><div class="svgico-mini-cart"> <svg width="81" height="70" viewBox="0 0 81 70"><g transform="translate(0 2)" stroke-width="4" fill="none" fill-rule="evenodd"><circle stroke-linecap="square" cx="34" cy="60" r="6"></circle><circle stroke-linecap="square" cx="67" cy="60" r="6"></circle><path d="M22.9360352 15h54.8070373l-4.3391876 30H30.3387146L19.6676025 0H.99560547"></path></g></svg></div> Hiện chưa có sản phẩm</div></div>'
         );
         jQuery(".siteCart-mobile").removeClass("show-cart");
+        $("#product-toolbar").removeClass("d-none");
         jQuery("body")
           .removeClass("mainBody-mbcart")
           .removeClass("body-showcart");
@@ -754,18 +758,18 @@ HRT.All = {
     jQuery("#cartform").hide();
     jQuery("#myCart #exampleModalLabel").text("Giỏ hàng");
     if (data == undefined) {
-      // jQuery.getJSON("/cart.js", function (cart, textStatus) {
-      //   cartGet = cart;
-      //   var xHasyPrice = cart.items.filter(
-      //     (x) => x.price == 0 && x.price_original > 0 && x.promotionref != null
-      //   );
-      //   if (xHasyPrice.length > 0) {
-      //     xHasyPrice = xHasyPrice.map((x, i) => {
-      //       return x.promotionby;
-      //     });
-      //   }
-      //   processCart(cart, xHasyPrice);
-      // });
+      jQuery.getJSON("/cart.js", function (cart, textStatus) {
+        cartGet = cart;
+        var xHasyPrice = cart.items.filter(
+          (x) => x.price == 0 && x.price_original > 0 && x.promotionref != null
+        );
+        if (xHasyPrice.length > 0) {
+          xHasyPrice = xHasyPrice.map((x, i) => {
+            return x.promotionby;
+          });
+        }
+        processCart(cart, xHasyPrice);
+      });
     } else {
       var xHasyPrice = data.items.filter(
         (x) => x.price == 0 && x.price_original > 0 && x.promotionref != null
@@ -1089,18 +1093,17 @@ HRT.All = {
             window.location.reload();
           }, 300);
         } else {
-          window.location = "/checkout";
-          // $.get("/cart.js").done(function (cart) {
-          //   if (priceMin != "") {
-          //     if (priceMin > cart.total_price / 100) {
-          //       HRT.All.getCartModal();
-          //     } else {
-          //       window.location = "/checkout";
-          //     }
-          //   } else {
-          //     window.location = "/checkout";
-          //   }
-          // });
+          $.get("/cart.js").done(function (cart) {
+            if (priceMin != "") {
+              if (priceMin > cart.total_price / 100) {
+                HRT.All.getCartModal();
+              } else {
+                window.location = "/checkout";
+              }
+            } else {
+              window.location = "/checkout";
+            }
+          });
         }
       },
       error: function (XMLHttpRequest, textStatus) {
@@ -1936,6 +1939,7 @@ HRT.Main = {
               .hasClass("header-action_cart")
           ) {
             $(".siteCart-mobile__overlay").removeClass("show-cart");
+            $("#product-toolbar").removeClass("d-none");
             $("body").removeClass("locked-scroll").removeClass("body-showcart");
           }
         }
@@ -1951,6 +1955,7 @@ HRT.Main = {
               .hasClass("header-action_cart")
           ) {
             $(".siteCart-mobile").addClass("show-cart");
+            $("#product-toolbar").addClass("d-none");
             $("body").removeClass("locked-scroll").addClass("body-showcart");
           }
         }
@@ -1959,6 +1964,8 @@ HRT.Main = {
     $(".siteCart-mobile__header").click(function () {
       if ($(this).parents(".siteCart-mobile").hasClass("show-cart")) {
         $(this).parents(".siteCart-mobile").removeClass("show-cart");
+      $("#product-toolbar").removeClass("d-none");
+
         $("body").removeClass("locked-scroll").removeClass("body-showcart");
         $(".header-action-item.header-action_cart").removeClass(
           "js-action-show"
@@ -1966,10 +1973,13 @@ HRT.Main = {
       } else {
         $("body").addClass("body-showcart");
         $(this).parents(".siteCart-mobile").addClass("show-cart");
+        $("#product-toolbar").addClass("d-none");
       }
     });
     $(".siteCart-mobile__overlay").on("click", function (e) {
       $(this).parents(".siteCart-mobile").removeClass("show-cart");
+      $("#product-toolbar").removeClass("d-none");
+
       $("body").removeClass("locked-scroll").removeClass("body-showcart");
       $(".header-action-item.header-action_cart").removeClass("js-action-show");
     });
@@ -3194,6 +3204,7 @@ HRT.Product = {
       HRT.All.addItemShowModalCart($("#product-select").val());
       if ($(window).width() < 768) {
         $(".siteCart-mobile").addClass("show-cart");
+        $("#product-toolbar").addClass("d-none");
       }
     });
     $("#add-to-cartBottom").click(function () {
@@ -3618,7 +3629,7 @@ HRT.Quickview = {
     that.shareLinkQuickview();
     //HRT.Product.toggleDescProduct('.product-description--quickview');
     that.addCartProductQuickview();
-    //that.closeQuickView();
+    // that.closeQuickView();
     that.iconQuickView();
   },
   slideProdQuickview: function () {
@@ -3799,6 +3810,8 @@ HRT.Quickview = {
     jQuery(document).on("click", ".quickview-close", function (e) {
       $("#quick-view-modal").modal("hide");
       $(".siteCart-mobile").removeClass("show-cart");
+            $("#product-toolbar").removeClass("d-none");
+
     });
   },
   shareLinkQuickview: function () {
@@ -3839,6 +3852,7 @@ HRT.Quickview = {
             if ($(window).width() < 992) {
               $("body").removeClass("locked-scroll").addClass("body-showcart");
               $(".siteCart-mobile").addClass("show-cart");
+              $("#product-toolbar").addClass("d-none");
             }
           }
         );
@@ -3893,6 +3907,7 @@ HRT.Quickview = {
                   .removeClass("locked-scroll")
                   .addClass("body-showcart");
                 $(".siteCart-mobile").addClass("show-cart");
+                $("#product-toolbar").addClass("d-none");
                 //		});
               }
             }

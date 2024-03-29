@@ -398,6 +398,7 @@ $(document).ready(function () {
             //	debugger
             $("body").removeClass("locked-scroll").addClass("body-showcart");
             $(".siteCart-mobile").addClass("show-cart");
+            $("#product-toolbar").addClass("d-none");
             //		});
           }
         }
