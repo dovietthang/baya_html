@@ -625,18 +625,18 @@ class HomeController extends Controller
     {
         if ($slug == 'product-all') {
             $lists = collect(['title' => 'Tất cả sản phẩm']);
-        }else if ($slug == 'product-new') {
+        } else if ($slug == 'product-new') {
             $lists = collect(['title' => 'Sản phẩm mới']);
-        }else if ($slug == 'sale-outlet') {
+        } else if ($slug == 'sale-outlet') {
             $data_idx = Index::where('name', 'data_idx')->where('status', 1)->first();
             $lists = collect(['title' => $data_idx->title]);
-        }else if ($slug == 'collections') {
+        } else if ($slug == 'collections') {
             $data_idx2 = Index::where('name', 'data_idx2')->where('status', 1)->first();
             $lists = collect(['title' => $data_idx2->title]);
         } else if ($slug == 'outstanding') {
             $data_idx1 = Index::where('name', 'data_idx1')->where('status', 1)->first();
             $lists = collect(['title' => $data_idx1->title]);
-        }else {
+        } else {
             $cate = Category::where('slug', $slug)->first();
             if (!$cate) {
                 return view('errors.404-home');
@@ -696,14 +696,15 @@ class HomeController extends Controller
                 $array_check[] = 'sort_order';
             }
             $results = Product::query();
-            $results->whereHas('cates', function ($query) use ($getChildIds) {
-                $query->wherein('category_id',  $getChildIds);
-            });
-            $results->when($cat, function ($results) use ($ids) {
-                $results->whereHas('cates', function ($query) use ($ids) {
-                    $query->wherein('category_id', $ids);
+            if (!in_array($slug, ['outstanding', 'collections', 'sale-outle', 'product-new', 'product-all'])) {
+                $results->whereHas('cates', function ($query) use ($getChildIds, $cat, $ids) {
+                    $query->whereIn('category_id', $getChildIds);
+                    if ($cat) {
+                        $query->whereIn('category_id', $ids);
+                    }
                 });
-            });
+            }
+
             $results->when($rq->color, function ($results) use ($rq) {
                 $results->whereHas('productSku', function ($query) use ($rq) {
                     $query->where('color_id', $rq->color);
@@ -726,6 +727,12 @@ class HomeController extends Controller
                             return $student->productSku()->first()->price;
                         })->paginate(24);
                     }
+                } else if ($rq->sort == 'updated_at') {
+                    if ($rq->sort_order == 'desc') {
+                        $results = $results->where('status', 1)->orderByDesc('created_at')->paginate(24);
+                    } else {
+                        $results = $results->where('status', 1)->orderBy('created_at')->paginate(24);
+                    }
                 } else {
                     $results = $results->where('status', 1);
                     if ($rq->sort_order == 'desc') {
@@ -736,24 +743,24 @@ class HomeController extends Controller
                 }
             } else {
                 if ($rq->sort_order) {
-                    $results = $results->where('status', 1)->orderBy('created_at')->paginate(24);
-                } else {
                     $results = $results->where('status', 1)->orderByDesc('created_at')->paginate(24);
+                } else {
+                    $results = $results->where('status', 1)->orderBy('created_at')->paginate(24);
                 }
             }
         } else {
             if ($slug == 'product-all') {
                 $results = Product::where('status', 1)->orderByDesc('created_at');
-            }else if ($slug == 'product-new') {
+            } else if ($slug == 'product-new') {
                 $twoMonthsAgo = Carbon::now()->subMonths(2);
                 $results = Product::where('status', 1)->whereDate('created_at', '>=', $twoMonthsAgo)->orderByDesc('created_at');
-            }else if ($slug == 'sale-outlet') {
+            } else if ($slug == 'sale-outlet') {
                 $ids = explode(",", $data_idx->photo);
                 $results = Product::wherein('id', $ids)->where('status', 1)->orderByDesc('created_at');
-            }else if ($slug == 'collections') {
+            } else if ($slug == 'collections') {
                 $ids = explode(",", $data_idx2->photo);
                 $results = Product::wherein('id', $ids)->where('status', 1)->orderByDesc('created_at');
-            }else if ($slug == 'outstanding') {
+            } else if ($slug == 'outstanding') {
                 $ids = explode(",", $data_idx1->photo);
                 $results = Product::wherein('id', $ids)->where('status', 1)->orderByDesc('created_at');
             } else {
@@ -769,7 +776,7 @@ class HomeController extends Controller
         $colors = Color::wherein('id', $ids_cl)->get();
         $sizes = Size::wherein('id', $ids_sz)->get();
         $products = $results->paginate(24);
-        if ($slug == 'product-all'|| $slug == 'product-new' || $slug == 'sale-outlet'|| $slug == 'collections'|| $slug == 'outstanding') {
+        if ($slug == 'product-all' || $slug == 'product-new' || $slug == 'sale-outlet' || $slug == 'collections' || $slug == 'outstanding') {
             return view('layout-home.pages.category', compact('products', 'sizes', 'colors', 'lists', 'param_str', 'array_check', 'replace_str', 'listFilter'));
         } else {
             return view('layout-home.pages.category', compact('products', 'sizes', 'colors', 'cate', 'lists', 'param_str', 'array_check', 'replace_str', 'listFilter'));

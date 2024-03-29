@@ -388,9 +388,9 @@
 </head>
 
 
-<body class="mainBody-theme  template-index" itemscope itemtype="http://schema.org/Website">
+<body class="mainBody-theme  template-index">
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZD72JPJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZD72JPJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
   <!-- End Google Tag Manager (noscript) -->
   <div class="mainBody-theme-container mainBody-modalshow     layoutProduct_scroll ">
     @if($idx_pos9)
@@ -440,6 +440,7 @@
     @include('layout-home.includes.footer')
 
 
+
     <div id="sitenav-overlay" class="sitenav-overlay"></div>
     <div class="addThis_listSharing">
       <div class="listSharing_action">
@@ -456,7 +457,7 @@
         </button>
         <ul class="addThis_listing">
           <li class="addThis_item addThis_item__fbchat">
-            <a class="addThis_item--icon" href="http://m.me/297692681125169" target="_blank" rel="noreferrer" aria-label="messenger">
+            <a class="addThis_item--icon" href="{{$config->facebook}}" target="_blank" rel="noreferrer" aria-label="messenger">
               <svg width="60px" height="60px" viewBox="0 0 60 60" cursor="pointer"><svg x="0" y="0" width="60px" height="60px">
                   <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <g>
@@ -470,11 +471,11 @@
                     </g>
                   </g>
                 </svg></svg>
-              <span class="tooltip-text">Chat với nhân viên Baya</span>
+              <span class="tooltip-text">Chat với nhân viên {{$config->site_name}}</span>
             </a>
           </li>
           <li class="addThis_item">
-            <a class="addThis_item--icon" href="tel:1900636476" rel="nofollow" aria-label="phone">
+            <a class="addThis_item--icon" href="tel:{{$config->site_phone}}" rel="nofollow" aria-label="phone">
               <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="22" cy="22" r="22" fill="url(#paint2_linear)" />
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M14.0087 9.35552C14.1581 9.40663 14.3885 9.52591 14.5208 9.61114C15.3315 10.148 17.5888 13.0324 18.3271 14.4726C18.7495 15.2949 18.8903 15.9041 18.758 16.3558C18.6214 16.8415 18.3953 17.0971 17.384 17.9109C16.9786 18.239 16.5988 18.5756 16.5391 18.6651C16.3855 18.8866 16.2617 19.3212 16.2617 19.628C16.266 20.3395 16.7269 21.6305 17.3328 22.6232C17.8021 23.3944 18.6428 24.3828 19.4749 25.1413C20.452 26.0361 21.314 26.6453 22.2869 27.1268C23.5372 27.7488 24.301 27.9064 24.86 27.6466C25.0008 27.5826 25.1501 27.4974 25.1971 27.4591C25.2397 27.4208 25.5683 27.0202 25.9268 26.5772C26.618 25.7079 26.7759 25.5674 27.2496 25.4055C27.8513 25.201 28.4657 25.2563 29.0844 25.5716C29.5538 25.8145 30.5779 26.4493 31.2393 26.9095C32.1098 27.5187 33.9703 29.0355 34.2221 29.3381C34.6658 29.8834 34.7427 30.5821 34.4439 31.3534C34.1281 32.1671 32.8992 33.6925 32.0415 34.3444C31.2649 34.9323 30.7145 35.1581 29.9891 35.1922C29.3917 35.222 29.1442 35.1709 28.3804 34.8556C22.3893 32.3887 17.6059 28.7075 13.8081 23.65C11.8239 21.0084 10.3134 18.2688 9.28067 15.427C8.67905 13.7696 8.64921 13.0495 9.14413 12.2017C9.35753 11.8438 10.2664 10.9575 10.9278 10.4633C12.0288 9.64524 12.5365 9.34273 12.9419 9.25754C13.2193 9.19787 13.7014 9.24473 14.0087 9.35552Z" fill="white" />
@@ -489,7 +490,7 @@
             </a>
           </li>
           <li class="addThis_item">
-            <a class="addThis_item--icon" href="https://zalo.me/3964696389059494952" target="_blank" rel="nofollow noreferrer" aria-label="zalo">
+            <a class="addThis_item--icon" href="{{$config->zalo}}" target="_blank" rel="nofollow noreferrer" aria-label="zalo">
               <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="22" cy="22" r="22" fill="url(#paint4_linear)" />
                 <g clip-path="url(#clip0)">
@@ -508,7 +509,7 @@
                   </clipPath>
                 </defs>
               </svg>
-              <span class="tooltip-text">Chat Zalo với Baya</span>
+              <span class="tooltip-text">Chat Zalo với {{$config->site_name}}</span>
             </a>
           </li>
           <li class="addThis_item">
@@ -527,7 +528,7 @@
             </a>
           </li>
           <li class="addThis_item">
-            <a class="addThis_item--icon" href="pages/lien-he.html" aria-label="Liên hệ">
+            <a class="addThis_item--icon" href="{{route('detail.page', ['lien-he'])}}" aria-label="Liên hệ">
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="22" cy="22" r="22" fill="url(#paint5_linear)" />
                 <path d="M22 10C17.0374 10 13 13.7367 13 18.3297C13 24.0297 21.0541 32.3978 21.397 32.7512C21.7191 33.0832 22.2815 33.0826 22.603 32.7512C22.9459 32.3978 31 24.0297 31 18.3297C30.9999 13.7367 26.9626 10 22 10ZM22 22.5206C19.5032 22.5206 17.4719 20.6406 17.4719 18.3297C17.4719 16.0188 19.5032 14.1388 22 14.1388C24.4968 14.1388 26.528 16.0189 26.528 18.3297C26.528 20.6406 24.4968 22.5206 22 22.5206Z" fill="white" />

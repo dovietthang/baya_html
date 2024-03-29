@@ -176,14 +176,14 @@ Haravan.addItemFromForm = function(form_id, callback) {
 };
 
 Haravan.getCart = function(callback) {
-  jQuery.getJSON('/cart.js', function (cart, textStatus) {
-    if ((typeof callback) === 'function') {
-      callback(cart);
-    }
-    else {
-      Haravan.onCartUpdate(cart);
-    }
-  });
+  // jQuery.getJSON('/cart.js', function (cart, textStatus) {
+  //   if ((typeof callback) === 'function') {
+  //     callback(cart);
+  //   }
+  //   else {
+  //     Haravan.onCartUpdate(cart);
+  //   }
+  // });
 };
 
 Haravan.getCartShippingRatesForDestination = function(shipping_address, callback) {

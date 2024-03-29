@@ -17,6 +17,7 @@ $(document).ready(function () {
   };
 
   modal.on("shown.bs.modal", function (event) {
+    event.preventDefault();
     var button = $(event.relatedTarget);
     var data_whatever = button.data("whatever");
     var projectDetail = data_whatever.data ?? "";

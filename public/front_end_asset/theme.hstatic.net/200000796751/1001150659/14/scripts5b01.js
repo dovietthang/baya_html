@@ -555,9 +555,9 @@ var HRT = {
     var that = this;
     that.initViews();
     that.Main.init();
-    $.get("/cart.js").done(function (cart) {
-      $(".count-holder .count").html(cart.item_count);
-    });
+    // $.get("/cart.js").done(function (cart) {
+    //   $(".count-holder .count").html(cart.item_count);
+    // });
     /*that.All.getCartModal('first');*/
   },
   initViews: function () {
@@ -711,10 +711,10 @@ HRT.All = {
           HRT.All.clone_item(item, i, xHasyPrice);
         });
 
-        jQuery(".header-action_cart .total-view-cart").html(
+        jQuery(".header-action_cart #total-view-cart").html(
           Haravan.formatMoney(cart.total_price, formatMoney)
         );
-        jQuery(".siteCart-mobile .total-view-cart").html(
+        jQuery(".siteCart-mobile #total-view-cart").html(
           Haravan.formatMoney(cart.total_price, formatMoney)
         );
         jQuery(".siteCart-mobile__header .p-price").html(
@@ -754,18 +754,18 @@ HRT.All = {
     jQuery("#cartform").hide();
     jQuery("#myCart #exampleModalLabel").text("Giỏ hàng");
     if (data == undefined) {
-      jQuery.getJSON("/cart.js", function (cart, textStatus) {
-        cartGet = cart;
-        var xHasyPrice = cart.items.filter(
-          (x) => x.price == 0 && x.price_original > 0 && x.promotionref != null
-        );
-        if (xHasyPrice.length > 0) {
-          xHasyPrice = xHasyPrice.map((x, i) => {
-            return x.promotionby;
-          });
-        }
-        processCart(cart, xHasyPrice);
-      });
+      // jQuery.getJSON("/cart.js", function (cart, textStatus) {
+      //   cartGet = cart;
+      //   var xHasyPrice = cart.items.filter(
+      //     (x) => x.price == 0 && x.price_original > 0 && x.promotionref != null
+      //   );
+      //   if (xHasyPrice.length > 0) {
+      //     xHasyPrice = xHasyPrice.map((x, i) => {
+      //       return x.promotionby;
+      //     });
+      //   }
+      //   processCart(cart, xHasyPrice);
+      // });
     } else {
       var xHasyPrice = data.items.filter(
         (x) => x.price == 0 && x.price_original > 0 && x.promotionref != null
@@ -790,7 +790,6 @@ HRT.All = {
         setTimeout(function () {
           $(".header-action_cart").addClass("js-action-show");
           $("#product-toolbar").removeClass("d-sm-block");
-          console.log(22222222222222);
 
           $("body").addClass("locked-scroll");
         }, 500);
@@ -934,7 +933,7 @@ HRT.All = {
         $(
           '#cart-view .mini-cart__item[data-vid="' + variant_id + '"]'
         ).addClass("d-none");
-        $(".total-view-cart").text(cart.price_sum.toLocaleString());
+        $("#total-view-cart").text(cart.price_sum.toLocaleString());
         $(".count-holder .count").html(cart.total);
         if (cart.total == "0") {
           $(".header-action_cart #cart-view")
@@ -1090,17 +1089,18 @@ HRT.All = {
             window.location.reload();
           }, 300);
         } else {
-          $.get("/cart.js").done(function (cart) {
-            if (priceMin != "") {
-              if (priceMin > cart.total_price / 100) {
-                HRT.All.getCartModal();
-              } else {
-                window.location = "/checkout";
-              }
-            } else {
-              window.location = "/checkout";
-            }
-          });
+          window.location = "/checkout";
+          // $.get("/cart.js").done(function (cart) {
+          //   if (priceMin != "") {
+          //     if (priceMin > cart.total_price / 100) {
+          //       HRT.All.getCartModal();
+          //     } else {
+          //       window.location = "/checkout";
+          //     }
+          //   } else {
+          //     window.location = "/checkout";
+          //   }
+          // });
         }
       },
       error: function (XMLHttpRequest, textStatus) {
@@ -1926,11 +1926,8 @@ HRT.Main = {
   clickIconsHeader: function () {
     $(".header-action_clicked").click(function (e) {
       e.preventDefault();
-      $("#product-toolbar").removeClass("d-sm-block");
-      $("#product-toolbar").addClass("d-none");
       if ($(this).parents(".header-action-item").hasClass("js-action-show")) {
         $("body").removeClass("locked-scroll");
-
         $(this).parents(".header-action-item").removeClass("js-action-show");
         if ($(window).width() < 992) {
           if (
@@ -1939,7 +1936,6 @@ HRT.Main = {
               .hasClass("header-action_cart")
           ) {
             $(".siteCart-mobile__overlay").removeClass("show-cart");
-            $(".siteCart-mobile").addClass("show-cart");
             $("body").removeClass("locked-scroll").removeClass("body-showcart");
           }
         }
@@ -1955,7 +1951,6 @@ HRT.Main = {
               .hasClass("header-action_cart")
           ) {
             $(".siteCart-mobile").addClass("show-cart");
-
             $("body").removeClass("locked-scroll").addClass("body-showcart");
           }
         }
@@ -1977,8 +1972,6 @@ HRT.Main = {
       $(this).parents(".siteCart-mobile").removeClass("show-cart");
       $("body").removeClass("locked-scroll").removeClass("body-showcart");
       $(".header-action-item.header-action_cart").removeClass("js-action-show");
-      $("#product-toolbar").addClass("d-sm-block");
-      $("#product-toolbar").removeClass("d-none");
     });
     $("body").on("click", "#sitenav-overlay", function (e) {
       $("body").removeClass("locked-scroll");
@@ -2374,7 +2367,7 @@ HRT.Main = {
                 success: function (data) {
                   cartItem = {};
                   cartGet = data;
-                  $(".total-view-cart").text(data.price_sum.toLocaleString());
+                  $("#total-view-cart").text(data.price_sum.toLocaleString());
 
                   for (i = 0; i < data.items.length; i++) {
                     var id = data.items[i].variant_id;
@@ -2407,7 +2400,7 @@ HRT.Main = {
             success: function (data) {
               cartItem = {};
               cartGet = data;
-              $(".total-view-cart").text(data.price_sum.toLocaleString());
+              $("#total-view-cart").text(data.price_sum.toLocaleString());
               for (i = 0; i < data.items.length; i++) {
                 var id = data.items[i].variant_id;
                 cartItem[data.items[i].variant_id] = data.items[i].quantity;
@@ -2426,7 +2419,7 @@ HRT.Main = {
                 data.total_price,
                 formatMoney
               );
-              $(".total-view-cart,.boxinfo.p-price,.mnc-total-price").html(
+              $("#total-view-cart,.boxinfo.p-price,.mnc-total-price").html(
                 total_price
               );
               $(".count-holder .count").html(data.item_count);
@@ -2553,7 +2546,7 @@ HRT.Main = {
                       formatMoney
                     );
                     $(
-                      ".total-view-cart,.boxinfo.p-price,.mnc-total-price"
+                      "#total-view-cart,.boxinfo.p-price,.mnc-total-price"
                     ).html(total_price);
                     $(".count-holder .count").html(data.item_count);
                     $(".boxinfo.p-count").html(data.item_count + " sản phẩm");
@@ -2574,7 +2567,7 @@ HRT.Main = {
                   success: function (data) {
                     cartItem = {};
                     cartGet = data;
-                    $(".total-view-cart").text(data.price_sum.toLocaleString());
+                    $("#total-view-cart").text(data.price_sum.toLocaleString());
                     for (i = 0; i < data.items.length; i++) {
                       var id = data.items[i].variant_id;
                       cartItem[data.items[i].variant_id] =
@@ -2599,7 +2592,7 @@ HRT.Main = {
                       formatMoney
                     );
                     $(
-                      ".total-view-cart,.boxinfo.p-price,.mnc-total-price"
+                      "#total-view-cart,.boxinfo.p-price,.mnc-total-price"
                     ).html(total_price);
                     $(".count-holder .count").html(data.item_count);
                     $(".boxinfo.p-count").html(data.item_count + " sản phẩm");
@@ -2622,7 +2615,7 @@ HRT.Main = {
               success: function (data) {
                 cartItem = {};
                 cartGet = data;
-                $(".total-view-cart").text(data.price_sum.toLocaleString());
+                $("#total-view-cart").text(data.price_sum.toLocaleString());
                 for (i = 0; i < data.items.length; i++) {
                   var id = data.items[i].variant_id;
                   cartItem[data.items[i].variant_id] = data.items[i].quantity;
@@ -2643,7 +2636,7 @@ HRT.Main = {
                   data.total_price,
                   formatMoney
                 );
-                $(".total-view-cart,.boxinfo.p-price,.mnc-total-price").html(
+                $("#total-view-cart,.boxinfo.p-price,.mnc-total-price").html(
                   total_price
                 );
                 $(".count-holder .count").html(data.item_count);
@@ -3699,6 +3692,7 @@ HRT.Quickview = {
     });
   },
   renderQuickview: function (url, id, title) {
+    console.log(2222222222222);
     if (promotionApp) {
       htmlQvApp = "";
       if (promotionApp_name == "app_combo") {
@@ -3707,91 +3701,93 @@ HRT.Quickview = {
         buyXgetY.getQuickPromotionRecommended(id, title);
       }
     }
-    jQuery.ajax({
-      type: "GET",
-      url: url + (url.indexOf("?") > -1 ? "&" : "?") + "view=quickview",
-      async: false,
-      success: function (data) {
-        htmlQv = data;
-        $("#quick-view-modal .wrapper-quickview").html(htmlQv);
-        $("#quick-view-modal").modal("show");
-        setTimeout(function () {
-          HRT.Quickview.slideProdQuickview();
-          if (htmlQvApp != "" && htmlQvApp != undefined) {
-            if (promotionApp_name != "app_combo") {
-              if (
-                $("#quick-view-modal .q-selector-buyxgety").hasClass(
-                  "d-none"
-                ) &&
-                htmlQvApp != "" &&
-                $(
-                  "#quick-view-modal .q-selector-buyxgety .buyxgety_lists"
-                ).html() == ""
-              ) {
-                $(
-                  "#quick-view-modal .q-selector-buyxgety .buyxgety_lists"
-                ).append(htmlQvApp);
-                $("#quick-view-modal .q-selector-buyxgety").removeClass(
-                  "d-none"
-                );
-              }
-            }
-          }
-        }, 800);
-        if (htmlQvApp != "" && htmlQvApp != undefined) {
-          if (promotionApp_name == "app_combo") {
-            if (
-              $("#quick-view-modal .combo-info").hasClass("d-none") &&
-              htmlQvApp != ""
-            ) {
-              $("#quick-view-modal .combo-info")
-                .append(htmlQvApp)
-                .removeClass("d-none");
-            }
-          }
-        }
-      },
-    });
+
+    // jQuery.ajax({
+    //   type: "GET",
+    //   url: url + (url.indexOf("?") > -1 ? "&" : "?") + "view=quickview",
+    //   async: false,
+    //   success: function (data) {
+    //     htmlQv = { product_id: id, recommendeds: [] };
+    //     $("#quick-view-modal .wrapper-quickview").html(htmlQv);
+    //     $("#quick-view-modal").modal("show");
+    //     setTimeout(function () {
+    //       HRT.Quickview.slideProdQuickview();
+    //       if (htmlQvApp != "" && htmlQvApp != undefined) {
+    //         if (promotionApp_name != "app_combo") {
+    //           if (
+    //             $("#quick-view-modal .q-selector-buyxgety").hasClass(
+    //               "d-none"
+    //             ) &&
+    //             htmlQvApp != "" &&
+    //             $(
+    //               "#quick-view-modal .q-selector-buyxgety .buyxgety_lists"
+    //             ).html() == ""
+    //           ) {
+    //             $(
+    //               "#quick-view-modal .q-selector-buyxgety .buyxgety_lists"
+    //             ).append(htmlQvApp);
+    //             $("#quick-view-modal .q-selector-buyxgety").removeClass(
+    //               "d-none"
+    //             );
+    //           }
+    //         }
+    //       }
+    //     }, 800);
+    //     if (htmlQvApp != "" && htmlQvApp != undefined) {
+    //       if (promotionApp_name == "app_combo") {
+    //         if (
+    //           $("#quick-view-modal .combo-info").hasClass("d-none") &&
+    //           htmlQvApp != ""
+    //         ) {
+    //           $("#quick-view-modal .combo-info")
+    //             .append(htmlQvApp)
+    //             .removeClass("d-none");
+    //         }
+    //       }
+    //     }
+    //   },
+    // });
     if ($("#quick-view-modal").hasClass("show")) {
       $(".mainHeader").removeClass("hSticky-up");
     }
+    return;
   },
   showQuickview: function () {
     jQuery(document).on("click", ".quickview-product", function (e) {
-      var id = $(this).closest(".product-loop").attr("data-id");
-      var title = $(this)
-        .closest(".product-loop")
-        .find(".proloop-detail h3 a")
-        .html();
-      var prolink = $(this).attr("data-handle");
-      var proId = $(this)
-        .parents(".product-loop .product-inner")
-        .attr("data-proid");
+      // var id = $(this).closest(".product-loop").attr("data-id");
+      // var title = $(this)
+      //   .closest(".product-loop")
+      //   .find(".proloop-detail h3 a")
+      //   .html();
+      // var prolink = $(this).attr("data-handle");
+      // var proId = $(this)
+      //   .parents(".product-loop .product-inner")
+      //   .attr("data-proid");
       //console.log(id, title, prolink, proId)
-      if (jQuery(window).width() < 768) {
-        if (promotionApp) {
-          if (
-            !$('.product-loop[data-id="' + id + '"]')
-              .find(".gift.product_gift_label")
-              .hasClass("d-none")
-          ) {
-            e.preventDefault();
-            //window.location.href = $(this).closest('.product-loop').find('a').attr('href');
-            HRT.Quickview.renderQuickview(prolink, proId, title);
-          } else {
-            e.preventDefault();
-            HRT.Quickview.renderQuickview(prolink, proId, title);
-          }
-        } else {
-          e.preventDefault();
-          HRT.Quickview.renderQuickview(prolink, proId, title);
-        }
-      } else {
-        window.location.href = $(this)
-          .closest(".product-loop")
-          .find("a")
-          .attr("href");
-      }
+      // if (jQuery(window).width() < 768) {
+      //   if (promotionApp) {
+      //     if (
+      //       !$('.product-loop[data-id="' + id + '"]')
+      //         .find(".gift.product_gift_label")
+      //         .hasClass("d-none")
+      //     ) {
+      //       e.preventDefault();
+      //       //window.location.href = $(this).closest('.product-loop').find('a').attr('href');
+      //       HRT.Quickview.renderQuickview(prolink, proId, title);
+      //     } else {
+      //       e.preventDefault();
+      //       HRT.Quickview.renderQuickview(prolink, proId, title);
+      //     }
+      //   } else {
+      //     e.preventDefault();
+      //     HRT.Quickview.renderQuickview(prolink, proId, title);
+      //   }
+      // } else {
+      //   window.location.href = $(this)
+      //     .closest(".product-loop")
+      //     .find("a")
+      //     .attr("href");
+      // }
     });
   },
   closeQuickView: function () {
@@ -4232,10 +4228,8 @@ HRT.Cart = {
       input.val(1);
     }
     var quantity = currentVal + 1 > max ? currentVal : currentVal + 1;
-    console.log(quantity);
-    console.log(max);
 
-    // HRT.Cart.updateQuantityChange("plus", url, id, item_id, quantity);
+    HRT.Cart.updateQuantityChange("plus", url, id, item_id, quantity);
   },
 
   initQuantityMinus: function (t, url, id, item_id, max) {
@@ -4254,11 +4248,6 @@ HRT.Cart = {
   },
 
   updateQuantityChange: function (action, url, id, item_id, quantity) {
-    console.log(action);
-    console.log(url);
-    console.log(id);
-    console.log(item_id);
-    console.log(quantity);
     const province = "";
     jQuery.ajax({
       type: "GET",
@@ -4281,10 +4270,6 @@ HRT.Cart = {
   removeItemCart: function (t, url, id, item_id) {
     var self = $(t);
     const province = "";
-    console.log(url);
-    console.log(id);
-    console.log(item_id);
-    // return;
     swal({
       text: "Bạn chắc chắn muốn bỏ sản phẩm này ra khỏi giỏ hàng?",
       buttons: ["Hủy", "Đồng ý"],

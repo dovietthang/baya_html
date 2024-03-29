@@ -3,7 +3,13 @@
 <title>{{ $page->title }}</title>
 @endsection
 @section('content')
-
+<style>
+    .layout-pageStores .wrapbox-content {
+        background: #fff;
+        padding: 25px 30px;
+        border-radius: 4px;
+    }
+</style>
 <div class="breadcrumb-shop">
     <div class="container">
         <div class="breadcrumb-list">
@@ -22,12 +28,17 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container layout-pageStores">
+    @if($page->slug == 'lien-he' || $page->slug == 'he-thong-cua-hang')
+    <!-- {!! $page->content !!} -->
+    <div>{!! str_replace('{{ $config }}', $config, $page->content) !!}</div>
+
+    @else
     <div class="row">
         <div class="col-lg-9 col-md-8 col-12">
             <div class="wrapper-pageDetail">
                 <div class="heading-pageDetail">
-                    <h1>Giới thiệu</h1>
+                    <h1>{{ $page->title }}</h1>
                 </div>
                 <div class="content-pageDetail typeList-style">
                     {!! $page->content !!}
@@ -42,5 +53,8 @@
             </aside>
         </div>
     </div>
+    @endif
+
 </div>
+
 @endsection
