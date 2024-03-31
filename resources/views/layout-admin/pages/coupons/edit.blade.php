@@ -177,101 +177,104 @@
 <script src="{{asset('admin_asset/app-assets/js/scripts/forms/form-number-input.js')}}"></script>
 <script src="{{asset('admin_asset/assets/js/ajax-coupon.js')}}"></script>
 <script>
-    $('.items').show()
-    $('#date_start').flatpickr({
-        mode: 'range',
-        dateFormat: 'd-m-Y'
-    });
-    var arr1 = []
-    $(document).on('click', '.items .select2-selection', function() {
-        arr1 = $('#items').val()
-    })
-    $('select#items').on('change', function() {
-        let ids_ = $(this).val()
-        let p_ = $($(this).val()).not(arr1).get()
-        $(".items span.text-warning").remove();
-        $(".items span.error").remove();
-        if (p_.length > 0) {
-            $.ajax({
-                url: location.href + '?type=' + $('#type_coupon').val() + '&getIds=' + p_,
-                success: function(res) {
-                    $('select#items').parent().append(`<span style="font-size: 0.857rem" class="text-warning">${res}</span>`)
-                }
-            })
+        $('.items').show()
+        $('#date_start').flatpickr({
+            mode: 'range',
+            dateFormat: 'd-m-Y'
+        });
+        var arr1 = []
+        $(document).on('click','.items .select2-selection', function (){
+            arr1 = $('#items').val()
+        })
+        $('select#items').on('change', function (){
+            let ids_ = $(this).val()
+            let p_ = $($(this).val()).not(arr1).get()
+            $(".items span.text-warning").remove();
+            $(".items span.error").remove();
+            if (p_.length > 0){
+                $.ajax({
+                    url: location.href + '?type=' + $('#type_coupon').val() + '&getIds=' + p_,
+                    success: function (res){
+                        $('select#items').parent().append(`<span style="font-size: 0.857rem" class="text-warning">${res}</span>`)
+                    }
+                })
+            }
+            arr1 = ids_
+        })
+        $('#type_coupon_code').on('change', function (){
+            if($(this).val() == 'percent price'){
+                $('#price').prev().html($('#price').prev().attr('i18-v') + ' % 0 -> 100')
+            }
+            else {
+                $('#price').prev().text($('#price').prev().attr('i18-v'))
+            }
+        })
+        if($('#type_coupon_code').val() == 'percent price'){
+            $('#price').prev().text('{{__('Price')}} % 0 -> 100')
         }
-        arr1 = ids_
-    })
-    $('#type_coupon_code').on('change', function() {
-        if ($(this).val() == 'percent price') {
-            $('#price').prev().html($('#price').prev().attr('i18-v') + ' % 0 -> 100')
-        } else {
-            $('#price').prev().text($('#price').prev().attr('i18-v'))
-        }
-    })
-    if ($('#type_coupon_code').val() == 'percent price') {
-        $('#price').prev().text('{{__('
-            Price ')}} % 0 -> 100')
-    }
-    $('#create-code').on('click', function() {
-        const d = new Date();
-        let ms = d.valueOf()
-        let mx = 3;
-        let my = 1;
-        let charter = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' + ms
-        let lengthChar = charter.length
-        let result = ''
-        let last = ''
-        for (let j = 0; j < mx; j++) {
-            last += charter.charAt(Math.floor(Math.random() *
-                lengthChar));
-        }
-        for (let i = 0; i < my; i++) {
-            for (let j = 0; j < mx; j++) {
-                result += charter.charAt(Math.floor(Math.random() *
+        $('#create-code').on('click', function (){
+            const d = new Date();
+            let ms = d.valueOf()
+            let mx = 3;
+            let my = 1;
+            let charter = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' + ms
+            let lengthChar = charter.length
+            let result = ''
+            let last = ''
+            for ( let j = 0; j < mx; j++ ) {
+                last += charter.charAt(Math.floor(Math.random() *
                     lengthChar));
             }
-            result += '-'
-        }
-        let coupon = "RTX-" + result + last
-        $('#code').val(coupon)
-    })
-    let t_name = 'categorie'
-    if ($('#type_coupon').val() == 'products') {
-        t_name = 'product'
-    }
-    $('select#items').select2({
-        placeholder: "Select items",
-        ajax: {
-            url: location.href + '?type=' + $('#type_coupon').val(),
-            data: function(params) {
-                let ids = $('select#items').val();
-                return {
-                    [t_name]: params.term,
-                    ids: ids
+            for (let i = 0; i < my; i++){
+                for ( let j = 0; j < mx; j++ ) {
+                    result += charter.charAt(Math.floor(Math.random() *
+                        lengthChar));
                 }
-            },
-            processResults: function(res) {
-                return {
-                    results: $.map(res, function(item) {
-                        return {
-                            text: item.title,
-                            id: item.id
-                        }
-                    })
+                result += '-'
+            }
+            let coupon = "RTX-" + result + last
+            $('#code').val(coupon)
+        })
+        let t_name = 'categorie'
+        if ($('#type_coupon').val() == 'products'){
+            t_name = 'product'
+        }
+        $('select#items').select2({
+            placeholder: "Select items",
+            ajax: {
+                url: location.href + '?type=' + $('#type_coupon').val(),
+                data: function (params){
+                    let ids = $('select#items').val();
+                    return {
+                        [t_name]: params.term,
+                        ids: ids
+                    }
+                },
+                processResults: function (res){
+                    return {
+                        results: $.map(res, function (item){
+                            return {
+                                text: item.title,
+                                id: item.id
+                            }
+                        })
+                    }
                 }
             }
-        }
-    })
-</script>
+        })
+    </script>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         tinymce.init({
-            selector: 'textarea.my-editor', ...editor_config
+            selector: 'textarea.my-editor',
+            ...editor_config
         });
 
         $('.lfm').each(function() {
-            lfm($(this), 'file', {type: 'file'});
+            lfm($(this), 'file', {
+                type: 'file'
+            });
         });
     })
 </script>

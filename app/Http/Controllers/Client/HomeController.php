@@ -1310,6 +1310,114 @@ class HomeController extends Controller
             ->get();
         return view('layout-home.pages.checkout', compact('carts', 'baseTotal', 'discount', 'countPonSpin', 'message', 'province', 'shipAddress', 'couponsProductMy'));
     }
+    function checkout2(Request $rq)
+    {
+        $shipAddress = null;
+        if (Auth::user()) {
+            $tem = Address::where('user_id', Auth::user()->id)->where('is_default', 1)->first();
+            if (!$tem) {
+                $tem = Address::where('user_id', Auth::user()->id)->first();
+            }
+            $shipAddress = $tem;
+        }
+        $carts = session()->get('cartShop');
+        // if (!$carts || count($carts) == 0) {
+        //     return view('layout-home.pages.cart-index', compact('carts'));
+        // }
+        $code = session()->get('coupon');
+        $baseTotal = $this->getSumPrice();
+        $discount = null;
+        $countPonSpin = null;
+        $message = null;
+        $province = $rq->province;
+        if ($rq->not_discount_code) {
+            session()->pull('coupon', 'default');
+        }
+        if (!$rq->not_discount_code && ($code || $rq->discount_code)) {
+            $isCoupon = true;
+            $discount = Coupon::whereNotNull('code')->where('code', $rq->discount_code ? $rq->discount_code : $code)->where('status', 1)->first();
+            $countPonSpin = AccountSpin::whereNotNull('code')->where('code', $rq->discount_code ? $rq->discount_code : $code)->first();
+            if (!$discount && $countPonSpin) {
+                $isCoupon = false;
+            }
+            if (!$discount && !$countPonSpin) {
+                $message = [false, __('Code does not exist')];
+            } else {
+                if ($isCoupon) {
+                    $getFlag = $this->discountStatus($discount, $baseTotal);
+                    $message = $getFlag;
+                    if ($rq->discount_code) {
+                        session(['coupon' => $discount->code]);
+                    }
+                } else {
+                    $getFlag = $this->discountStatusSpins($countPonSpin);
+                    $message = $getFlag;
+                    session(['coupon' => $countPonSpin->code]);
+                }
+            }
+        }
+        if ($rq->ajax()) {
+            if ($rq->id && $rq->quantity) {
+                $getCart = session()->get('cartShop');
+                foreach ($getCart as $key => $item) {
+                    if (isset($item->combo)) {
+                        if ($item->id == $rq->id && $item->item_id === $rq->item_id) {
+                            $getCart[$key]->quantity = (int)$rq->quantity;
+                            array_values($getCart);
+                        }
+                    } else {
+                        if ($item->id == $rq->id) {
+                            $getCart[$key]->quantity = (int)$rq->quantity;
+                            array_values($getCart);
+                        }
+                    }
+                }
+                session()->put('cartShop', $getCart);
+                session()->save();
+            }
+            if ($rq->id_cl) {
+                $getId = session()->get('cartShop');
+                for ($i = 0; $i < count($getId); $i++) {
+                    if (isset($item->combo)) {
+                        if ($getId[$i]->id == $rq->id_cl && $item->item_id === $rq->item_id) {
+                            unset($getId[$i]);
+                            $newGetId = array_values($getId);
+                            session()->put('cartShop', $newGetId);
+                            session()->save();
+                            break;
+                        }
+                    } else {
+                        if ($getId[$i]->id == $rq->id_cl) {
+                            unset($getId[$i]);
+                            $newGetId = array_values($getId);
+                            session()->put('cartShop', $newGetId);
+                            session()->save();
+                            break;
+                        }
+                    }
+                }
+            }
+            $carts = session()->get('cartShop');
+            $baseTotal = $this->getSumPrice();
+            $lists = view('layout-home.pages.ajax-page.checkout.list')->with('carts', $carts)->render();
+            $checkout = view('layout-home.pages.ajax-page.checkout.total2')->with('baseTotal', $baseTotal)->with('carts', $carts)
+                ->with('discount', $discount)->with('countPonSpin', $countPonSpin)->with('message', $message)->with('province', $province)->render();
+            return response()->json([
+                'message' => true,
+                'message_coupon' => $message,
+                'lists' => $lists,
+                'checkout' => $checkout,
+                'url' => route('cart.index'),
+                'flag' => count($carts) == 0,
+                'carts' => $carts ? count($carts) : 0,
+            ]);
+        }
+        $couponsProductMy = Coupon::where('type_coupon', 'total order')
+            ->whereNotNull('code')
+            ->where('status', 1)
+            ->get();
+        return view('layout-home.pages.checkout2', compact('carts', 'baseTotal', 'discount', 'countPonSpin', 'message', 'province', 'shipAddress', 'couponsProductMy'));
+    }
     public function getDiscountTotal($discount)
     {
         $total = $this->getSumPrice();

@@ -148,108 +148,108 @@
 <script src="{{asset('admin_asset/app-assets/js/scripts/forms/form-number-input.js')}}"></script>
 <script src="{{asset('admin_asset/assets/js/ajax-coupon.js')}}"></script>
 <script>
-    $('.items').hide()
-    $('#date_start').flatpickr({
-        mode: 'range',
-        dateFormat: 'd-m-Y',
-        onOpen: function(selectedDates, dateStr, instance) {
-            if (dateStr == '') {
-                instance.setDate(new Date());
+        $('.items').hide()
+        $('#date_start').flatpickr({
+            mode: 'range',
+            dateFormat: 'd-m-Y',
+            onOpen: function (selectedDates, dateStr, instance) {
+                if (dateStr == '') {
+                    instance.setDate(new Date());
+                }
             }
-        }
-    });
+        });
 
-    $('#create-code').on('click', function() {
-        const d = new Date();
-        let ms = d.valueOf()
-        let mx = 3;
-        let my = 1;
-        let charter = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' + ms
-        let lengthChar = charter.length
-        let result = ''
-        let last = ''
-        for (let j = 0; j < mx; j++) {
-            last += charter.charAt(Math.floor(Math.random() *
-                lengthChar));
-        }
-        for (let i = 0; i < my; i++) {
+        $('#create-code').on('click', function () {
+            const d = new Date();
+            let ms = d.valueOf()
+            let mx = 3;
+            let my = 1;
+            let charter = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' + ms
+            let lengthChar = charter.length
+            let result = ''
+            let last = ''
             for (let j = 0; j < mx; j++) {
-                result += charter.charAt(Math.floor(Math.random() *
+                last += charter.charAt(Math.floor(Math.random() *
                     lengthChar));
             }
-            result += '-'
-        }
-        let coupon = "RTX-" + result + last
-        $('#code').val(coupon)
-    })
-    $('#type_coupon_code').on('change', function() {
-        if ($(this).val() == 'percent price') {
-            $('#price').prev().html($('#price').prev().attr('i18-v') + ' % 0 -> 100')
-        } else {
-            $('#price').prev().text($('#price').prev().attr('i18-v'))
-        }
-    })
-
-    var arr1 = []
-    $(document).on('click', '.items .select2-selection', function() {
-        arr1 = $('#items').val()
-    })
-    $('select#items').on('change', function() {
-        let ids_ = $(this).val()
-        let p_ = $($(this).val()).not(arr1).get()
-        $(".items span.text-warning").remove();
-        $(".items span.error").remove();
-        if (p_.length > 0) {
-            $.ajax({
-                url: location.href + '?type=' + $('#type_coupon').val() + '&getIds=' + p_,
-                success: function(res) {
-                    $('select#items').parent().append(`<span style="font-size: 0.857rem" class="text-warning">${res}</span>`)
+            for (let i = 0; i < my; i++) {
+                for (let j = 0; j < mx; j++) {
+                    result += charter.charAt(Math.floor(Math.random() *
+                        lengthChar));
                 }
-            })
-        }
-        arr1 = ids_
-    })
-    $('#type_coupon').on('change', function() {
-        if ($(this).val() == 'total order') {
-            $('.total-order').find('input').prop('disabled', false)
-            $('#items').prop('disabled', true)
-            $('.total-order').slideDown()
-            $('.items').slideUp()
-        } else {
-            $('.items').slideDown()
-            $('.total-order').find('input').prop('disabled', true)
-            $('#items').prop('disabled', false)
-            $('.total-order').slideUp()
-            let t_name = 'categorie'
-            if ($(this).val() == 'products') {
-                t_name = 'product'
+                result += '-'
             }
-            $('select#items').val([]).select2({
-                placeholder: "Select items",
-                ajax: {
-                    url: location.href + '?type=' + $(this).val(),
-                    data: function(params) {
-                        let ids = $('select#items').val();
-                        return {
-                            [t_name]: params.term,
-                            ids: ids
-                        }
-                    },
-                    processResults: function(res) {
-                        return {
-                            results: $.map(res, function(item) {
-                                return {
-                                    text: item.title,
-                                    id: item.id
-                                }
-                            })
+            let coupon = "RTX-" + result + last
+            $('#code').val(coupon)
+        })
+        $('#type_coupon_code').on('change', function () {
+            if ($(this).val() == 'percent price') {
+                $('#price').prev().html($('#price').prev().attr('i18-v') + ' % 0 -> 100')
+            } else {
+                $('#price').prev().text($('#price').prev().attr('i18-v'))
+            }
+        })
+
+        var arr1 = []
+        $(document).on('click', '.items .select2-selection', function () {
+            arr1 = $('#items').val()
+        })
+        $('select#items').on('change', function () {
+            let ids_ = $(this).val()
+            let p_ = $($(this).val()).not(arr1).get()
+            $(".items span.text-warning").remove();
+            $(".items span.error").remove();
+            if (p_.length > 0) {
+                $.ajax({
+                    url: location.href + '?type=' + $('#type_coupon').val() + '&getIds=' + p_,
+                    success: function (res) {
+                        $('select#items').parent().append(`<span style="font-size: 0.857rem" class="text-warning">${res}</span>`)
+                    }
+                })
+            }
+            arr1 = ids_
+        })
+        $('#type_coupon').on('change', function () {
+            if ($(this).val() == 'total order') {
+                $('.total-order').find('input').prop('disabled', false)
+                $('#items').prop('disabled', true)
+                $('.total-order').slideDown()
+                $('.items').slideUp()
+            } else {
+                $('.items').slideDown()
+                $('.total-order').find('input').prop('disabled', true)
+                $('#items').prop('disabled', false)
+                $('.total-order').slideUp()
+                let t_name = 'categorie'
+                if ($(this).val() == 'products') {
+                    t_name = 'product'
+                }
+                $('select#items').val([]).select2({
+                    placeholder: "Select items",
+                    ajax: {
+                        url: location.href + '?type=' + $(this).val(),
+                        data: function (params) {
+                            let ids = $('select#items').val();
+                            return {
+                                [t_name]: params.term,
+                                ids: ids
+                            }
+                        },
+                        processResults: function (res) {
+                            return {
+                                results: $.map(res, function (item) {
+                                    return {
+                                        text: item.title,
+                                        id: item.id
+                                    }
+                                })
+                            }
                         }
                     }
-                }
-            })
-        }
-    })
-</script>
+                })
+            }
+        })
+    </script>
 
 <script>
     $(document).ready(function(){

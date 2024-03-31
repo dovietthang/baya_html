@@ -227,6 +227,7 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('/cart-update',  [HomeController::class, 'updateCart'])->name('update.cart');
     Route::get('/cart-delete',  [HomeController::class, 'deleteOneCart'])->name('delete.cart');
     Route::get('/checkout',  [HomeController::class, 'checkout'])->name('checkout');
+    Route::get('/checkout-i',  [HomeController::class, 'checkout2'])->name('checkout2');
     Route::get('/cart/index',  [HomeController::class, 'cartIndex'])->name('cart.index');
     Route::get('/sales/order',  [HomeController::class, 'OrderUser'])->name('order.index');
     Route::get('/search/order',  [HomeController::class, 'OrderUserSearch'])->name('order.search');

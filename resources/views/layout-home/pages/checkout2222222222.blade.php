@@ -24,6 +24,7 @@
         }
     </style>
 </head>
+
 <body data-container="body" id="html-body" class="checkout-index-index page-layout-checkout" aria-busy="false">
     <div class="page-wrapper">
         <main id="maincontent" class="page-main">
@@ -360,10 +361,10 @@
                         <div class="shipping-remind" style="display: block;">
                             <div class="icon"></div>
                             <div class="notify">
-                                <div>{{__('Buy more')}} 
-                                    <span class="price">{{number_format($freeship - $baseTotal,0,0,'.')}}₫</span> 
-                                    {{__('to get free shipping')}}. {{__('Click')}} 
-                                    <a href="{{route('home')}}" title="Tiếp tục mua sắm">{{__('here')}}</a> 
+                                <div>{{__('Buy more')}}
+                                    <span class="price">{{number_format($freeship - $baseTotal,0,0,'.')}}₫</span>
+                                    {{__('to get free shipping')}}. {{__('Click')}}
+                                    <a href="{{route('home')}}" title="Tiếp tục mua sắm">{{__('here')}}</a>
                                     Tiếp tục mua hàng
                                 </div>
                             </div>

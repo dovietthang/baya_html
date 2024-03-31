@@ -280,6 +280,7 @@ class CouponController extends Controller
                 $result
             );
         }
+        // var_dump($coupon);
         return view('layout-admin.pages.coupons.edit', compact('coupon', 'items', 'breadcrumb'));
     }
 
