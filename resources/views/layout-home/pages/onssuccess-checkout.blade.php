@@ -143,7 +143,6 @@
         @php
         $items = $order->orderItems;
         @endphp
-
         <div class="wrap">
             <div class="sidebar">
                 <div class="sidebar-content">
@@ -166,18 +165,17 @@
                                         @php
                                         $sku = $item->productSku;
                                         @endphp
-
                                         <tr class="product" data-product-id="{{$sku->id}}" data-variant-id="{{$sku->id}}">
                                             <td class="product-image">
                                                 <div class="product-thumbnail">
                                                     <div class="product-thumbnail-wrapper">
-                                                        <img class="product-thumbnail-image" alt="{{$sku->name}}" src="{{ ($sku->image && $sku->image != '') ? $sku->image : asset('admin_asset/app-assets/images/empty.png') }}">
+                                                        <img class="product-thumbnail-image" alt="{{$sku->title}}" src="{{ ($sku->photo && $sku->photo != '') ? $sku->photo : asset('admin_asset/app-assets/images/empty.png') }}">
                                                     </div>
                                                     <span class="product-thumbnail-quantity" aria-hidden="true">{{$item->quantity}}</span>
                                                 </div>
                                             </td>
                                             <td class="product-description">
-                                                <span class="product-description-name order-summary-emphasis">{{$sku->title}}</span>
+                                                <span class="product-description-name order-summary-emphasis">{{@$sku->product->title}}</span>
 
                                                 <span class="product-description-variant order-summary-small-text">
                                                     <span> {{$sku->color->title}} / {{$sku->size->title}}</span>

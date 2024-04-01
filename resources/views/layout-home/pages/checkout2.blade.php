@@ -977,15 +977,25 @@
         })
         $(document).on('submit', 'form#form_discount_add2', function(evt) {
             evt.preventDefault()
-            const discount_code = $('#discount-code').val()
+            const discount_code = $('#form_discount_add2 #discount-code').val()
+            if (discount_code.trim() == null || discount_code.trim() == '') {
+                let mes = 'Mã không được để trống.'
+                $('#form_discount_add2 .messages').html(`<div aria-atomic="true" role="alert" class="message message-error error">
+                    <div data-ui-id="checkout-cart-validationmessages-message-error">${mes}</div>
+                </div>`);
+                $('#form_discount_add2 .messages').css({
+                    display: 'block'
+                });
+                return;
+            }
             const province = $('#customer_shipping_province').val()
-            const name = $('#discount-code').attr('name')
+            const name = $('#form_discount_add2 #discount-code').attr('name')
             const url = `{{route('checkout2')}}`
             $.ajax({
                 type: "GET",
                 url: url,
                 data: {
-                    [name]: discount_code,
+                    [name]: discount_code.trim(),
                     province: province
                 },
                 success: function(res) {
@@ -1021,15 +1031,25 @@
         })
         $(document).on('submit', 'form#form_discount_add', function(evt) {
             evt.preventDefault()
-            const discount_code = $('#discount-code').val()
+            const discount_code = $('#form_discount_add #discount-code').val()
+            if (discount_code.trim() == null || discount_code.trim() == '') {
+                let mes = 'Mã không được để trống.'
+                $('#form_discount_add .messages').html(`<div aria-atomic="true" role="alert" class="message message-success success">
+                    <div data-ui-id="checkout-cart-validationmessages-message-success">${mes}</div>
+                </div>`);
+                $('#form_discount_add .messages').css({
+                    display: 'block'
+                });
+                return;
+            }
             const province = $('#customer_shipping_province').val()
-            const name = $('#discount-code').attr('name')
+            const name = $('#form_discount_add #discount-code').attr('name')
             const url = `{{route('checkout2')}}`
             $.ajax({
                 type: "GET",
                 url: url,
                 data: {
-                    [name]: discount_code,
+                    [name]: discount_code.trim(),
                     province: province
                 },
                 success: function(res) {

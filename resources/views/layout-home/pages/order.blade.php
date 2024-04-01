@@ -4,6 +4,43 @@
 @endsection
 @section('content')
 
+<style>
+    .customer-table-wrap {
+        background: #d9edf7;
+        padding: 8px 10px;
+        margin: 0 0 30px;
+    }
+
+    .customer-table-wrap .customer-table-bg {
+        background: #fff;
+        padding: 10px;
+    }
+
+    .customer-table-wrap .title-detail {
+        text-transform: uppercase;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        position: relative;
+        border-bottom: 1px solid #ededed;
+        padding-bottom: 8px;
+    }
+
+    .table-responsive-overflow {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .table-responsive-overflow .table-responsive {
+        border: 0;
+    }
+
+    table.table-customers {
+        width: 100%;
+        background: #fff;
+    }
+</style>
+
 <div class="layout-account">
     <div class="container">
         <div class="wrapbox-content-account">
@@ -35,7 +72,73 @@
                             @endif
                         </div>
                     </div>
-                    <div class="column main">
+
+                    <div class="col-12 wrap_orderAccount" id="customer_orders">
+                        <div class="customer-table-wrap">
+                            <div class="customer_order customer-table-bg">
+
+                                <p class="title-detail">Danh sách đơn hàng mới nhất</p>
+                                <div class="table-responsive-overflow">
+                                    <div class="table-responsive">
+                                        <table class="table table-customers">
+                                            <thead>
+                                                <tr>
+                                                    <th class="order_number text-center">Mã đơn hàng</th>
+                                                    <th class="date text-center">Ngày đặt</th>
+                                                    <th class="payment_status text-center">Trạng thái thanh toán</th>
+                                                    <th class="total text-right">Tổng tiền</th>
+                                                    <th class="fulfillment_status text-center">Giảm giá</th>
+                                                    <th class="fulfillment_status text-center">Vận chuyển</th>
+                                                    <th class="fulfillment_status text-center">Mã giảm</th>
+                                                    <th class="total text-right">Thành tiền</th>
+                                                </tr>
+                                            </thead>
+                                            @if(!isset($orders) || !$orders || count($orders) == 0)
+                                            <div class="message info empty"><span>You have placed no orders.</span></div>
+                                            @else
+                                            <tbody>
+                                                @foreach($orders as $order)
+                                                <tr class="odd cancelled_order">
+                                                    <td class="text-center"><a href="#" title="">#{{$order->order_code}}</a></td>
+                                                    <td class="text-center"><span>{{ @$order->created_at? date('d/m/Y',strtotime($order->created_at)) : '--'}}</span></td>
+                                                    <td class="text-center"><span class="status_pending">
+                                                            @if($order->status_method ==0)
+                                                            {{__('Wait')}}
+                                                            @elseif($order->status_method ==1)
+                                                            {{__('Delivery')}}
+                                                            @elseif($order->status_method ==2)
+                                                            {{__('Received')}}
+                                                            @else
+                                                            {{__('Cancel order')}}
+                                                            @endif
+                                                        </span></td>
+                                                    <td class="text-right"><span class="total money">{{number_format($order->sub_total, 0,0,'.')}}₫</span></td>
+                                                    
+                                                    
+                                                    <td class="text-center">
+                                                        <span class="status_not fulfilled">{{@$order->coupon_amount ? $order->coupon_amount : '0₫' }}</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="status_not fulfilled">{{$order->fee ? number_format($order->fee,0,0,'.') . '₫' : '0₫'}}</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="status_not fulfilled">{{@$order->coupon_code ? $order->coupon_code : '--'}}</span>
+                                                    </td>
+                                                    <td class="text-right"><span class="total money">{{number_format($order->total, 0,0,'.')}}₫</span></td>
+
+                                                </tr>
+                                                @endforeach
+
+                                            </tbody>
+                                            @endif
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="column main">
                         <div class="page-title-wrapper">
                             <h1 class="page-title"><span class="base" data-ui-id="page-title-wrapper">Lịch sử đơn hàng</span>
                             </h1>
@@ -76,7 +179,7 @@
                                         </div>
                                         <div class="td">{{$order->created_at}}</div>
                                         <div class="td">{{$order->fee ? number_format($order->fee,0,0,'.') . 'đ' : ''}}</div>
-                                        <div class="td">{{$order->coupon_amount ? number_format($order->coupon_amount,0,0,'.') . 'đ' : ''}}</div>
+                                        <div class="td">{{@$order->coupon_amount }}</div>
                                         <div class="td">{{$order->coupon_code}}</div>
 
                                         <div class="td">
@@ -105,7 +208,7 @@
                             <div class="secondary"><a class="action back" href="{{route('account')}}"><span>{{__('Go
                                 back')}}</span></a></div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
