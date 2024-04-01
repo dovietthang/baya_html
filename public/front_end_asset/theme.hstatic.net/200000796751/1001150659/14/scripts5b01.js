@@ -1531,7 +1531,7 @@ HRT.Main = {
     that.topbarSlideText();
     that.topbarHidden();
     that.scrollFixedHeader();
-    that.searchAutoHeader();
+    // that.searchAutoHeader();
     that.toggleFooter();
     //that.fixHeightProductResize();
     that.addThisIconShare();
@@ -3193,7 +3193,7 @@ HRT.Product = {
     that.backtoHistory();
     that.toggleDescProduct(".product-description--accordion");
     that.toggleShareProduct();
-    that.renderCombo(currentId);
+    // that.renderCombo(currentId);
     that.sliderProductRelated("#owlProduct-related");
     //that.tooltipShare();
   },
@@ -3293,101 +3293,101 @@ HRT.Product = {
       });
     }
   },
-  renderCombo: function (currentId, view) {
-    var aIdCombo = [],
-      aIdSearch = [];
-    htmlQvApp = htmlCombo = "";
-    dataItemsCombo = [];
+  // renderCombo: function (currentId, view) {
+  //   var aIdCombo = [],
+  //     aIdSearch = [];
+  //   htmlQvApp = htmlCombo = "";
+  //   dataItemsCombo = [];
 
-    var comboDOM =
-      view != undefined
-        ? "#quick-view-modal .combo-info"
-        : "#detail-product .combo-info";
-    var parentDOM =
-      view != undefined ? "#quick-view-modal" : "#detail-product .combo-info";
-    $.get(
-      "https://combo-omni.haravan.com/js/list_recommendeds?product_id=" +
-        currentId
-    ).done(function (data) {
-      if (data.length > 0) {
-        $.each(data, function (i, v) {
-          var temp = [];
-          var temp2 = {};
-          $.each(v.recommendeds, function (j, k) {
-            temp.push(k.product_id);
-            aIdSearch.push(k.product_id);
-            temp2[k.product_id] = k;
-          });
-          aIdCombo.push(temp);
-          dataItemsCombo.push(temp2);
-        });
+  //   var comboDOM =
+  //     view != undefined
+  //       ? "#quick-view-modal .combo-info"
+  //       : "#detail-product .combo-info";
+  //   var parentDOM =
+  //     view != undefined ? "#quick-view-modal" : "#detail-product .combo-info";
+  //   $.get(
+  //     "https://combo-omni.haravan.com/js/list_recommendeds?product_id=" +
+  //       currentId
+  //   ).done(function (data) {
+  //     if (data.length > 0) {
+  //       $.each(data, function (i, v) {
+  //         var temp = [];
+  //         var temp2 = {};
+  //         $.each(v.recommendeds, function (j, k) {
+  //           temp.push(k.product_id);
+  //           aIdSearch.push(k.product_id);
+  //           temp2[k.product_id] = k;
+  //         });
+  //         aIdCombo.push(temp);
+  //         dataItemsCombo.push(temp2);
+  //       });
 
-        aIdSearch = uniques(aIdSearch);
-        var str =
-          "/search?q=filter=((id:product=" +
-          aIdSearch.join(")||(id:product=") +
-          "))";
-        $.get(str + "&view=datacombo").done(function (result) {
-          result = JSON.parse(result);
-          $.each(aIdCombo, function (i, v) {
-            var allAvailable = true;
-            /* Kiểm tra có item nào trong combo ko valid thì không hiển thị */
-            /* Hoặc có item nào bị ẩn thì ko hiển thị */
-            $.each(v, function (j, k) {
-              if (result[k]) {
-                if (dataItemsCombo[i][k].is_apply_by_variant) {
-                  var apply_length =
-                    dataItemsCombo[i][k].apply_productvariants.length;
-                  $.each(
-                    dataItemsCombo[i][k].apply_productvariants,
-                    function (l, m) {
-                      if (!result[k].variants[m.id].available) {
-                        allAvailable = false;
-                        if (apply_length == 1) return false;
-                        else m = null;
-                      }
-                    }
-                  );
-                } else {
-                  if (!result[k].available) {
-                    allAvailable = false;
-                    return false;
-                  }
-                }
-              } else {
-                allAvailable = false;
-                return false;
-              }
-            });
-            /* End Kiểm tra */
+  //       aIdSearch = uniques(aIdSearch);
+  //       var str =
+  //         "/search?q=filter=((id:product=" +
+  //         aIdSearch.join(")||(id:product=") +
+  //         "))";
+  //       $.get(str + "&view=datacombo").done(function (result) {
+  //         result = JSON.parse(result);
+  //         $.each(aIdCombo, function (i, v) {
+  //           var allAvailable = true;
+  //           /* Kiểm tra có item nào trong combo ko valid thì không hiển thị */
+  //           /* Hoặc có item nào bị ẩn thì ko hiển thị */
+  //           $.each(v, function (j, k) {
+  //             if (result[k]) {
+  //               if (dataItemsCombo[i][k].is_apply_by_variant) {
+  //                 var apply_length =
+  //                   dataItemsCombo[i][k].apply_productvariants.length;
+  //                 $.each(
+  //                   dataItemsCombo[i][k].apply_productvariants,
+  //                   function (l, m) {
+  //                     if (!result[k].variants[m.id].available) {
+  //                       allAvailable = false;
+  //                       if (apply_length == 1) return false;
+  //                       else m = null;
+  //                     }
+  //                   }
+  //                 );
+  //               } else {
+  //                 if (!result[k].available) {
+  //                   allAvailable = false;
+  //                   return false;
+  //                 }
+  //               }
+  //             } else {
+  //               allAvailable = false;
+  //               return false;
+  //             }
+  //           });
+  //           /* End Kiểm tra */
 
-            /* Nếu kiểm tra các item trong combo đều còn hàng thì render */
-            if (allAvailable) {
-              htmlCombo += '<div class="combo-info--content">';
-              //var htmlImg = render_img(result,v);
-              //var htmlDetail = render_detail(result,i,v,currentId);
-              var htmlDetail = render_items(result, i, v, currentId);
-              //htmlCombo += htmlImg;
-              htmlCombo += htmlDetail;
-              htmlCombo += "</div>";
-            }
-          });
+  //           /* Nếu kiểm tra các item trong combo đều còn hàng thì render */
+  //           if (allAvailable) {
+  //             htmlCombo += '<div class="combo-info--content">';
+  //             //var htmlImg = render_img(result,v);
+  //             //var htmlDetail = render_detail(result,i,v,currentId);
+  //             var htmlDetail = render_items(result, i, v, currentId);
+  //             //htmlCombo += htmlImg;
+  //             htmlCombo += htmlDetail;
+  //             htmlCombo += "</div>";
+  //           }
+  //         });
 
-          if (htmlCombo != "") {
-            $(comboDOM).append(htmlCombo).removeClass("d-none");
-            if (view != undefined) {
-              htmlQvApp = htmlCombo;
-            }
-          }
-        });
-      } else {
-        if (view == "quickview") {
-          //return htmlCombo || '';
-          return htmlCombo;
-        }
-      }
-    });
-  },
+  //         if (htmlCombo != "") {
+  //           $(comboDOM).append(htmlCombo).removeClass("d-none");
+  //           if (view != undefined) {
+  //             htmlQvApp = htmlCombo;
+  //           }
+  //         }
+  //       });
+  //     } else {
+  //       if (view == "quickview") {
+  //         //return htmlCombo || '';
+  //         return htmlCombo;
+  //       }
+  //     }
+  //   });
+  // },
   tooltipShare: function () {
     if ($(window).width() > 1200) {
       $(
