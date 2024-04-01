@@ -1,10 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="flexbox">
 
 <head>
-    <link rel="shortcut icon" href="//theme.hstatic.net/200000796751/1001150659/14/favicon.png?v=1317" type="image/png">
-    <title>
-        Baya - Thanh toán đơn hàng
-    </title>
+    <link rel="shortcut icon" href="{{$config->site_logo}}" type="{{$config->site_name}}" />
+    <title>{{$config->site_title_content}}</title>
+
 
     <meta name="description" content="Baya - Thanh toán đơn hàng">
 
