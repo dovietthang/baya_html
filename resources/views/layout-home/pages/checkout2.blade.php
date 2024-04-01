@@ -5,7 +5,7 @@
     <title>{{$config->site_title_content}}</title>
 
 
-    <meta name="description" content="Baya - Thanh toán đơn hàng">
+    <meta name="description" content="{{$config->site_title_content}}">
 
     <link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/checkout.css')}}" as="style">
     <script type="text/javascript" src="{{asset('/front_end_asset/style/js/jquery.min.js')}}"></script>
