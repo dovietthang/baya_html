@@ -1,6 +1,6 @@
                 <div class="sidebar-content">
                     <div class="order-summary order-summary-is-collapsed">
-                        <h2 class="visually-hidden">Thông tin đơn hàng 1</h2>
+                        <h2 class="visually-hidden">Thông tin đơn hàng</h2>
 
 
                         @php
@@ -60,19 +60,32 @@
                             </div>
 
                             <div class="order-summary-section order-summary-section-discount" data-order-summary-section="discount">
-                                <form id="form_discount_add" accept-charset="UTF-8" method="post">
-                                    <input name="utf8" type="hidden" value="✓">
+                                <form id="form_discount_add2" accept-charset="UTF-8" method="post">
+                                    <div data-role="checkout-messages" class="messages" data-bind="visible: isVisible(), click: removeAll" style="display: none;">
+                                    </div>
                                     <div class="fieldset">
                                         <div class="field  ">
                                             <div class="field-input-btn-wrapper">
                                                 <div class="field-input-wrapper">
-                                                    <label class="field-label" for="discount.code">Mã giảm giá</label>
-                                                    <input placeholder="Mã giảm giá" class="field-input" data-discount-field="true" autocomplete="false" autocapitalize="off" spellcheck="false" size="30" type="text" id="discount.code" name="discount.code" value="" fdprocessedid="ku4fr">
+                                                    <label class="field-label" for="discount.code">{{__('Enter discount code')}}</label>
+                                                    @if($countPonSpin)
+                                                    <input class="field-input" value="{{$countPonSpin ? $countPonSpin->code : ''}}" type="text" value="" id="discount-code" name="{{$countPonSpin && $message && $message[0] ? 'not_discount_code' : 'discount_code'}}" placeholder="{{__('Enter discount code')}}" />
+                                                    @else
+                                                    <input class="field-input" value="{{$discount ? $discount->code : ''}}" type="text" value="" id="discount-code" name="{{$discount && $message && $message[0] ? 'not_discount_code' : 'discount_code'}}" placeholder="{{__('Enter discount code')}}" />
+                                                    @endif
                                                 </div>
-                                                <button type="submit" class="field-input-btn btn btn-default btn-disabled" fdprocessedid="louzns">
-                                                    <span class="btn-content">Sử dụng</span>
+                                                @if(($discount || $countPonSpin) && $message && $message[0])
+                                                <button type="submit" class="field-input-btn btn btn-default ">
+                                                    <span class="btn-content">{{__('Cancel coupon')}}</span>
                                                     <i class="btn-spinner icon icon-button-spinner"></i>
                                                 </button>
+                                                @else
+                                                <button type="submit" class="field-input-btn btn btn-default">
+                                                    <span class="btn-content">{{__('Apply')}}</span>
+                                                    <i class="btn-spinner icon icon-button-spinner"></i>
+                                                </button>
+                                                @endif
+
                                             </div>
 
                                         </div>
@@ -145,7 +158,7 @@
                                         <tr class="total-line total-line-subtotal">
                                             <td class="total-line-name">{{__('Discount')}}</td>
                                             <td class="total-line-price">
-                                                @if($spinItem->type == 1)
+                                                @if($discount->type == 1)
                                                 <span class="order-summary-emphasis" data-checkout-subtotal-price-target="{{$discount->price_value}}">
                                                     {{$discount->price_value}}%
                                                 </span>

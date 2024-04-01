@@ -594,8 +594,8 @@ class HomeController extends Controller
     function cartView()
     {
         $cartss = session()->get('cartShop');
-        var_dump($cartss);
-        var_dump(111111111111111);
+        // var_dump($cartss);
+        // var_dump(111111111111111);
         return view('layout-home.pages.ajax-page.cart-item')->with('cartss', $cartss);
     }
     function updateCart(Request $rq)
@@ -1322,7 +1322,7 @@ class HomeController extends Controller
         }
         $carts = session()->get('cartShop');
         // if (!$carts || count($carts) == 0) {
-        //     return view('layout-home.pages.cart-index', compact('carts'));
+        //     return redirect()->route('checkout');
         // }
         $code = session()->get('coupon');
         $baseTotal = $this->getSumPrice();
@@ -1477,10 +1477,13 @@ class HomeController extends Controller
             }
             return view('layout-home.pages.onssuccess-checkout', compact('order', 'shipAddress'));
         }
-        return redirect()->route('cart.index');
+        // return view('layout-home.pages.onssuccess-checkout');
+        return redirect()->route('checkout');
     }
     function checkoutSave(Request $rq)
     {
+        // var_dump($rq);
+        // return;
         $message = null;
         $discount = null;
         $countPonSpin = null;
@@ -1598,6 +1601,6 @@ class HomeController extends Controller
         // if ($rq->payment_id) {
         //     return response()->json();
         // }
-        return view('layout-home.pages.cart-index')->with('msg_cart', __('Order successful thank you'));
+        // return view('layout-home.pages.cart-index')->with('msg_cart', __('Order successful thank you'));
     }
 }
