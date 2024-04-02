@@ -103,6 +103,22 @@
         background: #28a7453d;
         margin-bottom: 15px;
     }
+    .form-address-edit label.error {
+            color: #ff0000a8;
+            font-size: 13px;
+        }
+
+        .message.message-success.success {
+            color: #008000ba;
+            padding: 5px 0;
+            font-size: 13px;
+        }
+
+        .message.message-error.error {
+            color: #ff0000ad;
+            padding: 5px 0;
+            font-size: 13px;
+        }
 </style>
 
 <div class="layout-account">
@@ -210,7 +226,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="field choice set billing"><input type="checkbox" id="primary_billing" name="default_billing" value="1" @if($default->is_default == 1)checked @endif class="checkbox"><label class="label" for="primary_billing"><span>Đặt làm mặc định</span></label></div>
+                                <div class="field choice set billing">
+                                    <input type="checkbox" id="primary_billing" name="default_billing" value="1" @if($default->is_default == 1)checked @endif class="checkbox">
+                                    <label class="label" for="primary_billing">
+                                        <span>Đặt làm mặc định</span>
+                                    </label>
+                                </div>
                             </fieldset>
 
                             <div class="clearfix d-flex align-items-center custommer_account_action mt-3">
@@ -228,10 +249,7 @@
         </div>
     </div>
 </div>
-
-@endsection
-
-@section('page-js')
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" type="text/javascript"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 

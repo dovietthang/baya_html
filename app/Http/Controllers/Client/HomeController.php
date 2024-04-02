@@ -226,12 +226,16 @@ class HomeController extends Controller
         $data->ward = $rq->postcode;
         $data->address = $rq->street;
         $data->is_default = $rq->default_billing ? 1 : 0;
-        if ($rq->default_billing) {
-            Address::where('user_id', Auth::user()->id)->where('is_default', 1)->update([
-                'is_default' => 0
-            ]);
-        }
-        $data->save();
+        $data->update();
+
+        // if ($rq->default_billing) {
+        //     Address::where('user_id', Auth::user()->id)->where('is_default', 1)->update([
+        //         'is_default' => 0
+        //     ]);
+        // }
+        // Address::where('user_id', Auth::user()->id)->where('is_default', 1)->update([
+        //     'is_default' => 0
+        // ]);
         return redirect()->back()->with('success', __('Update address success.'));
     }
     function addressSave(Request $rq)
@@ -1152,10 +1156,13 @@ class HomeController extends Controller
     function searchQuery(Request $rq)
     {
         $product = [];
+        $count_product = 0;
+        $search = $rq->search ? $rq->search : '';
         if ($rq->search) {
-            $product = Product::where('title', 'like', $rq->search . '%')->orwhere('sku', 'like', $rq->search . '%')->limit(8)->get();
+            $product = Product::where('title', 'like', $rq->search . '%')->orwhere('sku', 'like', $rq->search . '%')->limit(4)->get();
+            $count_product = Product::where('title', 'like', $rq->search . '%')->orWhere('sku', 'like', $rq->search . '%')->count();
         }
-        return view('layout-home.pages.ajax-page.search-list-item')->with('product', $product)->render();
+        return view('layout-home.pages.ajax-page.search-list-item')->with('product', $product)->with('search', $search)->with('count_product', $count_product)->render();
     }
 
     public function discountStatus($discount, $total)

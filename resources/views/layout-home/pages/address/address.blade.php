@@ -79,6 +79,12 @@
         -webkit-flex-flow: row nowrap;
         flex-flow: row nowrap;
     }
+
+    @media (max-width: 767px) {
+        .wrapbox-content-account {
+            padding: 20px 15px 20px;
+        }
+    }
 </style>
 
 <div class="layout-account">
@@ -116,13 +122,13 @@
                                                 <p><strong>{{$default->name}} {{$default->last_name}}</strong></p>
                                             </div>
                                             <div class="col-lg-12 col-md-12 large_view mb-2">
-                                                <div class="lb-left"><b>Công ty:</b></div>
+                                                <div class="lb-left"><b>Địa chỉ:</b></div>
                                                 <div class="lb-right">
-                                                    <p>{{$default->city}}</p>
+                                                    <p>{{$default->address}} - {{$default->ward}} - {{$default->district}} - {{$default->city}} - {{$default->country}}</p>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-md-12 large_view mb-2">
-                                                <div class="lb-left"><b>Địa chỉ:</b></div>
+                                                <div class="lb-left"><b>Địa chỉ đường phố:</b></div>
                                                 <div class="lb-right">
                                                     <p>{{$default->address}}</p>
                                                 </div>

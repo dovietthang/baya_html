@@ -1642,112 +1642,112 @@ HRT.Main = {
       });
     }, 300);
   },
-  searchAutoHeader: function () {
-    $(".ultimate-search").submit(function (e) {
-      e.preventDefault();
-      var q = $(this).find("input[name=q]").val();
-      if (q.indexOf("script") > -1 || q.indexOf(">") > -1) {
-        alert(
-          "Từ khóa của bạn có chứa mã độc hại ! Vui lòng nhập lại key word khác"
-        );
-        $(this).find("input[name=q]").val("");
-      } else {
-        var q_follow = "product";
-        var query = encodeURIComponent(
-          "(title:product contains " + q + ")||(sku:product contains " + q + ")"
-        );
-        if (!q) {
-          window.location = "/search?type=" + q_follow + "&q=*";
-          return;
-        } else {
-          window.location = "/search?type=" + q_follow + "&q=filter=" + query;
-          return;
-        }
-      }
-    });
-    var $input = $('.ultimate-search input[type="text"]');
-    $input.bind("keyup change paste propertychange", function () {
-      var key = $(this).val(),
-        $parent = $(this).parents(".wpo-wrapper-search"),
-        $results = $(this)
-          .parents(".wpo-wrapper-search")
-          .find(".smart-search-wrapper");
+  // searchAutoHeader: function () {
+  //   $(".ultimate-search").submit(function (e) {
+  //     e.preventDefault();
+  //     var q = $(this).find("input[name=q]").val();
+  //     if (q.indexOf("script") > -1 || q.indexOf(">") > -1) {
+  //       alert(
+  //         "Từ khóa của bạn có chứa mã độc hại ! Vui lòng nhập lại key word khác"
+  //       );
+  //       $(this).find("input[name=q]").val("");
+  //     } else {
+  //       var q_follow = "product";
+  //       var query = encodeURIComponent(
+  //         "(title:product contains " + q + ")||(sku:product contains " + q + ")"
+  //       );
+  //       if (!q) {
+  //         window.location = "/search?type=" + q_follow + "&q=*";
+  //         return;
+  //       } else {
+  //         window.location = "/search?type=" + q_follow + "&q=filter=" + query;
+  //         return;
+  //       }
+  //     }
+  //   });
+  //   var $input = $('.ultimate-search input[type="text"]');
+  //   $input.bind("keyup change paste propertychange", function () {
+  //     var key = $(this).val(),
+  //       $parent = $(this).parents(".wpo-wrapper-search"),
+  //       $results = $(this)
+  //         .parents(".wpo-wrapper-search")
+  //         .find(".smart-search-wrapper");
 
-      if (key.indexOf("script") > -1 || key.indexOf(">") > -1) {
-        alert(
-          "Từ khóa của bạn có chứa mã độc hại ! Vui lòng nhập lại key word khác"
-        );
-        $(this).val("");
-        $('.ultimate-search input[type="text"]').val("");
-      } else {
-        if (key.length > 0) {
-          $(this).attr("data-history", key);
-          $('.ultimate-search input[type="text"]').val($(this).val());
-          var q_follow = "product",
-            str = "";
-          str =
-            "/search?q=filter=(title:product contains " +
-            key +
-            ")||(sku:product contains " +
-            key +
-            ")&view=ultimate-product";
-          $.ajax({
-            url: str,
-            type: "GET",
-            async: true,
-            success: function (data) {
-              $results.find(".resultsContent").html(data);
-            },
-          });
-          if (!$(".header-action_search").hasClass("js-action-show")) {
-            $("body").removeClass("locked-scroll");
-            $(".header-action-item").removeClass("js-action-show");
-          }
-          $(".ultimate-search").addClass("expanded");
-          $results.fadeIn();
-        } else {
-          $('.ultimate-search input[type="text"]').val($(this).val());
-          $(".ultimate-search").removeClass("expanded");
-          $results.fadeOut();
-        }
-      }
-    });
-    $("body").click(function (evt) {
-      var target = evt.target;
-      if (
-        target.id !== "ajaxSearchResults" &&
-        target.id !== "inputSearchAuto"
-      ) {
-        $("#ajaxSearchResults").hide();
-      }
-      if (
-        target.id !== "ajaxSearchResults-mb" &&
-        target.id !== "inputSearchAuto-mb"
-      ) {
-        $("#ajaxSearchResults-mb").hide();
-      }
-      if (
-        target.id !== "ajaxSearchResults-3" &&
-        target.id !== "inputSearchAuto-3"
-      ) {
-        $("#ajaxSearchResults-3").hide();
-      }
-    });
-    $("body").on("click", '.ultimate-search input[type="text"]', function () {
-      if ($(this).is(":focus")) {
-        if ($(this).val() != "") {
-          $(".ajaxSearchResults").show();
-        }
-      } else {
-      }
-    });
-    $("body").on("click", ".ultimate-search .search-close", function (e) {
-      e.preventDefault();
-      $(".ajaxSearchResults").hide();
-      $(".ultimate-search").removeClass("expanded");
-      $(".ultimate-search").find("input[name=q]").val("");
-    });
-  },
+  //     if (key.indexOf("script") > -1 || key.indexOf(">") > -1) {
+  //       alert(
+  //         "Từ khóa của bạn có chứa mã độc hại ! Vui lòng nhập lại key word khác"
+  //       );
+  //       $(this).val("");
+  //       $('.ultimate-search input[type="text"]').val("");
+  //     } else {
+  //       if (key.length > 0) {
+  //         $(this).attr("data-history", key);
+  //         $('.ultimate-search input[type="text"]').val($(this).val());
+  //         var q_follow = "product",
+  //           str = "";
+  //         str =
+  //           "/search?q=filter=(title:product contains " +
+  //           key +
+  //           ")||(sku:product contains " +
+  //           key +
+  //           ")&view=ultimate-product";
+  //         $.ajax({
+  //           url: str,
+  //           type: "GET",
+  //           async: true,
+  //           success: function (data) {
+  //             $results.find(".resultsContent").html(data);
+  //           },
+  //         });
+  //         if (!$(".header-action_search").hasClass("js-action-show")) {
+  //           $("body").removeClass("locked-scroll");
+  //           $(".header-action-item").removeClass("js-action-show");
+  //         }
+  //         $(".ultimate-search").addClass("expanded");
+  //         $results.fadeIn();
+  //       } else {
+  //         $('.ultimate-search input[type="text"]').val($(this).val());
+  //         $(".ultimate-search").removeClass("expanded");
+  //         $results.fadeOut();
+  //       }
+  //     }
+  //   });
+  //   $("body").click(function (evt) {
+  //     var target = evt.target;
+  //     if (
+  //       target.id !== "ajaxSearchResults" &&
+  //       target.id !== "inputSearchAuto"
+  //     ) {
+  //       $("#ajaxSearchResults").hide();
+  //     }
+  //     if (
+  //       target.id !== "ajaxSearchResults-mb" &&
+  //       target.id !== "inputSearchAuto-mb"
+  //     ) {
+  //       $("#ajaxSearchResults-mb").hide();
+  //     }
+  //     if (
+  //       target.id !== "ajaxSearchResults-3" &&
+  //       target.id !== "inputSearchAuto-3"
+  //     ) {
+  //       $("#ajaxSearchResults-3").hide();
+  //     }
+  //   });
+  //   $("body").on("click", '.ultimate-search input[type="text"]', function () {
+  //     if ($(this).is(":focus")) {
+  //       if ($(this).val() != "") {
+  //         $(".ajaxSearchResults").show();
+  //       }
+  //     } else {
+  //     }
+  //   });
+  //   $("body").on("click", ".ultimate-search .search-close", function (e) {
+  //     e.preventDefault();
+  //     $(".ajaxSearchResults").hide();
+  //     $(".ultimate-search").removeClass("expanded");
+  //     $(".ultimate-search").find("input[name=q]").val("");
+  //   });
+  // },
   toggleFooter: function () {
     $(".footer-expand-title").on("click", function () {
       jQuery(this)
