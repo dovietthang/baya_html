@@ -17,7 +17,7 @@
   <meta name="keywords" content="{{$config->site_name}}">
 
   <meta name="robots" content="index,follow,noodp">
-
+  @yield('title')
 
   <meta http-equiv="x-dns-prefetch-control" content="on">
   <link rel="dns-prefetch" href="index.html">
@@ -85,13 +85,6 @@
     }
   </style>
 
-  <!-- <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/logo5b01.png?v=944')}}" as="image">
-  <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/topbar_img5b01.jpg?v=944')}}" as="image" media="(min-width: 768px)">
-  <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/topbar_img_mb5b01.jpg?v=944')}}" as="image" media="(max-width: 767px)">
-  <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/slide_1_img5b01.jpg?v=944')}}" as="image" media="(min-width: 768px)">
-  <link rel="preload" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/slide_1_mb5b01.jpg?v=944')}}" as="image" media="(max-width: 767px)"> -->
-
-
   <link rel="preconnect" href="http://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&amp;display=swap" crossorigin>
   <link rel="preload stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&amp;display=swap" as="style">
   <link rel="preload" href="http://theme.hstatic.net/200000796751/1001150659/14/fontawesome-webfont.woff?v=944" as="font" type="font/woff2" crossorigin="anonymous">
@@ -101,30 +94,7 @@
   <link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/style-css.css')}}" as="style">
 
   <link rel="preload stylesheet" href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/style-themes.scss5b01.css?v=944')}}" as="style">
-  <!--+++++++++++++ JS THEME ++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-  <!-- <link href="{{asset('/front_end_asset/hstatic.net/0/0/global/api.jquery.js')}}" rel="preload" as="script" type="text/javascript"> -->
-  <!-- <link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" rel="preload" as="script" type="text/javascript"> -->
-
-  <!-- <link href="{{asset('./front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}" rel="preload" as="script"> -->
   <script type="text/javascript" src="{{asset('./front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery-3.5.1.min5b01.js?v=944')}}"></script>
-  <!-- <script>
-    /* recapcha */
-    setTimeout(function() {
-      ! function(e, t, n) {
-        var a = t.getElementsByTagName(n)[0],
-          c = t.createElement(n);
-        c.async = true, c.src = "../www.google.com/recaptcha/api4d7a.js?render=6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-", a.parentNode.insertBefore(c, a)
-      }(window, document, "script");
-    }, 5000);
-  </script> -->
-  <!-- <script>
-    $(function() {
-      const resultcss = `<link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/render-library.css?v=944')}}" rel="preload stylesheet" as="style" type="text/css">`;
-      $('head').append(resultcss);
-    });
-  </script> -->
-
-  <!-- <link href="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/app-buyxgety5b01.js?v=944')}}" rel="preload" as="script" type="text/javascript"> -->
 
   <script>
     var formatMoney = "1₫";
@@ -153,84 +123,6 @@
     prodItem_mobile = 2;
   </script>
 
-  <!-- <script>
-    var cartAttributes = {};
-
-    var store = [
-
-      {
-        "name": "Baya Mỹ Đình",
-        "province": "Hà Nội",
-        "district": "Quận Nam Từ Liêm"
-      },
-      {
-        "name": "Kho ODN - TPHCM",
-        "province": "Hồ Chí Minh",
-        "district": "Quận 7"
-      },
-      {
-        "name": "Baya Sala",
-        "province": "Hồ Chí Minh",
-        "district": "Thành phố Thủ Đức"
-      },
-      {
-        "name": "Kho URC - Hà Nội",
-        "province": "Hà Nội",
-        "district": "Quận Bắc Từ Liêm"
-      }
-    ];
-
-    store = store.sort((a, b) => a.district < b.district ? -1 : 1);
-
-    var newStore = {};
-    store.map(x => {
-      if (!newStore.hasOwnProperty(x.province)) {
-        newStore[x.province] = {};
-        if (!newStore[x.province].hasOwnProperty(x.district)) {
-          newStore[x.province][x.district] = [];
-          newStore[x.province][x.district].push(x);
-        }
-      } else {
-        if (!newStore[x.province].hasOwnProperty(x.district)) {
-          newStore[x.province][x.district] = [];
-          newStore[x.province][x.district].push(x);
-        } else {
-          newStore[x.province][x.district].push(x);
-        }
-      }
-    });
-
-    /* Get param nếu có */
-    function parseQueryString(url) {
-      var str = url != undefined ? '?' + url.split('?')[1] : window.location.search;
-      var objURL = {};
-      var count = 0;
-      if (str.indexOf("utm") > -1) {
-        count = 1;
-      }
-      str.replace(
-        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-        function($0, $1, $2, $3) {
-          objURL[$1] = decodeURIComponent($3);
-        }
-      );
-      return objURL;
-    };
-    var paramUrl = parseQueryString();
-  </script> -->
-
-  <!-- <script>
-    var prmt_icon = {
-      "frame": {
-        "tag": "Phụ kiện nhà bếp,null,null,null,null",
-        "icon": "https://file.hstatic.net/200000796751/file/kv_pknhabep_web-label_480x68_8dca280d06ec48dc982d1ea82e9069fd.jpg,null,null,null,null"
-      }
-    };
-    prmt_icon.frame.tag = prmt_icon.frame.tag.split(',');
-    prmt_icon.frame.icon = prmt_icon.frame.icon.split(',');
-  </script> -->
-
-
 
   <meta property="og:type" content="website" />
   <meta property="og:title" name="description" content="{{$config->site_name}}" />
@@ -241,157 +133,17 @@
   <meta property="og:site_name" content="{{$config->site_title_filling}}" />
 
 
-
-
-
-
   <!-- SEO META DESCRIPTION -->
   <meta name="description" content="{{$config->site_title_content}}" />
   <!-- END SEO META DESCRIPTION -->
 
-  <!-- SEO PAGI -->
-
-  <!-- END SEO PAGI -->
-
-
-
-
-
-
-  <!-- <script type='text/javascript'>
-    //<![CDATA[
-    if ((typeof Haravan) === 'undefined') {
-      Haravan = {};
-    }
-    Haravan.culture = 'vi-VN';
-    Haravan.shop = 'baya.myharavan.com';
-    Haravan.theme = {
-      "name": "Baya 10.2023 (Eatini_v1.0001)",
-      "id": 1001150659,
-      "role": "main"
-    };
-    Haravan.domain = 'baya.vn';
-    //]]>
-  </script> -->
-  <!-- <script defer src="{{asset('/front_end_asset/stats.hstatic.net/beacon.min.js')}}" hrv-beacon-t='200000796751'></script> -->
-  <!-- <style>
-    .grecaptcha-badge {
-      visibility: hidden;
-    }
-  </style> -->
-  <!-- <script type='text/javascript'>
-    window.HaravanAnalytics = window.HaravanAnalytics || {};
-    window.HaravanAnalytics.meta = window.HaravanAnalytics.meta || {};
-    window.HaravanAnalytics.meta.currency = 'VND';
-    var meta = {
-      "page": {
-        "pageType": "home"
-      }
-    };
-    for (var attr in meta) {
-      window.HaravanAnalytics.meta[attr] = meta[attr];
-    }
-    window.HaravanAnalytics.AutoTrack = true;
-  </script> -->
-  <!-- <script async src='https://www.googletagmanager.com/gtag/js?id=G-Z5G7Y00FXM'></script> -->
-  <!-- <script>
-    window.HaravanAnalytics.ga4 = "G-Z5G7Y00FXM";
-    window.HaravanAnalytics.enhancedEcommercev4 = true;
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'G-Z5G7Y00FXM');
-  </script>
-  <script>
-    window.HaravanAnalytics.fb = "1072705667470350";
-    //<![CDATA[
-    ! function(f, b, e, v, n, t, s) {
-      if (f.fbq) return;
-      n = f.fbq = function() {
-        n.callMethod ?
-          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-      };
-      if (!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = !0;
-      n.version = '2.0';
-      n.queue = [];
-      t = b.createElement(e);
-      t.async = !0;
-      t.src = v;
-      s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s)
-    }(window,
-      document, 'script', '{{asset("/front_end_asset/connect.facebook.net/en_US/fbevents.js")}}');
-    // Insert Your Facebook Pixel ID below. 
-    fbq('init', window.HaravanAnalytics.fb, {}, {
-      'agent': 'plharavan'
-    });
-    fbq('track', 'PageView');
-    //]]>
-  </script> -->
-  <!-- <noscript><img height='1' width='1' style='display:none' src='https://www.facebook.com/tr?id=1072705667470350&amp;ev=PageView&amp;noscript=1' /></noscript> -->
-  <!-- <script type="application/ld+json" defer>
-    {
-      "@context": "http://schema.org",
-      "@type": "WebSite",
-      "name": "baya.vn",
-      "url": "https://baya.vn",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://baya.vn/search?&q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-  </script> -->
-  <!-- Google Tag Manager -->
-  <!-- <script>
-    (function(w, d, s, l, i) {
-      w[l] = w[l] || [];
-      w[l].push({
-        'gtm.start': new Date().getTime(),
-        event: 'gtm.js'
-      });
-      var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s),
-        dl = l != 'dataLayer' ? '&l=' + l : '';
-      j.async = true;
-      j.src =
-        '../www.googletagmanager.com/gtm5445.html?id=' + i + dl;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-NZD72JPJ');
-  </script> -->
-  <!-- End Google Tag Manager -->
-  <!--datalayer -->
-  <script>
-
-
-  </script>
-  <!-- Google tag (gtag.js) -->
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11285911050"></script> -->
-  <!-- <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'AW-11285911050');
-  </script> -->
   <link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/lightslider.css')}}" as="style">
-  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
   <script type="text/javascript" src="{{asset('/front_end_asset/style/js/lightslider.js')}}"></script>
 </head>
 
 
 <body class="mainBody-theme  template-index">
-  <!-- Google Tag Manager (noscript) -->
-  <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZD72JPJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
-  <!-- End Google Tag Manager (noscript) -->
+
   <div class="mainBody-theme-container mainBody-modalshow     layoutProduct_scroll ">
     @if($idx_pos9)
     <div class="topbar-banner text-center">
@@ -413,22 +165,6 @@
       @include('layout-home.includes.header')
 
     </div>
-    <!--Clarity-->
-    <!-- <script type="text/javascript">
-      (function(c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function() {
-            (c[a].q = c[a].q || []).push(arguments);
-          };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = "https://www.clarity.ms/tag/" + i;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, "clarity", "script", "k8ossms4ac");
-    </script> -->
-    <!--End Clarity-->
 
     <!-- content -->
     <main class="wrapperMain_content">
@@ -640,14 +376,6 @@
       </div>
     </div>
   </div>
-  
-  <!-- <div id="quick-view-modal" class="modal fade modal-product-quickview">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content wrapper-quickview">
-      </div>
-    </div>
-  </div> -->
-  <!-- <div class="quickviewOverlay"></div> -->
 
   <div class="modal fade modal-productApp" id="alert_km_qv" tabindex="-1" role="dialog" aria-labelledby="alert_km" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

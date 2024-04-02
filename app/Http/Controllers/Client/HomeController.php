@@ -1481,6 +1481,8 @@ class HomeController extends Controller
     }
     function checkoutSave(Request $rq)
     {
+        var_dump($rq);
+        return;
         $message = null;
         $discount = null;
         $countPonSpin = null;
