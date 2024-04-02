@@ -236,56 +236,56 @@ jQuery(document).ready(function () {
     str_url += encodeURIComponent(q) + ")";
     str = str_url;
 
-    jQuery.ajax({
-      // lấy tổng số trang của kết quả filter
-      url: "/search?q=" + str_url + "&view=pagesize",
-      async: false,
-      success: function (data) {
-        data = JSON.parse(data);
-        total_page = parseInt(data.pages);
-        total_product = parseInt(data.products);
-      },
-    });
+    // jQuery.ajax({
+    //   // lấy tổng số trang của kết quả filter
+    //   url: "/search?q=" + str_url + "&view=pagesize",
+    //   async: false,
+    //   success: function (data) {
+    //     data = JSON.parse(data);
+    //     total_page = parseInt(data.pages);
+    //     total_product = parseInt(data.products);
+    //   },
+    // });
     if (cur_page <= total_page) {
-      jQuery.ajax({
-        url: "/search?q=" + str_url + "&view=filter" + sortBy,
-        success: function (data) {
-          setTimeout(function () {
-            $(".product-noloop").remove();
-            $(".listProduct-filter").html("");
-            $(".listProduct-filter").html(data);
-            $(".title-count b").html(total_product);
-            if (productReviewsApp && productReviewsProloop) {
-              ProductReviews.init();
-            }
-            if (promotionApp) {
-              if (promotionApp_name == "app_combo") {
-                comboApp.showGiftLabel();
-              } else {
-                buyXgetY.showGiftLabel();
-              }
-            }
-            if ($(window).width() > 1200) {
-              $('[data-toggle="popover"]').popover({
-                container: "body",
-              });
-            }
-            if (total_page > 1) {
-              $(".wraplist-collection .collection-loadmore")
-                .addClass("loadmore-filter")
-                .show();
-              $(".wraplist-collection .collection-loadmore a").attr(
-                "data-page",
-                cur_page + 1
-              );
-            } else {
-              $(".wraplist-collection .listProduct-filter")
-                .siblings(":not(h3)")
-                .hide();
-            }
-          }, 300);
-        },
-      });
+      // jQuery.ajax({
+      //   url: "/search?q=" + str_url + "&view=filter" + sortBy,
+      //   success: function (data) {
+      //     setTimeout(function () {
+      //       $(".product-noloop").remove();
+      //       $(".listProduct-filter").html("");
+      //       $(".listProduct-filter").html(data);
+      //       $(".title-count b").html(total_product);
+      //       if (productReviewsApp && productReviewsProloop) {
+      //         ProductReviews.init();
+      //       }
+      //       if (promotionApp) {
+      //         if (promotionApp_name == "app_combo") {
+      //           comboApp.showGiftLabel();
+      //         } else {
+      //           buyXgetY.showGiftLabel();
+      //         }
+      //       }
+      //       if ($(window).width() > 1200) {
+      //         $('[data-toggle="popover"]').popover({
+      //           container: "body",
+      //         });
+      //       }
+      //       if (total_page > 1) {
+      //         $(".wraplist-collection .collection-loadmore")
+      //           .addClass("loadmore-filter")
+      //           .show();
+      //         $(".wraplist-collection .collection-loadmore a").attr(
+      //           "data-page",
+      //           cur_page + 1
+      //         );
+      //       } else {
+      //         $(".wraplist-collection .listProduct-filter")
+      //           .siblings(":not(h3)")
+      //           .hide();
+      //       }
+      //     }, 300);
+      //   },
+      // });
     } else {
       jQuery(".listProduct-filter").html("");
       jQuery(".listProduct-filter").append(
@@ -386,152 +386,152 @@ jQuery(document).ready(function () {
     HRT.All.smoothScroll(x, 500);
   };
   // nut xem them 
-  $(document).on(
-    "click",
-    "#collection-body .collection-loadmore .btn-loadmore:not(.btn-loading)",
-    function (e) {
-      e.preventDefault();
-      $(this).addClass("btn-loading");
-      var btn = $(this);
-      var view = "?view=data",
-        pageView = "?view=pagesize";
-      var link = parseInt($(this).attr("data-page"));
-      var collectionHd = "/collections/sofa-ghe-thu-gian";
-      var urlQuery = collectionHd + view;
-      var pathName = window.location.pathname;
+  // $(document).on(
+  //   "click",
+  //   "#collection-body .collection-loadmore .btn-loadmore:not(.btn-loading)",
+  //   function (e) {
+  //     e.preventDefault();
+  //     $(this).addClass("btn-loading");
+  //     var btn = $(this);
+  //     var view = "?view=data",
+  //       pageView = "?view=pagesize";
+  //     var link = parseInt($(this).attr("data-page"));
+  //     var collectionHd = "/collections/sofa-ghe-thu-gian";
+  //     var urlQuery = collectionHd + view;
+  //     var pathName = window.location.pathname;
 
-      if (pathName.indexOf("vendors") > -1 || pathName.indexOf("types") > -1) {
-        collectionHd = pathName + "?q=" + paramUrl.q;
-        urlQuery = pathName + "?q=" + paramUrl.q + view.replace("?", "&");
-      }
+  //     if (pathName.indexOf("vendors") > -1 || pathName.indexOf("types") > -1) {
+  //       collectionHd = pathName + "?q=" + paramUrl.q;
+  //       urlQuery = pathName + "?q=" + paramUrl.q + view.replace("?", "&");
+  //     }
 
-      if ($(".sort-by").length > 0) {
-        if ($(".sort-by li.active").length > 0) {
-          if ($(".sort-by li.active").find("span").data("value") == "manual") {
-            sortBy = "";
-          } else {
-            if (hasChangeSort || $(".checkbox-list li.active").length > 0) {
-              sortBy =
-                "&sortby=" +
-                $(".sort-by li.active").find("span").data("filter");
-            } else {
-              sortBy =
-                "&sort_by=" +
-                $(".sort-by li.active").find("span").data("value");
-            }
-          }
-        } else {
-          sortBy = "";
-        }
-        sortByPicked = sortBy;
-      }
+  //     if ($(".sort-by").length > 0) {
+  //       if ($(".sort-by li.active").length > 0) {
+  //         if ($(".sort-by li.active").find("span").data("value") == "manual") {
+  //           sortBy = "";
+  //         } else {
+  //           if (hasChangeSort || $(".checkbox-list li.active").length > 0) {
+  //             sortBy =
+  //               "&sortby=" +
+  //               $(".sort-by li.active").find("span").data("filter");
+  //           } else {
+  //             sortBy =
+  //               "&sort_by=" +
+  //               $(".sort-by li.active").find("span").data("value");
+  //           }
+  //         }
+  //       } else {
+  //         sortBy = "";
+  //       }
+  //       sortByPicked = sortBy;
+  //     }
 
-      if (
-        (activeFilter &&
-          $(".checkbox-list li.active").length == 0 &&
-          hasChangeSort == false) ||
-        (!activeFilter && activeSort && hasChangeSort == false)
-      ) {
-        $.ajax({
-          url:
-            collectionHd +
-            (collectionHd.indexOf("?") > -1
-              ? pageView.replace("?", "&")
-              : pageView),
-          type: "GET",
-          async: false,
-          success: function (data) {
-            data = JSON.parse(data);
-            total_page = parseInt(data.pages);
-          },
-        });
+  //     if (
+  //       (activeFilter &&
+  //         $(".checkbox-list li.active").length == 0 &&
+  //         hasChangeSort == false) ||
+  //       (!activeFilter && activeSort && hasChangeSort == false)
+  //     ) {
+  //       $.ajax({
+  //         url:
+  //           collectionHd +
+  //           (collectionHd.indexOf("?") > -1
+  //             ? pageView.replace("?", "&")
+  //             : pageView),
+  //         type: "GET",
+  //         async: false,
+  //         success: function (data) {
+  //           data = JSON.parse(data);
+  //           total_page = parseInt(data.pages);
+  //         },
+  //       });
 
-        $.ajax({
-          url: urlQuery + "&page=" + link + sortByPicked,
-          type: "GET",
-          async: false,
-          success: function (data) {
-            setTimeout(function () {
-              $(".wraplist-collection .listProduct-filter")
-                .append(data)
-                .addClass("loaded");
-              $(".collection-loadmore")
-                .find(".btn-loadmore")
-                .removeClass("btn-loading");
-              if (productReviewsApp && productReviewsProloop) {
-                ProductReviews.init();
-              }
-              if (promotionApp) {
-                if (promotionApp_name == "app_combo") {
-                  comboApp.showGiftLabel();
-                } else {
-                  buyXgetY.showGiftLabel();
-                }
-              }
-              if ($(window).width() > 1200) {
-                $('[data-toggle="popover"]').popover({
-                  container: "body",
-                });
-              }
+  //       $.ajax({
+  //         url: urlQuery + "&page=" + link + sortByPicked,
+  //         type: "GET",
+  //         async: false,
+  //         success: function (data) {
+  //           setTimeout(function () {
+  //             $(".wraplist-collection .listProduct-filter")
+  //               .append(data)
+  //               .addClass("loaded");
+  //             $(".collection-loadmore")
+  //               .find(".btn-loadmore")
+  //               .removeClass("btn-loading");
+  //             if (productReviewsApp && productReviewsProloop) {
+  //               ProductReviews.init();
+  //             }
+  //             if (promotionApp) {
+  //               if (promotionApp_name == "app_combo") {
+  //                 comboApp.showGiftLabel();
+  //               } else {
+  //                 buyXgetY.showGiftLabel();
+  //               }
+  //             }
+  //             if ($(window).width() > 1200) {
+  //               $('[data-toggle="popover"]').popover({
+  //                 container: "body",
+  //               });
+  //             }
 
-              if (link == 1) {
-                $(".wraplist-collection .listProduct-filter").html("");
-              }
-              if (link >= total_page) {
-                $(".wraplist-collection .listProduct-filter")
-                  .siblings(":not(h3)")
-                  .hide();
-              }
-            }, 400);
-          },
-        });
-        $(this).attr("data-page", link + 1);
-      } else {
-        jQuery.ajax({
-          url:
-            "/search?q=" +
-            str +
-            "&view=filter" +
-            sortByPicked +
-            "&page=" +
-            link,
-          success: function (data) {
-            jQuery(".product-noloop").remove();
-            setTimeout(function () {
-              $(".wraplist-collection .listProduct-filter")
-                .append(data)
-                .addClass("loaded");
-              $(".collection-loadmore")
-                .find(".btn-loadmore")
-                .removeClass("btn-loading");
-              if (productReviewsApp && productReviewsProloop) {
-                ProductReviews.init();
-              }
-              if (promotionApp) {
-                if (promotionApp_name == "app_combo") {
-                  comboApp.showGiftLabel();
-                } else {
-                  buyXgetY.showGiftLabel();
-                }
-              }
-              if (link >= total_page && total_page > 1) {
-                $(".wraplist-collection .listProduct-filter")
-                  .siblings(":not(h3)")
-                  .hide();
-              } else {
-                btn.attr("data-page", link + 1);
-              }
-              if ($(window).width() > 1200) {
-                $('[data-toggle="popover"]').popover({
-                  container: "body",
-                });
-              }
-            }, 400);
-          },
-        });
-      }
-    }
-  );
+  //             if (link == 1) {
+  //               $(".wraplist-collection .listProduct-filter").html("");
+  //             }
+  //             if (link >= total_page) {
+  //               $(".wraplist-collection .listProduct-filter")
+  //                 .siblings(":not(h3)")
+  //                 .hide();
+  //             }
+  //           }, 400);
+  //         },
+  //       });
+  //       $(this).attr("data-page", link + 1);
+  //     } else {
+  //       jQuery.ajax({
+  //         url:
+  //           "/search?q=" +
+  //           str +
+  //           "&view=filter" +
+  //           sortByPicked +
+  //           "&page=" +
+  //           link,
+  //         success: function (data) {
+  //           jQuery(".product-noloop").remove();
+  //           setTimeout(function () {
+  //             $(".wraplist-collection .listProduct-filter")
+  //               .append(data)
+  //               .addClass("loaded");
+  //             $(".collection-loadmore")
+  //               .find(".btn-loadmore")
+  //               .removeClass("btn-loading");
+  //             if (productReviewsApp && productReviewsProloop) {
+  //               ProductReviews.init();
+  //             }
+  //             if (promotionApp) {
+  //               if (promotionApp_name == "app_combo") {
+  //                 comboApp.showGiftLabel();
+  //               } else {
+  //                 buyXgetY.showGiftLabel();
+  //               }
+  //             }
+  //             if (link >= total_page && total_page > 1) {
+  //               $(".wraplist-collection .listProduct-filter")
+  //                 .siblings(":not(h3)")
+  //                 .hide();
+  //             } else {
+  //               btn.attr("data-page", link + 1);
+  //             }
+  //             if ($(window).width() > 1200) {
+  //               $('[data-toggle="popover"]').popover({
+  //                 container: "body",
+  //               });
+  //             }
+  //           }, 400);
+  //         },
+  //       });
+  //     }
+  //   }
+  // );
 
   // nut filter banr moba
   $(document).on("click", ".heading-box .title-filter", function (e) {

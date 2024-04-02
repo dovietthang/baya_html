@@ -1531,7 +1531,7 @@ HRT.Main = {
     that.topbarSlideText();
     that.topbarHidden();
     that.scrollFixedHeader();
-    that.searchAutoHeader();
+    // that.searchAutoHeader();
     that.toggleFooter();
     //that.fixHeightProductResize();
     that.addThisIconShare();
@@ -1642,112 +1642,112 @@ HRT.Main = {
       });
     }, 300);
   },
-  searchAutoHeader: function () {
-    $(".ultimate-search").submit(function (e) {
-      e.preventDefault();
-      var q = $(this).find("input[name=q]").val();
-      if (q.indexOf("script") > -1 || q.indexOf(">") > -1) {
-        alert(
-          "Từ khóa của bạn có chứa mã độc hại ! Vui lòng nhập lại key word khác"
-        );
-        $(this).find("input[name=q]").val("");
-      } else {
-        var q_follow = "product";
-        var query = encodeURIComponent(
-          "(title:product contains " + q + ")||(sku:product contains " + q + ")"
-        );
-        if (!q) {
-          window.location = "/search?type=" + q_follow + "&q=*";
-          return;
-        } else {
-          window.location = "/search?type=" + q_follow + "&q=filter=" + query;
-          return;
-        }
-      }
-    });
-    var $input = $('.ultimate-search input[type="text"]');
-    $input.bind("keyup change paste propertychange", function () {
-      var key = $(this).val(),
-        $parent = $(this).parents(".wpo-wrapper-search"),
-        $results = $(this)
-          .parents(".wpo-wrapper-search")
-          .find(".smart-search-wrapper");
+  // searchAutoHeader: function () {
+  //   $(".ultimate-search").submit(function (e) {
+  //     e.preventDefault();
+  //     var q = $(this).find("input[name=q]").val();
+  //     if (q.indexOf("script") > -1 || q.indexOf(">") > -1) {
+  //       alert(
+  //         "Từ khóa của bạn có chứa mã độc hại ! Vui lòng nhập lại key word khác"
+  //       );
+  //       $(this).find("input[name=q]").val("");
+  //     } else {
+  //       var q_follow = "product";
+  //       var query = encodeURIComponent(
+  //         "(title:product contains " + q + ")||(sku:product contains " + q + ")"
+  //       );
+  //       if (!q) {
+  //         window.location = "/search?type=" + q_follow + "&q=*";
+  //         return;
+  //       } else {
+  //         window.location = "/search?type=" + q_follow + "&q=filter=" + query;
+  //         return;
+  //       }
+  //     }
+  //   });
+  //   var $input = $('.ultimate-search input[type="text"]');
+  //   $input.bind("keyup change paste propertychange", function () {
+  //     var key = $(this).val(),
+  //       $parent = $(this).parents(".wpo-wrapper-search"),
+  //       $results = $(this)
+  //         .parents(".wpo-wrapper-search")
+  //         .find(".smart-search-wrapper");
 
-      if (key.indexOf("script") > -1 || key.indexOf(">") > -1) {
-        alert(
-          "Từ khóa của bạn có chứa mã độc hại ! Vui lòng nhập lại key word khác"
-        );
-        $(this).val("");
-        $('.ultimate-search input[type="text"]').val("");
-      } else {
-        if (key.length > 0) {
-          $(this).attr("data-history", key);
-          $('.ultimate-search input[type="text"]').val($(this).val());
-          var q_follow = "product",
-            str = "";
-          str =
-            "/search?q=filter=(title:product contains " +
-            key +
-            ")||(sku:product contains " +
-            key +
-            ")&view=ultimate-product";
-          $.ajax({
-            url: str,
-            type: "GET",
-            async: true,
-            success: function (data) {
-              $results.find(".resultsContent").html(data);
-            },
-          });
-          if (!$(".header-action_search").hasClass("js-action-show")) {
-            $("body").removeClass("locked-scroll");
-            $(".header-action-item").removeClass("js-action-show");
-          }
-          $(".ultimate-search").addClass("expanded");
-          $results.fadeIn();
-        } else {
-          $('.ultimate-search input[type="text"]').val($(this).val());
-          $(".ultimate-search").removeClass("expanded");
-          $results.fadeOut();
-        }
-      }
-    });
-    $("body").click(function (evt) {
-      var target = evt.target;
-      if (
-        target.id !== "ajaxSearchResults" &&
-        target.id !== "inputSearchAuto"
-      ) {
-        $("#ajaxSearchResults").hide();
-      }
-      if (
-        target.id !== "ajaxSearchResults-mb" &&
-        target.id !== "inputSearchAuto-mb"
-      ) {
-        $("#ajaxSearchResults-mb").hide();
-      }
-      if (
-        target.id !== "ajaxSearchResults-3" &&
-        target.id !== "inputSearchAuto-3"
-      ) {
-        $("#ajaxSearchResults-3").hide();
-      }
-    });
-    $("body").on("click", '.ultimate-search input[type="text"]', function () {
-      if ($(this).is(":focus")) {
-        if ($(this).val() != "") {
-          $(".ajaxSearchResults").show();
-        }
-      } else {
-      }
-    });
-    $("body").on("click", ".ultimate-search .search-close", function (e) {
-      e.preventDefault();
-      $(".ajaxSearchResults").hide();
-      $(".ultimate-search").removeClass("expanded");
-      $(".ultimate-search").find("input[name=q]").val("");
-    });
-  },
+  //     if (key.indexOf("script") > -1 || key.indexOf(">") > -1) {
+  //       alert(
+  //         "Từ khóa của bạn có chứa mã độc hại ! Vui lòng nhập lại key word khác"
+  //       );
+  //       $(this).val("");
+  //       $('.ultimate-search input[type="text"]').val("");
+  //     } else {
+  //       if (key.length > 0) {
+  //         $(this).attr("data-history", key);
+  //         $('.ultimate-search input[type="text"]').val($(this).val());
+  //         var q_follow = "product",
+  //           str = "";
+  //         str =
+  //           "/search?q=filter=(title:product contains " +
+  //           key +
+  //           ")||(sku:product contains " +
+  //           key +
+  //           ")&view=ultimate-product";
+  //         $.ajax({
+  //           url: str,
+  //           type: "GET",
+  //           async: true,
+  //           success: function (data) {
+  //             $results.find(".resultsContent").html(data);
+  //           },
+  //         });
+  //         if (!$(".header-action_search").hasClass("js-action-show")) {
+  //           $("body").removeClass("locked-scroll");
+  //           $(".header-action-item").removeClass("js-action-show");
+  //         }
+  //         $(".ultimate-search").addClass("expanded");
+  //         $results.fadeIn();
+  //       } else {
+  //         $('.ultimate-search input[type="text"]').val($(this).val());
+  //         $(".ultimate-search").removeClass("expanded");
+  //         $results.fadeOut();
+  //       }
+  //     }
+  //   });
+  //   $("body").click(function (evt) {
+  //     var target = evt.target;
+  //     if (
+  //       target.id !== "ajaxSearchResults" &&
+  //       target.id !== "inputSearchAuto"
+  //     ) {
+  //       $("#ajaxSearchResults").hide();
+  //     }
+  //     if (
+  //       target.id !== "ajaxSearchResults-mb" &&
+  //       target.id !== "inputSearchAuto-mb"
+  //     ) {
+  //       $("#ajaxSearchResults-mb").hide();
+  //     }
+  //     if (
+  //       target.id !== "ajaxSearchResults-3" &&
+  //       target.id !== "inputSearchAuto-3"
+  //     ) {
+  //       $("#ajaxSearchResults-3").hide();
+  //     }
+  //   });
+  //   $("body").on("click", '.ultimate-search input[type="text"]', function () {
+  //     if ($(this).is(":focus")) {
+  //       if ($(this).val() != "") {
+  //         $(".ajaxSearchResults").show();
+  //       }
+  //     } else {
+  //     }
+  //   });
+  //   $("body").on("click", ".ultimate-search .search-close", function (e) {
+  //     e.preventDefault();
+  //     $(".ajaxSearchResults").hide();
+  //     $(".ultimate-search").removeClass("expanded");
+  //     $(".ultimate-search").find("input[name=q]").val("");
+  //   });
+  // },
   toggleFooter: function () {
     $(".footer-expand-title").on("click", function () {
       jQuery(this)
@@ -3193,7 +3193,7 @@ HRT.Product = {
     that.backtoHistory();
     that.toggleDescProduct(".product-description--accordion");
     that.toggleShareProduct();
-    that.renderCombo(currentId);
+    // that.renderCombo(currentId);
     that.sliderProductRelated("#owlProduct-related");
     //that.tooltipShare();
   },
@@ -3293,101 +3293,101 @@ HRT.Product = {
       });
     }
   },
-  renderCombo: function (currentId, view) {
-    var aIdCombo = [],
-      aIdSearch = [];
-    htmlQvApp = htmlCombo = "";
-    dataItemsCombo = [];
+  // renderCombo: function (currentId, view) {
+  //   var aIdCombo = [],
+  //     aIdSearch = [];
+  //   htmlQvApp = htmlCombo = "";
+  //   dataItemsCombo = [];
 
-    var comboDOM =
-      view != undefined
-        ? "#quick-view-modal .combo-info"
-        : "#detail-product .combo-info";
-    var parentDOM =
-      view != undefined ? "#quick-view-modal" : "#detail-product .combo-info";
-    $.get(
-      "https://combo-omni.haravan.com/js/list_recommendeds?product_id=" +
-        currentId
-    ).done(function (data) {
-      if (data.length > 0) {
-        $.each(data, function (i, v) {
-          var temp = [];
-          var temp2 = {};
-          $.each(v.recommendeds, function (j, k) {
-            temp.push(k.product_id);
-            aIdSearch.push(k.product_id);
-            temp2[k.product_id] = k;
-          });
-          aIdCombo.push(temp);
-          dataItemsCombo.push(temp2);
-        });
+  //   var comboDOM =
+  //     view != undefined
+  //       ? "#quick-view-modal .combo-info"
+  //       : "#detail-product .combo-info";
+  //   var parentDOM =
+  //     view != undefined ? "#quick-view-modal" : "#detail-product .combo-info";
+  //   $.get(
+  //     "https://combo-omni.haravan.com/js/list_recommendeds?product_id=" +
+  //       currentId
+  //   ).done(function (data) {
+  //     if (data.length > 0) {
+  //       $.each(data, function (i, v) {
+  //         var temp = [];
+  //         var temp2 = {};
+  //         $.each(v.recommendeds, function (j, k) {
+  //           temp.push(k.product_id);
+  //           aIdSearch.push(k.product_id);
+  //           temp2[k.product_id] = k;
+  //         });
+  //         aIdCombo.push(temp);
+  //         dataItemsCombo.push(temp2);
+  //       });
 
-        aIdSearch = uniques(aIdSearch);
-        var str =
-          "/search?q=filter=((id:product=" +
-          aIdSearch.join(")||(id:product=") +
-          "))";
-        $.get(str + "&view=datacombo").done(function (result) {
-          result = JSON.parse(result);
-          $.each(aIdCombo, function (i, v) {
-            var allAvailable = true;
-            /* Kiểm tra có item nào trong combo ko valid thì không hiển thị */
-            /* Hoặc có item nào bị ẩn thì ko hiển thị */
-            $.each(v, function (j, k) {
-              if (result[k]) {
-                if (dataItemsCombo[i][k].is_apply_by_variant) {
-                  var apply_length =
-                    dataItemsCombo[i][k].apply_productvariants.length;
-                  $.each(
-                    dataItemsCombo[i][k].apply_productvariants,
-                    function (l, m) {
-                      if (!result[k].variants[m.id].available) {
-                        allAvailable = false;
-                        if (apply_length == 1) return false;
-                        else m = null;
-                      }
-                    }
-                  );
-                } else {
-                  if (!result[k].available) {
-                    allAvailable = false;
-                    return false;
-                  }
-                }
-              } else {
-                allAvailable = false;
-                return false;
-              }
-            });
-            /* End Kiểm tra */
+  //       aIdSearch = uniques(aIdSearch);
+  //       var str =
+  //         "/search?q=filter=((id:product=" +
+  //         aIdSearch.join(")||(id:product=") +
+  //         "))";
+  //       $.get(str + "&view=datacombo").done(function (result) {
+  //         result = JSON.parse(result);
+  //         $.each(aIdCombo, function (i, v) {
+  //           var allAvailable = true;
+  //           /* Kiểm tra có item nào trong combo ko valid thì không hiển thị */
+  //           /* Hoặc có item nào bị ẩn thì ko hiển thị */
+  //           $.each(v, function (j, k) {
+  //             if (result[k]) {
+  //               if (dataItemsCombo[i][k].is_apply_by_variant) {
+  //                 var apply_length =
+  //                   dataItemsCombo[i][k].apply_productvariants.length;
+  //                 $.each(
+  //                   dataItemsCombo[i][k].apply_productvariants,
+  //                   function (l, m) {
+  //                     if (!result[k].variants[m.id].available) {
+  //                       allAvailable = false;
+  //                       if (apply_length == 1) return false;
+  //                       else m = null;
+  //                     }
+  //                   }
+  //                 );
+  //               } else {
+  //                 if (!result[k].available) {
+  //                   allAvailable = false;
+  //                   return false;
+  //                 }
+  //               }
+  //             } else {
+  //               allAvailable = false;
+  //               return false;
+  //             }
+  //           });
+  //           /* End Kiểm tra */
 
-            /* Nếu kiểm tra các item trong combo đều còn hàng thì render */
-            if (allAvailable) {
-              htmlCombo += '<div class="combo-info--content">';
-              //var htmlImg = render_img(result,v);
-              //var htmlDetail = render_detail(result,i,v,currentId);
-              var htmlDetail = render_items(result, i, v, currentId);
-              //htmlCombo += htmlImg;
-              htmlCombo += htmlDetail;
-              htmlCombo += "</div>";
-            }
-          });
+  //           /* Nếu kiểm tra các item trong combo đều còn hàng thì render */
+  //           if (allAvailable) {
+  //             htmlCombo += '<div class="combo-info--content">';
+  //             //var htmlImg = render_img(result,v);
+  //             //var htmlDetail = render_detail(result,i,v,currentId);
+  //             var htmlDetail = render_items(result, i, v, currentId);
+  //             //htmlCombo += htmlImg;
+  //             htmlCombo += htmlDetail;
+  //             htmlCombo += "</div>";
+  //           }
+  //         });
 
-          if (htmlCombo != "") {
-            $(comboDOM).append(htmlCombo).removeClass("d-none");
-            if (view != undefined) {
-              htmlQvApp = htmlCombo;
-            }
-          }
-        });
-      } else {
-        if (view == "quickview") {
-          //return htmlCombo || '';
-          return htmlCombo;
-        }
-      }
-    });
-  },
+  //         if (htmlCombo != "") {
+  //           $(comboDOM).append(htmlCombo).removeClass("d-none");
+  //           if (view != undefined) {
+  //             htmlQvApp = htmlCombo;
+  //           }
+  //         }
+  //       });
+  //     } else {
+  //       if (view == "quickview") {
+  //         //return htmlCombo || '';
+  //         return htmlCombo;
+  //       }
+  //     }
+  //   });
+  // },
   tooltipShare: function () {
     if ($(window).width() > 1200) {
       $(

@@ -24,13 +24,13 @@
                                 <a href="{{route('account.pass')}}" class="action change-password btn btn-secondary">Đổi mật khẩu</a>
                             </div>
                         </div>
-                        <div class="col-12 wrap_orderAccount" id="customer_orders">
+                        <!-- <div class="col-12 wrap_orderAccount" id="customer_orders">
                             <div class="customer-table-wrap">
                                 <div class="customer_order customer-table-bg">
                                     <p>Bạn chưa đặt mua sản phẩm.</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

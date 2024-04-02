@@ -1,12 +1,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="flexbox">
 
 <head>
-    <link rel="shortcut icon" href="//theme.hstatic.net/200000796751/1001150659/14/favicon.png?v=1317" type="image/png">
-    <title>
-        Baya - Thanh toán đơn hàng
-    </title>
+    <link rel="shortcut icon" href="{{$config->site_logo}}" type="{{$config->site_name}}" />
+    <title>{{$config->site_title_content}}</title>
 
-    <meta name="description" content="Baya - Thanh toán đơn hàng">
+
+    <meta name="description" content="{{$config->site_title_content}}">
 
     <link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/checkout.css')}}" as="style">
     <script type="text/javascript" src="{{asset('/front_end_asset/style/js/jquery.min.js')}}"></script>
@@ -42,6 +41,23 @@
 
         .hrv-discount-choose-coupons span.price {
             color: red;
+        }
+
+        form#form_update_shipping_method label.error {
+            color: #ff0000a8;
+            font-size: 13px;
+        }
+
+        .message.message-success.success {
+            color: #008000ba;
+            padding: 5px 0;
+            font-size: 13px;
+        }
+
+        .message.message-error.error {
+            color: #ff0000ad;
+            padding: 5px 0;
+            font-size: 13px;
         }
     </style>
 
@@ -107,7 +123,7 @@
 
     <div class="banner">
         <div class="wrap">
-            <a href="/" class="logo">
+            <a href="{{route('home')}}" class="logo">
                 <h1 class="logo-text">{{ $config->site_name}}</h1>
             </a>
         </div>
@@ -182,20 +198,32 @@
 
 
                             <div class="order-summary-section order-summary-section-discount" data-order-summary-section="discount">
-                                <form id="form_discount_add" accept-charset="UTF-8" method="post">
-                                    <input name="utf8" type="hidden" value="✓">
-
+                                <form id="form_discount_add" accept-charset="UTF-8">
+                                    <div data-role="checkout-messages" class="messages" data-bind="visible: isVisible(), click: removeAll" style="display: none;">
+                                    </div>
                                     <div class="fieldset">
                                         <div class="field  ">
                                             <div class="field-input-btn-wrapper">
                                                 <div class="field-input-wrapper">
-                                                    <label class="field-label" for="discount.code">Mã giảm giá</label>
-                                                    <input placeholder="Mã giảm giá" class="field-input" data-discount-field="true" autocomplete="false" autocapitalize="off" spellcheck="false" size="30" type="text" id="discount.code" name="discount.code" value="">
+                                                    <label class="field-label" for="discount.code">{{__('Enter discount code')}}</label>
+                                                    @if($countPonSpin)
+                                                    <input class="field-input" value="{{$countPonSpin ? $countPonSpin->code : ''}}" type="text" value="" id="discount-code" name="{{$countPonSpin && $message && $message[0] ? 'not_discount_code' : 'discount_code'}}" placeholder="{{__('Enter discount code')}}" />
+                                                    @else
+                                                    <input class="field-input" value="{{$discount ? $discount->code : ''}}" type="text" value="" id="discount-code" name="{{$discount && $message && $message[0] ? 'not_discount_code' : 'discount_code'}}" placeholder="{{__('Enter discount code')}}" />
+                                                    @endif
                                                 </div>
-                                                <button type="submit" class="field-input-btn btn btn-default btn-disabled">
-                                                    <span class="btn-content">Sử dụng</span>
+                                                @if(($discount || $countPonSpin) && $message && $message[0])
+                                                <button type="submit" class="field-input-btn btn btn-default ">
+                                                    <span class="btn-content">{{__('Cancel coupon')}}</span>
                                                     <i class="btn-spinner icon icon-button-spinner"></i>
                                                 </button>
+                                                @else
+                                                <button type="submit" class="field-input-btn btn btn-default">
+                                                    <span class="btn-content">{{__('Apply')}}</span>
+                                                    <i class="btn-spinner icon icon-button-spinner"></i>
+                                                </button>
+                                                @endif
+
                                             </div>
 
                                         </div>
@@ -312,19 +340,32 @@
                             </div>
 
                             <div class="order-summary-section order-summary-section-discount" data-order-summary-section="discount">
-                                <form id="form_discount_add" accept-charset="UTF-8" method="post">
-                                    <input name="utf8" type="hidden" value="✓">
+                                <form id="form_discount_add2" accept-charset="UTF-8">
+                                    <div data-role="checkout-messages" class="messages" data-bind="visible: isVisible(), click: removeAll" style="display: none;">
+                                    </div>
                                     <div class="fieldset">
                                         <div class="field  ">
                                             <div class="field-input-btn-wrapper">
                                                 <div class="field-input-wrapper">
-                                                    <label class="field-label" for="discount.code">Mã giảm giá</label>
-                                                    <input placeholder="Mã giảm giá" class="field-input" data-discount-field="true" autocomplete="false" autocapitalize="off" spellcheck="false" size="30" type="text" id="discount.code" name="discount.code" value="" fdprocessedid="ku4fr">
+                                                    <label class="field-label" for="discount.code">{{__('Enter discount code')}}</label>
+                                                    @if($countPonSpin)
+                                                    <input class="field-input" value="{{$countPonSpin ? $countPonSpin->code : ''}}" type="text" value="" id="discount-code" name="{{$countPonSpin && $message && $message[0] ? 'not_discount_code' : 'discount_code'}}" placeholder="{{__('Enter discount code')}}" />
+                                                    @else
+                                                    <input class="field-input" value="{{$discount ? $discount->code : ''}}" type="text" value="" id="discount-code" name="{{$discount && $message && $message[0] ? 'not_discount_code' : 'discount_code'}}" placeholder="{{__('Enter discount code')}}" />
+                                                    @endif
                                                 </div>
-                                                <button type="submit" class="field-input-btn btn btn-default btn-disabled" fdprocessedid="louzns">
-                                                    <span class="btn-content">Sử dụng</span>
+                                                @if(($discount || $countPonSpin) && $message && $message[0])
+                                                <button type="submit" class="field-input-btn btn btn-default ">
+                                                    <span class="btn-content">{{__('Cancel coupon')}}</span>
                                                     <i class="btn-spinner icon icon-button-spinner"></i>
                                                 </button>
+                                                @else
+                                                <button type="submit" class="field-input-btn btn btn-default">
+                                                    <span class="btn-content">{{__('Apply')}}</span>
+                                                    <i class="btn-spinner icon icon-button-spinner"></i>
+                                                </button>
+                                                @endif
+
                                             </div>
 
                                         </div>
@@ -374,7 +415,7 @@
 
 
                             <div class="order-summary-section order-summary-section-total-lines payment-lines" data-order-summary-section="payment-lines">
-                                <table class="total-line-table">
+                                <table class="total-line-table" id="table_form_user">
                                     <thead>
                                         <tr>
                                             <th scope="col"><span class="visually-hidden">Mô tả</span></th>
@@ -401,7 +442,7 @@
                                         <tr class="total-line total-line-subtotal">
                                             <td class="total-line-name">{{__('Discount')}}</td>
                                             <td class="total-line-price">
-                                                @if($spinItem->type == 1)
+                                                @if(@$spinItem->type == 1)
                                                 <span class="order-summary-emphasis" data-checkout-subtotal-price-target="{{$spinItem->amount}}">
                                                     {{$spinItem->amount}}%
                                                 </span>
@@ -419,7 +460,7 @@
                                         <tr class="total-line total-line-subtotal">
                                             <td class="total-line-name">{{__('Discount')}}</td>
                                             <td class="total-line-price">
-                                                @if($spinItem->type == 1)
+                                                @if($discount->type == 1)
                                                 <span class="order-summary-emphasis" data-checkout-subtotal-price-target="{{$discount->price_value}}">
                                                     {{$discount->price_value}}%
                                                 </span>
@@ -493,35 +534,6 @@
 
                 </div>
                 <div class="main-content">
-                    <div id="checkout_order_information_changed_error_message" class="hidden" style="margin-bottom:15px">
-                        <p class="field-message field-message-error alert alert-danger"><svg x="0px" y="0px" viewBox="0 0 286.054 286.054" style="enable-background:new 0 0 286.054 286.054;" xml:space="preserve">
-                                <g>
-                                    <path style="fill:#E2574C;" d="M143.027,0C64.04,0,0,64.04,0,143.027c0,78.996,64.04,143.027,143.027,143.027 c78.996,0,143.027-64.022,143.027-143.027C286.054,64.04,222.022,0,143.027,0z M143.027,259.236 c-64.183,0-116.209-52.026-116.209-116.209S78.844,26.818,143.027,26.818s116.209,52.026,116.209,116.209 S207.21,259.236,143.027,259.236z M143.036,62.726c-10.244,0-17.995,5.346-17.995,13.981v79.201c0,8.644,7.75,13.972,17.995,13.972 c9.994,0,17.995-5.551,17.995-13.972V76.707C161.03,68.277,153.03,62.726,143.036,62.726z M143.036,187.723 c-9.842,0-17.852,8.01-17.852,17.86c0,9.833,8.01,17.843,17.852,17.843s17.843-8.01,17.843-17.843 C160.878,195.732,152.878,187.723,143.036,187.723z"></path>
-                                </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                                <g> </g>
-                            </svg>
-                            <span>
-
-
-
-                            </span>
-
-                        </p>
-                    </div>
                     <script>
                         $("html, body").animate({
                             scrollTop: 0
@@ -539,142 +551,127 @@
                                 <div class="section-header">
                                     <h2 class="section-title">Thông tin giao hàng</h2>
                                 </div>
-                                @if(Auth::user())
-                                <div class="section-content section-customer-information no-mb">
 
-                                    <input name="utf8" type="hidden" value="✓">
-                                    <!-- <div class="inventory_location_data">
-
-                                        <input name="customer_shipping_country" type="hidden" value="241">
-                                        <input name="customer_shipping_province" type="hidden" value="">
-                                        <input name="customer_shipping_district" type="hidden" value="">
-                                        <input name="customer_shipping_ward" type="hidden" value="">
-
-                                    </div> -->
-
-
-
-
-                                    <input type="hidden" name="checkout_user[email]" value="thangdv062@gmail.com">
-                                    <div class="logged-in-customer-information">&nbsp;
-                                        <div class="logged-in-customer-information-avatar-wrapper">
-                                            <div class="logged-in-customer-information-avatar gravatar" style="background-image: url(//www.gravatar.com/avatar/84e9297a32a0158d1c2c260f1c3920a5.jpg?s=100&amp;d=blank);filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//www.gravatar.com/avatar/84e9297a32a0158d1c2c260f1c3920a5.jpg?s=100&amp;d=blank', sizingMethod='scale')"></div>
-                                        </div>
-                                        <p class="logged-in-customer-information-paragraph">
-                                            {{@Auth::user()->name}} {{@Auth::user()->last_name}}
-                                            <br>
-                                            <a href="{{route('logout.shop')}}">Đăng xuất</a>
-                                        </p>
-                                    </div>
-
-
-                                    <div class="fieldset">
-
-                                        <div class="field field-show-floating-label">
-                                            <div class="field-input-wrapper field-input-wrapper-select">
-                                                <label class="field-label" for="stored_addresses">Thêm địa chỉ mới...</label>
-                                                <select class="field-input" id="stored_addresses">
-                                                    <option value="0">Địa chỉ Mới</option>
-                                                    <option value="1">Địa chỉ đã lưu trữ</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="field field-required  field-show-floating-label">
-                                            <div class="field-input-wrapper">
-                                                <label class="field-label" for="billing_address_full_name">Họ và tên</label>
-                                                <input placeholder="Họ và tên" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="full_name" value="{{@Auth::user()->name}} {{@Auth::user()->last_name}}" autocomplete="false">
-                                            </div>
-                                        </div>
-
-                                        <div class="field field-required  field-show-floating-label">
-                                            <div class="field-input-wrapper">
-                                                <label class="field-label" for="email">Email</label>
-                                                <input placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="email" id="email" name="email" value="{{@Auth::user()->email}}" autocomplete="false">
-                                            </div>
-                                        </div>
-
-                                        <div class="field field-required   ">
-                                            <div class="field-input-wrapper">
-                                                <label class="field-label" for="billing_address_phone">Số điện thoại</label>
-                                                <input autocomplete="false" placeholder="Số điện thoại" autocapitalize="off" spellcheck="false" class="field-input" size="30" maxlength="15" type="tel" id="billing_address_phone" name="phone" value="">
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                @else
-                                <div class="section-content section-customer-information no-mb">
-
-                                    <input name="utf8" type="hidden" value="✓">
-                                    <p class="section-content-text">
-                                        Bạn đã có tài khoản?
-                                        <a href="{{route('login.shop')}}">Đăng nhập</a>
-                                    </p>
-
-                                    <div class="fieldset">
-
-                                        <div class="field field-required  field-show-floating-label">
-                                            <div class="field-input-wrapper">
-                                                <label class="field-label" for="billing_address_full_name">{{__('Full name')}}</label>
-                                                <input placeholder="{{__('Full name')}}" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="full_name value="" autocomplete=" false" fdprocessedid="iiabsr">
-                                            </div>
-
-                                        </div>
-
-                                        <div class="field  field-two-thirds  field-show-floating-label">
-                                            <div class="field-input-wrapper">
-                                                <label class="field-label" for="checkout_user_email">Email</label>
-                                                <input autocomplete="false" placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="email" id="checkout_user_email" name="email" value="" fdprocessedid="2cx1gj">
-                                            </div>
-
-                                        </div>
-
-                                        <div class="field field-required field-third  field-show-floating-label">
-                                            <div class="field-input-wrapper">
-                                                <label class="field-label" for="billing_address_phone">{{__('Phone')}}</label>
-                                                <input autocomplete="false" placeholder="{{__('Phone')}}" autocapitalize="off" spellcheck="false" class="field-input" size="30" maxlength="15" type="tel" id="billing_address_phone" name="phone" value="" fdprocessedid="bkuf9">
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                                @endif
                                 <div class="section-content">
                                     <div class="fieldset">
 
-                                        <form autocomplete="off" id="form_update_shipping_method" class="field default" data-hasrequired="* Đây là trường bắt buộc.">
+                                        <form id="form_update_shipping_method" class="field default" data-hasrequired="* Đây là trường bắt buộc.">
                                             @csrf
+                                            @if(Auth::user())
+                                            <div class="section-customer-information" style="padding: 0 7px;">
+
+                                                <div class="logged-in-customer-information">
+                                                    <div class="logged-in-customer-information-avatar-wrapper">
+                                                        <div class="logged-in-customer-information-avatar gravatar" style="background-image: url(//www.gravatar.com/avatar/84e9297a32a0158d1c2c260f1c3920a5.jpg?s=100&amp;d=blank);filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//www.gravatar.com/avatar/84e9297a32a0158d1c2c260f1c3920a5.jpg?s=100&amp;d=blank', sizingMethod='scale')"></div>
+                                                    </div>
+                                                    <p class="logged-in-customer-information-paragraph">
+                                                        {{@Auth::user()->name}} {{@Auth::user()->last_name}}
+                                                        <br>
+                                                        <a href="{{route('logout.shop')}}">Đăng xuất</a>
+                                                    </p>
+                                                </div>
+
+
+                                                <div class="fieldset">
+                                                    <!-- 
+                                                    <div class="field field-show-floating-label">
+                                                        <div class="field-input-wrapper field-input-wrapper-select">
+                                                            <label class="field-label" for="stored_addresses">Thêm địa chỉ mới...</label>
+                                                            <select class="field-input" id="stored_addresses">
+                                                                <option value="0">Địa chỉ Mới</option>
+                                                                <option value="1">Địa chỉ đã lưu trữ</option>
+                                                            </select>
+                                                        </div>
+                                                    </div> -->
+
+
+                                                    <div class="field field-required  field-show-floating-label">
+                                                        <div class="field-input-wrapper">
+                                                            <label class="field-label" for="billing_address_full_name">Họ và tên</label>
+                                                            <input placeholder="Họ và tên" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="firstname" value="{{@$shipAddress->name}} {{@$shipAddress->last_name}}" autocomplete="false">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="field field-required  field-show-floating-label">
+                                                        <div class="field-input-wrapper">
+                                                            <label class="field-label" for="email">Email</label>
+                                                            <input placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="email" id="email" name="email" value="{{@Auth::user()->email}}" autocomplete="false">
+                                                        </div>
+                                                    </div>
+                                                    <div class="field field-required   ">
+                                                        <div class="field-input-wrapper">
+                                                            <label class="field-label" for="billing_address_phone">Số điện thoại</label>
+                                                            <input autocomplete="false" placeholder="Số điện thoại" autocapitalize="off" spellcheck="false" class="field-input" size="30" maxlength="15" type="tel" id="billing_address_phone" name="phone" value="{{@$shipAddress->phone}}">
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @else
+                                            <div class="section-customer-information no-mbcontent-box" style="padding: 0 7px;">
+
+                                                <p class="section-content-text">
+                                                    Bạn đã có tài khoản?
+                                                    <a href="{{route('login.shop')}}">Đăng nhập</a>
+                                                </p>
+
+                                                <div class="fieldset">
+
+                                                    <div class="field field-required  field-show-floating-label">
+                                                        <div class="field-input-wrapper">
+                                                            <label class="field-label" for="billing_address_full_name">{{__('Full name')}}</label>
+                                                            <input placeholder="{{__('Full name')}}" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="firstname" value="" autocomplete=" false" fdprocessedid="iiabsr">
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="field  field-two-thirds  field-show-floating-label">
+                                                        <div class="field-input-wrapper">
+                                                            <label class="field-label" for="checkout_user_email">Email</label>
+                                                            <input autocomplete="false" placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="email" id="checkout_user_email" name="email" value="" fdprocessedid="2cx1gj">
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="field field-required field-third  field-show-floating-label">
+                                                        <div class="field-input-wrapper">
+                                                            <label class="field-label" for="billing_address_phone">{{__('Phone')}}</label>
+                                                            <input autocomplete="false" placeholder="{{__('Phone')}}" autocapitalize="off" spellcheck="false" class="field-input" size="30" maxlength="15" type="tel" id="billing_address_phone" name="phone" value="" fdprocessedid="bkuf9">
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            @endif
                                             <div class="content-box mt0">
                                                 <div id="form_update_location_customer_shipping" class="order-checkout__loading radio-wrapper content-box-row content-box-row-padding content-box-row-secondary " for="customer_pick_at_location_false">
                                                     <div class="order-checkout__loading--box">
                                                         <div class="order-checkout__loading--circle"></div>
                                                     </div>
 
-                                                    <div class="field field-required  ">
+                                                    <div class="field field-required " name="shippingAddress.street">
                                                         <div class="field-input-wrapper">
                                                             <label class="field-label" for="address">{{__('Address')}}</label>
-                                                            <input placeholder="{{__('Address')}}" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="address" name="address" value="">
+                                                            <input placeholder="{{__('Address')}}" autocapitalize="off" aria-required="true" aria-invalid="false" class="field-input" size="30" type="text" id="street" name="street" value="{{@$shipAddress->address}}">
                                                         </div>
                                                     </div>
 
-                                                    <div class="field field-show-floating-label field-required field-third ">
+                                                    <div class="field field-show-floating-label field-required field-third " name="shippingAddress.region_id">
                                                         <div class="field-input-wrapper field-input-wrapper-select">
                                                             <label class="field-label" for="customer_shipping_province"> {{__('Province')}} </label>
-                                                            <select class="field-input" id="customer_shipping_province" name="region_id">
-                                                                <option data-code="null" value="null" selected="">{{__('Select district')}}</option>
+                                                            <select class="field-input" id="customer_shipping_province" name="region_id" aria-required="true" aria-invalid="false">
+                                                                <option data-code="" value="" selected="">{{__('Select district')}}</option>
                                                             </select>
                                                         </div>
                                                     </div>
 
 
-                                                    <div class="field field-show-floating-label field-required field-third ">
+                                                    <div class="field field-show-floating-label field-required field-third " name="shippingAddress.city">
                                                         <div class="field-input-wrapper field-input-wrapper-select">
                                                             <label class="field-label" for="customer_shipping_district">{{__('District')}}</label>
-                                                            <select class="field-input" id="customer_shipping_district" name="city">
-                                                                <option data-code="null" value="null" selected="">{{__('Select district')}}</option>
+                                                            <select class="field-input" id="customer_shipping_district" name="city" aria-required="true" aria-invalid="false">
+                                                                <option data-code="" value="" selected="">{{__('Select district')}}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -682,8 +679,8 @@
                                                     <div class="field field-show-floating-label field-required  field-third  ">
                                                         <div class="field-input-wrapper field-input-wrapper-select">
                                                             <label class="field-label" for="customer_shipping_ward">{{__('Wards')}}</label>
-                                                            <select class="field-input" id="customer_shipping_ward" name="postcode">
-                                                                <option data-code="null" value="null" selected="">{{__('Select ward/commune')}}</option>
+                                                            <select class="field-input" id="customer_shipping_ward" name="postcode" aria-required="true" aria-invalid="false">
+                                                                <option data-code="" value="" selected="">{{__('Select ward/commune')}}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -712,9 +709,9 @@
 
 
                                         <div class="radio-wrapper content-box-row">
-                                            <label class="two-page" for="payment_method_id_1003772994">
+                                            <label class="two-page" for="payment_method_id_cod">
                                                 <div class="radio-input payment-method-checkbox">
-                                                    <input type-id="1" id="payment_method_id_1003772994" class="input-radio" name="payment_method_id" type="radio" value="1003772994" checked="">
+                                                    <input type-id="1" id="payment_method_id_cod" class="input-radio" name="payment_method_id" type="radio" value="cod" checked>
                                                 </div>
 
                                                 <div class="radio-content-input">
@@ -738,7 +735,6 @@
                         </div>
                         <div class="step-footer" id="step-footer-checkout">
 
-                            <input name="utf8" type="hidden" value="✓">
                             <button type="submit" class="step-footer-continue-btn btn" id="submit_form_checkout">
                                 <span class=" btn-content">{{__('Order now')}}</span>
                                 <i class="btn-spinner icon icon-button-spinner"></i>
@@ -748,7 +744,7 @@
                     </div>
 
                 </div>
-                <div class="hrv-coupons-popup">
+                <!-- <div class="hrv-coupons-popup">
                     <div class="hrv-title-coupons-popup">
                         <p>Chọn giảm giá <span class="count-coupons"></span></p>
                         <div class="hrv-coupons-close-popup">
@@ -765,7 +761,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- <div class="hrv-coupons-popup-site-overlay"></div> -->
                 <!-- <div class="main-footer footer-powered-by">Powered by Haravan</div> -->
             </div>
@@ -777,7 +773,7 @@
 </body>
 <div class="troywell-avia"></div>
 <div class="troywell-caa"></div>
-
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 
 <script>
@@ -795,7 +791,7 @@
         };
         var promise = axios(Parameter);
         promise.then(function(result) {
-            console.log(result.data);
+            // console.log(result.data);
 
             renderCity(result.data);
         });
@@ -812,7 +808,7 @@
             citis.onchange = function() {
                 districts.length = 1;
                 wards.length = 1;
-                console.log(this.value);
+                // console.log(this.value);
 
                 if (this.value != "") {
                     const result = data.filter((n) => n.Name === this.value);
@@ -830,7 +826,7 @@
             districts.onchange = function() {
                 wards.length = 1;
                 const dataCity = data.filter((n) => n.Name === citis.value);
-                console.log(this.value);
+                // console.log(this.value);
 
                 if (this.value != "") {
                     const dataWards = dataCity[0].Districts.filter((n) => n.Name === this.value)[0].Wards;
@@ -978,35 +974,46 @@
             }
 
         })
-        $(document).on('submit', 'form#discount-form', function(evt) {
+        $(document).on('submit', 'form#form_discount_add2', function(evt) {
             evt.preventDefault()
-            const discount_code = $('#discount-code').val()
+            const discount_code = $('#form_discount_add2 #discount-code').val()
+            if (discount_code.trim() == null || discount_code.trim() == '') {
+                let mes = 'Mã không được để trống.'
+                $('#form_discount_add2 .messages').html(`<div aria-atomic="true" role="alert" class="message message-error error">
+                    <div data-ui-id="checkout-cart-validationmessages-message-error">${mes}</div>
+                </div>`);
+                $('#form_discount_add2 .messages').css({
+                    display: 'block'
+                });
+                return;
+            }
             const province = $('#customer_shipping_province').val()
-            const name = $('#discount-code').attr('name')
-            const url = `{{route('checkout')}}`
+            const name = $('#form_discount_add2 #discount-code').attr('name')
+            const url = `{{route('checkout2')}}`
             $.ajax({
                 type: "GET",
                 url: url,
                 data: {
-                    [name]: discount_code,
+                    [name]: discount_code.trim(),
                     province: province
                 },
                 success: function(res) {
+                    console.log(res);
                     if (res.message) {
-                        $('#checkout-total').html(res.checkout)
+                        $('#sidebar_cart_checkout').html(res.checkout)
                         if (res.message_coupon && res.message_coupon.length > 0) {
                             if (res.message_coupon[0] == true) {
-                                $('.messages').html(`<div aria-atomic="true" role="alert" class="message message-success success">
+                                $('#form_discount_add2 .messages').html(`<div aria-atomic="true" role="alert" class="message message-success success">
                                                     <div data-ui-id="checkout-cart-validationmessages-message-success">${res.message_coupon[1]}</div>
-                                                </div>`)
-                                $('.messages').css({
+                                                </div>`);
+                                $('#form_discount_add2 .messages').css({
                                     display: 'block'
-                                })
+                                });
                             } else {
-                                $('.messages').html(`<div aria-atomic="true" role="alert" class="message message-error error">
+                                $('#form_discount_add2 .messages').html(`<div aria-atomic="true" role="alert" class="message message-error error">
                                                         <div data-ui-id="checkout-cart-validationmessages-message-error">${res.message_coupon[1]}</div>
                                                     </div>`)
-                                $('.messages').css({
+                                $('#form_discount_add2 .messages').css({
                                     display: 'block'
                                 })
                             }
@@ -1014,7 +1021,61 @@
                                 $('.messages').css({
                                     display: 'none'
                                 })
-                            }, 5000);
+                            }, 10000);
+                        }
+                    }
+                },
+            });
+
+        })
+        $(document).on('submit', 'form#form_discount_add', function(evt) {
+            evt.preventDefault()
+            const discount_code = $('#form_discount_add #discount-code').val()
+            if (discount_code.trim() == null || discount_code.trim() == '') {
+                let mes = 'Mã không được để trống.'
+                $('#form_discount_add .messages').html(`<div aria-atomic="true" role="alert" class="message message-success success">
+                    <div data-ui-id="checkout-cart-validationmessages-message-success">${mes}</div>
+                </div>`);
+                $('#form_discount_add .messages').css({
+                    display: 'block'
+                });
+                return;
+            }
+            const province = $('#customer_shipping_province').val()
+            const name = $('#form_discount_add #discount-code').attr('name')
+            const url = `{{route('checkout2')}}`
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    [name]: discount_code.trim(),
+                    province: province
+                },
+                success: function(res) {
+                    console.log(res);
+                    if (res.message) {
+                        $('#sidebar_cart_checkout').html(res.checkout)
+                        if (res.message_coupon && res.message_coupon.length > 0) {
+                            if (res.message_coupon[0] == true) {
+                                $('#form_discount_add .messages').html(`<div aria-atomic="true" role="alert" class="message message-success success">
+                                                    <div data-ui-id="checkout-cart-validationmessages-message-success">${res.message_coupon[1]}</div>
+                                                </div>`);
+                                $('#form_discount_add .messages').css({
+                                    display: 'block'
+                                });
+                            } else {
+                                $('#form_discount_add .messages').html(`<div aria-atomic="true" role="alert" class="message message-error error">
+                                                        <div data-ui-id="checkout-cart-validationmessages-message-error">${res.message_coupon[1]}</div>
+                                                    </div>`)
+                                $('#form_discount_add .messages').css({
+                                    display: 'block'
+                                })
+                            }
+                            setTimeout(() => {
+                                $('.messages').css({
+                                    display: 'none'
+                                })
+                            }, 10000);
                         }
                     }
                 },
@@ -1042,23 +1103,33 @@
     $(function() {
         $("#form_update_shipping_method").validate({
             rules: {
-                address: "required",
+                street: "required",
                 region_id: "required",
                 city: "required",
                 postcode: "required",
+                firstname: "required",
+                phone: "required",
+                email: {
+                    required: true,
+                    email: true
+                },
             },
             messages: {
-                address: "Trường này là bắt buộc.",
+                street: "Trường này là bắt buộc.",
                 region_id: "Trường này là bắt buộc.",
                 city: "Trường này là bắt buộc.",
+                firstname: "Trường này là bắt buộc.",
+                phone: "Trường này là bắt buộc.",
                 postcode: "Trường này là bắt buộc.",
+                email: "Please enter a valid email address."
             },
             submitHandler: function(form) {
                 const data = new FormData(form);
 
-                const pay_method = $('input[name="payment[method]"]:checked').val();
+                const pay_method = $('input[name="payment_method_id"]:checked').val();
                 data.append('pay_method', pay_method);
                 const url = `{{route('checkout.save')}}`;
+                // console.log(data);return;
 
                 $.ajax({
                     type: "POST",

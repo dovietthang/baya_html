@@ -1,152 +1,245 @@
-@extends('layout-home.layout-base')
-@section('title')
-<title>Thông tin đơn hàng</title>
-@endsection
-@section('content')
-<div class="checkout-onepage-success page-layout-1column">
-    <main id="maincontent" class="page-main">
-        <div data-bind="scope: 'messages'">
-            <div role="alert" class="messages">
-                @if(session('success'))
-                <div class="message-success success message" data-ui-id="message-success">
-                    <div>{{session('success')}}</div>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="flexbox">
+
+<head>
+    <link rel="shortcut icon" href="{{$config->site_logo}}" type="{{$config->site_name}}" />
+    <title>{{$config->site_title_content}}</title>
+
+
+    <meta name="description" content="{{ $config->site_name}}">
+    <script src="//hstatic.net/0/0/global/jquery.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no">
+    <script type="text/javascript">
+        var parseQueryString = function(url) {
+
+            var str = url;
+            var objURL = {};
+
+            str.replace(
+                new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+                function($0, $1, $2, $3) {
+
+                    if ($3 != undefined && $3 != null)
+                        objURL[$1] = decodeURIComponent($3);
+                    else
+                        objURL[$1] = $3;
+                });
+
+            return objURL;
+        };
+    </script>
+
+    <script type="text/javascript">
+        var toggleShowOrderSummary = false;
+        $(document).ready(function() {
+            var currentUrl = '';
+            const findPaymentMethodId = $('body').find('input:radio[name$="payment_method_id"]:checked').attr('type-id');
+            const isReePay = findPaymentMethodId == 41 || findPaymentMethodId == 43 || findPaymentMethodId == 46 || findPaymentMethodId == 12;
+
+
+            if (isReePay) {
+
+                funcFormOnSubmit('#section-payment-method')
+
+            }
+
+
+            if ($('#reloadValue').val().length == 0) {
+                $('#reloadValue').val(currentUrl);
+                $('body').show();
+            } else {
+                window.location = $('#reloadValue').val();
+                $('#reloadValue').val('');
+            }
+
+            $('body')
+                .on('click', '.order-summary-toggle', function() {
+                    toggleShowOrderSummary = !toggleShowOrderSummary;
+
+                    if (toggleShowOrderSummary) {
+                        $('.order-summary-toggle')
+                            .removeClass('order-summary-toggle-hide')
+                            .addClass('order-summary-toggle-show');
+
+                        $('.sidebar:not(".sidebar-second") .sidebar-content .order-summary')
+                            .removeClass('order-summary-is-collapsed')
+                            .addClass('order-summary-is-expanded');
+
+                        $('.sidebar.sidebar-second .sidebar-content .order-summary')
+                            .removeClass('order-summary-is-expanded')
+                            .addClass('order-summary-is-collapsed');
+                    } else {
+                        $('.order-summary-toggle')
+                            .removeClass('order-summary-toggle-show')
+                            .addClass('order-summary-toggle-hide');
+
+                        $('.sidebar:not(".sidebar-second") .sidebar-content .order-summary')
+                            .removeClass('order-summary-is-expanded')
+                            .addClass('order-summary-is-collapsed');
+
+                        $('.sidebar.sidebar-second .sidebar-content .order-summary')
+                            .removeClass('order-summary-is-collapsed')
+                            .addClass('order-summary-is-expanded');
+                    }
+                });
+        });
+    </script>
+    <link rel="preload stylesheet" href="{{asset('/front_end_asset/style/css/checkout.css')}}" as="style">
+</head>
+
+<body>
+    <input id="reloadValue" type="hidden" name="reloadValue" value="">
+    <input id="is_vietnam" type="hidden" value="false">
+    <input id="is_vietnam_location" type="hidden" value="false">
+
+    <div class="banner">
+        <div class="wrap">
+            <a href="{{route('home')}}" class="logo">
+                <h1 class="logo-text">{{ $config->site_name}}</h1>
+            </a>
+        </div>
+    </div>
+
+    <button class="order-summary-toggle order-summary-toggle-hide">
+        <div class="wrap">
+            <div class="order-summary-toggle-inner">
+                <div class="order-summary-toggle-icon-wrapper">
+                    <svg width="20" height="19" xmlns="http://www.w3.org/2000/svg" class="order-summary-toggle-icon">
+                        <path d="M17.178 13.088H5.453c-.454 0-.91-.364-.91-.818L3.727 1.818H0V0h4.544c.455 0 .91.364.91.818l.09 1.272h13.45c.274 0 .547.09.73.364.18.182.27.454.18.727l-1.817 9.18c-.09.455-.455.728-.91.728zM6.27 11.27h10.09l1.454-7.362H5.634l.637 7.362zm.092 7.715c1.004 0 1.818-.813 1.818-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817zm9.18 0c1.004 0 1.817-.813 1.817-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817z"></path>
+                    </svg>
                 </div>
-                @endif
-                @if(session('errors'))
-                <div class="message-error error message" data-ui-id="message-error">
-                    <div>{{session('errors')}}</div>
+                <div class="order-summary-toggle-text order-summary-toggle-text-show">
+                    <span>Hiển thị thông tin đơn hàng</span>
+                    <svg width="11" height="6" xmlns="http://www.w3.org/2000/svg" class="order-summary-toggle-dropdown" fill="#000">
+                        <path d="M.504 1.813l4.358 3.845.496.438.496-.438 4.642-4.096L9.504.438 4.862 4.534h.992L1.496.69.504 1.812z"></path>
+                    </svg>
                 </div>
-                @endif
+                <div class="order-summary-toggle-text order-summary-toggle-text-hide">
+                    <span>Ẩn thông tin đơn hàng</span>
+                    <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" class="order-summary-toggle-dropdown" fill="#000">
+                        <path d="M6.138.876L5.642.438l-.496.438L.504 4.972l.992 1.124L6.138 2l-.496.436 3.862 3.408.992-1.122L6.138.876z"></path>
+                    </svg>
+                </div>
+                <div class="order-summary-toggle-total-recap" data-checkout-payment-due-target="{{$order->total}}">
+                    <span class="total-recap-final-price">{{number_format($order->total, 0, 0, '.')}}₫</span>
+                </div>
             </div>
         </div>
-        <div class="column main">
-            <div data-bind="scope: 'messages'">
-            </div><input name="form_key" type="hidden" value="qNTyx1uRwLibTuM7">
-            <div id="authenticationPopup" data-bind="scope:'authenticationPopup', style: {display: 'none'}"
-                style="display: none;">
-            </div>
-            <div class="checkout-success">
-                <div class="success-messages">
-                    <p>Đơn hàng #: <span> {{$order->order_code}}</span></p>
-                    <p>Chúng tôi sẽ gửi cho bạn email và zns/sms xác nhận.</p>
-                </div>
-                <div class="account">
-                    <div class="column main">
-                        <div class="block block-order-details">
-                            <div class="block-title"><strong>Thông tin đơn hàng:</strong></div>
-                            <div class="order-date">Ngày đặt: {{date('d-m-Y', $order->created_at->timestamp)}} <span class="delivery-date"></span>
-                            </div>
-                        </div>
-                        <div class="block block-order-details-view">
-                            <div class="block-title"><strong>Thông tin đơn hàng</strong></div>
-                            <div class="block-content">
-                                <div class="box box-order-shipping-address"><strong class="box-title"><span>Địa chỉ nhận
-                                            hàng</span></strong>
-                                    <div class="box-content">
-                                        <address>{{$order->address}}<br>
-                                            <br>
-                                            {{$order->region}}, {{$order->city}}, {{$order->wards}}<br>
-                                            T: <a href="tel:{{@$shipAddress->phone}}">{{@$shipAddress->phone}}</a>
+    </button>
+    <div class="content content-second">
+        <div class="wrap">
+            <div class="sidebar sidebar-second">
+                <div class="sidebar-content">
+                    <div class="order-summary">
+                        <div class="order-summary-sections">
 
-                                            <br> Email: {{@Auth::user()->email}}
-                                        </address>
-                                    </div>
-                                </div>
-                                <div class="box box-order-billing-method"><strong class="box-title"><span>Phương thức
-                                            thanh toán</span></strong>
-                                    <div class="box-content">
-                                        <dl class="payment-method">
-                                            <dt class="title">
-                                                @if($order->payment_method == 'cod')
-                                                Thanh toán tiền mặt khi nhận hàng - COD
-                                                @else
-                                                Thanh toán online
-                                                @endif
-                                            </dt>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                        <div class="block block-order-details-view">
-                            <div class="block-title"><strong>Thông tin bổ sung</strong></div>
-                            <div class="block-content">
-                                <div class="box"><strong class="box-title"><span>Ghi chú</span></strong>
-                                    <div class="box-content">{{$order->messages}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="order-details-items ordered">
-                            <div class="order-title"><strong>Danh sách sản phẩm</strong> </div>
-                            @php
-                                $items = $order->orderItems;
-                            @endphp
-                            <div class="table-wrapper order-items">
-                                <table class="data table table-order-items" id="my-orders-table"
-                                    summary="Items Ordered">
-                                    <caption class="table-caption">Items Ordered</caption>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        @php
+        $items = $order->orderItems;
+        @endphp
+        <div class="wrap">
+            <div class="sidebar">
+                <div class="sidebar-content">
+                    <div class="order-summary order-summary-is-collapsed">
+                        <h2 class="visually-hidden">Thông tin đơn hàng</h2>
+                        <div class="order-summary-sections">
+                            <div class="order-summary-section order-summary-section-product-list" data-order-summary-section="line-items">
+                                <table class="product-table">
                                     <thead>
                                         <tr>
-                                            <th class="col name">Sản phẩm</th>
-                                            <th class="col sku">Mã</th>
-                                            <th class="col price">Giá</th>
-                                            <th class="col qty">Số lượng</th>
-                                            <th class="col subtotal">Tổng tiền</th>
+                                            <th scope="col"><span class="visually-hidden">Hình ảnh</span></th>
+                                            <th scope="col"><span class="visually-hidden">Mô tả</span></th>
+                                            <th scope="col"><span class="visually-hidden">Số lượng</span></th>
+                                            <th scope="col"><span class="visually-hidden">Giá</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if(count($items) > 0)
-                                            @foreach ($items as $item)
-                                            @php
-                                                $sku = $item->productSku;
-                                            @endphp
-                                            <tr id="order-item-row-1049410">
-                                                <td class="col name" data-th="Sản phẩm"><strong
-                                                        class="product name product-item-name">{{$sku->title}}</strong>
-                                                    <dl class="item-options">
-                                                        <dt>Màu sắc</dt>
-                                                        <dd>{{$sku->color->title}} </dd>
-                                                        <dt>Kích cỡ</dt>
-                                                        <dd>{{$sku->size->title}}</dd>
-                                                    </dl>
-                                                </td>
-                                                <td class="col sku" data-th="Mã">{{$sku->sku}}</td>
-                                                <td class="col price" data-th="Giá"> <span class="price-excluding-tax"
-                                                        data-label="Excl. Tax"> <span class="cart-price"> {{number_format($item->price,0,0,'.')}}đ</span>
-                                                    </span> </td>
-                                                <td class="col qty" data-th="Số lượng">
-                                                    <ul class="items-qty">
-                                                        <li class="item"><span class="title">Ordered</span> <span
-                                                                class="content">{{$item->quantity}}</span></li>
-                                                    </ul>
-                                                </td>
-                                                <td class="col subtotal" data-th="Tổng tiền"> <span
-                                                        class="price-excluding-tax" data-label="Excl. Tax"> <span
-                                                            class="cart-price"> {{number_format(($item->price * $item->quantity),0,0,'.')}}đ</span> </span> </td>
-                                            </tr>
-                                            @endforeach
+                                        @if(@$items)
+                                        @foreach (@$items as $item)
+                                        @php
+                                        $sku = $item->productSku;
+                                        @endphp
+                                        <tr class="product" data-product-id="{{$sku->id}}" data-variant-id="{{$sku->id}}">
+                                            <td class="product-image">
+                                                <div class="product-thumbnail">
+                                                    <div class="product-thumbnail-wrapper">
+                                                        <img class="product-thumbnail-image" alt="{{$sku->title}}" src="{{ ($sku->photo && $sku->photo != '') ? $sku->photo : asset('admin_asset/app-assets/images/empty.png') }}">
+                                                    </div>
+                                                    <span class="product-thumbnail-quantity" aria-hidden="true">{{$item->quantity}}</span>
+                                                </div>
+                                            </td>
+                                            <td class="product-description">
+                                                <span class="product-description-name order-summary-emphasis">{{@$sku->product->title}}</span>
+
+                                                <span class="product-description-variant order-summary-small-text">
+                                                    <span> {{$sku->color->title}} / {{$sku->size->title}}</span>
+                                                </span>
+
+                                            </td>
+                                            <td class="product-quantity visually-hidden">{{$item->quantity}}</td>
+                                            <td class="product-price">
+                                                <span class="order-summary-emphasis">{{number_format($item->price,0,0,'.')}}₫</span>
+                                            </td>
+                                        </tr>
+                                        @endforeach
                                         @endif
                                     </tbody>
-                                    <tfoot>
-                                        <tr class="subtotal">
-                                            <th colspan="4" class="mark" scope="row"> Tổng tiền </th>
-                                            <td class="amount" data-th="Tổng tiền"> {{number_format($order->sub_total,0,0,'.')}}đ </td>
+                                </table>
+                            </div>
+
+                            <div class="order-summary-section order-summary-section-total-lines payment-lines" data-order-summary-section="payment-lines">
+                                <table class="total-line-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"><span class="visually-hidden">Mô tả</span></th>
+                                            <th scope="col"><span class="visually-hidden">Giá</span></th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="total-line total-line-subtotal">
+                                            <td class="total-line-name">Tạm tính</td>
+                                            <td class="total-line-price">
+                                                <span class="order-summary-emphasis">
+                                                    {{number_format($order->sub_total,0,0,'.')}}₫
+                                                </span>
+                                            </td>
+                                        </tr>
+
                                         @if($order->coupon_code)
-                                        <tr class="coupon">
-                                            <th colspan="4" class="mark" scope="row"> Coupon </th>
-                                            <td class="amount" data-th=Coupon"> {{$order->coupon_amount}}</td>
+                                        <tr class="total-line total-line-shipping">
+                                            <td class="total-line-name">Coupon</td>
+                                            <td class="total-line-price">
+                                                <span class="order-summary-emphasis">{{@$order->coupon_amount}}</span>
+                                            </td>
                                         </tr>
                                         @endif
-                                        <tr class="shipping">
-                                            <th colspan="4" class="mark" scope="row"> Phí vận chuyển </th>
-                                            <td class="amount" data-th="Phí vận chuyển"> {{number_format($order->fee,0,0,'.')}}đ </td>
+
+                                        <tr class="total-line total-line-shipping">
+                                            <td class="total-line-name">Phí vận chuyển</td>
+                                            <td class="total-line-price">
+                                                <span class="order-summary-emphasis">{{number_format($order->fee,0,0,'.')}}₫</span>
+                                            </td>
                                         </tr>
-                                        <tr class="grand_total">
-                                            <th colspan="4" class="mark" scope="row"> <strong>Thành tiền sau chiết
-                                                    khấu</strong> </th>
-                                            <td class="amount" data-th="Thành tiền sau chiết khấu">
-                                                <strong>{{number_format($order->total,0,0,'.')}}đ</strong> </td>
+
+                                    </tbody>
+                                    <tfoot class="total-line-table-footer">
+                                        <tr class="total-line">
+                                            <td class="total-line-name payment-due-label">
+                                                <span class="payment-due-label-total">Tổng cộng</span>
+                                            </td>
+                                            <td class="total-line-name payment-due">
+                                                <span class="payment-due-currency">VND</span>
+                                                <span class="payment-due-price">
+                                                    {{number_format($order->total,0,0,'.')}}₫
+                                                </span>
+                                                <span class="checkout_version" display:none="" data_checkout_version="0">
+                                                </span>
+                                            </td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -154,14 +247,109 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" id="email" value="a@gmail.com"><input type="hidden"
-                    id="phone_number" value="+841212121122">
-                <div class="actions-toolbar">
-                    <div class="primary"><a class="action primary continue" href="{{route('home')}}"><span>Tiếp tục mua
-                                sắm</span></a></div>
+            </div>
+            <div class="main">
+                <div class="main-header">
+                    <a href="{{ route('home') }}" class="logo">
+                        <h1 class="logo-text">{{ $config->site_name}}</h1>
+                    </a>
                 </div>
+                <div class="main-content">
+
+                    <div>
+                        <div class="section">
+                            <div class="section-header os-header">
+
+                                <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000" stroke-width="2" class="hanging-icon checkmark">
+                                    <path class="checkmark_circle" d="M25 49c13.255 0 24-10.745 24-24S38.255 1 25 1 1 11.745 1 25s10.745 24 24 24z"></path>
+                                    <path class="checkmark_check" d="M15 24.51l7.307 7.308L35.125 19"></path>
+                                </svg>
+
+                                <div class="os-header-heading">
+                                    <h2 class="os-header-title">
+
+                                        Đặt hàng thành công
+
+                                    </h2>
+                                    <span class="os-order-number">
+                                        Mã đơn hàng #{{@$order->order_code}}
+                                    </span>
+
+                                    <span class="os-order-number">
+                                        Chúng tôi sẽ gửi cho bạn email và zns/sms xác nhận.
+                                    </span>
+
+                                    <span class="os-description">
+                                        Cám ơn bạn đã mua hàng!
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="thank-you-additional-content">
+
+                        </div>
+
+                        <div class="section thank-you-checkout-info">
+                            <div class="section-content">
+                                <div class="content-box">
+                                    <div class="content-box-row content-box-row-padding content-box-row-no-border">
+                                        <h2>Thông tin đơn hàng</h2>
+                                    </div>
+                                    <div class="content-box-row content-box-row-padding">
+                                        <div class="section-content">
+                                            <div class="section-content-column">
+                                                <h3>Thông tin giao hàng:</h3>
+
+                                                {{@$shipAddress->name}} {{@$shipAddress->last_name}}<br>
+
+                                                {{@Auth::user()->email}}<br>
+
+                                                {{@$shipAddress->phone}}<br>
+
+                                                <p>
+                                                    {{@$order->address}}<br>
+                                                    {{@$order->region}}<br>
+                                                    {{@$order->city}}<br>
+                                                    {{@$order->wards}}<br>
+                                                </p>
+
+                                                <h3>Thông tin bổ sung:</h3>
+                                                <p>
+                                                    Nội dung: {{@$order->messages}}<br>
+                                                </p>
+
+                                                <h3>Phương thức thanh toán:</h3>
+                                                <p>
+                                                    @if($order->payment_method == 'cod')
+                                                    Thanh toán tiền mặt khi nhận hàng - COD
+                                                    @else
+                                                    Thanh toán online
+                                                    @endif
+                                                </p>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-footer">
+                            <a href="{{route('home')}}" class="step-footer-continue-btn btn">
+                                <span class="btn-content">Tiếp tục mua hàng</span>
+                            </a>
+                            <p class="step-footer-info">
+                                <i class="icon icon-os-question"></i>
+                                <span>Cần hỗ trợ? <a href="mailto:{{@$config->site_email}}">Liên hệ chúng tôi</a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hrv-coupons-popup-site-overlay"></div>
             </div>
         </div>
-    </main>
-</div>
-@endsection
+    </div>

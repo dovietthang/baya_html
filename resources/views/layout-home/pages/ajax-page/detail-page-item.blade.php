@@ -229,11 +229,8 @@
                         <button type="button" id="product-addtocart-button" data-product-sku="{{$productSku->id}}" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
                             Thêm vào giỏ
                         </button>
-                        <!-- <button type="button" id="add-to-cart" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
-                                    Thêm vào giỏ
-                                </button> -->
 
-                        <button type="button" id="buy-now" class="button dark btn-buynow btnred addtocart-modal" name="add">
+                        <button type="button" id="buy-now-button" data-product-sku="{{$productSku->id}}" class="button dark btn-buynow btnred addtocart-modal" name="add">
                             Mua ngay
                         </button>
                     </div>

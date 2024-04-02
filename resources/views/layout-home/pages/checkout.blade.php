@@ -173,7 +173,7 @@
 
                                 </div>
                                 <div class="summary-button">
-                                    <a id="btnCart-checkout" class="checkout-btn btnred {{ ($carts && count($carts) > 0 && $baseTotal && $baseTotal > 0) ? '' : 'disabled' }} " data-price-min="" data-price-total="0" href="#">{{__('Order now')}}
+                                    <a id="btnCart-checkout" class="checkout-btn btnred {{ ($carts && count($carts) > 0 && $baseTotal && $baseTotal > 0) ? '' : 'disabled' }} " data-price-min="" data-price-total="0" href="{{ route('checkout2') }}">{{__('Order now')}}
                                     </a>
                                 </div>
                             </div>

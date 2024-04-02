@@ -122,10 +122,9 @@
                             <div class="header-action-item header-wrap-search d-none d-lg-block">
                                 <div class="header-search">
                                     <div class="search-box wpo-wrapper-search">
-                                        <form action="https://baya.vn/search" class="searchform-product searchform-categoris ultimate-search">
+                                        <form action="{{ route('resultQuery') }}" class="searchform-product searchform-categoris ultimate-search">
                                             <div class="wpo-search-inner">
-                                                <input type="hidden" name="type" value="product" />
-                                                <input required id="inputSearchAuto-3" class="input-search" name="q" maxlength="40" autocomplete="off" type="text" size="20" placeholder="Tìm kiếm sản phẩm...">
+                                                <input required id="inputSearchAuto-3" data-input-id="3" class="input-search" name="q" maxlength="40" autocomplete="off" type="text" size="20" placeholder="Tìm kiếm sản phẩm...">
                                             </div>
                                             <button type="submit" class="btn-search btn">
                                                 <svg version="1.1" class="svg search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 27" style="enable-background:new 0 0 24 27;" xml:space="preserve">
@@ -184,10 +183,10 @@
                                         <div class="sitenav-content sitenav-search">
                                             <p class="boxtitle">Tìm kiếm</p>
                                             <div class="search-box wpo-wrapper-search">
-                                                <form action="https://baya.vn/search" class="searchform searchform-categoris ultimate-search">
+                                                <form action="{{ route('resultQuery') }}" class="searchform searchform-categoris ultimate-search">
                                                     <div class="wpo-search-inner">
                                                         <input type="hidden" name="type" value="product" />
-                                                        <input required id="inputSearchAuto" class="input-search" name="q" maxlength="40" autocomplete="off" type="text" size="20" placeholder="Tìm kiếm sản phẩm...">
+                                                        <input required id="inputSearchAuto" data-input-id="default" class="input-search" name="q" maxlength="40" autocomplete="off" type="text" size="20" placeholder="Tìm kiếm sản phẩm...">
                                                     </div>
                                                     <button type="submit" class="btn-search btn" id="search-header-btn">
                                                         <svg version="1.1" class="svg search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 27" style="enable-background:new 0 0 24 27;" xml:space="preserve">
@@ -536,10 +535,9 @@
         </div>
         <div class="header-search-mobile">
             <div class=" search-box wpo-wrapper-search">
-                <form action="https://baya.vn/search" class="searchform-mobile searchform-categoris ultimate-search">
+                <form action="{{ route('resultQuery') }}" class="searchform-mobile searchform-categoris ultimate-search">
                     <div class="wpo-search-inner">
-                        <input type="hidden" name="type" value="product" />
-                        <input required id="inputSearchAuto-mb" class="input-search" name="q" maxlength="40" autocomplete="off" type="text" size="20" placeholder="Tìm kiếm sản phẩm...">
+                        <input required id="inputSearchAuto-mb" data-input-id="mb" class="input-search" name="q" maxlength="40" autocomplete="off" type="text" size="20" placeholder="Tìm kiếm sản phẩm...">
                     </div>
                     <button type="submit" class="btn-search btn" id="search-header-btn-mb">
                         <span class="search-icon"><svg version="1.1" class="svg search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 27" style="enable-background:new 0 0 24 27;" xml:space="preserve">
@@ -654,3 +652,75 @@
         </div>
         <div class="siteCart-mobile__overlay"></div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // Hàm kiểm tra xem chuỗi có chứa ký tự đặc biệt hoặc từ cấm không
+            function containsMalicious(input) {
+                // Danh sách các từ cấm hoặc ký tự đặc biệt
+                var forbiddenWords = ['hack', 'virus', 'malware', 'exploit', 'script'];
+                var forbiddenCharacters = ['<', '>', '&', '"', '\'', '\\', '/', '=', '+', '-', '*', '%', '#'];
+
+                // Kiểm tra từ cấm
+                for (var i = 0; i < forbiddenWords.length; i++) {
+                    if (input.toLowerCase().includes(forbiddenWords[i])) {
+                        return true;
+                    }
+                }
+
+                // Kiểm tra ký tự đặc biệt
+                for (var j = 0; j < forbiddenCharacters.length; j++) {
+                    if (input.includes(forbiddenCharacters[j])) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function callApiAndDisplayResults(inputId, inputValue) {
+                const url = `{{ route('search-query') }}`
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {
+                        search: inputValue,
+                    },
+                    success: function(res) {
+                        if (inputId == 3) {
+                            $("#ajaxSearchResults-3 .resultsContent").html(res);
+                        } else if (inputId == 'mb') {
+                            $("#ajaxSearchResults-mb .resultsContent").html(res);
+                        } else {
+                            $("#ajaxSearchResults .resultsContent").html(res);
+                        }
+                        $("#ajaxSearchResults-3, #ajaxSearchResults-mb, #ajaxSearchResults").css('display', 'block');
+                    },
+                });
+            }
+
+            $('#inputSearchAuto-3, #inputSearchAuto-mb, #inputSearchAuto').on('input', function() {
+                var inputValue = $(this).val().trim();
+                var inputId = $(this).data('input-id');
+
+                if (inputValue.length > 1) {
+                    callApiAndDisplayResults(inputId, inputValue);
+                } else {
+                    $("#ajaxSearchResults-3, #ajaxSearchResults-mb, #ajaxSearchResults").css('display', 'none');
+                }
+            });
+
+
+
+            // Xử lý sự kiện submit form
+            $('.ultimate-search').on('submit', function(event) {
+                var inputValue_3 = $('#inputSearchAuto-3').val();
+                var inputValue_mb = $('#inputSearchAuto-mb').val();
+                var inputValue = $('#inputSearchAuto').val();
+                if (containsMalicious(inputValue) || containsMalicious(inputValue_mb) || containsMalicious(inputValue_3)) {
+                    alert('Input chứa mã độc hại! Vui lòng nhập lại.');
+                    event.preventDefault(); // Ngăn form được submit nếu chứa mã độc hại
+                }
+            })
+        });
+    </script>

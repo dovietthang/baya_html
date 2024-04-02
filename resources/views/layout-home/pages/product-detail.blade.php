@@ -274,11 +274,8 @@ $jsonData = json_decode($product, true);
                                     <button type="button" id="product-addtocart-button" data-product-sku="{{$productSku->id}}" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
                                         Thêm vào giỏ
                                     </button>
-                                    <!-- <button type="button" id="add-to-cart" class="add-to-cartProduct button dark btn-addtocart addtocart-modal" name="add">
-                                    Thêm vào giỏ
-                                </button> -->
 
-                                    <button type="button" id="buy-now" class="button dark btn-buynow btnred addtocart-modal" name="add">
+                                    <button type="button" id="buy-now-button" data-product-sku="{{$productSku->id}}" class="button dark btn-buynow btnred addtocart-modal" name="add">
                                         Mua ngay
                                     </button>
                                 </div>
@@ -699,6 +696,24 @@ $jsonData = json_decode($product, true);
             pushCart(skuId);
         });
 
+        $(document).on("click", "button#buy-now-button", function() {
+            if (!color_id) {
+                $("#super_color-error").text(fError);
+            }
+            if (!size_id) {
+                $("#super_size-error").text(fError);
+            }
+            quantity = $("#quantity").val();
+            if (!color_id || !size_id) {
+                return;
+            }
+            const skuId = $(this).attr("data-product-sku");
+            pushCart(skuId, function() {
+                const url = "{{ route('checkout') }}";
+                window.location.href = url;
+            });
+        });
+
         function itemGallery() {
             if (pro_template == "style_02") {
                 //stye 2
@@ -772,6 +787,7 @@ $jsonData = json_decode($product, true);
                     success: function(res) {
                         $("#main-detail-page").html(res);
                         $("#quantity").val(quantity);
+
                         // $("#add-item-form .swatch-element.color[data-id='" + color_id + "'] label").addClass('sd');
                         // $("#add-item-form .swatch-element.size[data-id='" + size_id + "'] label").addClass('sd');
 
@@ -780,7 +796,7 @@ $jsonData = json_decode($product, true);
         };
 
 
-        function pushCart(skuId) {
+        function pushCart(skuId, callback) {
             // console.log({
             //     data: {
             //         skuId: skuId,
@@ -810,7 +826,11 @@ $jsonData = json_decode($product, true);
                         // }
                         // $(".mainBody-theme.template-index").addClass('locked-scroll');
                         $(".menu-cart-header-data").html(res.popup);
+                        
                     }
+                    if (callback) {
+                            callback();
+                        }
                 },
             });
         };
