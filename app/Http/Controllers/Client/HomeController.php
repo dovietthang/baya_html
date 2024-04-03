@@ -699,14 +699,29 @@ class HomeController extends Controller
                 $prefix = '&';
                 $array_check[] = 'sort_order';
             }
-            $results = Product::query();
-            if (!in_array($slug, ['outstanding', 'collections', 'sale-outle', 'product-new', 'product-all'])) {
+            if ($slug == 'product-all') {
+                $results = Product::where('status', 1);
+            } else if ($slug == 'product-new') {
+                $twoMonthsAgo = Carbon::now()->subMonths(2);
+                $results = Product::where('status', 1)->whereDate('created_at', '>=', $twoMonthsAgo);
+            } else if ($slug == 'sale-outlet') {
+                $ids = explode(",", $data_idx->photo);
+                $results = Product::wherein('id', $ids)->where('status', 1);
+            } else if ($slug == 'collections') {
+                $ids = explode(",", $data_idx2->photo);
+                $results = Product::wherein('id', $ids)->where('status', 1);
+            } else if ($slug == 'outstanding') {
+                $ids = explode(",", $data_idx1->photo);
+                $results = Product::wherein('id', $ids)->where('status', 1);
+            } else {
+                $results = Product::query();
                 $results->whereHas('cates', function ($query) use ($getChildIds, $cat, $ids) {
                     $query->whereIn('category_id', $getChildIds);
                     if ($cat) {
                         $query->whereIn('category_id', $ids);
                     }
                 });
+
             }
 
             $results->when($rq->color, function ($results) use ($rq) {
@@ -725,31 +740,31 @@ class HomeController extends Controller
                     if ($rq->sort_order == 'desc') {
                         $results = $results->sortByDesc(function ($student) {
                             return $student->productSku()->first()->price;
-                        })->paginate(24);
+                        });
                     } else {
                         $results = $results->sortBy(function ($student) {
                             return $student->productSku()->first()->price;
-                        })->paginate(24);
+                        });
                     }
                 } else if ($rq->sort == 'updated_at') {
                     if ($rq->sort_order == 'desc') {
-                        $results = $results->where('status', 1)->orderByDesc('created_at')->paginate(24);
+                        $results = $results->where('status', 1)->orderByDesc('created_at');
                     } else {
-                        $results = $results->where('status', 1)->orderBy('created_at')->paginate(24);
+                        $results = $results->where('status', 1)->orderBy('created_at');
                     }
                 } else {
                     $results = $results->where('status', 1);
                     if ($rq->sort_order == 'desc') {
-                        $results = $results->orderByDesc('title')->paginate(24);
+                        $results = $results->orderByDesc('title');
                     } else {
-                        $results = $results->orderByDesc('title')->paginate(24);
+                        $results = $results->orderByDesc('title');
                     }
                 }
             } else {
                 if ($rq->sort_order) {
-                    $results = $results->where('status', 1)->orderByDesc('created_at')->paginate(24);
+                    $results = $results->where('status', 1)->orderByDesc('created_at');
                 } else {
-                    $results = $results->where('status', 1)->orderBy('created_at')->paginate(24);
+                    $results = $results->where('status', 1)->orderBy('created_at');
                 }
             }
         } else {
@@ -1409,8 +1424,42 @@ class HomeController extends Controller
             $lists = view('layout-home.pages.ajax-page.checkout.list')->with('carts', $carts)->render();
             $checkout = view('layout-home.pages.ajax-page.checkout.total2')->with('baseTotal', $baseTotal)->with('carts', $carts)
                 ->with('discount', $discount)->with('countPonSpin', $countPonSpin)->with('message', $message)->with('province', $province)->render();
+
+            $discount_render = view('layout-home.pages.ajax-page.checkout.discount')->with('message', $message)->with('discount', $discount)->with('countPonSpin', $countPonSpin)->render();
+            $config = Setting::select('*')->first();
+            $fee = $config->fee;
+            if (!$province || ($province != 'Thành phố Hà Nội' && $province != 'Thành phố Hồ Chí Minh')) {
+                $fee = $config->fee2;
+            }
+            $spinItem = $countPonSpin ? $countPonSpin->spinItem : null;
+            $freeship = $config->freeship;
+            $endTotal = $baseTotal;
+            if ($countPonSpin && $spinItem) {
+                if ($countPonSpin && $message && $message[0]) {
+                    if ($spinItem->type == 1) {
+                        $endTotal = $endTotal - ($spinItem->amount * $endTotal) / 100;
+                    } else {
+                        $endTotal = $endTotal - $spinItem->amount;
+                    }
+                }
+            } else {
+                if ($discount && $message && $message[0]) {
+                    if ($discount->type == 'percent price') {
+                        $endTotal = $endTotal - ($discount->price_value * $endTotal) / 100;
+                    } else {
+                        $endTotal = $endTotal - $discount->price_value;
+                    }
+                }
+            }
+            if ($freeship > $baseTotal) {
+                $endTotal = $endTotal + $fee;
+            }
+
+
             return response()->json([
                 'message' => true,
+                'endTotal' => $endTotal,
+                'discount_render' => $discount_render,
                 'message_coupon' => $message,
                 'lists' => $lists,
                 'checkout' => $checkout,

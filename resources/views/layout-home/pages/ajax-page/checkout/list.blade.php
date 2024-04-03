@@ -71,7 +71,7 @@
                     @endforeach
                 </div>
             </div>
-            <div class="cart-row">
+            <!-- <div class="cart-row">
                 <div class="order-noted-block">
                     <div class="container-pd15">
                         <div class="checkout-buttons clearfix">
@@ -81,7 +81,7 @@
                         <button type="submit" id="checkout" class="btn-checkout button d-none " name="checkout" value="">Thanh toán</button>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- <div class="cart-row">
                                         <div class="order-invoice-block">
                                             <div class="checkbox">
