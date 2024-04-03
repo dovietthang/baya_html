@@ -1,6 +1,7 @@
 @extends('layout-home.layout-base')
 @section('title')
 <title>{{ $config->site_name}}</title>
+
 @endsection
 @section('content')
 @include('layout-home.includes.sidebar')

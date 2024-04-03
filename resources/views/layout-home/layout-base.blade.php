@@ -11,7 +11,6 @@
   <link rel="shortcut icon" href="{{$config->site_logo}}" type="{{$config->site_name}}" />
   <meta name="google-site-verification" content="mHatT3Z1rAVgHFQvMAiWWja2irFLxApxy0odN9PPts8" />
   <meta name="google-site-verification" content="pNNB6xUSugJf7bom6Opi4W7CeSkosGKwzm2AdBDM4jI" />
-  <title>{{$config->site_title_content}}</title>
   <link rel="canonical" href="index.html" />
   <link rel="alternate" href="index.html" hreflang="vi-vn" />
   <meta name="keywords" content="{{$config->site_name}}">

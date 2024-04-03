@@ -1489,13 +1489,6 @@ class HomeController extends Controller
     }
     function checkoutSave(Request $rq)
     {
-<<<<<<< HEAD
-        var_dump($rq);
-        return;
-=======
-        // var_dump($rq);
-        // return;
->>>>>>> c301b27c10fc031c81e5d885c0119ed9fb013d58
         $message = null;
         $discount = null;
         $countPonSpin = null;
