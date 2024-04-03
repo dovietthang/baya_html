@@ -1409,8 +1409,42 @@ class HomeController extends Controller
             $lists = view('layout-home.pages.ajax-page.checkout.list')->with('carts', $carts)->render();
             $checkout = view('layout-home.pages.ajax-page.checkout.total2')->with('baseTotal', $baseTotal)->with('carts', $carts)
                 ->with('discount', $discount)->with('countPonSpin', $countPonSpin)->with('message', $message)->with('province', $province)->render();
+
+            $discount_render = view('layout-home.pages.ajax-page.checkout.discount')->with('message', $message)->with('discount', $discount)->with('countPonSpin', $countPonSpin)->render();
+            $config = Setting::select('*')->first();
+            $fee = $config->fee;
+            if (!$province || ($province != 'Thành phố Hà Nội' && $province != 'Thành phố Hồ Chí Minh')) {
+                $fee = $config->fee2;
+            }
+            $spinItem = $countPonSpin ? $countPonSpin->spinItem : null;
+            $freeship = $config->freeship;
+            $endTotal = $baseTotal;
+            if ($countPonSpin && $spinItem) {
+                if ($countPonSpin && $message && $message[0]) {
+                    if ($spinItem->type == 1) {
+                        $endTotal = $endTotal - ($spinItem->amount * $endTotal) / 100;
+                    } else {
+                        $endTotal = $endTotal - $spinItem->amount;
+                    }
+                }
+            } else {
+                if ($discount && $message && $message[0]) {
+                    if ($discount->type == 'percent price') {
+                        $endTotal = $endTotal - ($discount->price_value * $endTotal) / 100;
+                    } else {
+                        $endTotal = $endTotal - $discount->price_value;
+                    }
+                }
+            }
+            if ($freeship > $baseTotal) {
+                $endTotal = $endTotal + $fee;
+            }
+
+
             return response()->json([
                 'message' => true,
+                'endTotal' => $endTotal,
+                'discount_render' => $discount_render,
                 'message_coupon' => $message,
                 'lists' => $lists,
                 'checkout' => $checkout,
@@ -1489,13 +1523,8 @@ class HomeController extends Controller
     }
     function checkoutSave(Request $rq)
     {
-<<<<<<< HEAD
-        var_dump($rq);
-        return;
-=======
         // var_dump($rq);
         // return;
->>>>>>> c301b27c10fc031c81e5d885c0119ed9fb013d58
         $message = null;
         $discount = null;
         $countPonSpin = null;

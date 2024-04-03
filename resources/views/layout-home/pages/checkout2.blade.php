@@ -60,58 +60,6 @@
             font-size: 13px;
         }
     </style>
-
-    <script type="text/javascript">
-        var toggleShowOrderSummary = false;
-        $(document).ready(function() {
-            var currentUrl = '';
-            const findPaymentMethodId = $('body').find('input:radio[name$="payment_method_id"]:checked').attr('type-id');
-            const isReePay = findPaymentMethodId == 41 || findPaymentMethodId == 43 || findPaymentMethodId == 46 || findPaymentMethodId == 12;
-
-            if (isReePay) {
-                funcFormOnSubmit('#section-payment-method')
-            }
-            currentUrl = '';
-
-            if ($('#reloadValue').val().length == 0) {
-                $('#reloadValue').val(currentUrl);
-                $('body').show();
-            } else {
-                window.location = $('#reloadValue').val();
-                $('#reloadValue').val('');
-            }
-            $('body')
-                .on('click', '.order-summary-toggle', function() {
-                    toggleShowOrderSummary = !toggleShowOrderSummary;
-
-                    if (toggleShowOrderSummary) {
-                        $('.order-summary-toggle')
-                            .removeClass('order-summary-toggle-hide')
-                            .addClass('order-summary-toggle-show');
-
-                        $('.sidebar:not(".sidebar-second") .sidebar-content .order-summary')
-                            .removeClass('order-summary-is-collapsed')
-                            .addClass('order-summary-is-expanded');
-
-                        $('.sidebar.sidebar-second .sidebar-content .order-summary')
-                            .removeClass('order-summary-is-expanded')
-                            .addClass('order-summary-is-collapsed');
-                    } else {
-                        $('.order-summary-toggle')
-                            .removeClass('order-summary-toggle-show')
-                            .addClass('order-summary-toggle-hide');
-
-                        $('.sidebar:not(".sidebar-second") .sidebar-content .order-summary')
-                            .removeClass('order-summary-is-expanded')
-                            .addClass('order-summary-is-collapsed');
-
-                        $('.sidebar.sidebar-second .sidebar-content .order-summary')
-                            .removeClass('order-summary-is-collapsed')
-                            .addClass('order-summary-is-expanded');
-                    }
-                });
-        });
-    </script>
 </head>
 
 <body>
@@ -193,8 +141,8 @@
         <div class="wrap">
             <div class="sidebar sidebar-second">
                 <div class="sidebar-content">
-                    <div class="order-summary">
-                        <div class="order-summary-sections">
+                    <div class="order-summary order-summary-is-expanded">
+                        <div class="order-summary-sections" id="order_summary_section_discount">
 
 
                             <div class="order-summary-section order-summary-section-discount" data-order-summary-section="discount">
@@ -230,48 +178,6 @@
                                     </div>
                                 </form>
                             </div>
-
-                            <!-- <div class="order-summary-section order-summary-section-display-discount" data-order-summary-section="discount-display">
-                                <div>
-                                    <div class="hrv-discount-choose-coupons">
-                                        <div>
-                                            <svg width="15" height="10" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.3337 5.3335V2.00016C17.3337 1.07516 16.5837 0.333496 15.667 0.333496H2.33366C1.41699 0.333496 0.675326 1.07516 0.675326 2.00016V5.3335C1.59199 5.3335 2.33366 6.0835 2.33366 7.00016C2.33366 7.91683 1.59199 8.66683 0.666992 8.66683V12.0002C0.666992 12.9168 1.41699 13.6668 2.33366 13.6668H15.667C16.5837 13.6668 17.3337 12.9168 17.3337 12.0002V8.66683C16.417 8.66683 15.667 7.91683 15.667 7.00016C15.667 6.0835 16.417 5.3335 17.3337 5.3335ZM15.667 4.11683C14.6753 4.69183 14.0003 5.77516 14.0003 7.00016C14.0003 8.22516 14.6753 9.3085 15.667 9.8835V12.0002H2.33366V9.8835C3.32533 9.3085 4.00033 8.22516 4.00033 7.00016C4.00033 5.76683 3.33366 4.69183 2.34199 4.11683L2.33366 2.00016H15.667V4.11683ZM9.83366 9.50016H8.16699V11.1668H9.83366V9.50016ZM8.16699 6.16683H9.83366V7.8335H8.16699V6.16683ZM9.83366 2.8335H8.16699V4.50016H9.83366V2.8335Z" fill="#318DBB"></path>
-                                            </svg>
-                                            <span>Xem thêm mã giảm giá</span>
-                                        </div>
-                                        <div id="list_short_coupon">
-                                            <span><span data-code="VOUCHER200K">Giảm 200,000₫</span></span>
-
-                                            <span><span data-code="VOUCHER100K">Giảm 100,000₫</span></span>
-
-                                            <span><span data-code="VOUCHER50K">Giảm 50,000₫</span></span>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="hrv-coupons-popup">
-                                    <div class="hrv-title-coupons-popup">
-                                        <p>Chọn giảm giá</p>
-                                        <div class="hrv-coupons-close-popup">
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M17.1663 2.4785L15.5213 0.833496L8.99968 7.35516L2.47801 0.833496L0.833008 2.4785L7.35468 9.00016L0.833008 15.5218L2.47801 17.1668L8.99968 10.6452L15.5213 17.1668L17.1663 15.5218L10.6447 9.00016L17.1663 2.4785Z" fill="#424242"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="hrv-content-coupons-code">
-                                        <h3 class="coupon_heading">Mã giảm giá của shop</h3>
-                                        <div class="hrv-discount-code-web">
-                                        </div>
-                                        <div class="hrv-discount-code-external">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="hrv-coupons-popup-site-overlay"></div>
-                            </div> -->
-
-
 
                         </div>
                     </div>
@@ -775,8 +681,8 @@
 <div class="troywell-caa"></div>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-
-<script>
+<script type="text/javascript">
+    var toggleShowOrderSummary = false;
     var city_ = `{{@$shipAddress->city}}`
     var district_ = `{{@$shipAddress->district}}`
     var ward_ = `{{@$shipAddress->ward}}`
@@ -794,6 +700,36 @@
             // console.log(result.data);
 
             renderCity(result.data);
+        });
+
+        $('body').on('click', '.order-summary-toggle', function() {
+            toggleShowOrderSummary = !toggleShowOrderSummary;
+
+            if (toggleShowOrderSummary) {
+                $('.order-summary-toggle')
+                    .removeClass('order-summary-toggle-hide')
+                    .addClass('order-summary-toggle-show');
+
+                $('.sidebar:not(".sidebar-second") .sidebar-content .order-summary')
+                    .removeClass('order-summary-is-collapsed')
+                    .addClass('order-summary-is-expanded');
+
+                $('.sidebar.sidebar-second .sidebar-content .order-summary')
+                    .removeClass('order-summary-is-expanded')
+                    .addClass('order-summary-is-collapsed');
+            } else {
+                $('.order-summary-toggle')
+                    .removeClass('order-summary-toggle-show')
+                    .addClass('order-summary-toggle-hide');
+
+                $('.sidebar:not(".sidebar-second") .sidebar-content .order-summary')
+                    .removeClass('order-summary-is-expanded')
+                    .addClass('order-summary-is-collapsed');
+
+                $('.sidebar.sidebar-second .sidebar-content .order-summary')
+                    .removeClass('order-summary-is-collapsed')
+                    .addClass('order-summary-is-expanded');
+            }
         });
 
         function renderCity(data) {
@@ -999,8 +935,13 @@
                 },
                 success: function(res) {
                     console.log(res);
+                    $('#sidebar_cart_checkout').html(res.checkout)
+                    $('#order_summary_section_discount').html(res.discount_render);
+                    $('.total-recap-final-price').text(`${res.endTotal.toLocaleString()}₫`);
+                    $('.sidebar.sidebar-second .sidebar-content .order-summary')
+                    .removeClass('order-summary-is-collapsed')
+                    .addClass('order-summary-is-expanded');
                     if (res.message) {
-                        $('#sidebar_cart_checkout').html(res.checkout)
                         if (res.message_coupon && res.message_coupon.length > 0) {
                             if (res.message_coupon[0] == true) {
                                 $('#form_discount_add2 .messages').html(`<div aria-atomic="true" role="alert" class="message message-success success">
@@ -1017,11 +958,7 @@
                                     display: 'block'
                                 })
                             }
-                            setTimeout(() => {
-                                $('.messages').css({
-                                    display: 'none'
-                                })
-                            }, 10000);
+                            setTimeout(() => {$('.messages').css({display: 'none'})}, 10000);
                         }
                     }
                 },
@@ -1033,8 +970,8 @@
             const discount_code = $('#form_discount_add #discount-code').val()
             if (discount_code.trim() == null || discount_code.trim() == '') {
                 let mes = 'Mã không được để trống.'
-                $('#form_discount_add .messages').html(`<div aria-atomic="true" role="alert" class="message message-success success">
-                    <div data-ui-id="checkout-cart-validationmessages-message-success">${mes}</div>
+                $('#form_discount_add .messages').html(`<div aria-atomic="true" role="alert" class="message message-error error">
+                    <div data-ui-id="checkout-cart-validationmessages-message-error">${mes}</div>
                 </div>`);
                 $('#form_discount_add .messages').css({
                     display: 'block'
@@ -1052,9 +989,13 @@
                     province: province
                 },
                 success: function(res) {
-                    console.log(res);
+                    $('#sidebar_cart_checkout').html(res.checkout);
+                    $('#order_summary_section_discount').html(res.discount_render);
+                    $('.total-recap-final-price').text(`${res.endTotal.toLocaleString()}₫`);
+                    $('.sidebar.sidebar-second .sidebar-content .order-summary')
+                    .removeClass('order-summary-is-collapsed')
+                    .addClass('order-summary-is-expanded');
                     if (res.message) {
-                        $('#sidebar_cart_checkout').html(res.checkout)
                         if (res.message_coupon && res.message_coupon.length > 0) {
                             if (res.message_coupon[0] == true) {
                                 $('#form_discount_add .messages').html(`<div aria-atomic="true" role="alert" class="message message-success success">
@@ -1071,11 +1012,7 @@
                                     display: 'block'
                                 })
                             }
-                            setTimeout(() => {
-                                $('.messages').css({
-                                    display: 'none'
-                                })
-                            }, 10000);
+                            setTimeout(() => {$('.messages').css({display: 'none'})}, 10000);
                         }
                     }
                 },

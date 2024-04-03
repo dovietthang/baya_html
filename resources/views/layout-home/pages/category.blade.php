@@ -29,7 +29,10 @@
 
     prodItem_mobile = 2;
 </script>
-
+@php
+$getSort = Request::get('sort');
+$getSortOrder = Request::get('sort_order');
+@endphp
 
 <!--The End Datalayer-->
 <div class="layout-collections">
@@ -51,7 +54,7 @@
                                                     <path fill="none" stroke-width="2" stroke-linejoin="round" stroke-miterlimit="10" d="M12 9v8l-4-4V9L2 3h16z"></path>
                                                 </svg></span>
 
-                                            Bộ lọc 1
+                                            Bộ lọc
                                         </p>
                                         <button class="close_filter">
                                             <svg viewBox="0 0 19 19" role="presentation">
@@ -110,7 +113,15 @@
                                                     <span>Sắp xếp</span>
                                                 </div>
                                                 <div class="filter_group-content">
-                                                    <ul class="checkbox-sortby sort-by-content">
+                                                    <ul class="checkbox-sortby sort-by-content" >
+                                                        <li class="{{$getSort=='price' && $getSortOrder == null ? 'active' : ''}}"><span data-value="price" data-filter="?sort=price">Giá: Tăng dần</span></li>
+                                                        <li class="{{$getSort=='price' && $getSortOrder == 'desc' ? 'active' : ''}}"><span data-value="price" data-filter="?sort=price&sort_order=desc">Giá: Giảm dần</span></li>
+                                                        <li class="{{$getSort=='name' && $getSortOrder == null ? 'active' : ''}}"><span data-value="name" data-filter="?sort=name">Tên sản phẩm: Tăng dần</span></li>
+                                                        <li class="{{$getSort=='name' && $getSortOrder == 'desc' ? 'active' : ''}}"><span data-value="name" data-filter="?sort=name&sort_order=desc">Tên sản phẩm: Giảm dần</span></li>
+                                                        <li class="{{$getSort=='updated_at' && $getSortOrder == null ? 'active' : ''}}"><span data-value="updated_at" data-filter="?sort=updated_at">Cũ nhất</span></li>
+                                                        <li class="{{($getSort=='updated_at' && $getSortOrder == 'desc') || ($getSort==null && $getSortOrder == null) ? 'active' : ''}}"><span data-value="updated_at" data-filter="?sort=updated_at&sort_order=desc">Mới nhất</span></li>
+                                                    </ul>
+                                                    <!-- <ul class="checkbox-sortby sort-by-content">
                                                         <li>
                                                             <span data-value="price-ascending" data-filter="(price:product=asc)">Giá: Tăng dần</span>
                                                         </li>
@@ -135,7 +146,7 @@
                                                         <li>
                                                             <span data-value="quantity-descending" data-filter="(quantity:product=desc)">Tồn kho giảm dần</span>
                                                         </li>
-                                                    </ul>
+                                                    </ul> -->
                                                 </div>
                                             </div>
 
@@ -214,14 +225,14 @@
 
                                         <!-- ./filter size -->
                                     </div>
-                                    <div class="layered_filter_bottom">
+                                    <!-- <div class="layered_filter_bottom">
                                         <button id="clear-btn-filter" class="btn-filter btn-filter-clear">
                                             Hủy
                                         </button>
                                         <button id="apply-btn-filter" class="btn-filter btn-filter-apply">
                                             Áp dụng
                                         </button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -240,7 +251,7 @@
                                         <div class="filter-box">
                                             <span class="title-count"><b>{{$products->total()}}</b> sản phẩm</span>
                                             <p class="title-filter d-sm-flex d-lg-none">
-                                                <span>Bộ lọc 1</span>
+                                                <span>Bộ lọc</span>
                                                 <svg viewBox="0 0 20 20">
                                                     <path fill="none" stroke-width="2" stroke-linejoin="round" stroke-miterlimit="10" d="M12 9v8l-4-4V9L2 3h16z"></path>
                                                 </svg>
@@ -276,10 +287,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @php
-                                            $getSort = Request::get('sort');
-                                            $getSortOrder = Request::get('sort_order');
-                                            @endphp
+
                                             <div class="collection-sortby-option layered_filter_mobileContent" id="layered_sortby_mobile">
                                                 <ul class="sort-by sort-by-content" id="sort_by_content">
                                                     <li class="{{$getSort=='price' && $getSortOrder == null ? 'active' : ''}}"><span data-value="price" data-filter="?sort=price">Giá: Tăng dần</span></li>
@@ -508,7 +516,7 @@
     </div>
 </div>
 
-<!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/category.product.js')}}"></script> -->
+<script type="text/javascript" src="{{asset('/front_end_asset/style/js/category.product.js')}}"></script>
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/modalProduct.js')}}"></script>
 
 <script>
