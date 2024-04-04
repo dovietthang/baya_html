@@ -21,6 +21,7 @@ $(document).ready(function () {
     var button = $(event.relatedTarget);
     var data_whatever = button.data("whatever");
     var projectDetail = data_whatever.data ?? "";
+    var sumValue = data_whatever.sumValue ?? 0;
     var cate = data_whatever.cate ?? "";
     var salePrice = data_whatever.salePrice ?? "";
     var textSell = data_whatever.textsell ?? "";
@@ -82,10 +83,10 @@ $(document).ready(function () {
       '<span class="pro_sku">Mã sản phẩm: <strong>' +
       projectDetail.sku +
       "</strong></span>";
-    productContentHtml +=
-      '<span class="pro-soldold">Đã bán: <strong>' +
-      projectDetail.status +
-      "</strong></span>";
+    // productContentHtml +=
+    //   '<span class="pro-soldold">Đã bán: <strong>' +
+    //   sumValue +
+    //   "</strong></span>";
     productContentHtml +=
       '<span class="pro-vendor">Thể loại: <strong><a title="Show vendor" href="' +
       "#" +

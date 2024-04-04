@@ -507,7 +507,7 @@ $jsonData = json_decode($product, true);
                 @endphp
                 @php
                 $cate = $item->cates->where('type', 'Menu')->where('status', 1)->first();
-                $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes]);
+                $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes,'sumValue' => $sumValue]);
                 @endphp
                 <div class="product-loop" data-id="1114458356">
                     <div class="product-inner" data-proid="1050909470" id="listProdRelated_loop_1">

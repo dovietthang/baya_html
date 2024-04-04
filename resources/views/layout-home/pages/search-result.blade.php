@@ -53,7 +53,7 @@
                         @endphp
                         @php
                         $cate = $item->cates->where('type', 'Menu')->where('status', 1)->first();
-                        $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes]);
+                        $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes,'sumValue' => 0]);
                         @endphp
                         <div class="col-lg-cus5 col-md-6 col-6 product-loop" data-id="1114458384">
                             <div class="product-inner" data-proid="{{$item->id}}" id="collection_loop_1">

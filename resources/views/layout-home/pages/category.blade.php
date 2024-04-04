@@ -364,7 +364,7 @@ $getSortOrder = Request::get('sort_order');
                                 @endphp
                                 @php
                                 $cate = $item->cates->where('type', 'Menu')->where('status', 1)->first();
-                                $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes]);
+                                $dataItem = json_encode(['data' => $item, 'cate' => $cate, 'salePrice' => $salePrice,'textsell' => $textSell,'colors' => $colors,'sizes' => $sizes,'sumValue' => 0]);
                                 @endphp
                                 <div class="col-lg-3 col-md-6 col-6 product-loop" data-id="{{$item->id}}">
                                     <!-- {{$sizes}} -->
