@@ -65,10 +65,9 @@ $jsonData = json_decode($product, true);
         </div>
     </div>
 </div>
-
 <section class="productDetail-information productDetail_style__02">
     <div class="container container-pd0">
-        <div id="main-detail-page">
+        <div id="main-detail-page" data-product-title="{{$product->title}}" data-product-url="{{route('detail.product' , [$product->slug])}}" data-product-img="{{ $photo[0] }}">
             <!-- <div class="productDetail--main" data-product-id="{{$product->id}}" id="product-data"> -->
             <div class="productDetail--main">
                 <div class="productDetail--gallery">
@@ -693,7 +692,11 @@ $jsonData = json_decode($product, true);
                 return;
             }
             const skuId = $(this).attr("data-product-sku");
-            pushCart(skuId);
+            const productTitle = $('#main-detail-page').data('product-title');
+            const productUrl = $('#main-detail-page').data('product-url');
+            const productImg = $('#main-detail-page').data('product-img');
+
+            pushCart(skuId, null, productTitle, productUrl, productImg);
         });
 
         $(document).on("click", "button#buy-now-button", function() {
@@ -711,7 +714,7 @@ $jsonData = json_decode($product, true);
             pushCart(skuId, function() {
                 const url = "{{ route('checkout') }}";
                 window.location.href = url;
-            });
+            }, null, null, null);
         });
 
         function itemGallery() {
@@ -754,24 +757,7 @@ $jsonData = json_decode($product, true);
             }
         };
 
-
-
-
-        // $('.header-action_cart').click(function(e) {
-        //     if ($(this).hasClass('js-action-show')) {
-        //         $('body').removeClass('locked-scroll');
-        //         $(this).removeClass('js-action-show');
-        //         console.log(11111111111);
-        //     } else {
-        //         $('body').addClass('locked-scroll');
-        //         $(this).addClass('js-action-show');
-        //         console.log(22222222222);
-        //     }
-        // });
-
         function skuDetailOnly($that) {
-            // console.log(11111111111111111);
-
             const product_id = $that.attr("data-product-id");
             const url = location.origin + "/sku-detail";
             quantity = $("#quantity").val(),
@@ -787,24 +773,12 @@ $jsonData = json_decode($product, true);
                     success: function(res) {
                         $("#main-detail-page").html(res);
                         $("#quantity").val(quantity);
-
-                        // $("#add-item-form .swatch-element.color[data-id='" + color_id + "'] label").addClass('sd');
-                        // $("#add-item-form .swatch-element.size[data-id='" + size_id + "'] label").addClass('sd');
-
                     },
                 });
         };
 
 
-        function pushCart(skuId, callback) {
-            // console.log({
-            //     data: {
-            //         skuId: skuId,
-            //         size_id: size_id,
-            //         quantity: quantity
-            //     },
-            // });
-            // return;
+        function pushCart(skuId, callback, productTitle, productUrl, productImg) {
             const url = location.origin + "/cart-add";
             $.ajax({
                 type: "GET",
@@ -826,20 +800,44 @@ $jsonData = json_decode($product, true);
                         // }
                         // $(".mainBody-theme.template-index").addClass('locked-scroll');
                         $(".menu-cart-header-data").html(res.popup);
-                        
+
                     }
-                    if (callback) {
-                            callback();
+                    if (productTitle || productImg || productUrl) {
+                        if (productImg == null) {
+                            productImg = "https://hstatic.net/0/0/global/noDefaultImage6.gif";
                         }
+                        var $info =
+                            '<div class="row"><div class="col-md-12 col-xs-12"><p class="jGowl-text">Đã thêm vào giỏ hàng thành công!</p></div><div class="col-md-4 col-xs-4"><a href="' +
+                            productUrl +
+                            '"><img width="70px" src="' +
+                            productImg +
+                            '" alt="' +
+                            productTitle+
+                            '"/></a></div><div class="col-md-8 col-xs-8"><div class="jGrowl-note"><a class="jGrowl-title" href="' +
+                            productUrl +
+                            '">' +
+                            productTitle+
+                            "</a>/div></div></div>";
+                        notifyProduct($info);
+                    }
+
+                    if (callback) {
+                        callback();
+                    }
                 },
             });
         };
+
+        function notifyProduct(info) {
+            var wait = setTimeout(function() {
+                $.jGrowl(info, {
+                    life: 2000,
+                });
+            });
+        }
     })
 </script>
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/modalProduct.js')}}"></script>
-
 <script type="text/javascript" src="{{asset('/front_end_asset/style/js/product.detail.js')}}"></script>
-<!-- <script type="text/javascript" src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/scripts5b01.js?v=944')}}" defer></script> -->
-<!-- <script type="text/javascript" src="{{asset('/front_end_asset/style/js/bootstrap.js')}}"></script> -->
 <script src="{{asset('/front_end_asset/theme.hstatic.net/200000796751/1001150659/14/jquery.fancybox.min5b01.js?v=944')}}" type="text/javascript"></script>
 @endsection
