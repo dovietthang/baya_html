@@ -77,7 +77,19 @@
                                     </th>
                                     <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" style="width: 261px;"
+                                        aria-label="Email: activate to sort column ascending">{{__('Name')}}
+                                    </th>
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 261px;"
+                                        aria-label="Email: activate to sort column ascending">{{__('Phone')}}
+                                    </th>
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 261px;"
                                         aria-label="Email: activate to sort column ascending">{{__('Email')}}
+                                    </th>
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 261px;"
+                                        aria-label="Email: activate to sort column ascending">{{__('Content')}}
                                     </th>
                                 </tr>
                                 </thead>
@@ -91,7 +103,10 @@
                                                     <input value="{{$email->email}}" type="checkbox" name="option" class="form-check-input input-check-email">
                                                 </div>
                                             </td>
-                                            <td> {{$email->email}}</td>
+                                            <td> {{$email->name ? $email->name : '--'}}</td>
+                                            <td> {{$email->phone ? $email->phone : '--'}}</td>
+                                            <td> {{$email->email ? $email->email : '--'}}</td>
+                                            <td> {{$email->content ? $email->content : '--'}}</td>
                                         </tr>
                                     @endforeach
                                 @endif

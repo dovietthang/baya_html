@@ -11,24 +11,39 @@
                     <input id="all-check" value="1" type="checkbox" name="option" class="form-check-input">
                 </div>
             </th>
-            <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 261px;"
-                aria-label="Email: activate to sort column ascending">{{__('Email')}}
-            </th>
+            <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 261px;"
+                                        aria-label="Email: activate to sort column ascending">{{__('Name')}}
+                                    </th>
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 261px;"
+                                        aria-label="Email: activate to sort column ascending">{{__('Phone')}}
+                                    </th>
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 261px;"
+                                        aria-label="Email: activate to sort column ascending">{{__('Email')}}
+                                    </th>
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" style="width: 261px;"
+                                        aria-label="Email: activate to sort column ascending">{{__('Content')}}
+                                    </th>
         </tr>
     </thead>
     <tbody>
         @if(count(@$emails) > 0)
         @foreach(@$emails as $email)
         <tr class="odd text-center">
-            <td class=" control" tabindex="0" style="display: none;"></td>
-            <td>
-                <div class="form-check-info d-flex gap-1 justify-center">
-                    <input value="{{$email->email}}" type="checkbox" name="option"
-                        class="form-check-input input-check-email">
-                </div>
-            </td>
-            <td> {{$email->email}}</td>
-        </tr>
+                                            <td class=" control" tabindex="0" style="display: none;"></td>
+                                            <td>
+                                                <div class="form-check-info d-flex gap-1 justify-center">
+                                                    <input value="{{$email->email}}" type="checkbox" name="option" class="form-check-input input-check-email">
+                                                </div>
+                                            </td>
+                                            <td> {{$email->name ? $email->name : '--'}}</td>
+                                            <td> {{$email->phone ? $email->phone : '--'}}</td>
+                                            <td> {{$email->email ? $email->email : '--'}}</td>
+                                            <td> {{$email->content ? $email->content : '--'}}</td>
+                                        </tr>
         @endforeach
         @endif
     </tbody>
