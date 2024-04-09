@@ -169,6 +169,7 @@ class UserEmailController extends Controller
             $user->email = $rq->email;
             $user->content = $rq->content;
             $user->phone = $rq->phone;
+            $user->type = 'info';
             $user->status = 1;
             $user->save();
     
