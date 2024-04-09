@@ -195,9 +195,12 @@ Route::group(['middleware' => 'lang'], function(){
         Route::get('product-option-list', [IndexController::class, 'productOptionList'])->name('index-product-option');
         Route::get('product-option/{id}', [IndexController::class, 'editProductOption'])->name('edit-product-option');
         Route::post('product-option/save', [IndexController::class, 'saveProductnew'])->name('update-product-option');
-    });
+    }); 
     Route::get('/', [HomeController::class, 'home'])->name('home');
     Route::post('/add-mail', [UserEmailController::class, 'addEmail'])->name('add.mail');
+    Route::post('/register-mail', [UserEmailController::class, 'registerEmail'])->name('register.mail');
+    Route::post('/register-info', [UserEmailController::class, 'registerInfo'])->name('register.info');
+    Route::get('/register-info', [UserEmailController::class, 'registerInfo']);
     Route::get('/newsletter-manage', [UserEmailController::class, 'newsletter'])->name('newsletter');
     Route::post('/newsletter-manage/save', [UserEmailController::class, 'newsletterSave'])->name('newsletter.save');
     Route::get('/account', [HomeController::class, 'account'])->name('account');

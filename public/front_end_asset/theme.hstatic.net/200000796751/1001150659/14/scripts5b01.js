@@ -1542,7 +1542,7 @@ HRT.Main = {
     that.boxAcountHeader();
     that.formAccountHeader();
     that.updateMiniCart();
-    that.newsletterForm();
+    // that.newsletterForm();
     that.copyCodeProdCoupon();
     that.prodPopoverCoupon();
     that.modalLive();
@@ -2662,42 +2662,42 @@ HRT.Main = {
       }, 300)
     );
   },
-  newsletterForm: function () {
-    if ($(".newsletter-form").length > 0) {
-      $(".newsletter-form form.contact-form").submit(function (e) {
-        var self = $(this);
-        if ($(this)[0].checkValidity() == true) {
-          e.preventDefault();
-          grecaptcha.ready(function () {
-            grecaptcha
-              .execute("6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-", {
-                action: "submit",
-              })
-              .then(function (token) {
-                self.find('input[name="g-recaptcha-response"]').val(token);
-                $.ajax({
-                  type: "POST",
-                  url: "/account/contact",
-                  data: $(".newsletter-form form.contact-form").serialize(),
-                  success: function (data) {
-                    $(".modal-contactform.fade.show").modal("hide");
-                    setTimeout(function () {
-                      $(".modal-succesform").modal("show");
-                      setTimeout(function () {
-                        $(".modal-succesform.fade.show").modal("hide");
-                      }, 5000);
-                    }, 300);
-                  },
-                });
-              });
-          });
-        }
-      });
-      $(".modal-succesform").on("hidden.bs.modal", function () {
-        location.reload();
-      });
-    }
-  },
+  // newsletterForm: function () {
+  //   if ($(".newsletter-form").length > 0) {
+  //     $(".newsletter-form form.contact-form").submit(function (e) {
+  //       var self = $(this);
+  //       if ($(this)[0].checkValidity() == true) {
+  //         e.preventDefault();
+  //         grecaptcha.ready(function () {
+  //           grecaptcha
+  //             .execute("6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-", {
+  //               action: "submit",
+  //             })
+  //             .then(function (token) {
+  //               self.find('input[name="g-recaptcha-response"]').val(token);
+  //               $.ajax({
+  //                 type: "POST",
+  //                 url: "/account/contact",
+  //                 data: $(".newsletter-form form.contact-form").serialize(),
+  //                 success: function (data) {
+  //                   $(".modal-contactform.fade.show").modal("hide");
+  //                   setTimeout(function () {
+  //                     $(".modal-succesform").modal("show");
+  //                     setTimeout(function () {
+  //                       $(".modal-succesform.fade.show").modal("hide");
+  //                     }, 5000);
+  //                   }, 300);
+  //                 },
+  //               });
+  //             });
+  //         });
+  //       }
+  //     });
+  //     $(".modal-succesform").on("hidden.bs.modal", function () {
+  //       location.reload();
+  //     });
+  //   }
+  // },
   copyCodeProdCoupon: function () {
     $(document).on("click", ".coupon-item .cp-btn", function (e) {
       e.preventDefault();

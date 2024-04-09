@@ -306,43 +306,34 @@
             </button>
           </div>
           <div class="modal-body body-popupform">
-            <form accept-charset='UTF-8' action='https://baya.vn/contact' class='contact-form' method='post'>
-              <input name='form_type' type='hidden' value='contact'>
-              <input name='utf8' type='hidden' value='✓'>
+            <form accept-charset='UTF-8' action='{{ route('register.info') }}' class='contact-form' method='post'>
+              @csrf
               <div class="row">
                 <div class="col-12">
                   <div class="input-group mb-3">
-                    <input required type="text" class="form-control" id="yourname" name="contact[name]" placeholder="Tên của bạn" aria-label="Tên của bạn">
+                    <input required type="text" class="form-control" id="yourname" name="name" placeholder="Tên của bạn" aria-label="Tên của bạn">
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="input-group mb-3">
-                    <input required type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control" id="youremail" name="contact[email]" placeholder="Email của bạn" aria-label="Email của bạn">
+                    <input required type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control" id="youremail" name="email" placeholder="Email của bạn" aria-label="Email của bạn">
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="input-group mb-3">
-                    <input required pattern="\+?\(?\d{2,4}\)?[\d\s-]{3,}" maxlength="18" type="text" id="yourphone" name="contact[phone]" class="form-control" placeholder="Số điện thoại của bạn" aria-label="Số điện thoại của bạn">
+                    <input required pattern="\+?\(?\d{2,4}\)?[\d\s-]{3,}" maxlength="18" type="text" id="yourphone" name="phone" class="form-control" placeholder="Số điện thoại của bạn" aria-label="Số điện thoại của bạn">
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="input-group mb-3">
-                    <textarea required placeholder="Nội dung" class="form-control" id="yourinfor" name="contact[body]" rows="3" aria-label="Nội dung"></textarea>
+                    <textarea required placeholder="Nội dung" class="form-control" id="yourinfor" name="content" rows="3" aria-label="Nội dung"></textarea>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="sitebox-recaptcha mb-3">
-                    This site is protected by reCAPTCHA and the Google
-                    <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>
-                    and <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">Terms of Service</a> apply.
-                  </div>
-                </div>
+
                 <div class="col-12 text-center">
                   <button class="btnSubmit-modal button clearfix">Gửi cho chúng tôi</button>
                 </div>
               </div>
-
-              <input id='58ab1db86b4345cebad8324e339a2dc4' name='g-recaptcha-response' type='hidden'><noscript src='../www.google.com/recaptcha/api4d7a.js?render=6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-'></noscript><noscript>grecaptcha.ready(function() {grecaptcha.execute('6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-', {action: 'submit'}).then(function(token) {document.getElementById('58ab1db86b4345cebad8324e339a2dc4').value = token;});});</noscript>
             </form>
           </div>
         </div>
@@ -399,7 +390,47 @@
       </div>
     </div>
   </div>
+  <script>
+    $(document).ready(function() {
+      $('#addthis-modalContact .btnSubmit-modal').click(function(event) {
+        event.preventDefault();
 
+        var form = $('#addthis-modalContact .contact-form');
+        var url = form.attr('action');
+        var method = form.attr('method');
+        var formData = form.serialize();
+        $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...').prop('disabled', true);
+
+        form.find('input, textarea').prop('disabled', true);
+
+        $.ajax({
+          url: url,
+          type: method,
+          data: formData,
+          success: function(response) {
+            if (response.success) {
+              setTimeout(function() {
+                $(".modal-succesform").modal("show");
+                setTimeout(function() {
+                  $(".modal-succesform.fade.show").modal("hide");
+                }, 5000);
+              }, 300);
+              $('#addthis-modalContact').modal('hide');
+            } else {
+              alert(response.message);
+            }
+          },
+          error: function(xhr, status, error) {
+            alert('Có lỗi xảy ra: ' + error);
+          },
+          complete: function() {
+            $('.btnSubmit-modal').html('Đang gửi thông tin').prop('disabled', false);
+            form.find('input, textarea').prop('disabled', false);
+          }
+        });
+      });
+    });
+  </script>
 
   <script type="text/javascript" src="{{asset('/front_end_asset/style/js/scrip-js.js')}}"></script>
   <script type="text/javascript" src="{{asset('/front_end_asset/style/js/Soon.js')}}"></script>
