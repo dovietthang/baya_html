@@ -656,7 +656,7 @@ class HomeController extends Controller
         $replace_str = [];
         $array_check = [];
         $listFilter = [];
-        if ($rq->cat || $rq->color || $rq->size || $rq->sort || $rq->sort_order) {
+        if ($rq->cat || $rq->color || $rq->sort || $rq->sort_order) {
             $colSort = 'created_at';
             $prefix = '?';
             $cat = $rq->cat;
@@ -679,14 +679,14 @@ class HomeController extends Controller
                 $getColor = Color::find($rq->color);
                 $listFilter['Color'] = $getColor->title;
             }
-            if ($rq->size) {
-                $param_str .= $prefix . 'size=' . $rq->size;
-                $replace_str['Size'] = $prefix . 'size=' . $rq->size;
-                $prefix = '&';
-                $array_check[] = 'size';
-                $getSize = Size::find($rq->size);
-                $listFilter['Size'] = $getSize->title;
-            }
+            // if ($rq->size) {
+            //     $param_str .= $prefix . 'size=' . $rq->size;
+            //     $replace_str['Size'] = $prefix . 'size=' . $rq->size;
+            //     $prefix = '&';
+            //     $array_check[] = 'size';
+            //     $getSize = Size::find($rq->size);
+            //     $listFilter['Size'] = $getSize->title;
+            // }
             if ($rq->sort) {
                 $param_str .= $prefix . 'sort=' . $rq->sort;
                 $replace_str['Sort'] = $prefix . 'sort=' . $rq->sort;

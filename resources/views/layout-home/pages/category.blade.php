@@ -32,8 +32,11 @@
 @php
 $getSort = Request::get('sort');
 $getSortOrder = Request::get('sort_order');
+$getSize = Request::get('size');
+$geColor = Request::get('color');
 @endphp
 
+{{$getSize}}
 <!--The End Datalayer-->
 <div class="layout-collections">
     @if(@$lists)
@@ -113,7 +116,7 @@ $getSortOrder = Request::get('sort_order');
                                                     <span>Sắp xếp</span>
                                                 </div>
                                                 <div class="filter_group-content">
-                                                    <ul class="checkbox-sortby sort-by-content" >
+                                                    <ul class="checkbox-sortby sort-by-content">
                                                         <li class="{{$getSort=='price' && $getSortOrder == null ? 'active' : ''}}"><span data-value="price" data-filter="?sort=price">Giá: Tăng dần</span></li>
                                                         <li class="{{$getSort=='price' && $getSortOrder == 'desc' ? 'active' : ''}}"><span data-value="price" data-filter="?sort=price&sort_order=desc">Giá: Giảm dần</span></li>
                                                         <li class="{{$getSort=='name' && $getSortOrder == null ? 'active' : ''}}"><span data-value="name" data-filter="?sort=name">Tên sản phẩm: Tăng dần</span></li>
@@ -121,32 +124,7 @@ $getSortOrder = Request::get('sort_order');
                                                         <li class="{{$getSort=='updated_at' && $getSortOrder == null ? 'active' : ''}}"><span data-value="updated_at" data-filter="?sort=updated_at">Cũ nhất</span></li>
                                                         <li class="{{($getSort=='updated_at' && $getSortOrder == 'desc') || ($getSort==null && $getSortOrder == null) ? 'active' : ''}}"><span data-value="updated_at" data-filter="?sort=updated_at&sort_order=desc">Mới nhất</span></li>
                                                     </ul>
-                                                    <!-- <ul class="checkbox-sortby sort-by-content">
-                                                        <li>
-                                                            <span data-value="price-ascending" data-filter="(price:product=asc)">Giá: Tăng dần</span>
-                                                        </li>
-                                                        <li>
-                                                            <span data-value="price-descending" data-filter="(price:product=desc)">Giá: Giảm dần</span>
-                                                        </li>
-                                                        <li>
-                                                            <span data-value="title-ascending" data-filter="(title:product=asc)">Tên: A-Z</span>
-                                                        </li>
-                                                        <li>
-                                                            <span data-value="title-descending" data-filter="(title:product=desc)">Tên: Z-A</span>
-                                                        </li>
-                                                        <li>
-                                                            <span data-value="created-ascending" data-filter="(updated_at:product=asc)">Cũ nhất</span>
-                                                        </li>
-                                                        <li class="active">
-                                                            <span data-value="created-descending" data-filter="(updated_at:product=desc)">Mới nhất</span>
-                                                        </li>
-                                                        <li>
-                                                            <span data-value="best-selling" data-filter="(sold_quantity:product=desc)">Bán chạy nhất</span>
-                                                        </li>
-                                                        <li>
-                                                            <span data-value="quantity-descending" data-filter="(quantity:product=desc)">Tồn kho giảm dần</span>
-                                                        </li>
-                                                    </ul> -->
+
                                                 </div>
                                             </div>
 
@@ -155,27 +133,27 @@ $getSortOrder = Request::get('sort_order');
 
                                         <!-- ./filter brand -->
 
-                                        <!-- <div class="filter_group" aria-expanded="false">
+                                        <div class="filter_group" aria-expanded="false">
                                             <div class="filter_group_block">
                                                 <div class="filter_group-subtitle">
-                                                    <span>Nhà cung cấp</span>
+                                                    <span>Size</span>
                                                 </div>
                                                 <div class="filter_group-content filter-brand">
                                                     <ul class="checkbox-list">
                                                         <li>
-                                                            <input type="checkbox" id="data-brand-p1" value="CLEOPATRA" name="brand-filter" data-vendor="(vendor:product contains CLEOPATRA)" />
-                                                            <label for="data-brand-p1">CLEOPATRA</label>
+                                                            <input type="checkbox" id="data-brand-p1" {{ $getSize && strpos($getSize, 'S') !== false ? 'checked' : '' }} value="S" name="brand-filter" />
+                                                            <label for="data-brand-p1">S</label>
                                                         </li>
 
                                                         <li>
-                                                            <input type="checkbox" id="data-brand-p2" value="LILAC" name="brand-filter" data-vendor="(vendor:product contains LILAC)" />
-                                                            <label for="data-brand-p2">LILAC</label>
+                                                            <input type="checkbox" id="data-brand-p2" {{ $getSize && strpos($getSize, 'M') !== false ? 'checked' : '' }} value="M" name="brand-filter" />
+                                                            <label for="data-brand-p2">M</label>
                                                         </li>
 
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
 
                                         <!-- ./filter price -->
 
@@ -521,14 +499,60 @@ $getSortOrder = Request::get('sort_order');
 
 <script>
     $(document).ready(function() {
+        var queryString = window.location.search.substring(1);
+        var params = new URLSearchParams(queryString);
+
         $('.sort-by-content li').click(function() {
             var filterValue = $(this).find('span').data('filter');
             $(this).addClass('active').siblings().removeClass('active');
-            // return;
-            const newURL = window.location.href.split('?')[0] + filterValue;
-            window.history.pushState(null, null, newURL);
-            window.location.reload();
+
+            if (params.has('size')) {
+                console.log(params);
+            } else {
+                console.log('Không có tham số "size" trong query string.');
+            }
+            reloadPage(filterValue);
         });
+
+        $('input[type="checkbox"][name="brand-filter"]').on('change', function() {
+            // Khởi tạo một mảng để lưu trữ các giá trị của checkbox đã chọn
+            var selectedBrands = [];
+
+            // Lặp qua tất cả các checkbox
+            $('input[type="checkbox"][name="brand-filter"]:checked').each(function() {
+                // Thêm giá trị của checkbox đã chọn vào mảng selectedBrands
+                selectedBrands.push($(this).val());
+            });
+
+
+            // var size = '?size=' + selectedBrands.join(',');
+            // if (queryString && queryString != '') {
+            //     size = size + '&' + queryString;
+            // }
+
+            var size = '';
+            
+            if (selectedBrands.length > 0) {
+                size = '?size=' + selectedBrands.join(',');
+            }
+
+            if (params.has('sort') && params.has('size')) {
+                size += '&' + queryString;
+            }
+
+            reloadPage(size);
+        });
+
+        function reloadPage(url) {
+            // Thêm query string vào URL hiện tại
+            var newURL = window.location.href.split('?')[0] + url;
+
+            // Cập nhật URL trong lịch sử duyệt
+            window.history.pushState(null, null, newURL);
+
+            // Tải lại trang với URL mới
+            window.location.reload();
+        }
     });
 </script>
 
