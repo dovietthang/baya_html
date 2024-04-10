@@ -536,8 +536,11 @@ $geColor = Request::get('color');
                 size = '?size=' + selectedBrands.join(',');
             }
 
-            if (params.has('sort') && params.has('size')) {
-                size += '&' + queryString;
+            if (params.has('sort') || params.has('size')) {
+                params.delete('size');
+                var newQueryString = params.toString();
+
+                size += '&' + newQueryString;
             }
 
             reloadPage(size);
