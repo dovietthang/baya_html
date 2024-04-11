@@ -656,7 +656,8 @@ class HomeController extends Controller
         $replace_str = [];
         $array_check = [];
         $listFilter = [];
-        if ($rq->cat || $rq->color || $rq->sort || $rq->sort_order) {
+        $sizeIDs = [];
+        if ($rq->cat || $rq->color || $rq->size || $rq->sort || $rq->sort_order) {
             $colSort = 'created_at';
             $prefix = '?';
             $cat = $rq->cat;
@@ -679,14 +680,21 @@ class HomeController extends Controller
                 $getColor = Color::find($rq->color);
                 $listFilter['Color'] = $getColor->title;
             }
-            // if ($rq->size) {
-            //     $param_str .= $prefix . 'size=' . $rq->size;
-            //     $replace_str['Size'] = $prefix . 'size=' . $rq->size;
-            //     $prefix = '&';
-            //     $array_check[] = 'size';
-            //     $getSize = Size::find($rq->size);
-            //     $listFilter['Size'] = $getSize->title;
-            // }
+            if ($rq->size) {
+                // $param_str .= $prefix . 'size=' . $rq->size;
+                // $replace_str['Size'] = $prefix . 'size=' . $rq->size;
+                // $prefix = '&';
+                // $array_check[] = 'size';
+                // $getSize = Size::find($rq->size);
+                // $listFilter['Size'] = $getSize->title;
+                $sizeIDs = explode(',', $rq->size);
+                $param_str .= $prefix . 'size=' . $rq->size;
+                $replace_str['Size'] = $prefix . 'size=' . $rq->size;
+                $prefix = '&';
+                $array_check[] = 'size';
+                $sizes = Size::whereIn('id', $sizeIDs)->pluck('title')->toArray();
+                $listFilter['Size'] = join(', ', $sizes);
+            }
             if ($rq->sort) {
                 $param_str .= $prefix . 'sort=' . $rq->sort;
                 $replace_str['Sort'] = $prefix . 'sort=' . $rq->sort;
@@ -721,7 +729,6 @@ class HomeController extends Controller
                         $query->whereIn('category_id', $ids);
                     }
                 });
-
             }
 
             $results->when($rq->color, function ($results) use ($rq) {
@@ -729,9 +736,9 @@ class HomeController extends Controller
                     $query->where('color_id', $rq->color);
                 });
             });
-            $results->when($rq->size, function ($results) use ($rq) {
-                $results->whereHas('productSku', function ($query) use ($rq) {
-                    $query->where('size_id', $rq->size);
+            $results->when($rq->size, function ($results) use ($sizeIDs) {
+                $results->whereHas('productSku', function ($query) use ($sizeIDs) {
+                    $query->whereIn('size_id', $sizeIDs);
                 });
             });
             if ($rq->sort) {
@@ -794,11 +801,12 @@ class HomeController extends Controller
         $ids_sz = $getSku->pluck('size_id')->unique()->toArray();
         $colors = Color::wherein('id', $ids_cl)->get();
         $sizes = Size::wherein('id', $ids_sz)->get();
+        $sizesFull = Size::where('status', 1)->get();
         $products = $results->paginate(24);
         if ($slug == 'product-all' || $slug == 'product-new' || $slug == 'sale-outlet' || $slug == 'collections' || $slug == 'outstanding') {
-            return view('layout-home.pages.category', compact('products', 'sizes', 'colors', 'lists', 'param_str', 'array_check', 'replace_str', 'listFilter'));
+            return view('layout-home.pages.category', compact('products', 'sizes', 'sizesFull', 'colors', 'lists', 'param_str', 'array_check', 'replace_str', 'listFilter'));
         } else {
-            return view('layout-home.pages.category', compact('products', 'sizes', 'colors', 'cate', 'lists', 'param_str', 'array_check', 'replace_str', 'listFilter'));
+            return view('layout-home.pages.category', compact('products', 'sizes', 'sizesFull', 'colors', 'cate', 'lists', 'param_str', 'array_check', 'replace_str', 'listFilter'));
         }
     }
 

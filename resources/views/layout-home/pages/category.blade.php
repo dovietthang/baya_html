@@ -36,7 +36,6 @@ $getSize = Request::get('size');
 $geColor = Request::get('color');
 @endphp
 
-{{$getSize}}
 <!--The End Datalayer-->
 <div class="layout-collections">
     @if(@$lists)
@@ -140,15 +139,17 @@ $geColor = Request::get('color');
                                                 </div>
                                                 <div class="filter_group-content filter-brand">
                                                     <ul class="checkbox-list">
+                                                        @foreach($sizesFull as $item)
+                                                        <?php
+                                                        $sizeArray = explode(',', $getSize);
+                                                        $isChecked = in_array($item->id, $sizeArray);
+                                                        ?>
                                                         <li>
-                                                            <input type="checkbox" id="data-brand-p1" {{ $getSize && strpos($getSize, 'S') !== false ? 'checked' : '' }} value="S" name="brand-filter" />
-                                                            <label for="data-brand-p1">S</label>
+                                                            <input type="checkbox" id="data-brand{{$item->id}}" {{ $isChecked ? 'checked' : '' }} value="{{$item->id}}" name="brand-filter" />
+                                                            <label for="data-brand{{$item->id}}">{{$item->title}}</label>
                                                         </li>
+                                                        @endforeach
 
-                                                        <li>
-                                                            <input type="checkbox" id="data-brand-p2" {{ $getSize && strpos($getSize, 'M') !== false ? 'checked' : '' }} value="M" name="brand-filter" />
-                                                            <label for="data-brand-p2">M</label>
-                                                        </li>
 
                                                     </ul>
                                                 </div>
@@ -506,54 +507,40 @@ $geColor = Request::get('color');
             var filterValue = $(this).find('span').data('filter');
             $(this).addClass('active').siblings().removeClass('active');
 
-            if (params.has('size')) {
-                console.log(params);
-            } else {
-                console.log('Không có tham số "size" trong query string.');
+            var sort = '';
+            if (params.has('size') || params.has('sort')) {
+                params.delete('sort');
+                params.delete('sort_order');
+                sort = (params.toString() && params.toString() != '') ? '&' + params.toString() : params.toString();
             }
-            reloadPage(filterValue);
+
+            reloadPage(filterValue + decodeURIComponent(sort));
         });
 
         $('input[type="checkbox"][name="brand-filter"]').on('change', function() {
-            // Khởi tạo một mảng để lưu trữ các giá trị của checkbox đã chọn
-            var selectedBrands = [];
-
-            // Lặp qua tất cả các checkbox
-            $('input[type="checkbox"][name="brand-filter"]:checked').each(function() {
-                // Thêm giá trị của checkbox đã chọn vào mảng selectedBrands
-                selectedBrands.push($(this).val());
-            });
-
-
-            // var size = '?size=' + selectedBrands.join(',');
-            // if (queryString && queryString != '') {
-            //     size = size + '&' + queryString;
-            // }
+            var selectedBrands = $('input[type="checkbox"][name="brand-filter"]:checked').map(function() {
+                return $(this).val();
+            }).get();
 
             var size = '';
-            
             if (selectedBrands.length > 0) {
                 size = '?size=' + selectedBrands.join(',');
             }
 
-            if (params.has('sort') || params.has('size')) {
+            if (params.has('sort') && selectedBrands.length > 0) {
                 params.delete('size');
-                var newQueryString = params.toString();
-
-                size += '&' + newQueryString;
+                size += '&' + params.toString();
+            } else if (params.has('sort')) {
+                params.delete('size');
+                size += '?' + params.toString();
             }
 
             reloadPage(size);
         });
 
         function reloadPage(url) {
-            // Thêm query string vào URL hiện tại
             var newURL = window.location.href.split('?')[0] + url;
-
-            // Cập nhật URL trong lịch sử duyệt
             window.history.pushState(null, null, newURL);
-
-            // Tải lại trang với URL mới
             window.location.reload();
         }
     });
