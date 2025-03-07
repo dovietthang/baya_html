@@ -76,7 +76,6 @@ Route::group(['middleware' => 'lang'], function(){
         Route::group(['prefix' => 'filemanager', 'middleware'], function () {
             Lfm::routes();
         });
-;
         Route::get('', [Controller::class, 'dashboard'])->name('dashboard');
         //user
         Route::get('user-list', [UserController::class, 'index'])->name('index-user');
