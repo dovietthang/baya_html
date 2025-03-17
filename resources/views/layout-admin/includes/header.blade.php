@@ -58,7 +58,7 @@
                         </span></div>
                     <span class="avatar">
                         @if(Auth::user()->photo != '')
-                        <img class="round" src="{{Auth::user()->photo}}" alt="avatar" height="40"
+                        <img class="round" src="{{Storage::url(Auth::user()->photo)}}" alt="avatar" height="40"
                             width="40">
                         @else
                         <img class="round" src="{{asset('admin_asset/app-assets/images/avatar.png')}}" alt="avatar"
