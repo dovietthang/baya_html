@@ -484,6 +484,7 @@ class HomeController extends Controller
     }
     public function addCart(Request $rq)
     {
+
         if ($rq->comboId) {
             $product = Product::find($rq->productId);
             $photos = $product->photo;
@@ -802,6 +803,7 @@ class HomeController extends Controller
         $colors = Color::wherein('id', $ids_cl)->get();
         $sizes = Size::wherein('id', $ids_sz)->get();
         $sizesFull = Size::where('status', 1)->get();
+
         $products = $results->paginate(24);
         if ($slug == 'product-all' || $slug == 'product-new' || $slug == 'sale-outlet' || $slug == 'collections' || $slug == 'outstanding') {
             return view('layout-home.pages.category', compact('products', 'sizes', 'sizesFull', 'colors', 'lists', 'param_str', 'array_check', 'replace_str', 'listFilter'));
@@ -1046,9 +1048,10 @@ class HomeController extends Controller
         $ids_sz = $getSku->pluck('size_id')->unique()->toArray();
         $colors = Color::wherein('id', $ids_cl)->get();
         $sizes = Size::wherein('id', $ids_sz)->get();
+        $sizesFull = Size::where('status', 1)->get();
         $products = $results->paginate(10);
 
-        return view("layout-home.pages.category", compact('products', 'colors', 'sizes', 'cate', 'lists', 'root', 'param_str', 'array_check', 'replace_str', 'childrenFilter', 'listFilter'));
+        return view("layout-home.pages.category", compact('products','sizesFull' ,'colors', 'sizes', 'cate', 'lists', 'root', 'param_str', 'array_check', 'replace_str', 'childrenFilter', 'listFilter'));
     }
     function productDetail(Request $rq, $slug)
     {

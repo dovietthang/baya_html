@@ -20,20 +20,20 @@
 
   <meta http-equiv="x-dns-prefetch-control" content="on">
   <link rel="dns-prefetch" href="index.html">
-  <link rel="dns-prefetch" href="http://hstatic.net/">
-  <link rel="dns-prefetch" href="http://theme.hstatic.net/">
-  <link rel="dns-prefetch" href="http://product.hstatic.net/">
-  <link rel="dns-prefetch" href="http://file.hstatic.net/">
-  <link rel="dns-prefetch" href="http://www.google-analytics.com/">
-  <link rel="dns-prefetch" href="http://www.googletagmanager.com/">
-  <link rel="dns-prefetch" href="http://www.google.com/">
-  <link rel="dns-prefetch" href="http://fonts.gstatic.com/">
-  <link rel="dns-prefetch" href="http://fonts.googleapis.com/">
-  <link rel="dns-prefetch" href="http://www.facebook.com/">
-  <link rel="dns-prefetch" href="http://connect.facebook.net/">
-  <link rel="dns-prefetch" href="http://static.ak.facebook.com/">
-  <link rel="dns-prefetch" href="http://static.ak.fbcdn.net/">
-  <link rel="dns-prefetch" href="http://s-static.ak.facebook.com/">
+  <link rel="dns-prefetch" href="https://hstatic.net/">
+  <link rel="dns-prefetch" href="https://theme.hstatic.net/">
+  <link rel="dns-prefetch" href="https://product.hstatic.net/">
+  <link rel="dns-prefetch" href="https://file.hstatic.net/">
+  <link rel="dns-prefetch" href="https://www.google-analytics.com/">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com/">
+  <link rel="dns-prefetch" href="https://www.google.com/">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+  <link rel="dns-prefetch" href="https://www.facebook.com/">
+  <link rel="dns-prefetch" href="https://connect.facebook.net/">
+  <link rel="dns-prefetch" href="https://static.ak.facebook.com/">
+  <link rel="dns-prefetch" href="https://static.ak.fbcdn.net/">
+  <link rel="dns-prefetch" href="https://s-static.ak.facebook.com/">
   <style>
     :root {
       --shop-color-bg: #f8f8f8;
@@ -83,9 +83,10 @@
       font-display: swap;
     }
   </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-  <link rel="preconnect" href="http://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&amp;display=swap" crossorigin>
-  <link rel="preload stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&amp;display=swap" as="style">
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&amp;display=swap" crossorigin>
+  <link rel="preload stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&amp;display=swap" as="style"> -->
   <link rel="preload" href="http://theme.hstatic.net/200000796751/1001150659/14/fontawesome-webfont.woff?v=944" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="http://theme.hstatic.net/200000796751/1001150659/14/fontawesome-webfont.woff2?v=944" as="font" type="font/woff2" crossorigin="anonymous">
   <!--+++++++++++++ CSS THEME ++++++++++++++++++++++++++++++++++++++++++++++++++++ -->

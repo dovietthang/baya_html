@@ -12,6 +12,7 @@ use App\Models\Address;
 use App\Models\User;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
     function index(Request $rq){
@@ -42,29 +43,52 @@ class UserController extends Controller
         ];
         return view('layout-admin.pages.users.add', compact('breadcrumb'));
     }
-    function save(Request $rq){
+    public function save(Request $rq)
+    {
         $rules = [
             'fullname' => 'required|min:3|max:20',
             'email' => 'required|email|unique:users,email',
             'status' => 'required',
             'role' => 'required',
-            'password' => 'required|min:5|max:40'
+            'password' => 'required|min:5|max:40',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
         $messages = Helpers::switchLanguage(session()->get('locale'));
         $check = Validator::make($rq->all(), $rules, $messages);
+
         if ($check->passes()) {
+            // Tạo mới user
             $user = new User();
             $user->name = $rq->fullname;
             $user->email = $rq->email;
             $user->password = Hash::make($rq->password);
             $user->role = $rq->role;
             $user->status = $rq->status;
-            $user->photo = $rq->photo;
+            $user->gender = 1;
+
+            // Xử lý upload ảnh (nếu có)
+            if ($rq->hasFile('photo')) {
+                // Lấy file ảnh từ request
+                $file = $rq->file('photo');
+                
+                // Tạo tên file duy nhất
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                
+                // Lưu ảnh vào storage/avatar
+                $path = $file->storeAs('avatar', $fileName, 'public');
+                
+                // Gán đường dẫn ảnh vào user
+                $user->photo = $path;
+            }
+
+            // Lưu user vào database
             $user->save();
+
             return response()->json([
-                "type" => 'insert',
+                'type' => 'insert',
                 'success' => true,
-                'message' => __('Add') . ' ' . __('account') . ' ' . __('success') . ' !'
+                'message' => __('Add') . ' ' . __('account') . ' ' . __('success') . ' !',
+                'photo_url' => $user->photo ? Storage::url($user->photo) : null // Trả về URL ảnh (nếu có)
             ]);
         } else {
             return response()->json([
@@ -86,18 +110,43 @@ class UserController extends Controller
             return view('layout-admin.pages.users.edit', compact('user', 'breadcrumb'));
         }
     }
-    function update(Request $rq){
+    public function update(Request $rq)
+    {
         $rules = [
             'fullname' => 'required|min:3|max:20',
             'email' => 'required|email|unique:users,email,' . $rq->id . ',id',
             'status' => 'required',
-            'password' => 'nullable|min:5|max:40'
+            'password' => 'nullable|min:5|max:40',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' 
         ];
         $messages = Helpers::switchLanguage(session()->get('locale'));
         $check = Validator::make($rq->all(), $rules, $messages);
+
         if ($check->passes()) {
             $user = User::find($rq->id);
-            $user->photo = $rq->photo;
+            if (!$user) {
+                return response()->json([
+                    'type' => 'update',
+                    'success' => false,
+                    'message' => __('User not found')
+                ]);
+            }
+
+            if ($rq->hasFile('photo')) {
+                $file = $rq->file('photo');
+                
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                
+                $path = $file->storeAs('avatar', $fileName, 'public');
+                
+                if ($user->photo && Storage::disk('public')->exists($user->photo)) {
+                    Storage::disk('public')->delete($user->photo);
+                }
+
+                $user->photo = $path;
+            }
+
+            // Cập nhật các trường khác
             $user->name = $rq->fullname;
             $user->email = $rq->email;
             if ($rq->password != null) {
@@ -108,10 +157,12 @@ class UserController extends Controller
             }
             $user->status = $rq->status;
             $user->save();
+
             return response()->json([
-                "type" => 'update',
+                'type' => 'update',
                 'success' => true,
-                'message' => __('Update') . ' ' . __('account') . ' ' . __('success') . ' !'
+                'message' => __('Update') . ' ' . __('account') . ' ' . __('success') . ' !',
+                'photo_url' => $user->photo ? Storage::url($user->photo) : null // Trả về URL ảnh (nếu có)
             ]);
         } else {
             return response()->json([
@@ -171,18 +222,57 @@ class UserController extends Controller
     }
     public function saveImageUser(Request $rq)
     {
-        $rules = ['photo' => 'required'];
+        // Quy tắc validate: yêu cầu file ảnh hợp lệ
+        $rules = [
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048' // Giới hạn kích thước 2MB
+        ];
         $messages = Helpers::switchLanguage('vi');
         $check = Validator::make($rq->all(), $rules, $messages);
+
         if ($check->passes()) {
+            // Tìm user theo ID
             $user = User::find($rq->id);
-            $user->photo = $rq->photo;
-            $user->save();
-            return response()->json([
-                "type" => 'update',
-                'success' => true,
-                'message' => __('Update') . ' ' . __('photo') . ' ' . __('success') . ' !'
-            ]);
+            if (!$user) {
+                return response()->json([
+                    'type' => 'update',
+                    'success' => false,
+                    'message' => __('User not found')
+                ]);
+            }
+
+            // Xử lý upload ảnh
+            if ($rq->hasFile('photo')) {
+                // Lấy file ảnh từ request
+                $file = $rq->file('photo');
+                
+                // Tạo tên file duy nhất
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                
+                // Lưu ảnh vào storage/avatar
+                $path = $file->storeAs('avatar', $fileName, 'public');
+                
+                // Xóa ảnh cũ nếu tồn tại
+                if ($user->photo && Storage::disk('public')->exists($user->photo)) {
+                    Storage::disk('public')->delete($user->photo);
+                }
+
+                // Cập nhật đường dẫn ảnh vào database
+                $user->photo = $path;
+                $user->save();
+
+                return response()->json([
+                    'type' => 'update',
+                    'success' => true,
+                    'message' => __('Update') . ' ' . __('photo') . ' ' . __('success') . ' !',
+                    'photo_url' => Storage::url($path) // URL công khai của ảnh
+                ]);
+            } else {
+                return response()->json([
+                    'type' => 'update',
+                    'success' => false,
+                    'message' => __('No photo uploaded')
+                ]);
+            }
         } else {
             return response()->json([
                 'type' => 'update',

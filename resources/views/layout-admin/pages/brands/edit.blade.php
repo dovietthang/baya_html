@@ -58,7 +58,7 @@
                                         </div>
                                         <div style="width: 100px;" class="fix-img mt-1 mt-md-0 ms-md-2 mb-md-0">
                                             @if($brand->logo)
-                                            <img src="{{$brand->logo}}" id="blog-feature-image"/>
+                                            <img src="{{ Storage::url($brand->logo) }}" id="blog-feature-image"/>
                                             @else
                                                 <img src="{{asset('admin_asset/app-assets/images/empty.png')}}"
                                                 id="blog-feature-image" class="rounded me-2 mb-1 mb-md-0" />

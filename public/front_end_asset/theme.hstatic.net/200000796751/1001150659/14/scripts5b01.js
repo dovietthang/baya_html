@@ -3709,7 +3709,7 @@ HRT.Quickview = {
       if (promotionApp_name == "app_combo") {
         HRT.Product.renderCombo(id, "quickview");
       } else {
-        buyXgetY.getQuickPromotionRecommended(id, title);
+        // buyXgetY.getQuickPromotionRecommended(id, title);
       }
     }
 

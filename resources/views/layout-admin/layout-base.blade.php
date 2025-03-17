@@ -235,7 +235,7 @@
 
 <!-- BEGIN: Vendor JS-->
 <script src="{{asset('admin_asset/app-assets/vendors/js/vendors.min.js')}}"></script>
-<script src="https://cdn.tiny.cloud/1/n8v5fd3e4kbniumd19u6u1a67etkem223kcmevvt7fw25pjc/tinymce/5.9/tinymce.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/xqrgadgjz4xyta8pdg4bmij3sqvjmsajmvitd8o890e6nehv/tinymce/5.9/tinymce.min.js"></script>
 
 
 <!-- BEGIN Vendor JS-->

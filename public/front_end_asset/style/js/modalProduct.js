@@ -20,24 +20,25 @@ $(document).ready(function () {
     event.preventDefault();
     var button = $(event.relatedTarget);
     var data_whatever = button.data("whatever");
-    var projectDetail = data_whatever.data ?? "";
+    var projectDetail = typeof data_whatever.data !== "undefined" ? data_whatever.data : "";
     var sumValue = data_whatever.sumValue ?? 0;
     var cate = data_whatever.cate ?? "";
     var salePrice = data_whatever.salePrice ?? "";
     var textSell = data_whatever.textsell ?? "";
     var sizes = data_whatever.sizes ?? [];
     var colors = data_whatever.colors ?? [];
-    var priceProductDef = projectDetail.product_sku.find(function (product) {
-      return product.is_default === 1;
-    });
+    var priceProductDef = projectDetail.product_sku?.find((product) => product.is_default == '1') || { price: 0 };
+
+    console.log(projectDetail);
+    console.log(priceProductDef);
     var urlDetail = location.origin + "/shop/" + projectDetail.slug;
 
     line_item.title = projectDetail.title;
     line_item.url = urlDetail;
     line_item.price =
-      salePrice > 0 && salePrice < priceProductDef.price
-        ? salePrice.toLocaleString()
-        : priceProductDef.price.toLocaleString();
+    salePrice > 0 && salePrice < priceProductDef.price
+      ? salePrice.toLocaleString()
+      : priceProductDef.price.toLocaleString();
     // console.log(sizes);
     // console.log(colors);
 
@@ -98,16 +99,16 @@ $(document).ready(function () {
     if (salePrice > 0 && salePrice < priceProductDef.price) {
       productContentHtml +=
         '<div class="product-price" id="price-preview-quickview"><span class="pro-title">Giá: </span><span class="pro-price">' +
-        salePrice.toLocaleString() +
+        Number(salePrice).toLocaleString("vi-VN") +
         "₫</span><del>" +
-        priceProductDef.price.toLocaleString() +
+        Number(priceProductDef.price).toLocaleString("vi-VN") +
         '₫</del><span class="pro-percent">-' +
         textSell +
         "</span></div>";
     } else {
       productContentHtml +=
         '<div class="product-price" id="price-preview-quickview"><span class="pro-title">Giá: </span><span class="pro-price">' +
-        priceProductDef.price.toLocaleString() +
+        Number(priceProductDef.price).toLocaleString("vi-VN") +
         "₫</span></div>";
     }
     productContentHtml += '<div class="product-variants">';

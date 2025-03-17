@@ -64,7 +64,7 @@
                                     <div class="d-flex" id="featured-img">
                                         @if ($user->photo)
                                         <img class="rounded me-50" alt="profile image" height="100" width="auto"
-                                            src="{{$user->photo}}" id="blog-feature-image" class="rounded me-50" alt="">
+                                            src="{{ Storage::url($user->photo) }}" id="blog-feature-image" class="rounded me-50" alt="">
                                         @else
                                         <img class="rounded me-50" alt="profile image" height="100" width="auto"
                                             src="{{ asset('admin_asset/app-assets/images/avatar.png') }}"

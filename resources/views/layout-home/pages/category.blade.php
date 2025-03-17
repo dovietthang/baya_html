@@ -139,6 +139,7 @@ $geColor = Request::get('color');
                                                 </div>
                                                 <div class="filter_group-content filter-brand">
                                                     <ul class="checkbox-list">
+                                                        @if(isset($sizesFull) && count($sizesFull) > 0)
                                                         @foreach($sizesFull as $item)
                                                         <?php
                                                         $sizeArray = explode(',', $getSize);
@@ -149,6 +150,7 @@ $geColor = Request::get('color');
                                                             <label for="data-brand{{$item->id}}">{{$item->title}}</label>
                                                         </li>
                                                         @endforeach
+                                                        @endif
 
 
                                                     </ul>

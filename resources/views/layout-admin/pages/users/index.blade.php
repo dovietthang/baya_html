@@ -100,7 +100,7 @@
                                     <td>
                                         <div class="align-items-center fix-img-list m-auto">
                                             @if($user->photo)
-                                            <img width="100%" height="100%" src="{{$user->photo}}" alt="">
+                                            <img width="100%" height="100%" src="{{Storage::url($user->photo)}}" alt="">
                                             @else
                                             <img width="100%" height="100%"
                                                 src="{{asset('admin_asset/app-assets/images/empty.png')}}" alt="">

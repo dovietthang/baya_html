@@ -128,7 +128,7 @@
                                             <div class="fix-img mt-1 mt-md-0 ms-md-2 mb-md-0">
                                                 @if($user->photo != '' || $user->photo != null)
                                                     <img
-                                                        src="{{$user->photo}}"
+                                                        src="{{Storage::url($user->photo)}}"
                                                         id="blog-feature-image"
                                                         class="rounded"
                                                         alt="Blog Featured Image"
